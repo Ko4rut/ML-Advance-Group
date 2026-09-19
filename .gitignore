@@ -1,0 +1,40 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Python bytecode and tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# Jupyter Notebook checkpoints (keep notebooks tracked)
+.ipynb_checkpoints/
+
+# Python build and packaging artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Local environment variables
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Generated Gymnasium recordings
+videos/
+
+# Editor and operating system files
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
