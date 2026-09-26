@@ -38,3 +38,6 @@ videos/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Generated Xiangqi games, checkpoints and reports
+project/artifacts/
