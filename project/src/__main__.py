@@ -1,5 +1,7 @@
-"""Module entry point skeleton."""
+"""Run the terminal interface with ``python -m src``."""
+
+from .cli import main
 
 
-def main():
-    pass
+if __name__ == "__main__":
+    raise SystemExit(main())

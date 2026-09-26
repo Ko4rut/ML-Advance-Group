@@ -16,14 +16,48 @@ Ví dụ import environment: `from src.environment import XiangqiEnv`.
 
 Có thể cài project ở chế độ editable bằng `python -m pip install -e .`.
 
+## Chạy trên terminal
+
+Từ thư mục `project`:
+
+```powershell
+python -m src show
+python -m src random --seed 42 --max-plies 20
+python -m src random --seed 42 --max-plies 20 --delay 0.3
+```
+
+Lệnh `show` in state ban đầu và số nước hợp lệ. Lệnh `random` cho hai RandomAgent
+tự đấu; `--delay` thêm thời gian nghỉ giữa các ply để dễ theo dõi.
+
+Sau khi cài editable bằng `python -m pip install -e .`, có thể dùng lệnh ngắn:
+
+```powershell
+xiangqi show
+xiangqi random --max-plies 20
+```
+
+## Xem và chơi thử bàn cờ
+
+Từ thư mục gốc repository:
+
+```powershell
+python -m pip install -r requirements.txt
+streamlit run project/src/visualization/app.py
+```
+
+Trình duyệt sẽ mở bàn cờ tương tác. Chọn quân của phe đang đi rồi chọn một ô được
+đánh dấu để thực hiện nước đi; giao diện sử dụng trực tiếp luật từ `XiangqiEnv`.
+
 ## Phạm vi đã triển khai
 
 - Luật di chuyển của 7 loại quân, cản mã, mắt tượng, sông, cung, ngòi pháo.
 - Lọc nước đi để bảo vệ tướng; kiểm tra tướng đối mặt, chiếu bí và hết nước đi.
 - State bất biến và environment hỗ trợ reset/step/clone.
+- Giao diện agent chung và RandomAgent có seed tái lập được.
+- CLI xem state và chạy một ván random trên terminal.
 
-Các package encoding, agent, search, mạng neural, training, evaluation, storage,
-visualization và CLI hiện mới là khung cho các giai đoạn tiếp theo.
+Các package encoding, search, mạng neural, training, evaluation và storage hiện mới
+là khung cho các giai đoạn tiếp theo.
 
 ## Quy ước dữ liệu
 
@@ -46,7 +80,7 @@ visualization và CLI hiện mới là khung cho các giai đoạn tiếp theo.
 - 120 ply liên tiếp không ăn quân: hòa.
 - Ưu tiên chiếu bí/hết nước đi trước điều kiện hòa.
 - Không thực hiện adjudication trường chiếu/trường tróc theo luật giải đấu.
-Giới hạn hòa được cấu hình qua `RulesConfig`.
+  Giới hạn hòa được cấu hình qua `RulesConfig`.
 
 ## Kiến trúc
 
