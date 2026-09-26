@@ -1,9 +1,55 @@
-"""Generate pseudo-legal and legal moves."""
+'''Generate pseudo-legal and legal Xiangqi moves.'''
+
+from .rules import RuleValidator
+from .state import GameState
+from .types import Move, Side
 
 
 class MoveGenerator:
-    def pseudo_legal_moves(self, state):
-        pass
+    '''Generate geometry first, then filter moves that expose the moving king.'''
 
-    def legal_moves(self, state):
-        pass
+    def __init__(self, rules: RuleValidator | None = None) -> None:
+        self.rules = rules or RuleValidator()
+
+    def pseudo_legal_moves(self, state: GameState) -> list[Move]:
+        moves: list[Move] = []
+        side = state.side_to_move
+        for source, piece in enumerate(state.board):
+            if piece == 0:
+                continue
+            piece_side = Side.RED if piece > 0 else Side.BLACK
+            if piece_side is not side:
+                continue
+            moves.extend(Move(source, target) for target in self.rules.piece_targets(state, source))
+        return moves
+
+    def legal_moves(self, state: GameState) -> list[Move]:
+        legal: list[Move] = []
+        current_side = state.side_to_move
+        for move in self.pseudo_legal_moves(state):
+            child = self._apply_unchecked(state, move)
+            if not self.rules.is_in_check(child, current_side):
+                legal.append(move)
+        return legal
+
+    @staticmethod
+    def _apply_unchecked(state: GameState, move: Move) -> GameState:
+        board = list(state.board)
+        board[move.target] = board[move.source]
+        board[move.source] = 0
+        next_board = tuple(board)
+        next_side = state.side_to_move.opponent
+        return GameState(
+            next_board,
+            next_side,
+            ply_count=state.ply_count + 1,
+            no_capture_count=0 if state.board[move.target] != 0 else state.no_capture_count + 1,
+            history=state.history + ((next_board, next_side),),
+        )
+
+
+_DEFAULT_MOVE_GENERATOR = MoveGenerator()
+
+
+def legal_moves(state: GameState) -> list[Move]:
+    return _DEFAULT_MOVE_GENERATOR.legal_moves(state)
