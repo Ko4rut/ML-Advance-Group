@@ -1,11 +1,11 @@
 import unittest
 
-from xiangqi_ai.environment.engine import RulesConfig, apply_move, outcome
-from xiangqi_ai.environment.env import XiangqiEnv
-from xiangqi_ai.environment.movegen import legal_moves
-from xiangqi_ai.environment.rules import is_in_check, targets
-from xiangqi_ai.environment.state import GameState
-from xiangqi_ai.environment.types import Move, Side
+from src.environment.engine import RulesConfig, apply_move, outcome
+from src.environment.env import XiangqiEnv
+from src.environment.movegen import legal_moves
+from src.environment.rules import is_in_check, targets
+from src.environment.state import GameState
+from src.environment.types import Move, Side
 
 
 def position(pieces, side=Side.RED, **kwargs):
