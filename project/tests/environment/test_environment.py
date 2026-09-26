@@ -72,8 +72,8 @@ class RulesTests(unittest.TestCase):
 
     def test_mate_and_stalemate_are_terminal_losses(self):
         common = {(0, 4): -1, (9, 3): 1, (2, 3): 5, (2, 5): 5}
-        mate = position({**common, (1, 4): 5}, Side.BLACK)
-        stalemate = position({**common, (1, 0): 5}, Side.BLACK)
+        mate = position({**common, (1, 4): 5, (2, 4): 5}, Side.BLACK)
+        stalemate = position({**common, (1, 3): 5}, Side.BLACK)
         self.assertEqual(outcome(mate).reason, "checkmate")
         self.assertEqual(outcome(stalemate).reason, "stalemate")
         self.assertEqual(outcome(stalemate).winner, Side.RED)
