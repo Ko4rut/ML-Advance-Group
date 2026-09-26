@@ -8,27 +8,56 @@ Python >= 3.10; phiên bản nền tảng không cần thư viện bên ngoài.
 Từ thư mục `project`, trong PowerShell:
 
 ```powershell
-$env:PYTHONPATH = "$PWD/src"
-python -m xiangqi_ai play --seed 42 --max-plies 300 --output artifacts/games/random.json
-python -m xiangqi_ai replay artifacts/games/random.json
-python -m xiangqi_ai replay artifacts/games/random.json --all
 python -m unittest discover -s tests -v
 ```
 
-Có thể cài package bằng `python -m pip install -e .` rồi dùng lệnh `xiangqi` thay
-cho `python -m xiangqi_ai` mà không cần `PYTHONPATH`.
+Code nằm trực tiếp trong package `src`, không có package trung gian `xiangqi_ai`.
+Ví dụ import environment: `from src.environment import XiangqiEnv`.
+
+Có thể cài project ở chế độ editable bằng `python -m pip install -e .`.
+
+## Chạy trên terminal
+
+Từ thư mục `project`:
+
+```powershell
+python -m src show
+python -m src random --seed 42 --max-plies 20
+python -m src random --seed 42 --max-plies 20 --delay 0.3
+```
+
+Lệnh `show` in state ban đầu và số nước hợp lệ. Lệnh `random` cho hai RandomAgent
+tự đấu; `--delay` thêm thời gian nghỉ giữa các ply để dễ theo dõi.
+
+Sau khi cài editable bằng `python -m pip install -e .`, có thể dùng lệnh ngắn:
+
+```powershell
+xiangqi show
+xiangqi random --max-plies 20
+```
+
+## Xem và chơi thử bàn cờ
+
+Từ thư mục gốc repository:
+
+```powershell
+python -m pip install -r requirements.txt
+streamlit run project/src/visualization/app.py
+```
+
+Trình duyệt sẽ mở bàn cờ tương tác. Chọn quân của phe đang đi rồi chọn một ô được
+đánh dấu để thực hiện nước đi; giao diện sử dụng trực tiếp luật từ `XiangqiEnv`.
 
 ## Phạm vi đã triển khai
 
 - Luật di chuyển của 7 loại quân, cản mã, mắt tượng, sông, cung, ngòi pháo.
 - Lọc nước đi để bảo vệ tướng; kiểm tra tướng đối mặt, chiếu bí và hết nước đi.
-- State bất biến, environment reset/step/clone, action encoding và legal mask.
-- RandomAgent dùng RNG riêng, match runner đo thời gian và lưu JSON replay.
-- CLI render bàn cờ, xác minh replay bằng cách thực thi lại từng nước đi.
+- State bất biến và environment hỗ trợ reset/step/clone.
+- Giao diện agent chung và RandomAgent có seed tái lập được.
+- CLI xem state và chạy một ván random trên terminal.
 
-Chưa triển khai heuristic/search, mạng neural, training, giải đấu round-robin hoặc GUI.
-Ưu tiên tiếp theo: scoring + Heuristic, benchmark đổi phe, Minimax/Alpha-Beta, MCTS,
-rồi mới encoding tensor, neural network và training.
+Các package encoding, search, mạng neural, training, evaluation và storage hiện mới
+là khung cho các giai đoạn tiếp theo.
 
 ## Quy ước dữ liệu
 
@@ -36,16 +65,13 @@ rồi mới encoding tensor, neural network và training.
 - Quân đỏ dương, quân đen âm, 0 là ô trống. Mã quân:
   `1=King, 2=Advisor, 3=Elephant, 4=Horse, 5=Rook, 6=Cannon, 7=Pawn`.
 - Đỏ đi trước. Một ply là một lượt của một phe.
-- `action_id = source * 90 + target`, encoding version 1, không gian 8100 phần tử.
-  ID có source=target không hợp lệ; mask luôn loại bỏ chúng.
 - `GameState` bất biến. `clone_state()` chia sẻ an toàn cùng state; áp dụng nước đi
   trả về state mới. History chứa board + lượt đi, bao gồm trạng thái hiện tại.
 - `step()` trả `StepResult`; reward theo phe vừa đi: thắng +1, thua -1, hòa 0.
   Đây không phải Gymnasium adapter. Training phải xử lý riêng reward của đối thủ
   và transition từ lượt của agent đến lượt tiếp theo của chính agent.
-- Agent nhận state và trả `AgentDecision`; match runner sở hữu ván thật.
-  `legal_moves` sinh nước theo hình học/chiếu; environment và action mask còn kiểm
-  tra kết thúc do hòa. Runner không gọi agent sau khi ván kết thúc.
+- `legal_moves` sinh nước theo hình học rồi loại các nước khiến tướng phe đang đi
+  bị chiếu. Environment không trả nước đi sau khi ván đã kết thúc.
 
 ## Bộ luật kết thúc `project_simplified_v1`
 
@@ -54,12 +80,7 @@ rồi mới encoding tensor, neural network và training.
 - 120 ply liên tiếp không ăn quân: hòa.
 - Ưu tiên chiếu bí/hết nước đi trước điều kiện hòa.
 - Không thực hiện adjudication trường chiếu/trường tróc theo luật giải đấu.
-- Giới hạn `max_plies` của runner là **truncation**, không được tính thành hòa theo luật.
-  Không có giới hạn thời gian cưỡng chế ở phiên bản này; thời gian quyết định chỉ được đo.
-
-Giới hạn hòa cấu hình qua `RulesConfig`, được lưu trong từng replay. Kết quả JSON
-lưu seed, tên agent, phiên bản encoding, cấu hình luật, action, thống kê thời gian,
-trạng thái kết thúc và bàn cờ cuối. Cùng seed tái lập nước đi, không tái lập thời gian.
+  Giới hạn hòa được cấu hình qua `RulesConfig`.
 
 ## Kiến trúc
 

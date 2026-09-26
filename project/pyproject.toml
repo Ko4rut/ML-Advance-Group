@@ -5,12 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "xiangqi-ai"
 version = "0.1.0"
-description = "Shared Xiangqi engine and agent evaluation foundation"
+description = "Xiangqi rules engine and environment foundation"
 requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
-xiangqi = "xiangqi_ai.cli:main"
+xiangqi = "src.cli:main"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["src", "src.*"]
