@@ -1,26 +1,74 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), Arial, sans-serif;
+  transition: background-color .2s ease, color .2s ease;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+.font-pixel { font-family: var(--font-pixel), monospace; }
+.site-width { width: min(1160px, calc(100% - 32px)); margin-inline: auto; }
+
+.ambient-grid {
+  position: absolute; inset: 0; pointer-events: none; opacity: .32;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black 20%, transparent 92%);
+  animation: gridMove 18s linear infinite;
+}
+.glow {
+  position: absolute; width: 420px; aspect-ratio: 1; border-radius: 999px;
+  filter: blur(90px); opacity: .18; pointer-events: none;
+  animation: glowMove 12s ease-in-out infinite alternate;
+}
+.float-piece {
+  position: absolute; width: 72px; height: 72px; object-fit: contain;
+  filter: drop-shadow(0 14px 18px rgba(0,0,0,.22));
+  animation: floatPiece 6s ease-in-out infinite;
+}
+.float-piece:nth-child(2) { animation-delay: -1.5s; }
+.float-piece:nth-child(3) { animation-delay: -3s; }
+.float-piece:nth-child(4) { animation-delay: -4.5s; }
+
+.board {
+  position: relative; display: grid;
+  grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(10, 1fr);
+  aspect-ratio: 9/10; padding: 16px; overflow: hidden;
+  border-radius: 24px; background: var(--board);
+  border: 1px solid color-mix(in srgb, var(--board-line) 35%, transparent);
+  box-shadow: 0 24px 48px rgba(0,0,0,.16);
+}
+.board::before {
+  content: ""; position: absolute; inset: 26px;
+  background-image:
+    linear-gradient(to right, var(--board-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--board-line) 1px, transparent 1px);
+  background-size: 12.5% 11.111%;
+  border: 2px solid var(--board-line);
+}
+.board::after {
+  content: "楚 河　　漢 界"; position: absolute; left: 14%; right: 14%; top: 50%;
+  transform: translateY(-50%); text-align: center; letter-spacing: .18em;
+  padding: 4px; background: var(--board); color: var(--board-line); font-family: serif;
+}
+.board-cell { z-index: 2; display: grid; place-items: center; min-width: 0; }
+.board-cell img { width: 72%; height: 72%; object-fit: contain; filter: drop-shadow(0 2px 2px rgba(0,0,0,.16)); }
+
+@keyframes gridMove { to { transform: translate3d(48px,48px,0); } }
+@keyframes glowMove { to { transform: translate3d(45px,-30px,0) scale(1.12); } }
+@keyframes floatPiece {
+  0%,100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-18px) rotate(4deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
 }
