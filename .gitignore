@@ -21,6 +21,13 @@ dist/
 *.egg-info/
 .eggs/
 
+# Node / Next.js
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
 # Local environment variables
 .env
 .env.*

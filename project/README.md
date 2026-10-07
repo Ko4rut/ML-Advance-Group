@@ -1,60 +1,64 @@
 # Xiangqi AI
 
-Nền tảng Python cho hệ thống AI Agent Cờ Tướng theo tài liệu trong `docs/`.
-Python >= 3.10; phiên bản nền tảng không cần thư viện bên ngoài.
+Nền tảng Python cho hệ thống AI Agent Cờ Tướng theo tài liệu trong `docs/`, kèm frontend Next.js cho Xiangqi AI Arena.
 
-## Chạy nhanh
+## Cấu trúc project
 
-Từ thư mục `project`, trong PowerShell:
+```text
+project/
+├── assets/       # tài nguyên dùng chung, đặc biệt cho frontend
+├── configs/
+├── docs/
+├── artifacts/
+├── backend/      # Python environment, agents, training, evaluation và CLI
+└── frontend/     # Next.js App Router
+```
+
+Python backend yêu cầu Python >= 3.10 và hiện không cần thư viện ngoài cho phần core.
+
+## Backend
+
+Từ thư mục `project/backend`:
 
 ```powershell
 python -m unittest discover -s tests -v
-```
-
-Code nằm trực tiếp trong package `src`, không có package trung gian `xiangqi_ai`.
-Ví dụ import environment: `from src.environment import XiangqiEnv`.
-
-Có thể cài project ở chế độ editable bằng `python -m pip install -e .`.
-
-## Chạy trên terminal
-
-Từ thư mục `project`:
-
-```powershell
 python -m src show
 python -m src random --seed 42 --max-plies 20
 python -m src random --seed 42 --max-plies 20 --delay 0.3
 ```
 
-Lệnh `show` in state ban đầu và số nước hợp lệ. Lệnh `random` cho hai RandomAgent
-tự đấu; `--delay` thêm thời gian nghỉ giữa các ply để dễ theo dõi.
+Code Python nằm trực tiếp trong package `src`, không có package trung gian `xiangqi_ai`.
+Ví dụ import environment: `from src.environment import XiangqiEnv`.
 
-Sau khi cài editable bằng `python -m pip install -e .`, có thể dùng lệnh ngắn:
+Có thể cài backend ở chế độ editable:
 
 ```powershell
+cd project/backend
+python -m pip install -e .
 xiangqi show
 xiangqi random --max-plies 20
 ```
 
-## Xem và chơi thử bàn cờ
+## Frontend
 
-Từ thư mục gốc repository:
+Frontend dùng Next.js App Router, TypeScript và Tailwind CSS. Từ `project/frontend`:
 
 ```powershell
-python -m pip install -r requirements.txt
-streamlit run project/src/visualization/app.py
+npm install
+npm run dev
 ```
 
-Trình duyệt sẽ mở bàn cờ tương tác. Chọn quân của phe đang đi rồi chọn một ô được
-đánh dấu để thực hiện nước đi; giao diện sử dụng trực tiếp luật từ `XiangqiEnv`.
+Frontend hiện mới là scaffold để phát triển Xiangqi AI Arena. Tài nguyên bàn cờ/quân cờ tiếp tục được giữ ở `project/assets` thay vì chuyển vào backend.
 
 ## Phạm vi đã triển khai
 
 - Luật di chuyển của 7 loại quân, cản mã, mắt tượng, sông, cung, ngòi pháo.
 - Lọc nước đi để bảo vệ tướng; kiểm tra tướng đối mặt, chiếu bí và hết nước đi.
 - State bất biến và environment hỗ trợ reset/step/clone.
-- Giao diện agent chung và RandomAgent có seed tái lập được.
+- Giao diện agent chung, RandomAgent có seed tái lập được.
+- RuleBasedAgent baseline đã được triển khai và kiểm thử.
 - CLI xem state và chạy một ván random trên terminal.
+- Next.js frontend đã được khởi tạo để thay thế Streamlit.
 
 Các package encoding, search, mạng neural, training, evaluation và storage hiện mới
 là khung cho các giai đoạn tiếp theo.
@@ -82,11 +86,13 @@ là khung cho các giai đoạn tiếp theo.
 - Không thực hiện adjudication trường chiếu/trường tróc theo luật giải đấu.
   Giới hạn hòa được cấu hình qua `RulesConfig`.
 
-## Kiến trúc
+## Kiến trúc backend
 
 `environment` chứa luật và state; `agents` chọn nước; `evaluation` điều phối trận;
-`encoding` ánh xạ action; `storage` lưu/kiểm tra replay; `visualization` render text.
-Engine không phụ thuộc agent, giao diện hoặc thư viện học sâu.
+`encoding` ánh xạ action; `storage` lưu/kiểm tra replay; `visualization` giữ các
+tiện ích render/debug không phụ thuộc web UI.
+
+Engine không phụ thuộc agent, frontend hoặc thư viện học sâu.
 
 Engine hiện ưu tiên tính đúng: lọc bằng mô phỏng board và kiểm tra chiếu, lưu lịch sử
 đầy đủ. Trước search sâu cần profiling chi phí legal-move generation và history;
