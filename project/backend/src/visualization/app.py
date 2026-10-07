@@ -14,7 +14,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.environment import Move, Side, XiangqiEnv, is_in_check
+from project.backend.src.environment import Move, Side, XiangqiEnv, is_in_check
 
 
 ASSET_DIR = PROJECT_ROOT / "assets" / "pieces"

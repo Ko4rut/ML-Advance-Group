@@ -1,7 +1,7 @@
 import unittest
 
-from src.agents import RandomAgent, SearchBudget
-from src.environment import GameState, legal_moves
+from project.backend.src.agents import RandomAgent, SearchBudget
+from project.backend.src.environment import GameState, legal_moves
 
 
 class RandomAgentTests(unittest.TestCase):

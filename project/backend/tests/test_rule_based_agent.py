@@ -1,7 +1,7 @@
 import unittest
 
-from src.agents import RuleBasedAgent
-from src.environment import GameEngine, GameState, Side, legal_moves
+from project.backend.src.agents import RuleBasedAgent
+from project.backend.src.environment import GameEngine, GameState, Side, legal_moves
 
 
 def position(pieces, side=Side.RED):
