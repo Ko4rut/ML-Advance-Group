@@ -7,6 +7,7 @@ Usage:
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import colors
+import maze_helper as mh
 
 # for animation
 from matplotlib import animation, rc
@@ -31,11 +32,10 @@ def parse_maze(maze_str):
     maze = np.array([[tile for tile in row] for row in maze if len(row) > 0])
         
     return maze
-
 # show_maze: Code by Nicholas Crothers modified and expanded by M. Hahsler
 # This is modified code I found on StackOverflow, at this link
 # https://stackoverflow.com/questions/43971138/python-plotting-colored-grid-based-on-values
-def show_maze(maze, fontsize = 10):  
+def show_maze(maze, fontsize = 10,title=None, show=True): 
     """Display a (parsed) maze as an image. 
     
     Parameters:
@@ -76,7 +76,12 @@ def show_maze(maze, fontsize = 10):
                  horizontalalignment = 'center',
                  verticalalignment = 'center')
     
-    plt.show()
+    if title:
+        ax.set_title(title)
+    if show:
+        plt.show()
+    return fig, ax
+    # plt.show()
     
 def find_pos(maze, what = "S"):
     """
