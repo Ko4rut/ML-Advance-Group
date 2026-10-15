@@ -1,22 +1,28 @@
 # Xiangqi Arena frontend (UI-only MVP)
 
-This screen is a frontend-only prototype for `project/frontend`.
+The arena UI is organized by feature under `src/features/arena`:
 
-## Included
-- Minimal dark/light responsive arena layout.
-- Select any of seven agent types or a human on either side.
-- Render a 9×10 Xiangqi board using the existing `/public/assets/pieces` files.
-- Select a board piece for inspection (no move execution without backend).
-- Local "Generate match" / "Reset" preview controls; statistics dialog with explicit empty state.
+- `types.ts`: shared types for players, sides, and board state.
+- `constants.ts`: the seven AI agent choices and piece asset definitions.
+- `lib/board.ts`: deterministic opening board preview and agent display names.
+- `hooks/useArenaPreview.ts`: local preview interactions and UI state (replace with API-backed state later).
+- `components/`: focused presentational components for the board, agent selection, sidebar, header, matchup, match controls, statistics, and modal.
+- `src/app/page.tsx`: small composition layer for the arena screen.
 
-## Not yet connected
-- No backend calls, move validation, AI turns, live statistics, persistence, or real game execution.
-- The Start Battle action explains which APIs are required; it does not fake a game.
+## Features
+- Dark/light responsive minimalist dashboard.
+- Choose any of seven AI agents or a human for each side.
+- Xiangqi 9×10 board from `public/assets/pieces`, now larger on desktop with larger pieces.
+- Click pieces for selection only; no simulated rule enforcement.
+- Local preview create/reset and explicit empty-state statistics.
 
-## Next steps
-1. Connect `GET /agents` and a `POST /matches` creation endpoint.
-2. Fetch authoritative board state + legal moves from `XiangqiEnv`, rather than maintaining a local board.
-3. Add `POST /matches/:id/moves` and `POST /matches/:id/step` or WebSocket for AI-vs-AI autoplay.
-4. Wire match statistics from real backend results.
+## Important
+No backend/API calls, legal move validation, AI turns, real win rates, or game persistence have been implemented. The Start Battle button reports the integration requirement rather than simulating a result.
 
-Run from `project/frontend` with `npm install` and `npm run dev`.
+## API follow-up
+1. Add `GET /agents` and `POST /matches`.
+2. Load authoritative board state and legal moves from `XiangqiEnv`.
+3. Add `POST /matches/{id}/moves` for human actions and `POST /matches/{id}/step` (or a WebSocket) for AI turns.
+4. Feed backend match statistics into the overview and statistics dialog.
+
+From `project/frontend`, run `npm ci`, then `npm run dev`.
