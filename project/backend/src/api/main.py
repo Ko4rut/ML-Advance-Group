@@ -14,7 +14,7 @@ def create_app(service: MatchService | None = None) -> FastAPI:
     app = FastAPI(title="Xiangqi AI API", version="0.1.0")
     app.state.match_service = service if service is not None else MatchService()
     origins = [item.strip() for item in os.getenv(
-        "XIANGQI_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
+        "XIANGQI_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:8888"
     ).split(",") if item.strip()]
     app.add_middleware(
         CORSMiddleware, allow_origins=origins, allow_methods=["GET", "POST"],
