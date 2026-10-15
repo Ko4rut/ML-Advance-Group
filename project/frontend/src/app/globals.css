@@ -65,9 +65,15 @@ button:focus-visible { outline: 2px solid #61c9bb; outline-offset: 3px; }
 .board-lines { display:block; width:100%; height:100%; }
 .river-label { font-size:26px; font-family:serif; font-weight:600; letter-spacing:3px; }
 .board-intersection { position:absolute; transform:translate(-50%,-50%); width:11.2%; aspect-ratio:1; border:0; padding:0; display:grid; place-items:center; background:transparent; cursor:pointer; border-radius:50%; }
-.board-intersection img { max-width:100%; width:100%; height:auto; pointer-events:none; user-select:none; filter:drop-shadow(0px 2px 2px #5a3f2966); }
-.board-intersection.has-piece:hover { background:#fff5; }
-.board-intersection--selected { outline:3px solid #54a0a3; outline-offset:-3px; background:#89cfbb55; }
+.board-intersection img { max-width:100%; width:100%; height:auto; pointer-events:none; user-select:none; filter:drop-shadow(0px 2px 2px #5a3f2966); transition:filter 150ms ease; }
+/* Hover only refines the piece shadow: no bright disk behind enlarged assets. */
+.board-intersection.has-piece:hover { background:transparent; }
+@media (hover:hover) {
+  .board-intersection.has-piece:hover img { filter:drop-shadow(0 3px 3px #5a3f2970) brightness(1.045); }
+}
+/* Selected piece gets a slim outline, distinct from future legal-move markers. */
+.board-intersection--selected { outline:none; background:transparent; }
+.board-intersection--selected::after { content:""; position:absolute; inset:6%; border:2px solid rgba(56,143,135,.78); border-radius:50%; box-shadow:0 0 0 2px rgba(56,143,135,.11); pointer-events:none; }
 .board-caption { display:flex; align-items:start; gap:8px; min-height:30px; color:var(--subtle); font-size:11px; line-height:1.5; padding-top:11px; }
 .board-caption-dot { width:6px; height:6px; background:#e9b171; border-radius:50%; flex-shrink:0; margin-top:5px; }
 .control-column { display:flex; flex-direction:column; gap:15px; padding-top:22px; }
@@ -122,4 +128,4 @@ button:focus-visible { outline: 2px solid #61c9bb; outline-offset: 3px; }
 @media (max-width:1230px) { .site { grid-template-columns:80px minmax(0,1fr); } .sidebar { padding:26px 14px; align-items:center; }.brand { margin-bottom:54px; }.brand-copy,.sidebar-caption,.nav-item:not(.nav-item--active) { font-size:0; }.nav-item { font-size:0; padding:0; justify-content:center; width:49px; height:47px; }.nav-item svg { flex-shrink:0; }.sidebar-footer { font-size:0; }.sidebar-footer small { display:none; } .live-indicator { margin:0; } .workspace { padding:28px 24px 42px; } }
 @media (max-width:1000px) { .content-layout { grid-template-columns:1fr; }.control-column { padding-top:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }.stats-panel { grid-column:1/-1; }.roadmap-note { grid-column:1/-1; }.board-frame { width:min(100%,670px); } }
 @media (max-width:640px) { .site { display:block; }.sidebar { height:auto; position:static; min-height:unset; flex-direction:row; padding:12px 18px; justify-content:space-between; border-right:0; border-bottom:1px solid var(--border); }.brand { margin:0; }.brand-copy { display:flex; }.sidebar-caption,.sidebar-footer { display:none; }.navigation { flex-direction:row; gap:2px; }.nav-item { width:32px; min-height:36px; height:36px; }.workspace { padding:20px 14px 35px; }.topbar { margin-bottom:23px; }.topbar h1 { font-size:24px; }.topbar p { max-width:260px; line-height:1.5; }.topbar-actions .preview-pill { display:none; }.agent-grid { grid-template-columns:repeat(8,78px); overflow-x:auto; padding-bottom:5px; scroll-snap-type:x mandatory; }.agent-option { scroll-snap-align:start; }.selector-heading { align-items:start; }.side-caption { text-align:right; }.board-section { padding:13px 9px; }.board-mode { font-size:9px; }.board-intersection { width:11.6%; }.control-column { display:flex; }.panel { padding:17px; } }
-@media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .agent-option { transition:none; } }
+@media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .agent-option, .board-intersection img { transition:none; } }
