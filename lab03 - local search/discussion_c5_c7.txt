@@ -1,0 +1,35 @@
+### Câu 5. Vì sao Simulated Annealing có thể chấp nhận nghiệm xấu hơn? Tác động của nhiệt độ đến khám phá và khai thác?
+
+**Bài làm:**
+
+Simulated Annealing là một thuật toán metaheuristic được sử dụng để tìm kiếm nghiệm tốt trong một không gian trạng thái lớn. Thuật toán lấy cảm hứng từ quá trình ủ nhiệt trong vật lý, khi vật liệu được nung nóng, các nguyên tử có khả năng di chuyển và thay đổi vị trí dễ dàng hơn. Khi nhiệt độ giảm dần, chúng có xu hướng ổn định ở trạng thái có năng lượng thấp.
+
+Tương tự như vậy, khi mới khởi chạy thuật toán, biến temperature thường được đặt ở mức tương đối cao, giúp thuật toán có khả năng chấp nhận cả những nghiệm xấu hơn với xác suất p = exp(-Δ/T), trong đó Δ là độ tăng của hàm mục tiêu. Điều này giúp thuật toán khám phá nhiều vùng khác nhau trong không gian tìm kiếm, tránh việc bị mắc kẹt tại cực tiểu cục bộ như Hill Climbing.
+
+Khi nhiệt độ giảm dần, xác suất chấp nhận nghiệm xấu cũng giảm theo. Lúc này, thuật toán chuyển từ việc ưu tiên khám phá (exploration) sang khai thác (exploitation), tức là tập trung cải thiện nghiệm trong vùng đang tìm kiếm. Tuy nhiên, thuật toán không đảm bảo luôn tìm được nghiệm tối ưu toàn cục.
+
+### Câu 6. Lịch tuyến tính, hàm mũ, fast và logarithmic khác nhau ra sao? Lịch nào phù hợp trong thí nghiệm?
+
+**Bài làm:**
+
+Các lịch giảm nhiệt độ (Cooling Schedules) được sử dụng để điều chỉnh giá trị temperature theo từng vòng lặp của thuật toán Simulated Annealing. Sự khác biệt chủ yếu nằm ở cách nhiệt độ giảm theo thời gian, từ đó ảnh hưởng đến khả năng chấp nhận nghiệm xấu và hiệu quả tìm kiếm.
+
+- **Linear:** Nhiệt độ giảm đều sau mỗi vòng lặp theo công thức T(t) = T0 - ηt. Cách này khá đơn giản và dễ kiểm soát, tuy nhiênk nếu giảm quá nhanh thì thuật toán có thể sớm mất khả năng khám phá.
+- **Exponential:** Nhiệt độ giảm theo hàm mũ T(t) = T0 × α^t, với 0 < α < 1. Khi α gần 1, nhiệt độ giảm chậm hơn, giúp thuật toán duy trì khả năng khám phá lâu hơn.
+- **Fast:** Nhiệt độ giảm theo công thức T(t) = T0/(1+t). Lịch này làm nhiệt độ giảm khá nhanh ở giai đoạn đầu, sau đó tốc độ giảm chậm dần.
+- **Logarithmic:** Nhiệt độ giảm theo công thức T(t) = T0/ln(1+t), với t > 0. Lịch này có xu hướng giảm chậm về lâu dài, giúp thuật toán duy trì khả năng chấp nhận nghiệm xấu trong nhiều vòng lặp hơn.
+
+Trong thí nghiệm n-Queens, em lựa chọn Linear làm lịch nhiệt cơ sở vì dễ triển khai và kiểm soát, sau đó sử dụng thêm Exponential để so sánh. Tuy nhiên, chưa thể kết luận lịch nào tốt hơn nếu chưa có kết quả thực nghiệm. Cần đánh giá dựa trên tỉ lệ tìm được nghiệm không xung đột, số vòng lặp và thời gian chạy với cùng điều kiện thử nghiệm.
+
+### Câu 7. Vì sao biểu diễn n-Queens mỗi cột đúng một quân giúp giảm không gian tìm kiếm?
+
+**Bài làm:**
+
+Việc biểu diễn n-Queens với mỗi cột đúng một quân hậu giúp giảm không gian tìm kiếm bởi vì ta không cần phải xem xét những trạng thái có nhiều quân hậu nằm cùng một cột nữa.
+
+Cụ thể, thay vì phải xét tất cả các cách đặt n quân hậu trên bàn cờ n × n, ta chỉ cần lưu vị trí hàng của từng quân hậu trong mỗi cột bằng một vector có n phần tử. Khi đó, mỗi quân hậu chỉ có n lựa chọn vị trí hàng, nên số trạng thái cần xét giảm xuống còn n^n.
+
+Ví dụ, với bài toán 4-Queens, nếu chọn 4 ô bất kỳ trong 16 ô của bàn cờ thì có 1.820 cách đặt quân hậu. Nhưng khi giới hạn mỗi cột đúng một quân, số trạng thái chỉ còn 4^4 = 256.
+
+Nhờ vậy, thuật toán có thể bỏ qua những trạng thái chắc chắn vi phạm điều kiện cùng cột ngay từ đầu, giúp giảm số lượng trạng thái cần tìm kiếm và đơn giản hóa việc sinh các trạng thái lân cận. Tuy nhiên, các xung đột trên cùng hàng và đường chéo vẫn cần được kiểm tra thông qua hàm conflicts().
+
