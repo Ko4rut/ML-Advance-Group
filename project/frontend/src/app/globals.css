@@ -60,11 +60,11 @@ button:focus-visible { outline: 2px solid #61c9bb; outline-offset: 3px; }
 .board-title { display:flex; justify-content:space-between; align-items:center; padding:0 1px 13px; gap:12px; font-weight:800; font-size:10px; letter-spacing:1.3px; }
 .board-title-icon { color:var(--red); font-size:17px; padding-right:5px; vertical-align:middle; }
 .board-mode { color:var(--muted); font-size:10px; font-weight:500; letter-spacing:0; }
-.board-frame { margin:auto; width:min(100%,670px); background:linear-gradient(140deg,#f2dfbd,#e0bf8b); padding:6px; border-radius:9px; box-shadow:0 15px 35px #0002; }
+.board-frame { margin:auto; width:min(100%,500px);max-width: 500px; background:linear-gradient(140deg,#f2dfbd,#e0bf8b); padding:6px; border-radius:9px; box-shadow:0 15px 35px #0002; }
 .board-canvas { position:relative; width:100%; aspect-ratio:600 / 656; background:radial-gradient(ellipse at 36% 22%,#f3dbb3,#e7c999 72%,#e1bf8b); border:1px solid #be9b69; color:var(--line); border-radius:5px; overflow:hidden; }
 .board-lines { display:block; width:100%; height:100%; }
 .river-label { font-size:26px; font-family:serif; font-weight:600; letter-spacing:3px; }
-.board-intersection { position:absolute; transform:translate(-50%,-50%); width:11.2%; aspect-ratio:1; border:0; padding:0; display:grid; place-items:center; background:transparent; cursor:pointer; border-radius:50%; }
+.board-intersection { position:absolute; transform:translate(-50%,-50%); width:14.2%; aspect-ratio:1; border:0; padding:0; display:grid; place-items:center; background:transparent; cursor:pointer; border-radius:50%; }
 .board-intersection img { max-width:100%; width:100%; height:auto; pointer-events:none; user-select:none; filter:drop-shadow(0px 2px 2px #5a3f2966); transition:filter 150ms ease; }
 /* Hover only refines the piece shadow: no bright disk behind enlarged assets. */
 .board-intersection.has-piece:hover { background:transparent; }
