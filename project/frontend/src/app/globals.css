@@ -129,3 +129,22 @@ button:focus-visible { outline: 2px solid #61c9bb; outline-offset: 3px; }
 @media (max-width:1000px) { .content-layout { grid-template-columns:1fr; }.control-column { padding-top:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }.stats-panel { grid-column:1/-1; }.roadmap-note { grid-column:1/-1; }.board-frame { width:min(100%,670px); } }
 @media (max-width:640px) { .site { display:block; }.sidebar { height:auto; position:static; min-height:unset; flex-direction:row; padding:12px 18px; justify-content:space-between; border-right:0; border-bottom:1px solid var(--border); }.brand { margin:0; }.brand-copy { display:flex; }.sidebar-caption,.sidebar-footer { display:none; }.navigation { flex-direction:row; gap:2px; }.nav-item { width:32px; min-height:36px; height:36px; }.workspace { padding:20px 14px 35px; }.topbar { margin-bottom:23px; }.topbar h1 { font-size:24px; }.topbar p { max-width:260px; line-height:1.5; }.topbar-actions .preview-pill { display:none; }.agent-grid { grid-template-columns:repeat(8,78px); overflow-x:auto; padding-bottom:5px; scroll-snap-type:x mandatory; }.agent-option { scroll-snap-align:start; }.selector-heading { align-items:start; }.side-caption { text-align:right; }.board-section { padding:13px 9px; }.board-mode { font-size:9px; }.board-intersection { width:11.6%; }.control-column { display:flex; }.panel { padding:17px; } }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .agent-option, .board-intersection img { transition:none; } }
+
+/* Legal-move overlays: soft dots for empty squares, thin rings for captures. */
+.board-intersection--legal:not(.has-piece)::after {
+  content:""; width:11px; height:11px; background:rgba(36,112,109,.72); border:2px solid rgba(248,255,248,.65);
+  border-radius:50%; box-shadow:0 1px 3px #43301b33; pointer-events:none;
+}
+.board-intersection--capture::after {
+  content:""; position:absolute; inset:3%; border:2px solid rgba(33,122,115,.83);
+  border-radius:50%; box-shadow:0 0 0 2px rgba(40,129,121,.12); pointer-events:none;
+}
+.board-intersection--last:not(.board-intersection--selected):not(.board-intersection--capture):not(.board-intersection--legal)::before {
+  content:""; position:absolute; inset:12%; border-radius:50%; background:rgba(236,173,75,.17); pointer-events:none;
+}
+.board-intersection--last.has-piece::before { z-index:-1; }
+.board-intersection:disabled { cursor:wait; }
+.agent-option:disabled { opacity:.35; cursor:not-allowed; transform:none; }
+.agent-option.is-active:disabled { opacity:1; }
+.action-button:disabled, .quiet-button:disabled { opacity:.43; cursor:not-allowed; }
+@media (prefers-reduced-motion:reduce) { .board-intersection img { transition:none; } }

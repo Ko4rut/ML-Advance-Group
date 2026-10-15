@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { PIECE_FILES, PIECE_NAMES } from "../constants";
 import type { Board } from "../types";
+import type { LegalMove } from "../lib/api";
 
 function BoardGrid() {
   const horizontal = Array.from({ length: 10 }, (_, n) => n);
@@ -16,22 +17,33 @@ function BoardGrid() {
   </svg>;
 }
 
-export function ChessBoard({ board, selection, onSquare }: { board: Board; selection: number | null; onSquare: (index: number) => void }) {
+type Props = {
+  board: Board;
+  selection: number | null;
+  legalTargets: ReadonlySet<number>;
+  lastMove: LegalMove | null;
+  disabled?: boolean;
+  onSquare: (index: number) => void;
+};
+
+export function ChessBoard({ board, selection, legalTargets, lastMove, disabled, onSquare }: Props) {
   return <div className="board-frame">
     <div className="board-canvas">
-      <BoardGrid/>
+      <BoardGrid />
       {board.map((piece, index) => {
         const col = index % 9;
         const row = Math.floor(index / 9);
-        return <button
-          key={index}
-          type="button"
-          className={`board-intersection ${selection === index ? "board-intersection--selected" : ""} ${piece ? "has-piece" : ""}`}
+        const legal = legalTargets.has(index);
+        const last = lastMove?.source === index || lastMove?.target === index;
+        return <button key={index} type="button"
+          disabled={disabled}
+          className={`board-intersection ${selection === index ? "board-intersection--selected" : ""} ${piece ? "has-piece" : ""} ${legal ? (piece ? "board-intersection--capture" : "board-intersection--legal") : ""} ${last ? "board-intersection--last" : ""}`}
           style={{ left: `${((40 + col * 65) / 600) * 100}%`, top: `${((40 + row * 64) / 656) * 100}%` }}
           onClick={() => onSquare(index)}
-          aria-label={piece ? `${PIECE_NAMES[piece.kind]} ${piece.side === "top" ? "đỏ" : "đen"}, hàng ${row + 1} cột ${col + 1}` : `Ô trống hàng ${row + 1} cột ${col + 1}`}
-          aria-pressed={selection === index}
-        >{piece && <Image unoptimized src={`/assets/pieces/${piece.side === "top" ? "red" : "black"}-${PIECE_FILES[piece.kind]}.png`} alt="" width={72} height={72} draggable={false}/>}</button>;
+          aria-label={piece ? `${PIECE_NAMES[piece.kind]} ${piece.side === "top" ? "đỏ" : "đen"}, hàng ${row + 1} cột ${col + 1}${legal ? ", có thể ăn" : ""}` : `Ô trống hàng ${row + 1} cột ${col + 1}${legal ? ", có thể đi" : ""}`}
+          aria-pressed={selection === index}>
+          {piece && <Image unoptimized src={`/assets/pieces/${piece.side === "top" ? "red" : "black"}-${PIECE_FILES[piece.kind]}.png`} alt="" width={72} height={72} draggable={false}/>}
+        </button>;
       })}
     </div>
   </div>;
