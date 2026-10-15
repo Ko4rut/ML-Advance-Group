@@ -30,7 +30,16 @@ export default function Home() {
               <span><span className="board-title-icon">✦</span> XIANGQI BOARD</span>
               <span className="board-mode">9 × 10 · {arena.snapshot ? `Nước ${arena.snapshot.ply}` : "Chưa tạo trận"}</span>
             </div>
-            <ChessBoard board={arena.board} selection={arena.selection} legalTargets={arena.legalTargets} lastMove={arena.lastMove} disabled={arena.pending} onSquare={arena.selectSquare}/>
+            <ChessBoard
+              board={arena.board}
+              selection={arena.selection}
+              legalTargets={arena.legalTargets}
+              lastMove={arena.lastMove}
+              disabled={arena.pending}
+              preview={!arena.snapshot}
+              onCreateMatch={arena.createMatch}
+              onSquare={arena.selectSquare}
+            />
             <div className="board-caption" role="status"><span className="board-caption-dot"/> {arena.notice}</div>
           </div>
           <AgentSelector side="bottom" value={arena.bottom} available={arena.available} disabled={arena.pending} onChange={(id) => arena.chooseAgent("bottom", id)}/>

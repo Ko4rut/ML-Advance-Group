@@ -145,7 +145,8 @@ export function useArenaMatch() {
     const expectedSide = snapshot.side_to_move === "red" ? "top" : "bottom";
     if (piece?.side === expectedSide && snapshot.legal_moves.some((move) => toDisplaySquare(move.source) === displayIndex)) {
       setSelection(displayIndex);
-      setNotice(`Đã chọn ${PIECE_NAMES[piece.kind]}. Nhấn vào dấu chấm hoặc vòng tròn để đi.`);
+      const count = snapshot.legal_moves.filter((move) => toDisplaySquare(move.source) === displayIndex).length;
+      setNotice(`Đã chọn ${PIECE_NAMES[piece.kind]} · ${count} nước đi hợp lệ. Nhấn dấu chấm hoặc vòng tròn để di chuyển.`);
     } else {
       setSelection(null);
       setNotice("Chọn quân của phe đang đi để xem nước hợp lệ.");
