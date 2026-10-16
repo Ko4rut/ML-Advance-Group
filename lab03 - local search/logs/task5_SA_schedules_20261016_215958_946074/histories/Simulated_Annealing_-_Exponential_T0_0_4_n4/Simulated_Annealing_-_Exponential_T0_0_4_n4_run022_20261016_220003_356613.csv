@@ -1,0 +1,4 @@
+experiment_id,run_id,run_number,timestamp,algorithm,board_size,iteration,conflicts,best_conflicts,temperature,accepted,is_final,runtime_ms,seed,best_board
+task5_SA_schedules_20261016_215958_946074,Simulated_Annealing_-_Exponential_T0_0_4_n4_run022_20261016_220003_356613,22,2026-10-16T22:00:03+07:00,Simulated Annealing - Exponential T0=0.4,4,0,1,1,0.4,,False,0.06815499364165589,10422,
+task5_SA_schedules_20261016_215958_946074,Simulated_Annealing_-_Exponential_T0_0_4_n4_run022_20261016_220003_356613,22,2026-10-16T22:00:03+07:00,Simulated Annealing - Exponential T0=0.4,4,1,1,1,0.4,True,False,0.06815499364165589,10422,
+task5_SA_schedules_20261016_215958_946074,Simulated_Annealing_-_Exponential_T0_0_4_n4_run022_20261016_220003_356613,22,2026-10-16T22:00:03+07:00,Simulated Annealing - Exponential T0=0.4,4,2,0,0,0.39305916872774355,True,True,0.06815499364165589,10422,"[2, 0, 3, 1]"

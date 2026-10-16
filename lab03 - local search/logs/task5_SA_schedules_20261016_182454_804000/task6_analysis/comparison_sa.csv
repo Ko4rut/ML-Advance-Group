@@ -1,3 +1,0 @@
-algorithm,board_size,runs,avg_runtime_ms,avg_conflicts,success_pct
-Simulated Annealing,4,100,0.32421716961835045,0.0,100.0
-Simulated Annealing,8,100,4.388899479599786,0.22,78.0

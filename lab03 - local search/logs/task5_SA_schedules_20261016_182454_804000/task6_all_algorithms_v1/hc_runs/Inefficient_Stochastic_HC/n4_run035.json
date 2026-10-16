@@ -1,1 +1,0 @@
-{"initial_board": [1, 2, 3, 1], "seed": 30435, "result": {"board": [2, 0, 3, 1], "conflicts": 0, "iterations": 2, "evaluations": 25, "time_ms": 0.09992400009650737, "history": [4, 2, 0]}}

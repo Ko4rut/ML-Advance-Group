@@ -1,1 +1,0 @@
-{"initial_board": [3, 0, 3, 1], "seed": 30428, "result": {"board": [2, 0, 3, 1], "conflicts": 0, "iterations": 1, "evaluations": 8, "time_ms": 0.05911399784963578, "history": [1, 0], "proposal_history": [1, 1, 1, 1, 1, 1, 1, 0], "stopped_reason": "solution"}}
