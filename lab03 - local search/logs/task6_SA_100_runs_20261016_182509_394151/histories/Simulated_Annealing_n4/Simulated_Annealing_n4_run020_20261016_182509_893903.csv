@@ -1,0 +1,2 @@
+experiment_id,run_id,run_number,timestamp,algorithm,board_size,iteration,conflicts,best_conflicts,temperature,accepted,is_final,runtime_ms,seed,best_board
+task6_SA_100_runs_20261016_182509_394151,Simulated_Annealing_n4_run020_20261016_182509_893903,20,2026-10-16T18:25:09+07:00,Simulated Annealing,4,0,0,0,0.4,,True,0.04579999949783087,1234,"[2, 0, 3, 1]"

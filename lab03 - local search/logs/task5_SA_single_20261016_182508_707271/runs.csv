@@ -1,0 +1,3 @@
+experiment_id,run_id,run_number,timestamp,algorithm,board_size,runtime_ms,best_conflicts,iterations,success,seed,initial_board,schedule,initial_temperature,min_temperature,eta,alpha,max_iterations,best_board
+task5_SA_single_20261016_182508_707271,Simulated_Annealing_n4_run001_20261016_182508_708657,1,2026-10-16T18:25:08+07:00,Simulated Annealing,4,0.2294000005349517,0,8,True,1234,"[2, 3, 2, 1]",linear,0.4,1e-08,0.00039999999,,1000,"[1, 3, 0, 2]"
+task5_SA_single_20261016_182508_707271,Simulated_Annealing_n8_run001_20261016_182509_016584,1,2026-10-16T18:25:09+07:00,Simulated Annealing,8,15.81910002278164,1,1000,False,1234,"[7, 5, 5, 1, 3, 4, 3, 5]",linear,0.4,1e-08,0.00039999999,,1000,"[3, 6, 0, 2, 5, 1, 7, 4]"
