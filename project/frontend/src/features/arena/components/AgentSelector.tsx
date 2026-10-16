@@ -1,5 +1,6 @@
 import { AGENTS } from "../constants";
-import type { AgentId, Side } from "../types";
+import { getAgentName } from "../lib/board";
+import type { Agent, AgentId, Side } from "../types";
 import { Icon } from "./Icon";
 
 type Props = {
@@ -10,27 +11,92 @@ type Props = {
   onChange: (id: AgentId) => void;
 };
 
-export function AgentSelector({ side, value, available, disabled, onChange }: Props) {
-  return <section className={`selector selector--${side}`} aria-label={side === "top" ? "Chọn đối thủ phía trên" : "Chọn đối thủ phía dưới"}>
-    <div className="selector-heading">
-      <div className="section-eyebrow"><span className="side-dot" /> {side === "top" ? "ĐỐI THỦ PHÍA TRÊN" : "ĐỐI THỦ PHÍA DƯỚI"}</div>
-      <span className="side-caption">{side === "top" ? "Quân đỏ" : "Quân đen"} · Chọn một đối thủ</span>
-    </div>
-    <div className="agent-grid">
-      {AGENTS.map((agent) => {
-        const enabled = available.has(agent.id);
-        return <button key={agent.id} type="button"
-          disabled={disabled || !enabled}
-          title={enabled ? agent.hint : `${agent.label}: chưa khả dụng trên backend`}
-          aria-pressed={value === agent.id}
-          onClick={() => onChange(agent.id)}
-          className={`agent-option ${value === agent.id ? "is-active" : ""}`}>
-          <span className={`agent-glyph ${agent.id === "human" ? "agent-glyph--human" : ""}`}>
-            {agent.id === "human" ? <Icon name="user" size={23} /> : agent.symbol}
-          </span>
-          <span className="agent-name">{agent.id === "human" ? (side === "top" ? "Player 1" : "Player 2") : agent.label}</span>
-        </button>;
-      })}
-    </div>
-  </section>;
+type OptionProps = {
+  agent: Agent;
+  side: Side;
+  selected: boolean;
+  enabled: boolean;
+  disabled: boolean;
+  onChange: (id: AgentId) => void;
+};
+
+function AgentOption({ agent, side, selected, enabled, disabled, onChange }: OptionProps) {
+  let optionClass = "agent-option";
+  let glyphClass = "agent-glyph";
+  let glyph: React.ReactNode = agent.symbol;
+  let hint = agent.hint;
+
+  if (selected) {
+    optionClass += " is-active";
+  }
+  if (agent.id === "human") {
+    glyphClass += " agent-glyph--human";
+    glyph = <Icon name="user" size={23} />;
+  }
+  if (!enabled) {
+    hint = `${agent.label}: chưa khả dụng trên backend`;
+  }
+
+  function handleSelect(): void {
+    onChange(agent.id);
+  }
+
+  return (
+    <button
+      type="button"
+      className={optionClass}
+      disabled={disabled || !enabled}
+      title={hint}
+      aria-pressed={selected}
+      onClick={handleSelect}
+    >
+      <span className={glyphClass}>{glyph}</span>
+      <span className="agent-name">{getAgentName(agent.id, side)}</span>
+    </button>
+  );
 }
+
+export function AgentSelector({
+  side,
+  value,
+  available,
+  disabled = false,
+  onChange,
+}: Props) {
+  let heading = "ĐỐI THỦ PHÍA DƯỚI";
+  let caption = "Quân đen";
+  let ariaLabel = "Chọn đối thủ phía dưới";
+
+  if (side === "top") {
+    heading = "ĐỐI THỦ PHÍA TRÊN";
+    caption = "Quân đỏ";
+    ariaLabel = "Chọn đối thủ phía trên";
+  }
+
+  return (
+    <section className={`selector selector--${side}`} aria-label={ariaLabel}>
+      <div className="selector-heading">
+        <div className="section-eyebrow">
+          <span className="side-dot" /> {heading}
+        </div>
+        <span className="side-caption">{caption} · Chọn một đối thủ</span>
+      </div>
+      <div className="agent-grid">
+        {AGENTS.map(function renderAgent(agent) {
+          return (
+            <AgentOption
+              key={agent.id}
+              agent={agent}
+              side={side}
+              selected={value === agent.id}
+              enabled={available.has(agent.id)}
+              disabled={disabled}
+              onChange={onChange}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
