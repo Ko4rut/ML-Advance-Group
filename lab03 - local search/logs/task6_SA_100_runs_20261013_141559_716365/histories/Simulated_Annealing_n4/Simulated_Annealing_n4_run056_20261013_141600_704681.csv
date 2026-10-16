@@ -1,5 +1,0 @@
-experiment_id,run_id,run_number,timestamp,algorithm,board_size,iteration,conflicts,best_conflicts,temperature,accepted,is_final,runtime_ms,seed,best_board
-task6_SA_100_runs_20261013_141559_716365,Simulated_Annealing_n4_run056_20261013_141600_704681,56,2026-10-13T14:16:00+07:00,Simulated Annealing,4,0,1,1,0.4,,False,0.07736097904853523,1234,
-task6_SA_100_runs_20261013_141559_716365,Simulated_Annealing_n4_run056_20261013_141600_704681,56,2026-10-13T14:16:00+07:00,Simulated Annealing,4,1,1,1,0.4,False,False,0.07736097904853523,1234,
-task6_SA_100_runs_20261013_141559_716365,Simulated_Annealing_n4_run056_20261013_141600_704681,56,2026-10-13T14:16:00+07:00,Simulated Annealing,4,2,1,1,0.39960000001,False,False,0.07736097904853523,1234,
-task6_SA_100_runs_20261013_141559_716365,Simulated_Annealing_n4_run056_20261013_141600_704681,56,2026-10-13T14:16:00+07:00,Simulated Annealing,4,3,0,0,0.39920000002,True,True,0.07736097904853523,1234,"[2, 0, 3, 1]"

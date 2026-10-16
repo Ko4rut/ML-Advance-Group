@@ -1,2 +1,0 @@
-algorithm,board_size,runs,avg_runtime_ms,avg_conflicts,avg_iterations,optimal_solution_rate_pct
-Simulated Annealing - Exponential,4,1,1.0273,0.0,67.0,100.0

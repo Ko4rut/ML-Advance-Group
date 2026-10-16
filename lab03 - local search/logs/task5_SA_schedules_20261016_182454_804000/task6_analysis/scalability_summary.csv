@@ -1,0 +1,11 @@
+algorithm,board_size,runs,mean_runtime_ms,mean_conflicts,success_pct
+Simulated Annealing,4,100,0.32421716961835045,0.0,100.0
+Simulated Annealing,8,100,4.388899479599786,0.22,78.0
+Simulated Annealing,12,100,9.59312190003402,0.63,38.0
+Simulated Annealing,16,100,13.098305529929348,0.98,13.0
+Simulated Annealing,20,100,15.821347730452544,1.56,3.0
+Steepest-ascent HC,4,100,0.09282470025937069,0.65,45.0
+Steepest-ascent HC,8,100,1.334903199749533,1.14,14.000000000000002
+Steepest-ascent HC,12,100,6.095049550494878,1.79,3.0
+Steepest-ascent HC,16,100,18.741109549519024,1.97,6.0
+Steepest-ascent HC,20,100,43.751149569652625,2.21,6.0

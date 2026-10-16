@@ -1,0 +1,9 @@
+algorithm,board_size,runs,avg_runtime_ms,avg_conflicts,success_pct
+Efficient Stochastic HC,4,100,0.33878508998895995,0.85,34.0
+Inefficient Stochastic HC,4,100,0.12692909032921307,0.94,26.0
+Simulated Annealing,4,100,0.32421716961835045,0.0,100.0
+Steepest-ascent HC,4,100,0.09665430967288557,0.65,45.0
+Efficient Stochastic HC,8,100,2.5755193601798965,1.29,13.0
+Inefficient Stochastic HC,8,100,1.838170839837403,1.22,15.0
+Simulated Annealing,8,100,4.388899479599786,0.22,78.0
+Steepest-ascent HC,8,100,1.33406347980781,1.14,14.000000000000002
