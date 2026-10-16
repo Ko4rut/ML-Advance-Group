@@ -1,0 +1,2 @@
+experiment_id,run_id,run_number,timestamp,algorithm,board_size,iteration,conflicts,best_conflicts,temperature,accepted,is_final,runtime_ms,seed,best_board
+task5_SA_schedules_20261016_182454_804000,Simulated_Annealing_-_Linear_T0_0_4_n4_run083_20261016_182456_223618,83,2026-10-16T18:24:56+07:00,Simulated Annealing - Linear T0=0.4,4,0,0,0,0.4,,True,0.04600599640980363,10483,"[1, 3, 0, 2]"
