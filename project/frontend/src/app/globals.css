@@ -60,11 +60,11 @@ button:focus-visible { outline: 2px solid #61c9bb; outline-offset: 3px; }
 .board-title { display:flex; justify-content:space-between; align-items:center; padding:0 1px 13px; gap:12px; font-weight:800; font-size:10px; letter-spacing:1.3px; }
 .board-title-icon { color:var(--red); font-size:17px; padding-right:5px; vertical-align:middle; }
 .board-mode { color:var(--muted); font-size:10px; font-weight:500; letter-spacing:0; }
-.board-frame { margin:auto; width:min(100%,670px); background:linear-gradient(140deg,#f2dfbd,#e0bf8b); padding:6px; border-radius:9px; box-shadow:0 15px 35px #0002; }
+.board-frame { margin:auto; width:min(100%,500px);max-width: 500px; background:linear-gradient(140deg,#f2dfbd,#e0bf8b); padding:6px; border-radius:9px; box-shadow:0 15px 35px #0002; }
 .board-canvas { position:relative; width:100%; aspect-ratio:600 / 656; background:radial-gradient(ellipse at 36% 22%,#f3dbb3,#e7c999 72%,#e1bf8b); border:1px solid #be9b69; color:var(--line); border-radius:5px; overflow:hidden; }
 .board-lines { display:block; width:100%; height:100%; }
 .river-label { font-size:26px; font-family:serif; font-weight:600; letter-spacing:3px; }
-.board-intersection { position:absolute; transform:translate(-50%,-50%); width:11.2%; aspect-ratio:1; border:0; padding:0; display:grid; place-items:center; background:transparent; cursor:pointer; border-radius:50%; }
+.board-intersection { position:absolute; transform:translate(-50%,-50%); width:14.2%; aspect-ratio:1; border:0; padding:0; display:grid; place-items:center; background:transparent; cursor:pointer; border-radius:50%; }
 .board-intersection img { max-width:100%; width:100%; height:auto; pointer-events:none; user-select:none; filter:drop-shadow(0px 2px 2px #5a3f2966); transition:filter 150ms ease; }
 /* Hover only refines the piece shadow: no bright disk behind enlarged assets. */
 .board-intersection.has-piece:hover { background:transparent; }
@@ -129,3 +129,102 @@ button:focus-visible { outline: 2px solid #61c9bb; outline-offset: 3px; }
 @media (max-width:1000px) { .content-layout { grid-template-columns:1fr; }.control-column { padding-top:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }.stats-panel { grid-column:1/-1; }.roadmap-note { grid-column:1/-1; }.board-frame { width:min(100%,670px); } }
 @media (max-width:640px) { .site { display:block; }.sidebar { height:auto; position:static; min-height:unset; flex-direction:row; padding:12px 18px; justify-content:space-between; border-right:0; border-bottom:1px solid var(--border); }.brand { margin:0; }.brand-copy { display:flex; }.sidebar-caption,.sidebar-footer { display:none; }.navigation { flex-direction:row; gap:2px; }.nav-item { width:32px; min-height:36px; height:36px; }.workspace { padding:20px 14px 35px; }.topbar { margin-bottom:23px; }.topbar h1 { font-size:24px; }.topbar p { max-width:260px; line-height:1.5; }.topbar-actions .preview-pill { display:none; }.agent-grid { grid-template-columns:repeat(8,78px); overflow-x:auto; padding-bottom:5px; scroll-snap-type:x mandatory; }.agent-option { scroll-snap-align:start; }.selector-heading { align-items:start; }.side-caption { text-align:right; }.board-section { padding:13px 9px; }.board-mode { font-size:9px; }.board-intersection { width:11.6%; }.control-column { display:flex; }.panel { padding:17px; } }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .agent-option, .board-intersection img { transition:none; } }
+
+/* Legal destinations are rendered into their own absolute overlay layer so the
+   markers remain visible above the board, pieces, and neighboring hit targets. */
+.board-legal-moves {
+  position:absolute;
+  inset:0;
+  z-index:5;
+  pointer-events:none;
+}
+.board-move-marker {
+  position:absolute;
+  transform:translate(-50%,-50%);
+  width:11.2%;
+  aspect-ratio:1;
+  display:grid;
+  place-items:center;
+  pointer-events:none;
+}
+.board-move-marker--empty::after {
+  content:"";
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:rgba(26,104,101,.8);
+  border:2px solid rgba(246,245,220,.9);
+  box-shadow:0 1px 4px rgba(53,57,36,.25);
+}
+.board-move-marker--capture::after {
+  content:"";
+  width:72%;
+  aspect-ratio:1;
+  border:2px solid rgba(32,131,123,.86);
+  border-radius:50%;
+  background:rgba(35,149,125,.09);
+  box-shadow:0 0 0 2px rgba(245,245,223,.45);
+}
+.board-canvas--preview .board-lines,
+.board-canvas--preview .board-intersection { opacity:.42; }
+.board-canvas--preview .board-intersection { pointer-events:none; }
+.board-start-overlay {
+  position:absolute;
+  inset:0;
+  z-index:10;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:rgba(236,216,179,.42);
+  backdrop-filter:blur(1.6px);
+}
+.board-start-card {
+  width:min(100%,350px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:12px;
+  padding:27px 24px;
+  background:rgba(255,251,239,.97);
+  color:#2f3434;
+  border:1px solid rgba(121,101,69,.25);
+  border-radius:16px;
+  box-shadow:0 15px 45px rgba(50,42,30,.19);
+}
+.board-start-kicker {
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:#9d7660;
+}
+.board-start-card strong { font-size:21px; letter-spacing:-.45px; }
+.board-start-card p { margin:0; font-size:13px; line-height:1.6; color:#68716e; }
+.board-start-card button {
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  margin-top:3px; padding:12px 18px; border:0; border-radius:10px;
+  color:white; background:#ca675f; font-size:13px; font-weight:750;
+  cursor:pointer;
+}
+.board-start-card button:hover { background:#b85952; }
+.board-start-card button:disabled { opacity:.6; cursor:wait; }
+.board-intersection--selected::after {
+  inset:16%;
+  border:2px solid rgba(56,143,135,.75);
+  box-shadow:none;
+}
+@media (max-width:640px) {
+  .board-move-marker { width:11.6%; }
+  .board-move-marker--empty::after { width:10px; height:10px; }
+  .board-start-card { width:min(100%,280px); padding:20px; gap:9px; }
+  .board-start-card strong { font-size:18px; }
+}
+.board-intersection--last:not(.board-intersection--selected):not(.board-intersection--capture):not(.board-intersection--legal)::before {
+  content:""; position:absolute; inset:12%; border-radius:50%; background:rgba(236,173,75,.17); pointer-events:none;
+}
+.board-intersection--last.has-piece::before { z-index:-1; }
+.board-intersection:disabled { cursor:wait; }
+.agent-option:disabled { opacity:.35; cursor:not-allowed; transform:none; }
+.agent-option.is-active:disabled { opacity:1; }
+.action-button:disabled, .quiet-button:disabled { opacity:.43; cursor:not-allowed; }
+@media (prefers-reduced-motion:reduce) { .board-intersection img { transition:none; } }

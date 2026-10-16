@@ -19,6 +19,19 @@ export function initialBoard(): Board {
   return board;
 }
 
+// UI: red on TOP. Engine: red on BOTTOM. Flip only rows, preserving columns.
+export function toDisplaySquare(engineIndex: number): number {
+  return (9 - Math.floor(engineIndex / 9)) * 9 + engineIndex % 9;
+}
+export const toEngineSquare = toDisplaySquare;
+
+export function boardFromEngine(squares: number[]): Board {
+  if (squares.length !== 90) throw new Error("API trả về bàn cờ không đủ 90 ô.");
+  return squares.map((_, displayIndex) => {
+    const code = squares[toEngineSquare(displayIndex)];
+    return code === 0 ? null : { side: code > 0 ? "top" : "bottom", kind: Math.abs(code) };
+  });
+}
 
 export function getAgentName(id: AgentId, side: Side): string {
   return id === "human" ? (side === "top" ? "Player 1" : "Player 2") : AGENTS.find((agent) => agent.id === id)!.label;

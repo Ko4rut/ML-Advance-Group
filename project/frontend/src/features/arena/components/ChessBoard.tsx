@@ -1,6 +1,16 @@
 import Image from "next/image";
 import { PIECE_FILES, PIECE_NAMES } from "../constants";
 import type { Board } from "../types";
+import type { LegalMove } from "../lib/api";
+
+function squarePosition(index: number) {
+  const col = index % 9;
+  const row = Math.floor(index / 9);
+  return {
+    left: `${((40 + col * 65) / 600) * 100}%`,
+    top: `${((40 + row * 64) / 656) * 100}%`,
+  };
+}
 
 function BoardGrid() {
   const horizontal = Array.from({ length: 10 }, (_, n) => n);
@@ -16,23 +26,64 @@ function BoardGrid() {
   </svg>;
 }
 
-export function ChessBoard({ board, selection, onSquare }: { board: Board; selection: number | null; onSquare: (index: number) => void }) {
+type Props = {
+  board: Board;
+  selection: number | null;
+  legalTargets: ReadonlySet<number>;
+  lastMove: LegalMove | null;
+  disabled?: boolean;
+  preview?: boolean;
+  onCreateMatch?: () => void;
+  onSquare: (index: number) => void;
+};
+
+export function ChessBoard({ board, selection, legalTargets, lastMove, disabled, preview = false, onCreateMatch, onSquare }: Props) {
   return <div className="board-frame">
-    <div className="board-canvas">
-      <BoardGrid/>
+    <div className={`board-canvas ${preview ? "board-canvas--preview" : ""}`}>
+      <BoardGrid />
       {board.map((piece, index) => {
         const col = index % 9;
         const row = Math.floor(index / 9);
-        return <button
-          key={index}
-          type="button"
-          className={`board-intersection ${selection === index ? "board-intersection--selected" : ""} ${piece ? "has-piece" : ""}`}
-          style={{ left: `${((40 + col * 65) / 600) * 100}%`, top: `${((40 + row * 64) / 656) * 100}%` }}
+        const legal = legalTargets.has(index);
+        const last = lastMove?.source === index || lastMove?.target === index;
+        return <button key={index} type="button"
+          disabled={disabled}
+          className={`board-intersection ${selection === index ? "board-intersection--selected" : ""} ${piece ? "has-piece" : ""} ${legal ? (piece ? "board-intersection--capture" : "board-intersection--legal") : ""} ${last ? "board-intersection--last" : ""}`}
+          style={squarePosition(index)}
           onClick={() => onSquare(index)}
-          aria-label={piece ? `${PIECE_NAMES[piece.kind]} ${piece.side === "top" ? "đỏ" : "đen"}, hàng ${row + 1} cột ${col + 1}` : `Ô trống hàng ${row + 1} cột ${col + 1}`}
-          aria-pressed={selection === index}
-        >{piece && <Image unoptimized src={`/assets/pieces/${piece.side === "top" ? "red" : "black"}-${PIECE_FILES[piece.kind]}.png`} alt="" width={72} height={72} draggable={false}/>}</button>;
+          aria-label={piece ? `${PIECE_NAMES[piece.kind]} ${piece.side === "top" ? "đỏ" : "đen"}, hàng ${row + 1} cột ${col + 1}${legal ? ", có thể ăn" : ""}` : `Ô trống hàng ${row + 1} cột ${col + 1}${legal ? ", có thể đi" : ""}`}
+          aria-pressed={selection === index}>
+          {piece && <Image unoptimized src={`/assets/pieces/${piece.side === "top" ? "red" : "black"}-${PIECE_FILES[piece.kind]}.png`} alt="" width={72} height={72} draggable={false}/>}
+        </button>;
       })}
+
+      {/* A dedicated topmost, non-interactive layer prevents grid-button pseudo-elements
+          from hiding behind neighboring buttons or images. */}
+      {!preview && legalTargets.size > 0 && (
+        <div className="board-legal-moves" aria-hidden="true">
+          {Array.from(legalTargets).map((index) => (
+            <span
+              key={index}
+              className={`board-move-marker ${board[index] ? "board-move-marker--capture" : "board-move-marker--empty"}`}
+              style={squarePosition(index)}
+            />
+          ))}
+        </div>
+      )}
+
+      {preview && (
+        <div className="board-start-overlay">
+          <div className="board-start-card" role="status">
+            <span className="board-start-kicker">XIANGQI ARENA</span>
+            <strong>Chưa tạo trận đấu</strong>
+            <p>Chọn hai đối thủ ở trên và dưới, sau đó tạo trận để bắt đầu chơi.</p>
+            <button type="button" onClick={onCreateMatch} disabled={disabled || !onCreateMatch}>
+              {disabled ? "Đang tạo trận..." : "Tạo trận đấu"}
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   </div>;
 }
