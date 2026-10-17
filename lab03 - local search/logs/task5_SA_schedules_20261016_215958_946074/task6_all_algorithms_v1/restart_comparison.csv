@@ -1,0 +1,7 @@
+algorithm,board_size,runs,avg_runtime_ms,avg_conflicts,success_pct
+Restart Steepest-ascent HC,4,100,0.22772485004679766,0.0,100.0
+Restart Steepest-ascent HC,8,100,9.611462180037051,0.0,100.0
+Restart Inefficient Stochastic HC,4,100,0.411634840129409,0.0,100.0
+Restart Inefficient Stochastic HC,8,100,12.288190969411517,0.0,100.0
+Restart Efficient Stochastic HC,4,100,1.0654762296326226,0.0,100.0
+Restart Efficient Stochastic HC,8,100,24.05962601034844,0.0,100.0

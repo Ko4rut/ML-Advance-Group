@@ -1,0 +1,1 @@
+{"initial_board": [3, 0, 3, 2], "seed": 30419, "result": {"board": [2, 0, 3, 1], "conflicts": 0, "iterations": 6, "evaluations": 99, "time_ms": 0.38872799632372335, "history": [2, 1, 0], "restart_history": [1, 1, 0], "full_history": [3, 2, 1, 4, 3, 1, 2, 1, 0], "restart_boundaries": [0, 3, 6], "restarts": 2, "runs": 3, "success": true}}

@@ -1,0 +1,10 @@
+{
+  "source_sa": "logs/task5_SA_schedules_20261016_215958_946074",
+  "sa_config": "Exponential T0=0.4",
+  "sa_max_iterations": 1000,
+  "runs_per_size": 100,
+  "hc_seed_rule": "30000 + size*100 + run_number",
+  "restart_budget": "1 initial run + at most 100 restarts",
+  "cache_version": 1,
+  "note": "Delete or rename cache directory if algorithm/settings change."
+}
