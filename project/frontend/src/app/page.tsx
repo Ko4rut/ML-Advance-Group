@@ -13,47 +13,92 @@ import { useArenaMatch } from "@/features/arena/hooks/useArenaMatch";
 
 export default function Home() {
   const arena = useArenaMatch();
-  const toggleTheme = () => arena.setLightMode((previous) => !previous);
-  const openStatistics = () => arena.setModal(true);
-  const actor = arena.snapshot?.side_to_move === "red" ? arena.snapshot?.red : arena.snapshot?.black;
-  const canRun = Boolean(arena.snapshot && arena.snapshot.status === "playing" && actor?.type === "agent" && !arena.pending);
 
-  return <div className={`site ${arena.lightMode ? "site--light" : ""}`}>
-    <ArenaSidebar onOpenStatistics={openStatistics} onToggleTheme={toggleTheme}/>
-    <main className="workspace">
-      <ArenaHeader lightMode={arena.lightMode} onToggleTheme={toggleTheme}/>
-      <div className="content-layout">
-        <div className="arena-main" id="agents">
-          <AgentSelector side="top" value={arena.top} available={arena.available} disabled={arena.pending} onChange={(id) => arena.chooseAgent("top", id)}/>
-          <div className="board-section">
-            <div className="board-title">
-              <span><span className="board-title-icon">✦</span> XIANGQI BOARD</span>
-              <span className="board-mode">9 × 10 · {arena.snapshot ? `Nước ${arena.snapshot.ply}` : "Chưa tạo trận"}</span>
-            </div>
-            <ChessBoard
-              board={arena.board}
-              selection={arena.selection}
-              legalTargets={arena.legalTargets}
-              lastMove={arena.lastMove}
+  let siteClass = "site";
+  let moveLabel = "Chưa tạo trận";
+  if (arena.lightMode) {
+    siteClass += " site--light";
+  }
+  if (arena.snapshot) {
+    moveLabel = `Nước ${arena.snapshot.ply}`;
+  }
+
+  return (
+    <div className={siteClass}>
+      <ArenaSidebar
+        onOpenStatistics={arena.openStatistics}
+        onToggleTheme={arena.toggleTheme}
+      />
+      <main className="workspace">
+        <ArenaHeader
+          lightMode={arena.lightMode}
+          onToggleTheme={arena.toggleTheme}
+        />
+        <div className="content-layout">
+          <div className="arena-main" id="agents">
+            <AgentSelector
+              side="top"
+              value={arena.top}
+              available={arena.available}
               disabled={arena.pending}
-              preview={!arena.snapshot}
-              onCreateMatch={arena.createMatch}
-              onSquare={arena.selectSquare}
+              onChange={arena.chooseTopAgent}
             />
-            <div className="board-caption" role="status"><span className="board-caption-dot"/> {arena.notice}</div>
+            <div className="board-section">
+              <div className="board-title">
+                <span>
+                  <span className="board-title-icon">✦</span> XIANGQI BOARD
+                </span>
+                <span className="board-mode">9 × 10 · {moveLabel}</span>
+              </div>
+              <ChessBoard
+                board={arena.board}
+                selection={arena.selection}
+                legalTargets={arena.legalTargets}
+                lastMove={arena.lastMove}
+                disabled={arena.pending}
+                preview={!arena.snapshot}
+                onCreateMatch={arena.createMatch}
+                onSquare={arena.selectSquare}
+              />
+              <div className="board-caption" role="status">
+                <span className="board-caption-dot" /> {arena.notice}
+              </div>
+            </div>
+            <AgentSelector
+              side="bottom"
+              value={arena.bottom}
+              available={arena.available}
+              disabled={arena.pending}
+              onChange={arena.chooseBottomAgent}
+            />
           </div>
-          <AgentSelector side="bottom" value={arena.bottom} available={arena.available} disabled={arena.pending} onChange={(id) => arena.chooseAgent("bottom", id)}/>
+          <aside className="control-column" aria-label="Thông tin trận đấu">
+            <MatchupCard top={arena.top} bottom={arena.bottom} />
+            <MatchControls
+              matchNumber={1}
+              hasMatch={Boolean(arena.snapshot)}
+              pending={arena.pending}
+              running={arena.running}
+              canRun={arena.canRun}
+              onCreateMatch={arena.createMatch}
+              onStartBattle={arena.startBattle}
+              onResetBoard={arena.resetBoard}
+              onOpenStatistics={arena.openStatistics}
+            />
+            <MatchOverview snapshot={arena.snapshot} />
+            <IntegrationNote connected={arena.connected} />
+          </aside>
         </div>
-        <aside className="control-column" aria-label="Thông tin trận đấu">
-          <MatchupCard top={arena.top} bottom={arena.bottom}/>
-          <MatchControls matchNumber={arena.snapshot ? 1 : 0} hasMatch={Boolean(arena.snapshot)} pending={arena.pending}
-            running={arena.running} canRun={canRun} onCreateMatch={arena.createMatch} onStartBattle={arena.startBattle}
-            onResetBoard={arena.resetBoard} onOpenStatistics={openStatistics}/>
-          <MatchOverview snapshot={arena.snapshot}/>
-          <IntegrationNote connected={arena.connected}/>
-        </aside>
-      </div>
-    </main>
-    {arena.modal && <StatisticsDialog top={arena.top} bottom={arena.bottom} snapshot={arena.snapshot} onClose={() => arena.setModal(false)}/>}
-  </div>;
+      </main>
+      {arena.modal && (
+        <StatisticsDialog
+          top={arena.top}
+          bottom={arena.bottom}
+          snapshot={arena.snapshot}
+          onClose={arena.closeStatistics}
+        />
+      )}
+    </div>
+  );
 }
+
