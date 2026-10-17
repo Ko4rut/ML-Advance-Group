@@ -1,0 +1,1 @@
+{"initial_board": [1, 9, 11, 6, 2, 7, 5, 10, 0, 2, 11, 3], "seed": 31255, "result": {"board": [1, 9, 11, 6, 2, 7, 5, 10, 0, 9, 4, 8], "conflicts": 2, "iterations": 4, "evaluations": 661, "time_ms": 5.210932999034412, "history": [6, 5, 4, 3, 2], "stopped_reason": "local_optimum"}}

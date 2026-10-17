@@ -41,6 +41,6 @@ python -m jupyter lab
 
 Mở notebook cần xem, chọn kernel đúng môi trường đã cài thư viện và chạy các cell từ trên xuống. File [requirements.txt](../requirements.txt) nằm ở **thư mục gốc repository**.
 
-Riêng **Task 6 của N-Queens**, chạy các cell import và định nghĩa thuật toán ở Task 1–4 trước; không cần chạy lại Task 5. Task 6 đang đọc bộ log có sẵn qua biến `TASK6_SOURCE` và bộ log SA scalability tương ứng. Giữ các thư mục log này khi chia sẻ bài. Kết quả HC đã có sẽ được đọc từ cache; nếu sửa thuật toán, đổi hoặc xóa thư mục cache `task6_all_algorithms_v1` để đo lại.
+Riêng **Task 6 của N-Queens**, chạy các cell import và định nghĩa thuật toán ở Task 1–4 trước; không cần chạy lại Task 5. Task 6 tự chọn bộ log Task 5 mới nhất đã hoàn tất theo timestamp trong tên thư mục, bỏ qua lần chạy dở và thư mục scalability. Không cần sửa tên log sau mỗi lần chạy Task 5. Nếu chưa có log, chạy Task 5 trước. Muốn tái lập một lần chạy cụ thể, dùng `resolve_task5_source(Path("logs/<experiment_id>"))`. Task 6 tự tạo các run SA scalability còn thiếu và dùng lại cache ở những lần sau. Giữ các thư mục log này khi chia sẻ bài. Kết quả HC đã có sẽ được đọc từ cache; nếu sửa thuật toán, đổi hoặc xóa thư mục cache `task6_all_algorithms_v1` để đo lại.
 
 Chạy lại Task 5 sẽ tạo một bộ log mới, nhưng Task 6 vẫn dùng bộ log đã chỉ định. Đường dẫn log và ảnh được in trong notebook để dễ tìm.

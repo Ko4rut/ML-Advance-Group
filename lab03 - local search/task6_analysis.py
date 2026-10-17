@@ -1,5 +1,6 @@
 """Thực nghiệm Task 6: dùng lại log SA, lưu cache HC và xuất bảng/hình."""
 import json
+import re
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -16,16 +17,66 @@ def _json_default(value):
     raise TypeError(type(value).__name__)
 
 
-def run_analysis(algorithms, restart_algorithm, source):
+def resolve_task5_source(source=None, log_dir="logs"):
+    """Chọn lần chạy hoàn tất mới nhất theo timestamp; cho phép chỉ định nguồn."""
+    def complete(path):
+        # experiment.json được Task 5 ghi cuối cùng, sau khi hoàn tất mọi run.
+        return all((path / name).is_file() for name in
+                   ("experiment.json", "runs.csv", "schedule_runs.csv", "schedule_summary.csv"))
+
+    if source is not None:
+        path = Path(source)
+        if not complete(path):
+            raise FileNotFoundError(f"Log Task 5 chưa đầy đủ: {path}. Hãy chạy xong Task 5.")
+        return path
+    candidates = sorted(
+        (path for path in Path(log_dir).glob("task5_SA_schedules_*")
+         if re.fullmatch(r"task5_SA_schedules_\d{8}_\d{6}_\d{6}", path.name)
+         and complete(path)),
+        key=lambda path: path.name, reverse=True,
+    )
+    if not candidates:
+        raise FileNotFoundError(f"Không có log Task 5 hoàn tất trong {log_dir}. Hãy chạy Task 5 trước.")
+    return candidates[0]
+
+
+def _load_scalability(source):
+    """Tạo các run SA còn thiếu; lần sau dùng lại đúng cache của nguồn Task 5."""
+    from simulated_annealing import simulated_annealing
+    from helper import save_log_result
+
+    folder = source.parent / (source.name + "_task6_scalability")
+    runs_path = folder / "runs.csv"
+    existing = pd.read_csv(runs_path) if runs_path.is_file() else pd.DataFrame()
+    done = set(zip(existing.board_size, existing.run_number)) if not existing.empty else set()
+    for size in (12, 16, 20):
+        for run in range(1, 101):
+            if (size, run) in done:
+                continue
+            seed = 10000 + size * 100 + run
+            board = np.random.RandomState(seed).randint(size, size=size)
+            result = simulated_annealing(
+                n=size, board=board, seed=seed, mode=1,
+                initial_temperature=0.4, max_iterations=1000,
+            )
+            save_log_result(
+                result, algorithm="Simulated Annealing - Exponential T0=0.4",
+                experiment_id=folder.name, log_dir=source.parent,
+                run_number=run, plot_run=False, show_plot=False, verbose=False,
+            )
+    return pd.read_csv(runs_path)
+
+
+def run_analysis(algorithms, restart_algorithm, source=None):
     """100 run/cấu hình/kích thước; cache từng run, không đo chi phí ghi file."""
-    source = Path(source)
+    source = resolve_task5_source(source)
     output = source / "task6_all_algorithms_v1"
     images = Path("img/task_6_all") / source.name
     output.mkdir(parents=True, exist_ok=True)
     images.mkdir(parents=True, exist_ok=True)
     original = pd.read_csv(source / "runs.csv")
     original = original.loc[original.algorithm.eq("Simulated Annealing - Exponential T0=0.4")].copy()
-    extra = pd.read_csv(source.parent / (source.name + "_task6_scalability") / "runs.csv")
+    extra = _load_scalability(source)
     sa = pd.concat([original, extra], ignore_index=True)
     assert sa.groupby("board_size").size().to_dict() == {n: 100 for n in (4, 8, 12, 16, 20)}
     sa["algorithm"] = "Simulated Annealing"

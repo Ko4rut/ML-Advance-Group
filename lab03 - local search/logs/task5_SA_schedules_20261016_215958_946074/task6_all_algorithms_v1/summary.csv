@@ -1,0 +1,27 @@
+algorithm,board_size,runs,avg_runtime_ms,avg_conflicts,success_pct
+Simulated Annealing,4,100,0.32519719992706086,0.0,100.0
+Simulated Annealing,8,100,4.343789099730202,0.22,78.0
+Simulated Annealing,12,100,9.669687420027913,0.66,37.0
+Simulated Annealing,16,100,13.3033112398698,1.05,15.0
+Simulated Annealing,20,100,15.66805760950956,1.36,10.0
+Steepest-ascent HC,4,100,0.0955549904028885,0.65,45.0
+Steepest-ascent HC,8,100,1.3978692594537279,1.14,14.000000000000002
+Steepest-ascent HC,12,100,6.012221539494931,1.72,7.000000000000001
+Steepest-ascent HC,16,100,18.13585115938622,2.07,3.0
+Steepest-ascent HC,20,100,43.75351458962541,2.4,1.0
+Restart Steepest-ascent HC,4,100,0.22772485004679766,0.0,100.0
+Restart Steepest-ascent HC,8,100,9.611462180037051,0.0,100.0
+Inefficient Stochastic HC,4,100,0.12455635005608201,0.94,26.0
+Inefficient Stochastic HC,8,100,1.8287617498572217,1.22,15.0
+Inefficient Stochastic HC,12,100,9.210827690258157,1.89,2.0
+Inefficient Stochastic HC,16,100,30.240393089916324,2.15,1.0
+Inefficient Stochastic HC,20,100,72.83114744997874,2.72,1.0
+Restart Inefficient Stochastic HC,4,100,0.411634840129409,0.0,100.0
+Restart Inefficient Stochastic HC,8,100,12.288190969411517,0.0,100.0
+Efficient Stochastic HC,4,100,0.3401447695796378,0.85,34.0
+Efficient Stochastic HC,8,100,2.586910390164121,1.29,13.0
+Efficient Stochastic HC,12,100,8.824575780163286,1.87,0.0
+Efficient Stochastic HC,16,100,19.481705469515873,2.2,3.0
+Efficient Stochastic HC,20,100,38.150845070704236,2.4,1.0
+Restart Efficient Stochastic HC,4,100,1.0654762296326226,0.0,100.0
+Restart Efficient Stochastic HC,8,100,24.05962601034844,0.0,100.0
