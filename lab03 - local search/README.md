@@ -1,45 +1,46 @@
-# Lab 03 - Local Search
+# Lab 03 — Tìm kiếm cục bộ
 
-## Môi trường
+Lab này tìm hiểu cách dùng Hill Climbing và Simulated Annealing để giải N-Queens, bài toán người bán hàng (TSP) và minh họa tìm kiếm trên mê cung.
 
-Notebook được kiểm tra với Python 3.10.8. Dùng Python 3.10 trở lên; chọn cùng một phiên bản Python và cùng môi trường ảo khi chạy, đo thời gian và xuất kết quả. Các thư viện cần thiết được liệt kê trong [`requirements.txt`](requirements.txt).
+## Nhóm đã làm được gì?
 
-Mở PowerShell tại thư mục gốc repository và chạy:
+- **N-Queens:** cài đặt ba biến thể Hill Climbing, random restart và Simulated Annealing; thử các lịch giảm nhiệt, so sánh kết quả, vẽ quá trình hội tụ và đo thời gian theo kích thước bàn cờ. Task 6 dùng 100 lần chạy cho mỗi thuật toán/kích thước được báo cáo, có lưu log và hình để xem lại.
+- **TSP:** đã có các thuật toán Hill Climbing, random restart, Simulated Annealing, bảng so sánh và phần Genetic Algorithm.
+- **Ví dụ bổ trợ:** minh họa cực trị cục bộ trên mê cung, các lịch giảm nhiệt và cách tăng tốc tính xung đột bằng Numba.
 
-```powershell
+Phần nâng cao về toán tử di chuyển và Genetic Algorithm trong **notebook N-Queens** vẫn chưa hoàn thành.
+
+## Các thành phần trong thư mục
+
+| File / thư mục | Nội dung |
+| --- | --- |
+| [n_queens.ipynb](n_queens.ipynb) | Bài N-Queens chính; Task 1–4 là HC, Task 5 là SA, Task 6 là phân tích kết quả. |
+| [traveling_salesman_problem.ipynb](traveling_salesman_problem.ipynb) | Các thuật toán tìm đường đi ngắn cho TSP. |
+| [Maze_Example_LocalSearch.ipynb](Maze_Example_LocalSearch.ipynb) | Ví dụ tìm kiếm cục bộ trên mê cung. |
+| [Simulated_Annealing_Schedules.ipynb](Simulated_Annealing_Schedules.ipynb) | Minh họa và so sánh các lịch giảm nhiệt. |
+| [n_queens_fast_conflict_calculation_with_numba.ipynb](n_queens_fast_conflict_calculation_with_numba.ipynb) | Ví dụ tăng tốc tính số xung đột bằng Numba. |
+| [simulated_annealing.py](simulated_annealing.py), [annealing_schedules.py](annealing_schedules.py) | Thuật toán SA cho N-Queens và các hàm nhiệt độ. |
+| [helper.py](helper.py) | Tạo/vẽ bàn cờ, tính xung đột, lưu log và tổng hợp kết quả. |
+| [task6_analysis.py](task6_analysis.py) | Chạy hoặc đọc lại thực nghiệm Task 6, xuất bảng và biểu đồ. |
+| [maze_helper.py](maze_helper.py), [L_maze.txt](L_maze.txt) | Hàm hỗ trợ và dữ liệu mê cung. |
+| [logs/](logs/), [img/](img/) | Kết quả từng lần chạy, lịch sử tìm kiếm, bảng tổng hợp và hình thực nghiệm. |
+| [docs/](docs/), [wp1_figures/](wp1_figures/) | Tài liệu theo thành viên và hình minh họa mê cung. |
+| Các file PDF, DOCX ở thư mục này | Tài liệu bài lab và nội dung báo cáo. |
+
+## Cách xem và chạy
+
+**Chỉ xem kết quả:** mở `n_queens.ipynb` bằng VS Code hoặc Jupyter, rồi xem các bảng và hình đã lưu ở Task 5–6. Không cần chạy lại thuật toán.
+
+**Muốn chạy lại:** dùng môi trường Python của project, mở terminal tại thư mục gốc repository và chạy:
+
+```bash
+python -m pip install -r requirements.txt
 cd "lab03 - local search"
-python --version
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m ipykernel install --user --name lab03-local-search --display-name "Python (lab03-local-search)"
-.\.venv\Scripts\python.exe -m jupyter lab
+python -m jupyter lab
 ```
 
-Trong mỗi notebook, chọn kernel **Python (lab03-local-search)**. Nếu PowerShell không tìm thấy `python`, cài Python 3.10+ và mở terminal mới. Không trộn package từ Python hệ thống, `.venv` ở repository gốc và `.venv` của lab này.
+Mở notebook cần xem, chọn kernel đúng môi trường đã cài thư viện và chạy các cell từ trên xuống. File [requirements.txt](../requirements.txt) nằm ở **thư mục gốc repository**.
 
-## Chạy notebook và dữ liệu
+Riêng **Task 6 của N-Queens**, chạy các cell import và định nghĩa thuật toán ở Task 1–4 trước; không cần chạy lại Task 5. Task 6 đang đọc bộ log có sẵn qua biến `TASK6_SOURCE` và bộ log SA scalability tương ứng. Giữ các thư mục log này khi chia sẻ bài. Kết quả HC đã có sẽ được đọc từ cache; nếu sửa thuật toán, đổi hoặc xóa thư mục cache `task6_all_algorithms_v1` để đo lại.
 
-Khởi chạy Jupyter Lab từ thư mục `lab03 - local search` như lệnh trên, rồi mở notebook cần chạy. Chọn **Restart Kernel and Run All Cells** để chạy từ đầu; không cần tải dữ liệu hoặc module từ Internet. `L_maze.txt` và `maze_helper.py` nằm cạnh notebook mê cung.
-
-Các notebook `n_queens.ipynb` và `traveling_salesman_problem.ipynb` là bài tập có các cell được để trống có chủ ý; phần cài đặt thuật toán và phân tích kết quả vẫn cần hoàn thành theo đề bài.
-
-## Quy chuẩn tái lập và so sánh
-
-- Dùng seed `1234` cho ví dụ tái lập. Với mỗi lần chạy benchmark, đặt lại seed trước khi tạo dữ liệu và chạy thuật toán; nếu dùng cả `random` và NumPy, đặt seed cho cả hai.
-- So sánh trên cùng bộ dữ liệu/kích thước, cùng giới hạn lặp hoặc điều kiện dừng, cùng tham số và cùng dãy seed chạy độc lập. Không thay đổi tham số giữa các thuật toán trong cùng phép so sánh.
-- Thực hiện 1 lần warm-up và 30 lần đo độc lập cho mỗi cấu hình. Với Numba/JIT, warm-up trước khi đo và không tính thời gian biên dịch vào thời gian chạy thuật toán.
-- Đo thời gian bằng `time.perf_counter()`; chỉ bấm giờ phần thuật toán, không tính thời gian vẽ biểu đồ, in kết quả hay khởi tạo notebook.
-- Ghi một dòng cho mỗi lần chạy với các trường: thuật toán, kích thước/bộ dữ liệu, seed, thành công, giá trị mục tiêu tốt nhất (ví dụ độ dài tour hoặc số xung đột), số bước/đánh giá trạng thái và thời gian (giây). Tổng hợp thời gian bằng median và IQR, đồng thời báo cáo tỷ lệ thành công và chất lượng nghiệm.
-- Lưu kết quả dạng bảng CSV với tên cột thống nhất; ghi phiên bản Python, thư viện, tham số và seed trong phần báo cáo. Xóa output cũ, chạy lại toàn bộ notebook từ đầu trước khi xuất HTML hoặc nộp kết quả.
-
-## Nội dung
-
-### Ví dụ
-- [Hill climbing trên mê cung](Maze_Example_LocalSearch.ipynb)
-- [Tối ưu tính số xung đột N-Queens bằng Numba](n_queens_fast_conflict_calculation_with_numba.ipynb)
-- [Lịch nhiệt độ simulated annealing](Simulated_Annealing_Schedules.ipynb)
-
-### Bài tập
-- [N-Queens](n_queens.ipynb)
-- [Traveling Salesman Problem](traveling_salesman_problem.ipynb)
+Chạy lại Task 5 sẽ tạo một bộ log mới, nhưng Task 6 vẫn dùng bộ log đã chỉ định. Đường dẫn log và ảnh được in trong notebook để dễ tìm.

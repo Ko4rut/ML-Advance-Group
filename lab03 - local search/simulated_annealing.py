@@ -1,7 +1,7 @@
-from math import exp
+from math import exp, isfinite
 from annealing_schedules import temperature_linear, temperature_exponential
 import time
-from helper import random_board, comb2, conflicts, show_board, _safe_file_part, create_experiment_id, _build_experiment_summary, save_log_result, summarize_experiment, RANDOM_SEED
+from helper import conflicts
 import numpy as np
 
 
@@ -13,21 +13,44 @@ def simulated_annealing(
     min_temperature=1e-8,
     eta=None,
     alpha=None,
-    mode=0
+    mode=0,
+    seed=None,
 ):
-    """Run Simulated Annealing and return data without printing or saving files."""
+    """Minimize queen conflicts with one random move per iteration.
 
-    if n < 2:
+    mode=0 uses linear cooling; mode=1 uses exponential cooling.
+    Return the best board and the current/best score after every proposal.
+    A supplied seed uses a local RNG; None uses NumPy's shared RNG.
+    Stop at a solution, the temperature floor, or the iteration budget.
+    """
+
+    if not isinstance(n, (int, np.integer)) or n < 2:
         raise ValueError("n phải lớn hơn hoặc bằng 2.")
 
-    if max_iterations <= 0:
+    if not isinstance(max_iterations, (int, np.integer)) or max_iterations <= 0:
         raise ValueError("max_iterations phải là một số nguyên dương.")
 
-    if initial_temperature <= min_temperature or min_temperature <= 0:
+    if (not isfinite(initial_temperature) or not isfinite(min_temperature)
+            or initial_temperature <= min_temperature or min_temperature <= 0):
         raise ValueError("Cần initial_temperature > min_temperature > 0.")
 
+    if mode not in (0, 1):
+        raise ValueError("mode must be 0 (linear) or 1 (exponential)")
+    if mode == 0 and eta is not None and (not isfinite(eta) or eta <= 0):
+        raise ValueError("eta must be positive and finite")
+    if mode == 1 and alpha is not None and (not isfinite(alpha) or not 0 < alpha < 1):
+        raise ValueError("alpha must be between 0 and 1")
+
+    rng = np.random if seed is None else np.random.RandomState(seed)
     start_timer = time.perf_counter()
-    board = random_board(n)
+    if board is None:
+        board = rng.randint(0, n, size=n)
+    else:
+        board = np.asarray(board)
+        if (board.shape != (n,) or not np.issubdtype(board.dtype, np.integer)
+                or np.any(board < 0) or np.any(board >= n)):
+            raise ValueError("board must contain n integer row positions in [0, n)")
+        board = board.astype(int, copy=True)
 
     initial_board = board.copy()
 
@@ -47,9 +70,9 @@ def simulated_annealing(
     
 
     def generating_neighboring_board(current_board):
-        column = int(np.random.randint(0, n))
+        column = int(rng.randint(0, n))
         old_row = int(current_board[column])
-        new_row = int(np.random.randint(0, n - 1))
+        new_row = int(rng.randint(0, n - 1))
 
         # Ánh xạ [0, n-2] sang một hàng khác old_row mà không cần while.
         if new_row >= old_row:
@@ -76,8 +99,12 @@ def simulated_annealing(
         }
     )
 
+    stopped_reason = "max_iterations"
     for iteration in range(1, max_iterations + 1):
         if best_conflicts == 0:
+            break
+        if temperature <= min_temperature:
+            stopped_reason = "min_temperature"
             break
 
         accepted = False
@@ -90,7 +117,7 @@ def simulated_annealing(
             accepted = True
         else:
             acceptance_probability = exp(-delta / temperature)
-            accepted = np.random.random() < acceptance_probability
+            accepted = rng.random() < acceptance_probability
 
         if accepted:
             board = neighboring_board
@@ -111,7 +138,11 @@ def simulated_annealing(
         )
 
         iterations_completed = iteration
-        temperature = temperature_linear(iteration, initial_temperature, eta) if mode == 0 else temperature_exponential(iteration, initial_temperature, alpha)
+        temperature = max(
+            min_temperature,
+            temperature_linear(iteration, initial_temperature, eta)
+            if mode == 0 else temperature_exponential(iteration, initial_temperature, alpha),
+        )
 
     end_timer = time.perf_counter()
     runtime_ms = (end_timer - start_timer) * 1000
@@ -124,7 +155,8 @@ def simulated_annealing(
         "iterations": iterations_completed,
         "history": history,
         "runtime_ms": runtime_ms,
-        "seed": RANDOM_SEED,
+        "seed": seed,
+        "stopped_reason": "solution" if best_conflicts == 0 else stopped_reason,
         "schedule": schedule,
         "initial_temperature": initial_temperature,
         "min_temperature": min_temperature,

@@ -1,0 +1,9 @@
+algorithm,board_size,runs,avg_runtime_ms,avg_conflicts,avg_iterations,optimal_solution_rate_pct
+Simulated Annealing - Exponential T0=0.4,4,100,0.3242,0.0,38.21,100.0
+Simulated Annealing - Exponential T0=2.0,4,100,0.4676,0.0,59.51,100.0
+Simulated Annealing - Linear T0=0.4,4,100,0.3329,0.0,40.14,100.0
+Simulated Annealing - Linear T0=2.0,4,100,0.6311,0.0,83.64,100.0
+Simulated Annealing - Exponential T0=0.4,8,100,4.3889,0.22,471.27,78.0
+Simulated Annealing - Exponential T0=2.0,8,100,4.5669,0.23,487.25,77.0
+Simulated Annealing - Linear T0=0.4,8,100,4.7724,0.24,508.21,76.0
+Simulated Annealing - Linear T0=2.0,8,100,8.3472,0.61,908.02,41.0
