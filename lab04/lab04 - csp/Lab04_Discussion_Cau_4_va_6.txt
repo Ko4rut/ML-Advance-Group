@@ -1,0 +1,16 @@
+LAB04 – CÂU HỎI THẢO LUẬN
+
+Câu 4. Hill Climbing gặp local optimum hoặc plateau ra sao? Random Restart và Simulated Annealing xử lý theo cách nào?
+
+Trả lời:
+Hill Climbing chỉ chọn nước đi tốt hơn nên dễ bị kẹt ở local optimum (không có nước đi lân cận tốt hơn) hoặc plateau (nhiều trạng thái lân cận có chất lượng bằng nhau). Vì vậy, thuật toán có thể dừng khi vẫn còn xung đột.
+
+- Random Restart: Chạy lại Hill Climbing từ nhiều bàn cờ ngẫu nhiên khác nhau để tăng cơ hội tìm được nghiệm.
+- Simulated Annealing: Đôi khi chấp nhận nước đi tệ hơn để thoát khỏi chỗ bị kẹt. Xác suất chấp nhận giảm dần khi nhiệt độ giảm.
+
+Câu 6. Vì sao cần nhiều lần chạy và cố định điều kiện thí nghiệm khi đánh giá thuật toán ngẫu nhiên?
+
+Trả lời:
+Vì thuật toán ngẫu nhiên có thể cho kết quả khác nhau ở mỗi lần chạy, nên chỉ chạy một lần sẽ khó đánh giá chính xác. Chạy nhiều lần giúp ước lượng tỷ lệ thành công, thời gian và số xung đột trung bình đáng tin cậy hơn.
+
+Khi so sánh, cần giữ cùng kích thước bàn cờ, giới hạn bước chạy và cách đo kết quả. Có thể dùng cùng tập seed hoặc bàn cờ khởi tạo cho các thuật toán để so sánh công bằng, nhưng vẫn phải thử nhiều seed khác nhau.
