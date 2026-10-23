@@ -1,0 +1,28 @@
+Câu 1. Khác nhau giữa complete() và consistent()? Một phép gán đầy đủ có luôn là nghiệm CSP không?
+Trả lời:
+- complete(): Kiểm tra xem tất cả các biến trong CSP đã được gán giá trị hay chưa, không quan tâm đến việc các giá trị có thỏa mãn ràng buộc hay không.
+- consistent(): Kiểm tra xem các giá trị đã gán có vi phạm bất kỳ ràng buộc nào của CSP hay không.
+Một phép gán đầy đủ không nhất thiết là nghiệm CSP, vì có thể tồn tại các giá trị vi phạm ràng buộc.
+
+Ví dụ: Trong bài toán tô màu đồ thị, nếu tất cả các đỉnh đều được tô màu nhưng hai đỉnh kề nhau có cùng màu thì complete() trả về True, còn consistent() trả về False.
+
+Kết luận: Một phép gán là nghiệm CSP khi vừa đầy đủ (complete = True), vừa thỏa mãn tất cả ràng buộc (consistent = True).
+
+Câu 2. MRV và Forward Checking tác động thế nào đến cây Backtracking? Khi nào kiểm tra miền làm tăng chi phí?
+Trả lời:
+
+MRV (Minimum Remaining Values):
+- Ưu tiên chọn biến có ít giá trị hợp lệ còn lại nhất.
+- Giúp phát hiện sớm các nhánh không có nghiệm, từ đó giảm số nút cần duyệt trong cây Backtracking.
+- Không trực tiếp loại bỏ giá trị khỏi miền mà thay đổi thứ tự chọn biến.
+Forward Checking:
+- Sau khi gán giá trị cho một biến, thuật toán loại bỏ những giá trị không hợp lệ khỏi miền của các biến liên quan chưa được gán.
+- Nếu miền của một biến trở thành rỗng, thuật toán quay lui ngay.
+- Giúp cắt tỉa các nhánh không thể dẫn đến nghiệm, hạn chế tìm kiếm không cần thiết.
+Khi nào kiểm tra miền làm tăng chi phí?
+
+Việc kiểm tra miền có thể làm tăng thời gian xử lý khi:
+- Đồ thị có nhiều đỉnh, cạnh hoặc miền giá trị lớn, khiến việc kiểm tra và cập nhật miền tốn nhiều thời gian.
+- Forward Checking phải lưu trữ và khôi phục miền giá trị khi quay lui.
+- Bài toán đơn giản, Backtracking thông thường đã tìm được nghiệm nhanh nên chi phí duy trì miền có thể lớn hơn lợi ích thu được.
+Kết luận: MRV và Forward Checking giúp thu hẹp cây tìm kiếm và có thể giảm số lần quay lui. Tuy nhiên, việc tính toán và cập nhật miền tạo ra chi phí bổ sung, nên không phải lúc nào thời gian chạy cũng nhanh hơn Backtracking cơ bản.
