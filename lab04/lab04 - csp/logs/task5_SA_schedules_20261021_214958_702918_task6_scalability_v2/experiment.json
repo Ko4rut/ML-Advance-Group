@@ -1,0 +1,13 @@
+{
+  "source_sa": "logs/task5_SA_schedules_20261021_214958_702918",
+  "cache_version": 2,
+  "algorithm": "Simulated Annealing - Exponential T0=0.4",
+  "board_sizes": [
+    12,
+    16,
+    20
+  ],
+  "runs_per_size": 100,
+  "max_iterations": 1000,
+  "seed_rule": "10000 + size * 100 + run"
+}
