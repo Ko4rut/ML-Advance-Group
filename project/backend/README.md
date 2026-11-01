@@ -53,7 +53,7 @@ Trình duyệt sẽ mở bàn cờ tương tác. Chọn quân của phe đang đ
 - Luật di chuyển của 7 loại quân, cản mã, mắt tượng, sông, cung, ngòi pháo.
 - Lọc nước đi để bảo vệ tướng; kiểm tra tướng đối mặt, chiếu bí và hết nước đi.
 - State bất biến và environment hỗ trợ reset/step/clone.
-- Giao diện agent chung và RandomAgent có seed tái lập được.
+- Giao diện agent chung, RandomAgent có seed tái lập được, RuleBasedAgent, MinimaxAgent và AlphaBetaAgent.
 - CLI xem state và chạy một ván random trên terminal.
 
 Các package encoding, search, mạng neural, training, evaluation và storage hiện mới

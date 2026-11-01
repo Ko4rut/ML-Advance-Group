@@ -4,13 +4,12 @@ from dataclasses import dataclass
 from threading import RLock
 from uuid import uuid4
 
-from ...agents import Agent, RandomAgent, RuleBasedAgent
+from ...agents import AlphaBetaAgent, Agent, MinimaxAgent, RandomAgent, RuleBasedAgent
 from ...environment import Move, Side, XiangqiEnv
 from ..models.match import (
     AgentInfo, CreateMatchRequest, LegalMovesResponse, MatchSnapshot,
     MoveModel, MoveRequest, ParticipantModel, StepRequest,
 )
-
 
 class MatchError(Exception):
     """A domain error that the HTTP boundary can map to an appropriate status."""
@@ -20,21 +19,18 @@ class MatchError(Exception):
         self.status_code = status_code
         self.detail = detail
 
-
 AGENT_CATALOG = (
     AgentInfo(id="random", name="Random", available=True),
     AgentInfo(id="rules", name="Rule-Based", available=True),
-    AgentInfo(id="minimax", name="Minimax", available=False),
-    AgentInfo(id="alphabeta", name="Alpha-Beta", available=False),
+    AgentInfo(id="minimax", name="Minimax", available=True),
+    AgentInfo(id="alphabeta", name="Alpha-Beta", available=True),
     AgentInfo(id="mcts", name="MCTS", available=False),
     AgentInfo(id="neural", name="Neural MCTS", available=False),
     AgentInfo(id="dqn", name="DQN", available=False),
 )
 
-
 def side_name(side: Side) -> str:
     return "red" if side is Side.RED else "black"
-
 
 @dataclass(slots=True)
 class Match:
@@ -50,7 +46,6 @@ class Match:
 
     def agent(self, side: Side) -> Agent | None:
         return self.red_agent if side is Side.RED else self.black_agent
-
 
 class MatchService:
     """In-memory MVP store. A process restart deletes matches; use one worker."""
@@ -76,6 +71,10 @@ class MatchService:
             return RandomAgent()
         if agent_id == "rules":
             return RuleBasedAgent(env.engine)
+        if agent_id == "minimax":
+            return MinimaxAgent(env.engine)
+        if agent_id == "alphabeta":
+            return AlphaBetaAgent(env.engine)
         raise MatchError(503, f"agent not implemented yet: {agent_id}")
 
     def create(self, request: CreateMatchRequest) -> MatchSnapshot:
