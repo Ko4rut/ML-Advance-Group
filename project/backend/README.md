@@ -59,6 +59,28 @@ Trình duyệt sẽ mở bàn cờ tương tác. Chọn quân của phe đang đ
 Các package encoding, search, mạng neural, training, evaluation và storage hiện mới
 là khung cho các giai đoạn tiếp theo.
 
+## HeuristicAgent dùng A*
+
+`HeuristicAgent` tìm đường tới một trạng thái thắng bằng OPEN (heap ưu tiên `f`)
+và CLOSED (các state đã duyệt với chi phí tốt nhất). Mỗi cạnh mô phỏng một nước
+của agent rồi một nước phản hồi được chọn bởi mô hình đối thủ tham lam một bước.
+
+- `g(n)` là số ply thực tế từ state ban đầu. Chi phí mỗi nước là 1 vì mục tiêu
+  đang tìm là chiếu bí nhanh nhất theo mô hình đối thủ, không phải vì độ sâu tự
+  nó đo được chất lượng thế cờ.
+- `h(n) = 0`: luôn admissible khi chi phí còn lại không âm. A* khi đó tương đương
+  Dijkstra và tìm được đường chiếu bí ngắn nhất trong đồ thị mô hình nếu tìm hết.
+- CLOSED dùng toàn bộ `GameState`, gồm lịch sử và bộ đếm hòa, để không gộp nhầm
+  các thế cờ có quyền tiếp diễn khác nhau do luật lặp hoặc giới hạn không ăn quân.
+- Có thể truyền `SearchBudget` để giới hạn độ sâu, số node hoặc thời gian (mặc định tối đa một
+giây mỗi lượt). Nếu hết
+  giới hạn trước khi thấy đường thắng, agent trả nước có điểm tĩnh tốt nhất đã
+  gặp; đây là fallback để chơi tiếp, không phải nghiệm A* hay bảo đảm thắng.
+
+Đây là A* cho đồ thị có đối thủ được mô hình hóa cố định. Nó không bảo đảm thắng
+trước người thật chọn phản hồi khác dự đoán; agent sẽ lập kế hoạch lại ở lượt tiếp
+theo. Muốn bảo đảm đối kháng cần một thuật toán AND-OR/Minimax, không phải A* thuần.
+
 ## Quy ước dữ liệu
 
 - Board là tuple 90 ô, row-major: `square = row * 9 + col`; hàng 0 ở phía đen.

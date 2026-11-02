@@ -63,6 +63,7 @@ class MatchApiTests(unittest.TestCase):
         agents = {a["id"]: a for a in self.client.get("/api/v1/agents").json()}
         self.assertTrue(agents["random"]["available"])
         self.assertTrue(agents["rules"]["available"])
+        self.assertTrue(agents["astar"]["available"])
         self.assertFalse(agents["dqn"]["available"])
         self.assertEqual(self.client.post("/api/v1/matches", json={"red": {"type": "agent", "agent_id": "minimax"}, "black": {"type": "human"}}).status_code, 503)
         match = self.create_match(red="random")
@@ -74,6 +75,18 @@ class MatchApiTests(unittest.TestCase):
         self.assertIn(result.json()["last_move"], match["legal_moves"])
         self.assertEqual(result.json()["ply"], 1)
         self.assertEqual(self.client.post(f"/api/v1/matches/{mid}/step", json={"expected_ply": 1}).status_code, 409)
+
+    def test_astar_agent_can_play_a_match(self):
+        match = self.create_match(red="astar")
+
+        result = self.client.post(
+            f"/api/v1/matches/{match['match_id']}/step",
+            json={"expected_ply": 0},
+        )
+
+        self.assertEqual(result.status_code, 200, result.text)
+        self.assertEqual(result.json()["ply"], 1)
+        self.assertIn(result.json()["last_move"], match["legal_moves"])
 
     def test_rule_agent_reset_missing_match_and_cors(self):
         match = self.create_match(red="rules", black="random")

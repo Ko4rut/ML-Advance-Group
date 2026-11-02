@@ -29,7 +29,7 @@ src/api/
 | Method | Path | Purpose |
 | --- | --- | --- |
 | GET | `/api/v1/health` | Health check |
-| GET | `/api/v1/agents` | Seven agents; `available=true` only for Random/Rule-Based |
+| GET | `/api/v1/agents` | Eight agents; Random, Rule-Based, and A* are available |
 | POST | `/api/v1/matches` | Create game with red and black participants |
 | GET | `/api/v1/matches/{id}` | Board, current turn, full legal moves, outcome |
 | GET | `/api/v1/matches/{id}/legal-moves?source=54` | Optionally filter moves by source |
@@ -42,6 +42,10 @@ src/api/
 ```json
 {"red":{"type":"human"},"black":{"type":"agent","agent_id":"random"}}
 ```
+
+Use `"agent_id":"astar"` to create a match against the A* agent. It searches for a
+shortest predicted checkmate against a deterministic one-ply opponent model, so it
+does not guarantee a win against a human who responds differently.
 
 ### Move a pawn (first red move)
 
@@ -65,7 +69,7 @@ Every snapshot includes `match_id`, `red`, `black`, a 90-integer `board`, `side_
 
 - MVP matches are stored in **process memory**; restarting clears them. Run **one Uvicorn worker**. Do not use multiple workers until storage/locking has been centralized.
 - No authentication, persistence, rate limiting, WebSocket, auto-play loop, or statistics database yet. Expose only on a trusted development environment.
-- Only Random and Rule-Based are enabled. Remaining agents have skeletons; the API will report them unavailable until implemented.
+- Random, Rule-Based, and A* are enabled. Remaining agents have skeletons; the API will report them unavailable until implemented.
 - Frontend can instantly show legal move dots from a snapshot; backend remains the source of truth for all moves.
 
 ## Tests
