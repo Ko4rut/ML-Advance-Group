@@ -29,7 +29,7 @@ src/api/
 | Method | Path | Purpose |
 | --- | --- | --- |
 | GET | `/api/v1/health` | Health check |
-| GET | `/api/v1/agents` | Eight agents; Random, Rule-Based, and A* are available |
+| GET | `/api/v1/agents` | Seven agents; `available=true` for Random, Rule-Based, Minimax, and Alpha-Beta (depth 2 by default) |
 | POST | `/api/v1/matches` | Create game with red and black participants |
 | GET | `/api/v1/matches/{id}` | Board, current turn, full legal moves, outcome |
 | GET | `/api/v1/matches/{id}/legal-moves?source=54` | Optionally filter moves by source |
@@ -69,7 +69,7 @@ Every snapshot includes `match_id`, `red`, `black`, a 90-integer `board`, `side_
 
 - MVP matches are stored in **process memory**; restarting clears them. Run **one Uvicorn worker**. Do not use multiple workers until storage/locking has been centralized.
 - No authentication, persistence, rate limiting, WebSocket, auto-play loop, or statistics database yet. Expose only on a trusted development environment.
-- Random, Rule-Based, and A* are enabled. Remaining agents have skeletons; the API will report them unavailable until implemented.
+- Random, Rule-Based, Minimax, and Alpha-Beta are enabled. Remaining agents are unavailable until implemented.
 - Frontend can instantly show legal move dots from a snapshot; backend remains the source of truth for all moves.
 
 ## Tests

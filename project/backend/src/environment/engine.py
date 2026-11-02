@@ -5,7 +5,6 @@ from .rules import RuleValidator, RulesConfig
 from .state import GameState
 from .types import GameResult, Move
 
-
 class GameEngine:
     '''Rules-aware, agent-independent Xiangqi game engine.'''
 
@@ -26,8 +25,12 @@ class GameEngine:
             raise ValueError(f"illegal move: {move.source}->{move.target}")
         return state.moved(move)
 
-    def outcome(self, state: GameState) -> GameResult | None:
-        moves = self.legal_moves(state)
+    def outcome(
+        self,
+        state: GameState,
+        legal_moves: list[Move] | None = None,
+    ) -> GameResult | None:
+        moves = self.legal_moves(state) if legal_moves is None else legal_moves
         if not moves:
             winner = state.side_to_move.opponent
             reason = "checkmate" if self.validator.is_in_check(state, state.side_to_move) else "stalemate"
@@ -41,9 +44,7 @@ class GameEngine:
 
         return None
 
-
 _DEFAULT_ENGINE = GameEngine()
-
 
 def apply_move(state: GameState, move: Move, rules: RulesConfig | None = None) -> GameState:
     return GameEngine(rules).apply_move(state, move)

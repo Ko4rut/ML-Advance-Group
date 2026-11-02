@@ -5,12 +5,12 @@ from threading import RLock
 from uuid import uuid4
 
 from ...agents import Agent, HeuristicAgent, RandomAgent, RuleBasedAgent
+from ...agents import AlphaBetaAgent, Agent, MinimaxAgent, RandomAgent, RuleBasedAgent
 from ...environment import Move, Side, XiangqiEnv
 from ..models.match import (
     AgentInfo, CreateMatchRequest, LegalMovesResponse, MatchSnapshot,
     MoveModel, MoveRequest, ParticipantModel, StepRequest,
 )
-
 
 class MatchError(Exception):
     """A domain error that the HTTP boundary can map to an appropriate status."""
@@ -19,7 +19,6 @@ class MatchError(Exception):
         super().__init__(detail)
         self.status_code = status_code
         self.detail = detail
-
 
 AGENT_CATALOG = (
     AgentInfo(id="random", name="Random", available=True),
@@ -32,10 +31,8 @@ AGENT_CATALOG = (
     AgentInfo(id="dqn", name="DQN", available=False),
 )
 
-
 def side_name(side: Side) -> str:
     return "red" if side is Side.RED else "black"
-
 
 @dataclass(slots=True)
 class Match:
@@ -51,7 +48,6 @@ class Match:
 
     def agent(self, side: Side) -> Agent | None:
         return self.red_agent if side is Side.RED else self.black_agent
-
 
 class MatchService:
     """In-memory MVP store. A process restart deletes matches; use one worker."""
@@ -79,6 +75,10 @@ class MatchService:
             return RuleBasedAgent(env.engine)
         if agent_id == "astar":
             return HeuristicAgent(env.engine)
+        if agent_id == "minimax":
+            return MinimaxAgent(env.engine)
+        if agent_id == "alphabeta":
+            return AlphaBetaAgent(env.engine)
         raise MatchError(503, f"agent not implemented yet: {agent_id}")
 
     def create(self, request: CreateMatchRequest) -> MatchSnapshot:
