@@ -1,6 +1,7 @@
-"""Terminal commands for inspecting the environment and running random games."""
+"""Terminal commands for inspecting the environment and generating Xiangqi games."""
 
 import argparse
+import json
 import time
 from collections.abc import Sequence
 
@@ -59,6 +60,34 @@ def build_parser() -> argparse.ArgumentParser:
     random_parser.add_argument("--seed", type=int, default=42)
     random_parser.add_argument("--max-plies", type=int, default=20)
     random_parser.add_argument("--delay", type=float, default=0.0)
+
+    batch_parser = commands.add_parser(
+        "batch",
+        help="generate agent-vs-agent games into a JSONL dataset without API or UI",
+    )
+    agent_names = ("random", "rules", "minimax", "alphabeta", "astar")
+    batch_parser.add_argument("--red", choices=agent_names, default="alphabeta")
+    batch_parser.add_argument("--black", choices=agent_names, default="alphabeta")
+    batch_parser.add_argument("--games", type=int, default=10)
+    batch_parser.add_argument("--red-depth", type=int, default=2)
+    batch_parser.add_argument("--black-depth", type=int, default=2)
+    batch_parser.add_argument("--max-plies", type=int, default=160)
+    batch_parser.add_argument(
+        "--opening-plies",
+        type=int,
+        default=0,
+        help="number of uniformly random legal opening plies; labelled separately",
+    )
+    batch_parser.add_argument(
+        "--no-progress-limit",
+        type=int,
+        default=0,
+        help="optional early truncation after N plies without capture (0 disables)",
+    )
+    batch_parser.add_argument("--seed", type=int, default=42)
+    batch_parser.add_argument("--output", required=True, help="new JSONL file path")
+    batch_parser.add_argument("--progress-every", type=int, default=10)
+    batch_parser.add_argument("--quiet", action="store_true")
     return parser
 
 
@@ -66,6 +95,26 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     if args.command == "show":
         return show_initial()
+    if args.command == "batch":
+        from .training.batch_games import generate_batch
+
+        result = generate_batch(
+            args.red,
+            args.black,
+            games=args.games,
+            output=args.output,
+            seed=args.seed,
+            red_depth=args.red_depth,
+            black_depth=args.black_depth,
+            max_plies=args.max_plies,
+            opening_plies=args.opening_plies,
+            no_progress_limit=args.no_progress_limit,
+            progress_every=args.progress_every,
+            quiet=args.quiet,
+        )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+
     if args.max_plies < 1:
         raise SystemExit("--max-plies must be at least 1")
     if args.delay < 0:
