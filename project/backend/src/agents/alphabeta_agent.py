@@ -1,20 +1,22 @@
 """Alpha-beta pruning agent for Xiangqi."""
 
-from ..environment import GameEngine, GameState, Side
+from ..environment import GameEngine, GameState
 from .base import Agent, AgentDecision, SearchBudget
 from ._search_utils import (
     INFINITY,
     SearchContext,
     SearchLimitReached,
     create_search_context,
-    material_score,
+    evaluate_position,
+    order_moves,
     search_depth,
     terminal_score,
     validate_search_root,
 )
 
+
 class AlphaBetaAgent(Agent):
-    """Choose a move using minimax with alpha-beta branch pruning."""
+    """Minimax with alpha-beta pruning and inexpensive tactical ordering."""
 
     def __init__(self, engine: GameEngine, max_depth: int = 2) -> None:
         if max_depth <= 0:
@@ -27,7 +29,7 @@ class AlphaBetaAgent(Agent):
         state: GameState,
         budget: SearchBudget | None = None,
     ) -> AgentDecision:
-        moves = validate_search_root(self.engine, state)
+        moves = order_moves(state, validate_search_root(self.engine, state))
         depth_limit = search_depth(self.max_depth, budget)
         context = create_search_context(state, budget)
 
@@ -72,11 +74,11 @@ class AlphaBetaAgent(Agent):
         if result is not None:
             return terminal_score(result.reward(context.root_side), ply)
         if depth == 0:
-            return material_score(state, context.root_side)
+            return evaluate_position(state, context.root_side)
 
         maximizing = state.side_to_move is context.root_side
         best_score = -INFINITY if maximizing else INFINITY
-        for move in moves:
+        for move in order_moves(state, moves):
             score = self._alphabeta(
                 state.moved(move),
                 depth - 1,
