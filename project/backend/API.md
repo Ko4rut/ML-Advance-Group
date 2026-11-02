@@ -43,6 +43,10 @@ src/api/
 {"red":{"type":"human"},"black":{"type":"agent","agent_id":"random"}}
 ```
 
+Use `"agent_id":"astar"` to create a match against the A* agent. It searches for a
+shortest predicted checkmate against a deterministic one-ply opponent model, so it
+does not guarantee a win against a human who responds differently.
+
 ### Move a pawn (first red move)
 
 ```json

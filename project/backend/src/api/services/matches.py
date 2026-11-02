@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from threading import RLock
 from uuid import uuid4
 
+from ...agents import Agent, HeuristicAgent, RandomAgent, RuleBasedAgent
 from ...agents import AlphaBetaAgent, Agent, MinimaxAgent, RandomAgent, RuleBasedAgent
 from ...environment import Move, Side, XiangqiEnv
 from ..models.match import (
@@ -22,8 +23,9 @@ class MatchError(Exception):
 AGENT_CATALOG = (
     AgentInfo(id="random", name="Random", available=True),
     AgentInfo(id="rules", name="Rule-Based", available=True),
-    AgentInfo(id="minimax", name="Minimax", available=True),
-    AgentInfo(id="alphabeta", name="Alpha-Beta", available=True),
+    AgentInfo(id="astar", name="A*", available=True),
+    AgentInfo(id="minimax", name="Minimax", available=False),
+    AgentInfo(id="alphabeta", name="Alpha-Beta", available=False),
     AgentInfo(id="mcts", name="MCTS", available=False),
     AgentInfo(id="neural", name="Neural MCTS", available=False),
     AgentInfo(id="dqn", name="DQN", available=False),
@@ -71,6 +73,8 @@ class MatchService:
             return RandomAgent()
         if agent_id == "rules":
             return RuleBasedAgent(env.engine)
+        if agent_id == "astar":
+            return HeuristicAgent(env.engine)
         if agent_id == "minimax":
             return MinimaxAgent(env.engine)
         if agent_id == "alphabeta":

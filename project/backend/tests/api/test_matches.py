@@ -62,6 +62,7 @@ class MatchApiTests(unittest.TestCase):
         agents = {a["id"]: a for a in self.client.get("/api/v1/agents").json()}
         self.assertTrue(agents["random"]["available"])
         self.assertTrue(agents["rules"]["available"])
+        self.assertTrue(agents["astar"]["available"])
         self.assertTrue(agents["minimax"]["available"])
         self.assertTrue(agents["alphabeta"]["available"])
         self.assertFalse(agents["dqn"]["available"])

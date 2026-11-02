@@ -4,6 +4,7 @@ export const AGENTS: Agent[] = [
   { id: "human", label: "Player", symbol: "user", hint: "Human player" },
   { id: "random", label: "Random", symbol: "✳", hint: "Random policy" },
   { id: "rules", label: "Rule-Based", symbol: "≡", hint: "Handcrafted rules" },
+  { id: "astar", label: "A*", symbol: "A*", hint: "Shortest predicted win" },
   { id: "minimax", label: "Minimax", symbol: "M", hint: "Game tree search" },
   { id: "alphabeta", label: "Alpha-Beta", symbol: "αβ", hint: "Pruned search" },
   { id: "mcts", label: "MCTS", symbol: "⌘", hint: "Monte Carlo search" },
