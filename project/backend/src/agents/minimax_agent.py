@@ -1,19 +1,21 @@
 """Depth-limited minimax agent for Xiangqi."""
 
-from ..environment import GameEngine, GameState, Side
+from ..environment import GameEngine, GameState
 from .base import Agent, AgentDecision, SearchBudget
 from ._search_utils import (
     SearchContext,
     SearchLimitReached,
     create_search_context,
-    material_score,
+    evaluate_position,
+    order_moves,
     search_depth,
     terminal_score,
     validate_search_root,
 )
 
+
 class MinimaxAgent(Agent):
-    """Choose a move by exploring every branch of a minimax tree."""
+    """Choose a legal move by searching all replies through a fixed depth."""
 
     def __init__(self, engine: GameEngine, max_depth: int = 2) -> None:
         if max_depth <= 0:
@@ -26,7 +28,7 @@ class MinimaxAgent(Agent):
         state: GameState,
         budget: SearchBudget | None = None,
     ) -> AgentDecision:
-        moves = validate_search_root(self.engine, state)
+        moves = order_moves(state, validate_search_root(self.engine, state))
         depth_limit = search_depth(self.max_depth, budget)
         context = create_search_context(state, budget)
 
@@ -64,7 +66,7 @@ class MinimaxAgent(Agent):
         if result is not None:
             return terminal_score(result.reward(context.root_side), ply)
         if depth == 0:
-            return material_score(state, context.root_side)
+            return evaluate_position(state, context.root_side)
 
         scores = (
             self._minimax(state.moved(move), depth - 1, context, ply + 1)
