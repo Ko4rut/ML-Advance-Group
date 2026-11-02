@@ -29,6 +29,25 @@ class PositionEvaluatorTests(unittest.TestCase):
         self.assertEqual(material_score(earlier, Side.RED), material_score(later, Side.RED))
         self.assertGreater(evaluate_position(later, Side.RED), evaluate_position(earlier, Side.RED))
 
+    def test_activating_both_horses_is_rewarded(self):
+        # Equal material: move the second horse off its initial square.
+        one_active = position({
+            (0, 3): -1, (9, 4): 1,
+            (7, 2): 4, (9, 7): 4,
+        })
+        both_active = position({
+            (0, 3): -1, (9, 4): 1,
+            (7, 2): 4, (7, 6): 4,
+        })
+        self.assertEqual(
+            material_score(one_active, Side.RED),
+            material_score(both_active, Side.RED),
+        )
+        self.assertGreater(
+            evaluate_position(both_active, Side.RED),
+            evaluate_position(one_active, Side.RED),
+        )
+
     def test_repetition_does_not_cancel_losing_side_draw_incentive(self):
         state = position({(0, 4): -1, (9, 4): 1, (6, 0): -5, (5, 4): 7})
         repeated = GameState(
