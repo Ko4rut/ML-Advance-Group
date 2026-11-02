@@ -76,6 +76,21 @@ class MatchApiTests(unittest.TestCase):
         self.assertEqual(result.json()["ply"], 1)
         self.assertEqual(self.client.post(f"/api/v1/matches/{mid}/step", json={"expected_ply": 1}).status_code, 409)
 
+    def test_astar_agent_can_play_a_move(self):
+        match = self.create_match(red="astar")
+        mid = match["match_id"]
+
+        response = self.client.post(
+            f"/api/v1/matches/{mid}/step",
+            json={"expected_ply": 0},
+        )
+
+        self.assertEqual(response.status_code, 200, response.text)
+        result = response.json()
+        self.assertEqual(result["ply"], 1)
+        self.assertEqual(result["side_to_move"], "black")
+        self.assertIn(result["last_move"], match["legal_moves"])
+
     def test_minimax_agent_can_play_a_move(self):
         match = self.create_match(red="minimax")
         mid = match["match_id"]
