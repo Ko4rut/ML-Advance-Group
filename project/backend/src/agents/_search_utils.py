@@ -5,21 +5,15 @@ from dataclasses import dataclass
 
 from ..environment import GameEngine, GameState, Move, Side
 from .base import SearchBudget
+from .position_evaluator import PIECE_VALUES, material_score, evaluate_position, order_moves
 
-PIECE_VALUES = {
-    1: 10_000,
-    2: 20,
-    3: 20,
-    4: 40,
-    5: 90,
-    6: 45,
-    7: 10,
-}
 MATE_SCORE = 1_000_000
 INFINITY = 2 * MATE_SCORE
 
+
 class SearchLimitReached(Exception):
     pass
+
 
 @dataclass(slots=True)
 class SearchContext:
@@ -64,14 +58,6 @@ def terminal_score(reward: int, ply: int) -> int:
     if reward < 0:
         return -MATE_SCORE + ply
     return 0
-
-
-def material_score(state: GameState, side: Side) -> int:
-    return sum(
-        PIECE_VALUES[abs(piece)] * (1 if piece > 0 else -1) * int(side)
-        for piece in state.board
-        if piece
-    )
 
 
 def validate_search_root(engine: GameEngine, state: GameState) -> list[Move]:
