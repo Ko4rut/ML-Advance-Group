@@ -11,6 +11,8 @@ import json
 import random
 import time
 from collections import Counter
+from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
+from .batch_resume import configuration, load_completed, write_checkpoint, checkpoint_path_for
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -59,6 +61,7 @@ def play_game(
     max_plies: int = 160,
     opening_plies: int = 0,
     no_progress_limit: int = 0,
+    ply_progress_every: int = 0,
 ) -> dict[str, Any]:
     """Run one match without UI/API, preserving transitions for later training.
 
@@ -69,7 +72,7 @@ def play_game(
         raise ValueError(f"Agents must be chosen from: {', '.join(AGENT_NAMES)}")
     if red_depth < 1 or black_depth < 1 or max_plies < 1:
         raise ValueError("depth and max_plies must be positive")
-    if opening_plies < 0 or no_progress_limit < 0 or game_index < 0:
+    if opening_plies < 0 or no_progress_limit < 0 or game_index < 0 or ply_progress_every < 0:
         raise ValueError("opening_plies, no_progress_limit and game_index must be nonnegative")
 
     env = XiangqiEnv()
@@ -128,6 +131,13 @@ def play_game(
                 )
             ]
         moves.append(row)
+        if ply_progress_every and step.state.ply_count % ply_progress_every == 0:
+            print(
+                f"[game {game_index}] ply={step.state.ply_count}/{max_plies} "
+                f"side={_side_name(step.state.side_to_move)} "
+                f"elapsed={time.perf_counter() - started:.1f}s",
+                flush=True,
+            )
         if step.terminated:
             break
 
@@ -171,6 +181,13 @@ def play_game(
     }
 
 
+
+def _play_game_job(arguments: tuple[Any, ...]) -> dict[str, Any]:
+    """Top-level callable for process workers; workers never write to Drive."""
+    red, black, index, params = arguments
+    return play_game(red, black, game_index=index, **params)
+
+
 def generate_batch(
     red: str,
     black: str,
@@ -184,60 +201,153 @@ def generate_batch(
     opening_plies: int = 0,
     no_progress_limit: int = 0,
     progress_every: int = 10,
+    ply_progress_every: int = 0,
+    workers: int = 1,
+    resume: bool = False,
     append: bool = False,
     quiet: bool = False,
 ) -> dict[str, Any]:
-    """Write JSONL incrementally so completed games survive interruptions."""
-    if games < 1 or progress_every < 1:
-        raise ValueError("games and progress_every must be positive")
+    """Generate a fixed-size batch with validated resumability.
+
+    The main process is the sole JSONL/checkpoint writer. With workers>1,
+    independent games run in parallel and records are saved as they finish.
+    Resuming skips completed global game_index values without resetting seeds.
+    """
+    if games < 1 or progress_every < 1 or workers < 1 or ply_progress_every < 0:
+        raise ValueError("games, progress_every, workers must be positive")
     if red not in AGENT_NAMES or black not in AGENT_NAMES:
         raise ValueError(f"Agents must be chosen from: {', '.join(AGENT_NAMES)}")
+    if append and not resume:
+        raise ValueError("--append is unsafe; use --resume with a fixed output instead")
+
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
+    config = configuration(
+        red, black, seed, red_depth, black_depth,
+        max_plies, opening_plies, no_progress_limit,
+    )
+    completed = load_completed(path, config, games, resume=resume)
+    pending = [index for index in range(games) if index not in completed]
+    if not quiet:
+        print(
+            f"[batch] total={games} saved={len(completed)} pending={len(pending)} "
+            f"workers={workers} dataset={path}",
+            flush=True,
+        )
+    if completed:
+        # Checkpoint may be stale after a crash; rebuild from authoritative JSONL.
+        write_checkpoint(path, config, games, completed)
+
+    params = {
+        "seed": seed,
+        "red_depth": red_depth,
+        "black_depth": black_depth,
+        "max_plies": max_plies,
+        "opening_plies": opening_plies,
+        "no_progress_limit": no_progress_limit,
+        "ply_progress_every": ply_progress_every if workers == 1 else 0,
+    }
+    started = time.perf_counter()
+    added = 0
+
+    # Every record is durably flushed before updating the checkpoint. A crash
+    # during checkpoint writing cannot cause lost indices on the next resume.
+    def save_record(stream, record: dict[str, Any]) -> None:
+        nonlocal added
+        index = record["game_index"]
+        if index in completed:
+            raise ValueError(f"Duplicate game_index {index}")
+        stream.write(json.dumps(record, ensure_ascii=False, separators=(",", ":")) + "\n")
+        stream.flush()
+        completed[index] = record
+        added += 1
+        write_checkpoint(path, config, games, completed)
+        if not quiet and (
+            added % progress_every == 0 or len(completed) == games
+        ):
+            outcome = record["outcome"]
+            elapsed = time.perf_counter() - started
+            remaining = games - len(completed)
+            eta = elapsed / added * remaining if added else 0.0
+            print(
+                f"[batch {len(completed)}/{games}] game={index} "
+                f"ply={record['ply_count']} {outcome['status']}:"
+                f"{outcome['reason']} winner={outcome['winner']} "
+                f"game_seconds={record['elapsed_seconds']:.1f} "
+                f"batch_elapsed={elapsed:.1f}s eta={eta:.0f}s "
+                f"saved={path}",
+                flush=True,
+            )
+
+    if pending:
+        with path.open("a" if resume else "x", encoding="utf-8") as stream:
+            if workers == 1:
+                for index in pending:
+                    if not quiet:
+                        print(f"[game {index}] started ({len(completed) + 1}/{games})", flush=True)
+                    save_record(stream, play_game(
+                        red, black, game_index=index, **params,
+                    ))
+            else:
+                # Bound in-flight jobs to avoid using excessive memory for
+                # a very large batch; preserve single-writer disk semantics.
+                with ProcessPoolExecutor(max_workers=workers) as pool:
+                    waiting = iter(pending)
+                    active = {}
+
+                    def submit_next() -> bool:
+                        try:
+                            index = next(waiting)
+                        except StopIteration:
+                            return False
+                        future = pool.submit(_play_game_job, (red, black, index, params))
+                        active[future] = index
+                        if not quiet:
+                            print(f"[game {index}] dispatched", flush=True)
+                        return True
+
+                    for _ in range(min(workers * 2, len(pending))):
+                        submit_next()
+                    while active:
+                        done, _ = wait(active, return_when=FIRST_COMPLETED)
+                        for future in done:
+                            del active[future]
+                            save_record(stream, future.result())
+                            submit_next()
+
     counters: Counter[str] = Counter()
     fingerprints: set[str] = set()
+    duplicates = 0
     total_plies = 0
-    started = time.perf_counter()
+    for record in completed.values():
+        total_plies += record["ply_count"]
+        outcome = record["outcome"]
+        counters[outcome["status"]] += 1
+        if outcome["status"] == "finished":
+            counters[outcome["winner"] or "draw"] += 1
+        if record["fingerprint"] in fingerprints:
+            duplicates += 1
+        fingerprints.add(record["fingerprint"])
 
-    # Refuse accidental overwrites. Use --append explicitly to resume/add games.
-    with path.open("a" if append else "x", encoding="utf-8") as stream:
-        for index in range(games):
-            record = play_game(
-                red,
-                black,
-                game_index=index,
-                seed=seed,
-                red_depth=red_depth,
-                black_depth=black_depth,
-                max_plies=max_plies,
-                opening_plies=opening_plies,
-                no_progress_limit=no_progress_limit,
-            )
-            stream.write(json.dumps(record, ensure_ascii=False, separators=(",", ":")) + "\n")
-            stream.flush()
-            total_plies += record["ply_count"]
-            outcome = record["outcome"]
-            counters[outcome["status"]] += 1
-            if outcome["status"] == "finished":
-                winner = outcome["winner"] or "draw"
-                counters[winner] += 1
-            if record["fingerprint"] in fingerprints:
-                counters["duplicate_in_batch"] += 1
-            fingerprints.add(record["fingerprint"])
-
-            if not quiet and ((index + 1) % progress_every == 0 or index + 1 == games):
-                print(f"[{index + 1}/{games}] saved to {path}")
-
+    if not quiet:
+        print(
+            f"[done] saved={len(completed)}/{games} new={added} "
+            f"finished={counters['finished']} truncated={counters['truncated']} "
+            f"checkpoint={checkpoint_path_for(path)}",
+            flush=True,
+        )
     return {
         "output": str(path),
-        "games": games,
+        "checkpoint": str(checkpoint_path_for(path)),
+        "games": len(completed),
+        "new_games": added,
         "finished": counters["finished"],
         "truncated": counters["truncated"],
         "red_wins": counters["red"],
         "black_wins": counters["black"],
         "draws": counters["draw"],
         "unique_games_in_batch": len(fingerprints),
-        "duplicate_games_in_batch": counters["duplicate_in_batch"],
-        "average_plies": round(total_plies / games, 2),
+        "duplicate_games_in_batch": duplicates,
+        "average_plies": round(total_plies / len(completed), 2) if completed else 0,
         "elapsed_seconds": round(time.perf_counter() - started, 2),
     }
