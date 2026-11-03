@@ -67,7 +67,7 @@ class ThreatEvaluatorTests(unittest.TestCase):
     def test_low_value_attacker_still_penalizes_defended_rook(self):
         board = board_from({
             (0, 4): -1, (9, 4): 1,
-            (4, 3): -4, (5, 3): 7, (6, 4): 5, (6, 5): 6,
+            (4, 3): -4, (7, 4): 5, (6, 4): 5,
         })
         # Horse at (4,3) attacks rook at (6,4), not blocked.
         self.assertTrue(attacks_square(board, 4 * 9 + 3, 6 * 9 + 4))
