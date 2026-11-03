@@ -31,7 +31,8 @@ jobs:
             tests.test_search_optimization \
             tests.test_alphabeta_agent \
             tests.test_position_evaluator \
-            tests.test_threat_evaluator
+            tests.test_threat_evaluator \
+            tests.test_opening_book
       - name: Original vs optimized microbenchmark
         env:
           PYTHONPATH: ../..:.
