@@ -24,13 +24,33 @@ class MoveGenerator:
         return moves
 
     def legal_moves(self, state: GameState) -> list[Move]:
+        """Validate candidate moves on a reusable board without constructing states."""
         legal: list[Move] = []
+        board = list(state.board)
         current_side = state.side_to_move
         for move in self.pseudo_legal_moves(state):
-            child = self._apply_unchecked(state, move)
-            if not self.rules.is_in_check(child, current_side):
+            piece, victim = board[move.source], board[move.target]
+            board[move.source] = 0
+            board[move.target] = piece
+            allowed = not self.rules.is_in_check(board, current_side)
+            board[move.source], board[move.target] = piece, victim
+            if allowed:
                 legal.append(move)
         return legal
+
+    def has_legal_move(self, state: GameState) -> bool:
+        """Short-circuit terminal checks as soon as any legal reply exists."""
+        board = list(state.board)
+        current_side = state.side_to_move
+        for move in self.pseudo_legal_moves(state):
+            piece, victim = board[move.source], board[move.target]
+            board[move.source] = 0
+            board[move.target] = piece
+            allowed = not self.rules.is_in_check(board, current_side)
+            board[move.source], board[move.target] = piece, victim
+            if allowed:
+                return True
+        return False
 
     @staticmethod
     def _apply_unchecked(state: GameState, move: Move) -> GameState:
