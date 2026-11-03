@@ -86,7 +86,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     batch_parser.add_argument("--seed", type=int, default=42)
     batch_parser.add_argument("--output", required=True, help="new JSONL file path")
-    batch_parser.add_argument("--progress-every", type=int, default=10)
+    batch_parser.add_argument("--progress-every", type=int, default=1)
+    batch_parser.add_argument("--workers", type=int, default=1, help="parallel games; one writer")
     batch_parser.add_argument(
         "--resume", action="store_true",
         help="resume a fixed JSONL batch, validating saved game indices and configuration",
@@ -118,6 +119,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             opening_plies=args.opening_plies,
             no_progress_limit=args.no_progress_limit,
             progress_every=args.progress_every,
+            workers=args.workers,
             ply_progress_every=args.ply_progress_every,
             resume=args.resume,
             quiet=args.quiet,
