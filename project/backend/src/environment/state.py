@@ -116,10 +116,16 @@ class GameState:
         board[move.source] = 0
         next_side = self.side_to_move.opponent
         next_board = tuple(board)
-        return GameState(
-            next_board,
-            next_side,
-            ply_count=self.ply_count + 1,
-            no_capture_count=0 if captured else self.no_capture_count + 1,
-            history=self.history + ((next_board, next_side),),
+        # This method is called only after move validation by the caller.
+        # Re-validating the complete growing history on every search child is
+        # quadratic in game length and is unnecessary for trusted transitions.
+        child = object.__new__(GameState)
+        object.__setattr__(child, "board", next_board)
+        object.__setattr__(child, "side_to_move", next_side)
+        object.__setattr__(child, "ply_count", self.ply_count + 1)
+        object.__setattr__(
+            child, "no_capture_count",
+            0 if captured else self.no_capture_count + 1,
         )
+        object.__setattr__(child, "history", self.history + ((next_board, next_side),))
+        return child
