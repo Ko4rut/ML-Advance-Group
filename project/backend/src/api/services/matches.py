@@ -100,12 +100,19 @@ class MatchService:
         env = XiangqiEnv()
         red_agent = self._make_agent(request.red, env)
         black_agent = self._make_agent(request.black, env)
+        # Auto-select a diverse opening for agent matches unless explicitly
+        # disabled. Human-vs-human matches retain their old neutral setup.
+        opening_mode = request.opening_mode
+        if opening_mode is None:
+            opening_mode = "none"
+            if request.red.type == "agent" or request.black.type == "agent":
+                opening_mode = "book"
         opening = self._opening_book.start(
-            request.opening_mode, request.opening_plies, request.opening_seed
+            opening_mode, request.opening_plies, request.opening_seed
         )
         match = Match(
             env, request.red, request.black, red_agent, black_agent,
-            opening_mode=request.opening_mode,
+            opening_mode=opening_mode,
             opening_plies=request.opening_plies,
             opening_seed=request.opening_seed,
             opening=opening,
