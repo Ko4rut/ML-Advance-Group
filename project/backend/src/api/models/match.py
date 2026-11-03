@@ -21,7 +21,7 @@ class ParticipantModel(BaseModel):
 class CreateMatchRequest(BaseModel):
     red: ParticipantModel
     black: ParticipantModel
-    opening_mode: Literal["none", "book"] = "none"
+    opening_mode: Literal["none", "book"] | None = None
     opening_plies: StrictInt = Field(default=6, ge=1, le=6)
     opening_seed: StrictInt | None = Field(default=None, ge=0)
 
