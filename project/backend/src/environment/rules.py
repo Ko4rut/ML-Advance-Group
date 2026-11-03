@@ -20,13 +20,12 @@ class RulesConfig:
             raise ValueError("no_capture_limit must be at least 1")
 
 
-def _board(value: GameState | tuple[int, ...] | list[int]) -> tuple[int, ...]:
+def _board(value: GameState | tuple[int, ...] | list[int]) -> tuple[int, ...] | list[int]:
     if isinstance(value, GameState):
         return value.board
-    board = tuple(value)
-    if len(board) != BOARD_ROWS * BOARD_COLS:
+    if len(value) != BOARD_ROWS * BOARD_COLS:
         raise ValueError("board must contain exactly 90 squares")
-    return board
+    return value if isinstance(value, (tuple, list)) else tuple(value)
 
 
 def _side_of(piece: int) -> Side:

@@ -21,6 +21,9 @@ class ParticipantModel(BaseModel):
 class CreateMatchRequest(BaseModel):
     red: ParticipantModel
     black: ParticipantModel
+    opening_mode: Literal["none", "book"] | None = None
+    opening_plies: StrictInt = Field(default=6, ge=1, le=6)
+    opening_seed: StrictInt | None = Field(default=None, ge=0)
 
 
 class MoveModel(BaseModel):
@@ -36,8 +39,21 @@ class StepRequest(BaseModel):
     expected_ply: StrictInt = Field(ge=0)
 
 
+class OpeningInfo(BaseModel):
+    id: str
+    family: str
+    name: str
+    book_version: str
+    seed: int
+    planned_plies: int
+    completed_plies: int
+    active: bool
+
+
 class MatchSnapshot(BaseModel):
     match_id: str
+    opening_mode: Literal["none", "book"] = "none"
+    opening: OpeningInfo | None = None
     red: ParticipantModel
     black: ParticipantModel
     board: list[int] = Field(min_length=90, max_length=90)

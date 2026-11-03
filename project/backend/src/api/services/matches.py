@@ -17,6 +17,7 @@ from ..models.match import (
     AgentInfo, CreateMatchRequest, LegalMovesResponse, MatchSnapshot,
     MoveModel, MoveRequest, ParticipantModel, StepRequest,
 )
+from .opening_book import OpeningBookService, OpeningSession
 
 class MatchError(Exception):
     """A domain error that the HTTP boundary can map to an appropriate status."""
@@ -47,6 +48,10 @@ class Match:
     black: ParticipantModel
     red_agent: Agent | None
     black_agent: Agent | None
+    opening_mode: str = "none"
+    opening_plies: int = 6
+    opening_seed: int | None = None
+    opening: OpeningSession | None = None
     last_move: Move | None = None
 
     def participant(self, side: Side) -> ParticipantModel:
@@ -61,9 +66,13 @@ class MatchService:
     def __init__(self) -> None:
         self._matches: dict[str, Match] = {}
         self._lock = RLock()
+        self._opening_book = OpeningBookService()
 
     def agents(self) -> list[AgentInfo]:
         return list(AGENT_CATALOG)
+
+    def openings(self) -> list[dict[str, str]]:
+        return self._opening_book.list_openings()
 
     @staticmethod
     def _make_agent(participant: ParticipantModel, env: XiangqiEnv) -> Agent | None:
@@ -91,7 +100,23 @@ class MatchService:
         env = XiangqiEnv()
         red_agent = self._make_agent(request.red, env)
         black_agent = self._make_agent(request.black, env)
-        match = Match(env, request.red, request.black, red_agent, black_agent)
+        # Auto-select a diverse opening for agent matches unless explicitly
+        # disabled. Human-vs-human matches retain their old neutral setup.
+        opening_mode = request.opening_mode
+        if opening_mode is None:
+            opening_mode = "none"
+            if request.red.type == "agent" or request.black.type == "agent":
+                opening_mode = "book"
+        opening = self._opening_book.start(
+            opening_mode, request.opening_plies, request.opening_seed
+        )
+        match = Match(
+            env, request.red, request.black, red_agent, black_agent,
+            opening_mode=opening_mode,
+            opening_plies=request.opening_plies,
+            opening_seed=request.opening_seed,
+            opening=opening,
+        )
         with self._lock:
             match_id = uuid4().hex
             self._matches[match_id] = match
@@ -126,7 +151,9 @@ class MatchService:
             action = Move(request.source, request.target)
             if action not in match.env.get_legal_actions():
                 raise MatchError(422, "illegal move")
+            before = match.env.state
             match.env.step(action)
+            self._opening_book.record_move(match.opening, before, action)
             match.last_move = action
             return self._snapshot(match_id, match)
 
@@ -139,11 +166,15 @@ class MatchService:
             agent = match.agent(match.env.state.side_to_move)
             if agent is None:
                 raise MatchError(409, "current turn belongs to a human")
-            decision = agent.select_action(match.env.clone_state())
-            action = decision.move
-            if action not in match.env.get_legal_actions():
+            state = match.env.clone_state()
+            legal_moves = match.env.get_legal_actions()
+            action = self._opening_book.next_move(match.opening, state, legal_moves)
+            if action is None:
+                action = agent.select_action(state).move
+            if action not in legal_moves:
                 raise MatchError(422, "agent produced an illegal move")
             match.env.step(action)
+            self._opening_book.record_move(match.opening, state, action)
             match.last_move = action
             return self._snapshot(match_id, match)
 
@@ -151,6 +182,9 @@ class MatchService:
         with self._lock:
             match = self._require(match_id)
             match.env.reset()
+            match.opening = self._opening_book.start(
+                match.opening_mode, match.opening_plies, match.opening_seed
+            )
             match.last_move = None
             for agent in (match.red_agent, match.black_agent):
                 if agent is not None:
@@ -168,12 +202,13 @@ class MatchService:
         if match.env.state.ply_count != expected_ply:
             raise MatchError(409, "stale match state; fetch the latest snapshot")
 
-    @staticmethod
-    def _snapshot(match_id: str, match: Match) -> MatchSnapshot:
+    def _snapshot(self, match_id: str, match: Match) -> MatchSnapshot:
         state = match.env.state
         outcome = match.env.engine.outcome(state)
         return MatchSnapshot(
             match_id=match_id,
+            opening_mode=match.opening_mode,
+            opening=self._opening_book.describe(match.opening),
             red=match.red,
             black=match.black,
             board=list(state.board),

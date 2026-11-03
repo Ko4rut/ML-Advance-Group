@@ -73,6 +73,10 @@ def build_parser() -> argparse.ArgumentParser:
     batch_parser.add_argument("--black-depth", type=int, default=2)
     batch_parser.add_argument("--max-plies", type=int, default=160)
     batch_parser.add_argument(
+        "--opening-mode", choices=("none", "random", "book"), default="random",
+        help="none=Alpha-Beta from start, random=legacy random prefix, book=curated legal lines",
+    )
+    batch_parser.add_argument(
         "--opening-plies",
         type=int,
         default=0,
@@ -86,7 +90,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     batch_parser.add_argument("--seed", type=int, default=42)
     batch_parser.add_argument("--output", required=True, help="new JSONL file path")
-    batch_parser.add_argument("--progress-every", type=int, default=10)
+    batch_parser.add_argument("--progress-every", type=int, default=1)
+    batch_parser.add_argument("--workers", type=int, default=1, help="parallel games; one writer")
+    batch_parser.add_argument(
+        "--resume", action="store_true",
+        help="resume a fixed JSONL batch, validating saved game indices and configuration",
+    )
+    batch_parser.add_argument(
+        "--ply-progress-every", type=int, default=0,
+        help="print live per-game progress every N plies (0 disables)",
+    )
     batch_parser.add_argument("--quiet", action="store_true")
     return parser
 
@@ -108,8 +121,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             black_depth=args.black_depth,
             max_plies=args.max_plies,
             opening_plies=args.opening_plies,
+            opening_mode=args.opening_mode,
             no_progress_limit=args.no_progress_limit,
             progress_every=args.progress_every,
+            workers=args.workers,
+            ply_progress_every=args.ply_progress_every,
+            resume=args.resume,
             quiet=args.quiet,
         )
         print(json.dumps(result, ensure_ascii=False, indent=2))

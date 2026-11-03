@@ -22,6 +22,7 @@ src/api/
   models/match.py             # Pydantic request/response contracts
   routes/matches.py           # Versioned HTTP routes
   services/matches.py         # Game sessions, XiangqiEnv, agent registry
+  services/opening_book.py    # Per-match curated opening state and AI handoff
 ```
 
 ## Endpoints
@@ -29,8 +30,9 @@ src/api/
 | Method | Path | Purpose |
 | --- | --- | --- |
 | GET | `/api/v1/health` | Health check |
-| GET | `/api/v1/agents` | Seven agents; `available=true` for Random, Rule-Based, Minimax, and Alpha-Beta (depth 2 by default) |
-| POST | `/api/v1/matches` | Create game with red and black participants |
+| GET | `/api/v1/agents` | List implemented and planned agents |
+| GET | `/api/v1/openings` | List curated opening ids/families/names |
+| POST | `/api/v1/matches` | Create game; automatically sample opening book when an AI participates unless disabled |
 | GET | `/api/v1/matches/{id}` | Board, current turn, full legal moves, outcome |
 | GET | `/api/v1/matches/{id}/legal-moves?source=54` | Optionally filter moves by source |
 | POST | `/api/v1/matches/{id}/moves` | Apply **human** move |
@@ -47,6 +49,27 @@ Use `"agent_id":"astar"` to create a match against the A* agent. It searches for
 shortest predicted checkmate against a deterministic one-ply opponent model, so it
 does not guarantee a win against a human who responds differently.
 
+### Configure Opening Book
+
+When at least one participant is AI, the API randomly selects **one opening line per match** by default. For human-versus-human games, opening mode defaults to `none`. You can override both behaviors with `opening_mode`.
+
+```json
+{
+  "red": {"type": "human"},
+  "black": {"type": "agent", "agent_id": "alphabeta"},
+  "opening_mode": "book",
+  "opening_plies": 6,
+  "opening_seed": 42
+}
+```
+
+- `opening_mode`: `book` or `none`. Omit to apply the automatic default.
+- `opening_plies`: 1–6 scripted plies; after these, normal agent search starts.
+- `opening_seed`: optional reproducible nonnegative integer; omit for a fresh randomized line.
+- `GET /api/v1/openings` lists the five families and twelve curated variants.
+- The API **never moves human pieces automatically**. Human moves that differ from the book deactivate the line.
+- The opening book is shared with the batch collector through `src/training/opening_book.py`, so chess rules and opening definitions are not duplicated.
+
 ### Move a pawn (first red move)
 
 ```json
@@ -58,6 +81,8 @@ does not guarantee a win against a human who responds differently.
 ```json
 {"expected_ply":1}
 ```
+
+Every snapshot also includes `opening_mode` and `opening` metadata (`id`, `family`, `name`, `book_version`, `seed`, `planned_plies`, `completed_plies`, `active`). The book move is chosen at each eligible **AI** `step`, not applied to the board when creating a game. When a human plays a different move, the book is disabled for that match and the agent uses normal search. Once the prefix ends, the agent takes over. A seeded reset replays the same opening; an unseeded reset samples a fresh one.
 
 Every snapshot includes `match_id`, `red`, `black`, a 90-integer `board`, `side_to_move`, `ply`, `status`, `winner`, `reason`, `last_move`, and **`legal_moves`**. Store `match_id` on the client; use the most recent `ply` on each move/step. Do **not** request `step` for a human turn. `GET /legal-moves` is optional because each snapshot already includes legal moves.
 
