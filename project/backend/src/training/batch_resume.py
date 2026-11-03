@@ -23,6 +23,9 @@ def configuration(
     max_plies: int,
     opening_plies: int,
     no_progress_limit: int,
+    *,
+    opening_mode: str = "random",
+    opening_book_version: str | None = None,
 ) -> dict[str, Any]:
     return {
         "red_agent": red,
@@ -32,6 +35,8 @@ def configuration(
         "black_depth": black_depth if black in {"minimax", "alphabeta"} else None,
         "max_plies": max_plies,
         "opening_plies": opening_plies,
+        "opening_mode": opening_mode,
+        "opening_book_version": opening_book_version,
         "no_progress_limit": no_progress_limit,
     }
 
@@ -108,7 +113,12 @@ def load_completed(
             for field, expected in config.items():
                 if field == "seed":
                     expected = config["seed"] + index * 1009
-                if game.get(field) != expected:
+                # Compatibility with old datasets: previous batch records
+                # implicitly used random opening moves and no book version.
+                stored = game.get(field)
+                if field == "opening_mode" and stored is None:
+                    stored = "random"
+                if stored != expected:
                     raise ValueError(
                         f"Game {index}: incompatible {field}; "
                         f"stored={game.get(field)!r}, expected={expected!r}"
