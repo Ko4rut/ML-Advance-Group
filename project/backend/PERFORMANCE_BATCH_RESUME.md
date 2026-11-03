@@ -82,3 +82,39 @@ throughput rather than necessarily reducing time per match.
 
 For comparable strength, benchmark identical positions and confirm
 `same_move` and existing unit tests before large data generation.
+
+## Threat-aware evaluation (November 2026)
+
+The positional evaluation now **reduces the Horse development bonus from +10
+to +4**, without changing the material values (Horse 40, Cannon 45, Rook 90).
+It also adds `src/agents/threat_evaluator.py` for cheap static pseudo-attack
+scoring, limited to threatened horses, cannons and rooks:
+
+- Detects horse-leg and elephant-eye blockers, the one-screen cannon attack,
+  rook sliding attacks, pawn movement and palace limits.
+- Distinguishes unprotected targets from defended pieces, and cheaper attackers
+  from equal/more-expensive attackers.
+- Weighs risk more heavily when it is **the attacker's turn**, because the
+  threatened piece may not have a chance to retreat.
+- Avoids legal-move generation or state copies inside evaluation.
+
+This is not quiescence search or full Static Exchange Evaluation (SEE). Pinned
+defenders, conditional attacks and complex recapture sequences may still be
+misjudged; depth-limited tactical errors remain possible.
+
+Run focused checks:
+
+```bash
+python -m unittest -v tests.test_position_evaluator tests.test_threat_evaluator
+```
+
+**Benchmark interpretation:** `compare_alphabeta.py` contrasts the original
+state/move-generation/search mechanics against optimized mechanics, but both
+branches use the **current** evaluator. Therefore the ratio measures engine
+speedup under the same threat-aware evaluation; it is not a measurement of
+before-vs-after decision quality or of the incremental cost of threat scoring.
+Test both changes with the same opening seeds and whole-game metrics before
+using them to label a large training dataset. Dataset configurations should
+use a fresh run name if the evaluation model changed between runs, even when
+other CLI settings remain unchanged.
+
