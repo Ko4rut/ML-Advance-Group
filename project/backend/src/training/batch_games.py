@@ -13,6 +13,7 @@ import time
 from collections import Counter
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 from .batch_resume import configuration, load_completed, write_checkpoint, checkpoint_path_for
+from .opening_book import BOOK_VERSION, sample_opening, validate_opening_book
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -60,6 +61,7 @@ def play_game(
     black_depth: int = 2,
     max_plies: int = 160,
     opening_plies: int = 0,
+    opening_mode: str = "random",
     no_progress_limit: int = 0,
     ply_progress_every: int = 0,
 ) -> dict[str, Any]:
@@ -72,12 +74,18 @@ def play_game(
         raise ValueError(f"Agents must be chosen from: {', '.join(AGENT_NAMES)}")
     if red_depth < 1 or black_depth < 1 or max_plies < 1:
         raise ValueError("depth and max_plies must be positive")
+    if opening_mode not in {"none", "random", "book"}:
+        raise ValueError("opening_mode must be none, random or book")
+    if opening_mode == "book" and opening_plies < 1:
+        raise ValueError("book mode requires opening_plies >= 1")
     if opening_plies < 0 or no_progress_limit < 0 or game_index < 0 or ply_progress_every < 0:
         raise ValueError("opening_plies, no_progress_limit and game_index must be nonnegative")
 
     env = XiangqiEnv()
     game_seed = seed + game_index * 1009
     opening_rng = random.Random(game_seed + 2)
+    selection = sample_opening(game_seed, opening_plies) if opening_mode == "book" else None
+    opening_moves = selection.moves if selection is not None else ()
     agents = {
         Side.RED: _make_agent(red, env, game_seed, red_depth),
         Side.BLACK: _make_agent(black, env, game_seed + 1, black_depth),
@@ -98,7 +106,15 @@ def play_game(
         decision = None
         actor = names[side]
         move_started = time.perf_counter()
-        if state.ply_count < opening_plies:
+        if state.ply_count < len(opening_moves):
+            actor = "opening_book"
+            move = opening_moves[state.ply_count]
+            if move not in env.engine.legal_moves(state):
+                raise ValueError(
+                    f"Invalid book move at game={game_index} ply={state.ply_count}: "
+                    f"{selection.line.opening_id}"
+                )
+        elif opening_mode == "random" and state.ply_count < opening_plies:
             actor = "opening_random"
             move = opening_rng.choice(env.engine.legal_moves(state))
         else:
@@ -168,6 +184,12 @@ def play_game(
         "red_depth": red_depth if red in {"minimax", "alphabeta"} else None,
         "black_depth": black_depth if black in {"minimax", "alphabeta"} else None,
         "opening_plies": opening_plies,
+        "opening_mode": opening_mode,
+        "opening_book_version": BOOK_VERSION if selection is not None else None,
+        "opening_id": selection.line.opening_id if selection is not None else None,
+        "opening_family": selection.line.family if selection is not None else None,
+        "opening_name": selection.line.name if selection is not None else None,
+        "opening_applied_plies": sum(row["actor"] in {"opening_book", "opening_random"} for row in moves),
         "max_plies": max_plies,
         "no_progress_limit": no_progress_limit,
         "initial_board": initial_board,
@@ -199,6 +221,7 @@ def generate_batch(
     black_depth: int = 2,
     max_plies: int = 160,
     opening_plies: int = 0,
+    opening_mode: str = "random",
     no_progress_limit: int = 0,
     progress_every: int = 10,
     ply_progress_every: int = 0,
@@ -219,12 +242,20 @@ def generate_batch(
         raise ValueError(f"Agents must be chosen from: {', '.join(AGENT_NAMES)}")
     if append and not resume:
         raise ValueError("--append is unsafe; use --resume with a fixed output instead")
+    if opening_mode not in {"none", "random", "book"}:
+        raise ValueError("opening_mode must be none, random or book")
+    if opening_mode == "book":
+        if opening_plies < 1:
+            raise ValueError("book mode requires opening_plies >= 1")
+        validate_opening_book()
 
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
     config = configuration(
         red, black, seed, red_depth, black_depth,
         max_plies, opening_plies, no_progress_limit,
+        opening_mode=opening_mode,
+        opening_book_version=BOOK_VERSION if opening_mode == "book" else None,
     )
     completed = load_completed(path, config, games, resume=resume)
     pending = [index for index in range(games) if index not in completed]
@@ -244,6 +275,7 @@ def generate_batch(
         "black_depth": black_depth,
         "max_plies": max_plies,
         "opening_plies": opening_plies,
+        "opening_mode": opening_mode,
         "no_progress_limit": no_progress_limit,
         "ply_progress_every": ply_progress_every if workers == 1 else 0,
     }
@@ -266,11 +298,13 @@ def generate_batch(
             added % progress_every == 0 or len(completed) == games
         ):
             outcome = record["outcome"]
+            opening_text = record.get("opening_id") or record.get("opening_mode", "none")
             elapsed = time.perf_counter() - started
             remaining = games - len(completed)
             eta = elapsed / added * remaining if added else 0.0
             print(
                 f"[batch {len(completed)}/{games}] game={index} "
+                f"opening={opening_text} "
                 f"ply={record['ply_count']} {outcome['status']}:"
                 f"{outcome['reason']} winner={outcome['winner']} "
                 f"game_seconds={record['elapsed_seconds']:.1f} "
