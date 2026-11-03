@@ -66,7 +66,7 @@ def load_completed(
         size = stream.tell()
         if size:
             stream.seek(-1, os.SEEK_END)
-            if stream.read(1) != b"\\n":
+            if stream.read(1) != b"\n":
                 # Seek backwards to the previous newline in bounded chunks.
                 cursor = size
                 line_start = 0
@@ -75,7 +75,7 @@ def load_completed(
                     cursor -= step
                     stream.seek(cursor)
                     chunk = stream.read(step)
-                    found = chunk.rfind(b"\\n")
+                    found = chunk.rfind(b"\n")
                     if found >= 0:
                         line_start = cursor + found + 1
                         break
@@ -88,7 +88,7 @@ def load_completed(
                     print("[resume] Discarded incomplete JSONL tail", flush=True)
                 else:
                     stream.seek(0, os.SEEK_END)
-                    stream.write(b"\\n")
+                    stream.write(b"\n")
                     stream.flush()
 
         completed: dict[int, dict[str, Any]] = {}
