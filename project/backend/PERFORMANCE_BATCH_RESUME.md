@@ -69,7 +69,7 @@ checkpoint. Avoid starting two notebook instances writing the **same file**.
 - Record-level checkpointing is **not** mid-game continuation.
 
 The Colab notebook lives at
-`project/backend/notebooks/xiangqi_colab_batch_runner.ipynb`.
+`project/backend/notebooks/xiangqi_colab_dataset_generator.ipynb`.
 Keep `RUN_NAME` unchanged to resume and inspect
 `<RUN_NAME>.jsonl.checkpoint.json` alongside the dataset.
 
@@ -179,4 +179,13 @@ This release deliberately does **not** add Top-K softmax sampling:
 uncalibrated evaluation scores can introduce poor moves. A broader,
 expert-reviewed opening book and separately evaluated Top-K exploration can
 be added once gameplay outcome statistics establish a useful baseline.
+
+
+## Focused Colab dataset generator
+
+The notebook `project/backend/notebooks/xiangqi_colab_dataset_generator.ipynb`
+contains only repository setup, Google Drive mounting, batch configuration,
+JSONL dataset generation with checkpoint/resume, and outcome/opening diversity
+summaries. Unit tests and performance benchmarks are intentionally **not**
+executed in this notebook; run those separately from the backend CLI or CI.
 
