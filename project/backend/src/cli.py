@@ -73,6 +73,10 @@ def build_parser() -> argparse.ArgumentParser:
     batch_parser.add_argument("--black-depth", type=int, default=2)
     batch_parser.add_argument("--max-plies", type=int, default=160)
     batch_parser.add_argument(
+        "--opening-mode", choices=("none", "random", "book"), default="random",
+        help="none=Alpha-Beta from start, random=legacy random prefix, book=curated legal lines",
+    )
+    batch_parser.add_argument(
         "--opening-plies",
         type=int,
         default=0,
@@ -117,6 +121,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             black_depth=args.black_depth,
             max_plies=args.max_plies,
             opening_plies=args.opening_plies,
+            opening_mode=args.opening_mode,
             no_progress_limit=args.no_progress_limit,
             progress_every=args.progress_every,
             workers=args.workers,
