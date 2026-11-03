@@ -28,6 +28,16 @@ class OpeningBookApiTests(unittest.TestCase):
         self.assertIsNone(match["opening"])
         self.assertEqual(match["ply"], 0)
 
+    def test_agent_matches_auto_randomize_opening_unless_disabled(self):
+        auto = self.create(red="random", black="human")
+        self.assertEqual(auto["opening_mode"], "book")
+        self.assertIsNotNone(auto["opening"])
+        self.assertTrue(auto["opening"]["active"])
+        self.assertEqual(auto["opening"]["planned_plies"], 6)
+        disabled = self.create(red="random", black="human", opening_mode="none")
+        self.assertEqual(disabled["opening_mode"], "none")
+        self.assertIsNone(disabled["opening"])
+
     def test_catalogue_metadata(self):
         response = self.client.get("/api/v1/openings")
         self.assertEqual(response.status_code, 200)
