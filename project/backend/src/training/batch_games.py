@@ -66,6 +66,8 @@ def play_game(
     no_progress_limit: int = 0,
     ply_progress_every: int = 0,
     retry_attempt: int = 0,
+    deduplicate_games: bool = False,
+    max_duplicate_retries: int = 8,
     exploration_top_k: int = 1,
     exploration_score_margin: int = 12,
     exploration_temperature: float = 8.0,
@@ -90,7 +92,7 @@ def play_game(
         raise ValueError("opening_plies, no_progress_limit and game_index must be nonnegative")
 
     if (
-        retry_attempt < 0 or exploration_top_k < 1
+        retry_attempt < 0 or max_duplicate_retries < 0 or exploration_top_k < 1
         or exploration_score_margin < 0 or exploration_temperature <= 0
         or not 0 <= exploration_rate <= 1
         or exploration_window < 0 or exploration_max_moves < 0
@@ -239,6 +241,8 @@ def play_game(
         "seed": game_seed,
         "retry_attempt": retry_attempt,
         "generation_seed": generation_seed,
+        "deduplicate_games": deduplicate_games,
+        "max_duplicate_retries": max_duplicate_retries,
         "exploration_top_k": exploration_top_k,
         "exploration_score_margin": exploration_score_margin,
         "exploration_temperature": exploration_temperature,
@@ -367,6 +371,8 @@ def generate_batch(
         "opening_plies": opening_plies,
         "opening_mode": opening_mode,
         "no_progress_limit": no_progress_limit,
+        "deduplicate_games": deduplicate_games,
+        "max_duplicate_retries": max_duplicate_retries,
         "ply_progress_every": ply_progress_every if workers == 1 else 0,
         "exploration_top_k": exploration_top_k,
         "exploration_score_margin": exploration_score_margin,
