@@ -14,6 +14,7 @@ from collections import Counter
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 from .batch_resume import configuration, load_completed, write_checkpoint, checkpoint_path_for
 from .opening_book import BOOK_VERSION, sample_opening, validate_opening_book
+from .topk_exploration import sample_top_k
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -64,6 +65,13 @@ def play_game(
     opening_mode: str = "random",
     no_progress_limit: int = 0,
     ply_progress_every: int = 0,
+    retry_attempt: int = 0,
+    exploration_top_k: int = 1,
+    exploration_score_margin: int = 12,
+    exploration_temperature: float = 8.0,
+    exploration_rate: float = 0.35,
+    exploration_window: int = 20,
+    exploration_max_moves: int = 2,
 ) -> dict[str, Any]:
     """Run one match without UI/API, preserving transitions for later training.
 
@@ -81,10 +89,22 @@ def play_game(
     if opening_plies < 0 or no_progress_limit < 0 or game_index < 0 or ply_progress_every < 0:
         raise ValueError("opening_plies, no_progress_limit and game_index must be nonnegative")
 
+    if (
+        retry_attempt < 0 or exploration_top_k < 1
+        or exploration_score_margin < 0 or exploration_temperature <= 0
+        or not 0 <= exploration_rate <= 1
+        or exploration_window < 0 or exploration_max_moves < 0
+    ):
+        raise ValueError("invalid exploration or retry parameters")
+
     env = XiangqiEnv()
     game_seed = seed + game_index * 1009
-    opening_rng = random.Random(game_seed + 2)
-    selection = sample_opening(game_seed, opening_plies) if opening_mode == "book" else None
+    # Keep dataset's global seed stable; retries only change the per-game
+    # sampling stream. Replay is determined by (game_index, retry_attempt).
+    generation_seed = game_seed + retry_attempt * 1_000_003
+    opening_rng = random.Random(generation_seed + 2)
+    exploration_rng = random.Random(generation_seed + 17_593)
+    selection = sample_opening(generation_seed, opening_plies) if opening_mode == "book" else None
     opening_moves = selection.moves if selection is not None else ()
     agents = {
         Side.RED: _make_agent(red, env, game_seed, red_depth),
@@ -94,6 +114,7 @@ def play_game(
     initial_board = list(env.state.board)
     moves: list[dict[str, Any]] = []
     started = time.perf_counter()
+    exploration_used = 0
 
     while env.state.ply_count < max_plies:
         state = env.state
@@ -104,6 +125,8 @@ def play_game(
 
         side = state.side_to_move
         decision = None
+        search_nodes = 0
+        exploration_details = None
         actor = names[side]
         move_started = time.perf_counter()
         if state.ply_count < len(opening_moves):
@@ -118,8 +141,41 @@ def play_game(
             actor = "opening_random"
             move = opening_rng.choice(env.engine.legal_moves(state))
         else:
-            decision = agents[side].select_action(state)
-            move = decision.move
+            candidate_agent = agents[side]
+            explore = (
+                exploration_top_k > 1
+                and isinstance(candidate_agent, AlphaBetaAgent)
+                and exploration_used < exploration_max_moves
+                and state.ply_count < len(opening_moves) + exploration_window
+                and exploration_rng.random() < exploration_rate
+            )
+            if explore:
+                ranked, search_nodes = candidate_agent.rank_actions(state)
+                move, selected_score, distribution = sample_top_k(
+                    ranked, exploration_rng,
+                    top_k=exploration_top_k,
+                    score_margin=exploration_score_margin,
+                    temperature=exploration_temperature,
+                )
+                exploration_used += 1
+                actor = "alphabeta_exploration"
+                exploration_details = {
+                    "best_score": ranked[0][1],
+                    "chosen_score": selected_score,
+                    "candidates": [
+                        {
+                            "source": action.source,
+                            "target": action.target,
+                            "score": score,
+                            "probability": round(probability, 8),
+                        }
+                        for action, score, probability in distribution
+                    ],
+                }
+            else:
+                decision = candidate_agent.select_action(state)
+                move = decision.move
+                search_nodes = decision.nodes
 
         think_seconds = time.perf_counter() - move_started
         step = env.step(move)
@@ -134,10 +190,12 @@ def play_game(
             "next_no_capture_count": step.state.no_capture_count,
             "reward": step.reward,
             "terminated": step.terminated,
-            "nodes": decision.nodes if decision else 0,
+            "nodes": search_nodes,
             "simulations": decision.simulations if decision else 0,
             "think_seconds": round(think_seconds, 6),
         }
+        if exploration_details is not None:
+            row["exploration"] = exploration_details
         if decision is not None and decision.policy is not None:
             row["policy"] = [
                 {"source": action.source, "target": action.target, "probability": float(probability)}
@@ -179,6 +237,15 @@ def play_game(
         "game_id": uuid4().hex,
         "game_index": game_index,
         "seed": game_seed,
+        "retry_attempt": retry_attempt,
+        "generation_seed": generation_seed,
+        "exploration_top_k": exploration_top_k,
+        "exploration_score_margin": exploration_score_margin,
+        "exploration_temperature": exploration_temperature,
+        "exploration_rate": exploration_rate,
+        "exploration_window": exploration_window,
+        "exploration_max_moves": exploration_max_moves,
+        "exploration_applied_moves": exploration_used,
         "red_agent": red,
         "black_agent": black,
         "red_depth": red_depth if red in {"minimax", "alphabeta"} else None,
@@ -229,6 +296,14 @@ def generate_batch(
     resume: bool = False,
     append: bool = False,
     quiet: bool = False,
+    deduplicate_games: bool = False,
+    max_duplicate_retries: int = 8,
+    exploration_top_k: int = 1,
+    exploration_score_margin: int = 12,
+    exploration_temperature: float = 8.0,
+    exploration_rate: float = 0.35,
+    exploration_window: int = 20,
+    exploration_max_moves: int = 2,
 ) -> dict[str, Any]:
     """Generate a fixed-size batch with validated resumability.
 
@@ -244,6 +319,13 @@ def generate_batch(
         raise ValueError("--append is unsafe; use --resume with a fixed output instead")
     if opening_mode not in {"none", "random", "book"}:
         raise ValueError("opening_mode must be none, random or book")
+    if (
+        max_duplicate_retries < 0 or exploration_top_k < 1
+        or exploration_score_margin < 0 or exploration_temperature <= 0
+        or not 0 <= exploration_rate <= 1
+        or exploration_window < 0 or exploration_max_moves < 0
+    ):
+        raise ValueError("invalid deduplication or exploration parameters")
     if opening_mode == "book":
         if opening_plies < 1:
             raise ValueError("book mode requires opening_plies >= 1")
@@ -256,6 +338,14 @@ def generate_batch(
         max_plies, opening_plies, no_progress_limit,
         opening_mode=opening_mode,
         opening_book_version=BOOK_VERSION if opening_mode == "book" else None,
+        deduplicate_games=deduplicate_games,
+        max_duplicate_retries=max_duplicate_retries,
+        exploration_top_k=exploration_top_k,
+        exploration_score_margin=exploration_score_margin,
+        exploration_temperature=exploration_temperature,
+        exploration_rate=exploration_rate,
+        exploration_window=exploration_window,
+        exploration_max_moves=exploration_max_moves,
     )
     completed = load_completed(path, config, games, resume=resume)
     pending = [index for index in range(games) if index not in completed]
@@ -278,20 +368,34 @@ def generate_batch(
         "opening_mode": opening_mode,
         "no_progress_limit": no_progress_limit,
         "ply_progress_every": ply_progress_every if workers == 1 else 0,
+        "exploration_top_k": exploration_top_k,
+        "exploration_score_margin": exploration_score_margin,
+        "exploration_temperature": exploration_temperature,
+        "exploration_rate": exploration_rate,
+        "exploration_window": exploration_window,
+        "exploration_max_moves": exploration_max_moves,
     }
     started = time.perf_counter()
     added = 0
+    duplicate_rejections = 0
+    seen_fingerprints = {record["fingerprint"] for record in completed.values()}
+    if deduplicate_games and len(seen_fingerprints) != len(completed):
+        raise ValueError("Existing dataset contains duplicate games: cannot resume dedup mode")
 
     # Every record is durably flushed before updating the checkpoint. A crash
     # during checkpoint writing cannot cause lost indices on the next resume.
-    def save_record(stream, record: dict[str, Any]) -> None:
-        nonlocal added
+    def save_record(stream, record: dict[str, Any]) -> bool:
+        nonlocal added, duplicate_rejections
         index = record["game_index"]
         if index in completed:
             raise ValueError(f"Duplicate game_index {index}")
+        if deduplicate_games and record["fingerprint"] in seen_fingerprints:
+            duplicate_rejections += 1
+            return False
         stream.write(json.dumps(record, ensure_ascii=False, separators=(",", ":")) + "\n")
         stream.flush()
         completed[index] = record
+        seen_fingerprints.add(record["fingerprint"])
         added += 1
         write_checkpoint(path, config, games, completed)
         if not quiet and (
@@ -312,6 +416,7 @@ def generate_batch(
                 f"saved={path}",
                 flush=True,
             )
+        return True
 
     if pending:
         with path.open("a" if resume else "x", encoding="utf-8") as stream:
@@ -319,9 +424,19 @@ def generate_batch(
                 for index in pending:
                     if not quiet:
                         print(f"[game {index}] started ({len(completed) + 1}/{games})", flush=True)
-                    save_record(stream, play_game(
-                        red, black, game_index=index, **params,
-                    ))
+                    for attempt in range(max_duplicate_retries + 1):
+                        record = play_game(
+                            red, black, game_index=index,
+                            retry_attempt=attempt, **params,
+                        )
+                        if save_record(stream, record):
+                            break
+                    else:
+                        raise RuntimeError(
+                            f"Could not generate unique game_index={index} after "
+                            f"{max_duplicate_retries + 1} attempts. "
+                            "Increase exploration or choose more opening lines."
+                        )
             else:
                 # Bound in-flight jobs to avoid using excessive memory for
                 # a very large batch; preserve single-writer disk semantics.
@@ -334,8 +449,11 @@ def generate_batch(
                             index = next(waiting)
                         except StopIteration:
                             return False
-                        future = pool.submit(_play_game_job, (red, black, index, params))
-                        active[future] = index
+                        future = pool.submit(
+                            _play_game_job,
+                            (red, black, index, {**params, "retry_attempt": 0}),
+                        )
+                        active[future] = (index, 0)
                         if not quiet:
                             print(f"[game {index}] dispatched", flush=True)
                         return True
@@ -345,9 +463,25 @@ def generate_batch(
                     while active:
                         done, _ = wait(active, return_when=FIRST_COMPLETED)
                         for future in done:
-                            del active[future]
-                            save_record(stream, future.result())
-                            submit_next()
+                            index, attempt = active.pop(future)
+                            if save_record(stream, future.result()):
+                                submit_next()
+                            elif attempt < max_duplicate_retries:
+                                next_attempt = attempt + 1
+                                retry = pool.submit(
+                                    _play_game_job,
+                                    (
+                                        red, black, index,
+                                        {**params, "retry_attempt": next_attempt},
+                                    ),
+                                )
+                                active[retry] = (index, next_attempt)
+                            else:
+                                raise RuntimeError(
+                                    f"Could not generate unique game_index={index} "
+                                    f"after {attempt + 1} attempts. "
+                                    "Increase exploration or choose more opening lines."
+                                )
 
     counters: Counter[str] = Counter()
     fingerprints: set[str] = set()
@@ -382,6 +516,7 @@ def generate_batch(
         "draws": counters["draw"],
         "unique_games_in_batch": len(fingerprints),
         "duplicate_games_in_batch": duplicates,
+        "duplicate_rejections_this_run": duplicate_rejections,
         "average_plies": round(total_plies / len(completed), 2) if completed else 0,
         "elapsed_seconds": round(time.perf_counter() - started, 2),
     }
