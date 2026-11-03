@@ -108,6 +108,9 @@ def play_game(
     exploration_rng = random.Random(generation_seed + 17_593)
     selection = sample_opening(generation_seed, opening_plies) if opening_mode == "book" else None
     opening_moves = selection.moves if selection is not None else ()
+    opening_end = len(opening_moves)
+    if opening_mode == "random":
+        opening_end = opening_plies
     agents = {
         Side.RED: _make_agent(red, env, game_seed, red_depth),
         Side.BLACK: _make_agent(black, env, game_seed + 1, black_depth),
@@ -148,7 +151,8 @@ def play_game(
                 exploration_top_k > 1
                 and isinstance(candidate_agent, AlphaBetaAgent)
                 and exploration_used < exploration_max_moves
-                and state.ply_count < len(opening_moves) + exploration_window
+                and state.ply_count >= opening_end
+                and state.ply_count < opening_end + exploration_window
                 and exploration_rng.random() < exploration_rate
             )
             if explore:
