@@ -30,8 +30,12 @@ class GameEngine:
         state: GameState,
         legal_moves: list[Move] | None = None,
     ) -> GameResult | None:
-        moves = self.legal_moves(state) if legal_moves is None else legal_moves
-        if not moves:
+        has_moves = (
+            self.move_generator.has_legal_move(state)
+            if legal_moves is None
+            else bool(legal_moves)
+        )
+        if not has_moves:
             winner = state.side_to_move.opponent
             reason = "checkmate" if self.validator.is_in_check(state, state.side_to_move) else "stalemate"
             return GameResult(winner, reason)
