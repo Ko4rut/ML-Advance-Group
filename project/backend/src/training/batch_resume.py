@@ -59,56 +59,75 @@ def load_completed(
             raise ValueError("Checkpoint exists without JSONL dataset; cannot resume safely")
         return {}
 
-    # Repair only a torn final line. Do not silently skip corrupt complete lines.
+    # Repair only the torn tail. Stream the rest line-by-line so even a
+    # multi-GB training dataset can resume without reading it into RAM.
     with output.open("rb+") as stream:
-        raw = stream.read()
-        if raw and not raw.endswith(b"\n"):
-            last_line = raw[raw.rfind(b"\n") + 1:]
+        stream.seek(0, os.SEEK_END)
+        size = stream.tell()
+        if size:
+            stream.seek(-1, os.SEEK_END)
+            if stream.read(1) != b"\\n":
+                # Seek backwards to the previous newline in bounded chunks.
+                cursor = size
+                line_start = 0
+                while cursor > 0:
+                    step = min(65536, cursor)
+                    cursor -= step
+                    stream.seek(cursor)
+                    chunk = stream.read(step)
+                    found = chunk.rfind(b"\\n")
+                    if found >= 0:
+                        line_start = cursor + found + 1
+                        break
+                stream.seek(line_start)
+                tail = stream.read()
+                try:
+                    json.loads(tail)
+                except (ValueError, UnicodeDecodeError):
+                    stream.truncate(line_start)
+                    print("[resume] Discarded incomplete JSONL tail", flush=True)
+                else:
+                    stream.seek(0, os.SEEK_END)
+                    stream.write(b"\\n")
+                    stream.flush()
+
+        completed: dict[int, dict[str, Any]] = {}
+        stream.seek(0)
+        for line_no, line in enumerate(stream, start=1):
             try:
-                json.loads(last_line)
-            except (ValueError, UnicodeDecodeError):
-                offset = raw.rfind(b"\n") + 1
-                stream.truncate(offset)
-                raw = raw[:offset]
-                print("[resume] Discarded incomplete JSONL tail", flush=True)
-            else:
-                stream.seek(0, os.SEEK_END)
-                stream.write(b"\n")
-                stream.flush()
-                raw += b"\n"
-
-    completed: dict[int, dict[str, Any]] = {}
-    for line_no, line in enumerate(raw.splitlines(), start=1):
-        try:
-            game = json.loads(line)
-        except (ValueError, UnicodeDecodeError) as exc:
-            raise ValueError(f"Corrupt record on line {line_no}") from exc
-        if not isinstance(game, dict) or game.get("schema_version") != 1:
-            raise ValueError(f"Unsupported record schema on line {line_no}")
-        index = game.get("game_index")
-        if type(index) is not int or not 0 <= index < target_games:
-            raise ValueError(f"Invalid game_index on line {line_no}: {index!r}")
-        if index in completed:
-            raise ValueError(f"Duplicate game_index: {index}")
-        for field, expected in config.items():
-            if field == "seed":
-                expected = config["seed"] + index * 1009
-            if game.get(field) != expected:
-                raise ValueError(
-                    f"Game {index}: incompatible {field}; "
-                    f"stored={game.get(field)!r}, expected={expected!r}"
-                )
-        if not isinstance(game.get("moves"), list):
-            raise ValueError(f"Game {index}: invalid moves")
-        if len(game["moves"]) != game.get("ply_count"):
-            raise ValueError(f"Game {index}: inconsistent ply_count")
-        if not isinstance(game.get("fingerprint"), str):
-            raise ValueError(f"Game {index}: missing fingerprint")
-        if not isinstance(game.get("outcome"), dict):
-            raise ValueError(f"Game {index}: invalid outcome")
-        completed[index] = game
+                game = json.loads(line)
+            except (ValueError, UnicodeDecodeError) as exc:
+                raise ValueError(f"Corrupt record on line {line_no}") from exc
+            if not isinstance(game, dict) or game.get("schema_version") != 1:
+                raise ValueError(f"Unsupported record schema on line {line_no}")
+            index = game.get("game_index")
+            if type(index) is not int or not 0 <= index < target_games:
+                raise ValueError(f"Invalid game_index on line {line_no}: {index!r}")
+            if index in completed:
+                raise ValueError(f"Duplicate game_index: {index}")
+            for field, expected in config.items():
+                if field == "seed":
+                    expected = config["seed"] + index * 1009
+                if game.get(field) != expected:
+                    raise ValueError(
+                        f"Game {index}: incompatible {field}; "
+                        f"stored={game.get(field)!r}, expected={expected!r}"
+                    )
+            if not isinstance(game.get("moves"), list):
+                raise ValueError(f"Game {index}: invalid moves")
+            if len(game["moves"]) != game.get("ply_count"):
+                raise ValueError(f"Game {index}: inconsistent ply_count")
+            if not isinstance(game.get("fingerprint"), str):
+                raise ValueError(f"Game {index}: missing fingerprint")
+            if not isinstance(game.get("outcome"), dict):
+                raise ValueError(f"Game {index}: invalid outcome")
+            completed[index] = {
+                "game_index": index,
+                "ply_count": game["ply_count"],
+                "fingerprint": game["fingerprint"],
+                "outcome": game["outcome"],
+            }
     return completed
-
 
 def write_checkpoint(
     output: Path,
