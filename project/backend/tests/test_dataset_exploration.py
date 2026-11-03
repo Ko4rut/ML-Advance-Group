@@ -79,7 +79,14 @@ class DatasetExplorationTests(unittest.TestCase):
         duplicate = play_game("random", "random", max_plies=2, seed=91)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "games.jsonl"
-            with patch("src.training.batch_games.play_game", return_value=duplicate) as mocked:
+            def duplicate_game(red, black, *, game_index, **kwargs):
+                record = dict(duplicate)
+                record["game_index"] = game_index
+                record["seed"] = 42 + game_index * 1009
+                record["retry_attempt"] = kwargs.get("retry_attempt", 0)
+                return record
+
+            with patch("src.training.batch_games.play_game", side_effect=duplicate_game) as mocked:
                 with self.assertRaisesRegex(RuntimeError, "unique game_index=1"):
                     generate_batch(
                         "random", "random", games=2, output=path,
@@ -95,7 +102,7 @@ class DatasetExplorationTests(unittest.TestCase):
             )
             self.assertEqual(checkpoint["completed_indices"], [0])
 
-    def test_multithreaded_writer_rejects_duplicate_fingerprints(self):
+    def test_multiworker_writer_rejects_duplicate_fingerprints(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "games.jsonl"
             result = generate_batch(
