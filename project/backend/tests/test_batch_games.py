@@ -78,7 +78,7 @@ class BatchGamesTests(unittest.TestCase):
             )
             self.assertEqual(continued["games"], 4)
             self.assertEqual(continued["new_games"], 2)
-            rows = [json.loads(line) for line in path.read_text().splitlines()]
+            rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual([row["game_index"] for row in rows], [0, 1, 2, 3])
             self.assertEqual([row["seed"] for row in rows], [99, 1108, 2117, 3126])
             self.assertTrue((Path(str(path) + ".checkpoint.json")).exists())
@@ -113,7 +113,7 @@ class BatchGamesTests(unittest.TestCase):
             resumed = generate_batch("random", "random", games=2, output=path,
                                      max_plies=2, resume=True, quiet=True)
             self.assertEqual(resumed["new_games"], 1)
-            rows = [json.loads(line) for line in path.read_text().splitlines()]
+            rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(len(rows), 2)
 
     def test_parallel_batch_has_exactly_one_record_per_index(self):
@@ -123,7 +123,7 @@ class BatchGamesTests(unittest.TestCase):
                 "random", "random", games=4, output=path, seed=101,
                 max_plies=2, workers=2, quiet=True,
             )
-            rows = [json.loads(line) for line in path.read_text().splitlines()]
+            rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(result["games"], 4)
             self.assertEqual({row["game_index"] for row in rows}, set(range(4)))
 
