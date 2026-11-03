@@ -34,12 +34,18 @@ class AlphaBetaAgent(Agent):
         context = create_search_context(state, budget)
 
         best_move = moves[0]
+        move_ranks = {move: rank for rank, move in enumerate(moves)}
         for depth in range(1, depth_limit + 1):
             iteration_move = best_move
             iteration_score: int | None = None
             alpha = -INFINITY
+            # Principal-variation ordering improves pruning. Original ordering
+            # still decides ties, so equal-scoring move choice stays stable.
+            ordered = moves if depth == 1 else [best_move] + [
+                move for move in moves if move != best_move
+            ]
             try:
-                for move in moves:
+                for move in ordered:
                     score = self._alphabeta(
                         state.moved(move),
                         depth - 1,
@@ -48,7 +54,14 @@ class AlphaBetaAgent(Agent):
                         alpha=alpha,
                         beta=INFINITY,
                     )
-                    if iteration_score is None or score > iteration_score:
+                    if (
+                        iteration_score is None
+                        or score > iteration_score
+                        or (
+                            score == iteration_score
+                            and move_ranks[move] < move_ranks[iteration_move]
+                        )
+                    ):
                         iteration_move = move
                         iteration_score = score
                     if iteration_score is not None:
