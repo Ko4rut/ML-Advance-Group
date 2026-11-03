@@ -118,3 +118,65 @@ using them to label a large training dataset. Dataset configurations should
 use a fresh run name if the evaluation model changed between runs, even when
 other CLI settings remain unchanged.
 
+
+## Structured opening book and Alpha-Beta handoff
+
+A small **versioned, curated template book** now lives in
+`src/training/opening_book.py` with **12 legal six-ply opening lines** in
+five families: central cannon, pawn advance, flying elephant, horse development
+and palace cannon. Red and Black responses are specified together.
+
+The lines are **hand-authored starting templates**, not imported professional
+game records and **not certified optimal openings**. Every move is validated
+with `GameEngine.legal_moves`, and `validate_opening_book()` checks every
+line before batch generation. Extend the book only with replay-validated
+sequences; benchmark playing strength separately.
+
+Use `--opening-mode book --opening-plies 6` to choose a uniformly sampled
+opening *family* first, then a random variation within that family. The choice
+is deterministic for each global `seed + game_index * 1009`, including after
+resume, so multiprocessing does not change it. If `opening-plies` exceeds
+a line's length, Alpha-Beta takes over when that line ends, never filling
+extra moves randomly. A six-ply prefix corresponds to three moves by each side.
+
+```bash
+cd project/backend
+python -u -m src batch \
+  --red alphabeta --black alphabeta \
+  --red-depth 3 --black-depth 3 \
+  --games 50 --max-plies 240 \
+  --opening-mode book --opening-plies 6 \
+  --seed 42 --output alphabeta_depth3_book_v1_seed42.jsonl \
+  --resume --progress-every 1 --workers 1
+```
+
+To retain old behavior, use `--opening-mode random --opening-plies 2`.
+Use `--opening-mode none` for Alpha-Beta from the original board. The CLI's
+default is `random` for backwards compatibility, while the Colab notebook
+now explicitly sets `OPENING_MODE = 'book'`.
+
+Every game record includes:
+- `opening_mode`, `opening_book_version`, `opening_family`,
+  `opening_id`, `opening_name`, and `opening_applied_plies`.
+- Scripted move records have `actor = 'opening_book'`, so they are **not**
+  silently labeled as Alpha-Beta demonstrations.
+- The actual search begins immediately after the scripted prefix, with
+  the full state/history retained so game rules and repetition still work.
+
+**Resume safety:** the batch validates `opening_mode` and book version
+against the existing JSONL before appending. Old datasets without an
+`opening_mode` field continue to work as legacy `random` datasets. Always
+use a *new RUN_NAME* if the opening mode, prefix length, or book version
+changes. The book implementation is strictly CPU-only and requires no model.
+
+Run focused tests:
+
+```bash
+python -m unittest -v tests.test_opening_book tests.test_batch_games
+```
+
+This release deliberately does **not** add Top-K softmax sampling:
+uncalibrated evaluation scores can introduce poor moves. A broader,
+expert-reviewed opening book and separately evaluated Top-K exploration can
+be added once gameplay outcome statistics establish a useful baseline.
+
