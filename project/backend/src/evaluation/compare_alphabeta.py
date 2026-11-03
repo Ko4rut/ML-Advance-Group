@@ -48,6 +48,23 @@ class OriginalGameEngine(GameEngine):
         return super().outcome(state, legal_moves=moves)
 
 
+def original_move(state: GameState, move: Move) -> GameState:
+    """Original GameState.moved: validated dataclass construction each child."""
+    board = list(state.board)
+    captured = board[move.target] != 0
+    board[move.target] = board[move.source]
+    board[move.source] = 0
+    next_board = tuple(board)
+    next_side = state.side_to_move.opponent
+    return GameState(
+        next_board,
+        next_side,
+        ply_count=state.ply_count + 1,
+        no_capture_count=0 if captured else state.no_capture_count + 1,
+        history=state.history + ((next_board, next_side),),
+    )
+
+
 class OriginalAlphaBeta:
     """Frozen original root ordering and recursive Alpha-Beta for comparison."""
 
@@ -66,7 +83,7 @@ class OriginalAlphaBeta:
             try:
                 for move in moves:
                     score = self._search(
-                        state.moved(move), depth - 1, context, 1, alpha, INFINITY,
+                        original_move(state, move), depth - 1, context, 1, alpha, INFINITY,
                     )
                     if iteration_score is None or score > iteration_score:
                         iteration_move, iteration_score = move, score
@@ -89,7 +106,7 @@ class OriginalAlphaBeta:
         best_score = -INFINITY if maximizing else INFINITY
         for move in order_moves(state, moves):
             score = self._search(
-                state.moved(move), depth - 1, context, ply + 1, alpha, beta,
+                original_move(state, move), depth - 1, context, ply + 1, alpha, beta,
             )
             if maximizing:
                 best_score = max(best_score, score)
