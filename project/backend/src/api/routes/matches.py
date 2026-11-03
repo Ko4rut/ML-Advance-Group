@@ -24,6 +24,11 @@ def list_agents(service: MatchService = Depends(get_service)) -> list[AgentInfo]
     return service.agents()
 
 
+@router.get("/openings", response_model=list[dict[str, str]], tags=["openings"])
+def list_openings(service: MatchService = Depends(get_service)) -> list[dict[str, str]]:
+    return service.openings()
+
+
 @router.post("/matches", response_model=MatchSnapshot, status_code=201, tags=["matches"])
 def create_match(body: CreateMatchRequest, service: MatchService = Depends(get_service)) -> MatchSnapshot:
     return service.create(body)
