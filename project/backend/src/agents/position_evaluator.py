@@ -7,6 +7,7 @@ weights are hand-tuned starting points and must be validated empirically.
 from __future__ import annotations
 
 from ..environment import GameState, Side
+from .threat_evaluator import threat_score
 
 PIECE_VALUES = {
     1: 10_000,
@@ -22,7 +23,7 @@ PIECE_VALUES = {
 # incentive to develop it. Count each *living* rook, horse, or cannon separately.
 # This rewards bringing out the second horse instead of moving the first again.
 DEVELOPMENT_BONUS = {
-    4: 10,  # Horse: especially important to activate in the opening.
+    4: 4,   # Horse: modest incentive; avoid overvaluing early trades.
     5: 5,   # Rook: useful when files/lanes become available.
     6: 4,   # Cannon: starts in an already active rank in Xiangqi.
 }
@@ -101,7 +102,7 @@ def _king_safety(board: tuple[int, ...]) -> int:
 
 
 def evaluate_position(state: GameState, side: Side) -> int:
-    """Material + positioning + per-piece activation + king guard.
+    """Material + positioning + restrained development + king guard + threats.
 
     The engine decides terminal results *before* this function is called.
     Slightly discourage a repeat if ahead; if behind, allow the prospect of a
@@ -118,6 +119,7 @@ def evaluate_position(state: GameState, side: Side) -> int:
             + _development_score(piece, square)
         )
     red_total += _king_safety(state.board)
+    red_total += threat_score(state.board, int(state.side_to_move))
     score = red_total * int(side)
 
     if state.history.count(state.position_key()) >= 2:
