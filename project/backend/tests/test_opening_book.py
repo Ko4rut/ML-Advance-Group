@@ -89,7 +89,7 @@ class OpeningBookTests(unittest.TestCase):
                 resume=True, quiet=True,
             )
             self.assertEqual(second["new_games"], 2)
-            rows = [json.loads(line) for line in path.read_text().splitlines()]
+            rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual({row["game_index"] for row in rows}, set(range(5)))
             self.assertTrue(all(row["opening_mode"] == "book" for row in rows))
             with self.assertRaisesRegex(ValueError, "incompatible"):
