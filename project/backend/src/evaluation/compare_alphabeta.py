@@ -16,14 +16,14 @@ import random
 import statistics
 import time
 
-from ..agents import AlphaBetaAgent
-from ..agents._search_utils import (
+from src.agents import AlphaBetaAgent
+from src.agents._search_utils import (
     INFINITY, SearchLimitReached, create_search_context,
     evaluate_position, order_moves, terminal_score, validate_search_root,
 )
-from ..environment import GameEngine, GameState
-from ..environment.movegen import MoveGenerator
-from ..environment.types import Move
+from src.environment import GameEngine, GameState
+from src.environment.movegen import MoveGenerator
+from src.environment.types import Move
 
 
 class OriginalMoveGenerator(MoveGenerator):
