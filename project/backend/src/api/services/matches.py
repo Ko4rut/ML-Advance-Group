@@ -202,8 +202,7 @@ class MatchService:
         if match.env.state.ply_count != expected_ply:
             raise MatchError(409, "stale match state; fetch the latest snapshot")
 
-    @staticmethod
-    def _snapshot(match_id: str, match: Match) -> MatchSnapshot:
+    def _snapshot(self, match_id: str, match: Match) -> MatchSnapshot:
         state = match.env.state
         outcome = match.env.engine.outcome(state)
         return MatchSnapshot(
