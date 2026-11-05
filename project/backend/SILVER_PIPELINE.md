@@ -6,15 +6,15 @@ It consumes immutable Bronze JSONL files and does not generate new self-play.
 ## Responsibility map
 
 - src/data/bronze/reader.py: typed raw JSONL input (standalone).
-- src/data_pipeline/silver/adapters.py: SourceAdapter interface, AlphaBetaAdapter.
+- src/data/silver/data_pipeline/adapters.py: SourceAdapter interface, AlphaBetaAdapter.
   Keep source-specific notation converters here; future CCPDAdapter must
   implement the same convert/audit contract.
-- src/data_pipeline/silver/replay.py: SilverReplayValidator, replays moves
+- src/data/silver/data_pipeline/replay.py: SilverReplayValidator, replays moves
   using the project's existing GameEngine, checks result, emits transitions.
-- src/data_pipeline/silver/deduplication.py: canonical SHA256 of initial
+- src/data/silver/data_pipeline/deduplication.py: canonical SHA256 of initial
   board, side, and action sequence. Ignore source-provided fingerprints.
-- src/data_pipeline/silver/writers.py: SilverWriter, QuarantineWriter.
-- src/data_pipeline/silver/pipeline.py: SilverPipeline orchestration and report.
+- src/data/silver/data_pipeline/writers.py: SilverWriter, QuarantineWriter.
+- src/data/silver/data_pipeline/pipeline.py: SilverPipeline orchestration and report.
 - src/data/silver/models.py and reader.py: shared validated data contracts.
 
 ## Run

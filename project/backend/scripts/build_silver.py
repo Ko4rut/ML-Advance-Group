@@ -3,7 +3,7 @@
 import argparse
 import json
 
-from src.data_pipeline.silver import SilverPipeline
+from src.data.silver.data_pipeline import SilverPipeline
 
 
 def main() -> None:

@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from src.data.silver.reader import SilverGameReader, SilverTransitionReader
-from src.data_pipeline.silver import SilverPipeline
+from src.data.silver.data_pipeline import SilverPipeline
 from src.environment import GameEngine, GameState, Move
 
 
