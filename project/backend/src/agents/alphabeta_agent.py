@@ -1,6 +1,6 @@
 """Alpha-beta pruning agent for Xiangqi."""
 
-from ..environment import GameEngine, GameState
+from ..environment import GameEngine, GameState, Move
 from .base import Agent, AgentDecision, SearchBudget
 from ._search_utils import (
     INFINITY,
@@ -71,6 +71,37 @@ class AlphaBetaAgent(Agent):
             best_move = iteration_move
 
         return AgentDecision(move=best_move, nodes=context.nodes)
+
+    def rank_actions(
+        self,
+        state: GameState,
+    ) -> tuple[list[tuple["Move", int]], int]:
+        """Score all legal root moves for controlled training exploration.
+
+        Each root child uses the *full* alpha-beta window, yielding comparable
+        minimax scores. Reusing the running root alpha would give only bounds
+        for inferior moves and is unsafe for Top-K probabilities.
+
+        This intentionally costs more than select_action and must be called
+        only on occasional exploration plies, not on every normal move.
+        """
+        moves = order_moves(state, validate_search_root(self.engine, state))
+        context = create_search_context(state, None)
+        scores: list[tuple[Move, int]] = []
+        for move in moves:
+            score = self._alphabeta(
+                state.moved(move),
+                self.max_depth - 1,
+                context,
+                ply=1,
+                alpha=-INFINITY,
+                beta=INFINITY,
+            )
+            scores.append((move, score))
+        # Python stable sort preserves the original deterministic move order
+        # for equal scores; score is always from the root player's perspective.
+        scores.sort(key=lambda pair: pair[1], reverse=True)
+        return scores, context.nodes
 
     def _alphabeta(
         self,

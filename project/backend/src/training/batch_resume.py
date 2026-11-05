@@ -26,8 +26,16 @@ def configuration(
     *,
     opening_mode: str = "random",
     opening_book_version: str | None = None,
+    deduplicate_games: bool = False,
+    max_duplicate_retries: int = 8,
+    exploration_top_k: int = 1,
+    exploration_score_margin: int = 12,
+    exploration_temperature: float = 8.0,
+    exploration_rate: float = 0.35,
+    exploration_window: int = 20,
+    exploration_max_moves: int = 2,
 ) -> dict[str, Any]:
-    return {
+    config = {
         "red_agent": red,
         "black_agent": black,
         "seed": seed,
@@ -39,6 +47,20 @@ def configuration(
         "opening_book_version": opening_book_version,
         "no_progress_limit": no_progress_limit,
     }
+    # Preserve backwards-compatible resume for existing pre-feature data.
+    # Only add fields when dedup or Top-K is opted into.
+    if deduplicate_games or exploration_top_k > 1:
+        config.update({
+            "deduplicate_games": deduplicate_games,
+            "max_duplicate_retries": max_duplicate_retries,
+            "exploration_top_k": exploration_top_k,
+            "exploration_score_margin": exploration_score_margin,
+            "exploration_temperature": exploration_temperature,
+            "exploration_rate": exploration_rate,
+            "exploration_window": exploration_window,
+            "exploration_max_moves": exploration_max_moves,
+        })
+    return config
 
 
 def checkpoint_path_for(output: Path) -> Path:
@@ -118,6 +140,8 @@ def load_completed(
                 stored = game.get(field)
                 if field == "opening_mode" and stored is None:
                     stored = "random"
+                if field == "deduplicate_games":
+                    stored = game.get(field, False)
                 if stored != expected:
                     raise ValueError(
                         f"Game {index}: incompatible {field}; "

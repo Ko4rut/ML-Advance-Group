@@ -100,6 +100,38 @@ def build_parser() -> argparse.ArgumentParser:
         "--ply-progress-every", type=int, default=0,
         help="print live per-game progress every N plies (0 disables)",
     )
+    batch_parser.add_argument(
+        "--deduplicate-games", action="store_true",
+        help="skip identical game action sequences; retry with a different deterministic sampling seed",
+    )
+    batch_parser.add_argument(
+        "--max-duplicate-retries", type=int, default=8,
+        help="maximum number of retries for a duplicate game before stopping safely",
+    )
+    batch_parser.add_argument(
+        "--exploration-top-k", type=int, default=1,
+        help="1 disables exploration; 3 samples among top three sufficiently good Alpha-Beta moves",
+    )
+    batch_parser.add_argument(
+        "--exploration-score-margin", type=int, default=12,
+        help="maximum evaluation point difference from best score for Top-K candidates",
+    )
+    batch_parser.add_argument(
+        "--exploration-temperature", type=float, default=8.0,
+        help="softmax temperature for sampled Top-K candidate scores",
+    )
+    batch_parser.add_argument(
+        "--exploration-rate", type=float, default=0.35,
+        help="chance to explore at each eligible post-opening ply",
+    )
+    batch_parser.add_argument(
+        "--exploration-window", type=int, default=20,
+        help="number of plies after opening eligible for exploration",
+    )
+    batch_parser.add_argument(
+        "--exploration-max-moves", type=int, default=2,
+        help="maximum exploratory moves per game",
+    )
     batch_parser.add_argument("--quiet", action="store_true")
     return parser
 
@@ -128,6 +160,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             ply_progress_every=args.ply_progress_every,
             resume=args.resume,
             quiet=args.quiet,
+            deduplicate_games=args.deduplicate_games,
+            max_duplicate_retries=args.max_duplicate_retries,
+            exploration_top_k=args.exploration_top_k,
+            exploration_score_margin=args.exploration_score_margin,
+            exploration_temperature=args.exploration_temperature,
+            exploration_rate=args.exploration_rate,
+            exploration_window=args.exploration_window,
+            exploration_max_moves=args.exploration_max_moves,
         )
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0

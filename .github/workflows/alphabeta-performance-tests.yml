@@ -35,6 +35,7 @@ jobs:
             tests.test_position_evaluator \
             tests.test_threat_evaluator \
             tests.test_opening_book \
+            tests.test_dataset_exploration \
             tests.api.test_matches \
             tests.api.test_opening_book_api
       - name: Original vs optimized microbenchmark

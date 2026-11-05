@@ -189,3 +189,63 @@ JSONL dataset generation with checkpoint/resume, and outcome/opening diversity
 summaries. Unit tests and performance benchmarks are intentionally **not**
 executed in this notebook; run those separately from the backend CLI or CI.
 
+
+
+## Controlled Top-K exploration and pre-write game deduplication
+
+For a **new** JSONL dataset, enable both controlled exploration and
+whole-game deduplication. Do not resume an older `book_v1` dataset under
+the new policy: the configuration is deliberately checked on resume.
+
+```bash
+cd project/backend
+python -u -m src batch \
+  --red alphabeta --black alphabeta \
+  --red-depth 3 --black-depth 3 --games 50 --max-plies 240 \
+  --opening-mode book --opening-plies 6 \
+  --deduplicate-games --max-duplicate-retries 12 \
+  --exploration-top-k 3 --exploration-score-margin 12 \
+  --exploration-temperature 8 --exploration-rate 0.35 \
+  --exploration-window 20 --exploration-max-moves 2 \
+  --seed 42 \
+  --output alphabeta_depth3_book_topk3_dedup_v2_seed42_max240.jsonl \
+  --resume
+```
+
+**Behavior**
+- On at most two randomly selected early post-opening plies per game, a
+  depth-limited Alpha-Beta search independently scores *all* legal root actions
+  using an unrestricted root alpha/beta window. It samples a move among the
+  top three whose score is at most 12 evaluation points behind the best,
+  using softmax temperature 8. This adds computational cost on sampled plies.
+- The piece material values and evaluator **never change** between games.
+- Each sampled move uses `actor="alphabeta_exploration"` and includes
+  `exploration.best_score`, `chosen_score`, and candidate probabilities.
+  These moves are not silently labelled as the deterministic Alpha-Beta move.
+- Before the parent process writes any game to JSONL, it compares the
+  complete move-sequence fingerprint to fingerprints of all stored games.
+  A duplicate is discarded and the same `game_index` is regenerated with a
+  deterministic retry seed. A bounded failure (default 8, example 12)
+  **raises an error** instead of recording a duplicate or hanging forever.
+- Resume reads stored fingerprints and the selected dedup/exploration
+  configuration. It will not overwrite a completed game.
+- The dataset stores `retry_attempt`, `generation_seed`, and configuration
+  metadata for reproducibility. In multiprocessing, the parent remains the
+  sole writer; the order of games completed may differ but no duplicate
+  fingerprint is accepted.
+
+Deduplication here is **whole-game only**. Shared opening prefixes and
+repeated (state, action) samples can still occur and should be addressed
+separately during training-data preparation. Repeated positions can be useful
+for statistics; game-level deduplication is an anti-waste guard, not evidence
+that the resulting data is balanced or expert quality.
+
+The new Colab notebook defaults to a **fresh output name**:
+`alphabeta_depth3_book_topk3_dedup_v2_seed42_max240`.
+The previous dataset is left untouched.
+
+Run focused tests outside the notebook:
+
+```bash
+python -m unittest -v tests.test_dataset_exploration tests.test_batch_games
+```
