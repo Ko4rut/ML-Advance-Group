@@ -4,38 +4,57 @@ Bronze **copies** source files exactly; it never parses Xiangqi moves, applies S
 
 ## Layout
 
-- Ingestion service: \`src/data/01_bronze/data_pipeline/ingest.py\` (\`BronzeIngester\`)
-- CLI: \`scripts/ingest_bronze.py\`
-- Colab: \`notebooks/xiangqi_colab_bronze_ingestion.ipynb\`
-- Metadata schema: \`BronzeFileManifest\` in \`src/data/01_bronze/models.py\`
-- Existing \`BronzeReader\` / \`AlphaBetaRawReader\` stay independent.
+- Ingestion service: `src/data/01_bronze/data_pipeline/ingest.py` (`BronzeIngester`)
+- CLI: `scripts/ingest_bronze.py`
+- Colab: `notebooks/xiangqi_colab_bronze_ingestion.ipynb`
+- Metadata schema: `BronzeFileManifest` in `src/data/01_bronze/models.py`
+- Existing `BronzeReader` / `AlphaBetaRawReader` stay independent.
 
 ## Run from project/backend
 
-\`\`\`bash
+```bash
 python -m scripts.ingest_bronze \
   /path/to/XiangqiAI/datasets \
   --destination-root /path/to/XiangqiAI/data/01_bronze \
   --source alphabeta \
   --source-version colab-batch-v1 \
   --include '*.jsonl'
-\`\`\`
+```
 
-The ingester creates \`01_bronze/alphabeta/<relative_source_path>\` and a
-\`<filename>.manifest.json\` for every nonempty file. Manifest includes SHA-256,
+The ingester creates `01_bronze/alphabeta/<relative_source_path>` and a
+`<filename>.manifest.json` for every nonempty file. Manifest includes SHA-256,
 source, source_version, relative path, original path, size, ingest time and
 optional explicitly supplied license.
 
 The default pattern ignores Alpha-Beta checkpoint JSON; checkpoints remain in
-\`datasets/\` and should be audited separately. Empty files are counted, not
+`datasets/` and should be audited separately. Empty files are counted, not
 ingested. Existing files with identical hashes are accepted without modification;
 content collisions fail instead of overwriting. No automatic HTTP download is
 attempted. For external datasets such as CCPD, download according to the
 provider's terms, then point the same CLI at those files with a distinct
-\`--source ccpd\` and appropriate \`--include\` patterns.
+`--source ccpd` and appropriate `--include` patterns.
 
-\`\`\`bash
+```bash
 python -m unittest tests.data.test_bronze_ingest -v
-\`\`\`
+```
 
 This task does not run Silver or Gold. Source file content is kept unmodified.
+
+## CCPD from Google Colab
+
+The Colab Bronze notebook now defaults to source **ccpd**. It uses Git
+sparse checkout to fetch only Dataset/對局/大師對局/以賽事分類/世界智力運動會
+(595 PGN files at inspection time), plus LICENSE and README.md.
+
+Use CCPD_MODE="sample" for 20 randomly selected but deterministic PGNs
+(seed 42). Once SHA-256 checks pass, set CCPD_MODE="full" to ingest the
+whole collection. Same-hash copies are skipped; conflicting data is never
+overwritten. The manifest source_version is git-<commit_sha> of CCPD.
+
+Bronze does not decode PGN, replay Xiangqi moves, or make supervised labels.
+Implement CCPDAdapter in Silver before using these files as training data.
+For legacy Alpha-Beta ingestion, set SOURCE_CHOICE="alphabeta".
+
+Source: https://github.com/Yvonne761/Chinese-Chess-Practical-Dataset
+License: CC BY 4.0 (verified from upstream LICENSE).
+Credit: Yu-Han Tseng and Bo-Nian Chen (2026), Chinese Chess Practical Dataset.
