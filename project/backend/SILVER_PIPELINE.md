@@ -5,23 +5,23 @@ It consumes immutable Bronze JSONL files and does not generate new self-play.
 
 ## Responsibility map
 
-- src/data/bronze/reader.py: typed raw JSONL input (standalone).
-- src/data/silver/data_pipeline/adapters.py: SourceAdapter interface, AlphaBetaAdapter.
+- src/data/01_bronze/reader.py: typed raw JSONL input (standalone).
+- src/data/02_silver/data_pipeline/adapters.py: SourceAdapter interface, AlphaBetaAdapter.
   Keep source-specific notation converters here; future CCPDAdapter must
   implement the same convert/audit contract.
-- src/data/silver/data_pipeline/replay.py: SilverReplayValidator, replays moves
+- src/data/02_silver/data_pipeline/replay.py: SilverReplayValidator, replays moves
   using the project's existing GameEngine, checks result, emits transitions.
-- src/data/silver/data_pipeline/deduplication.py: canonical SHA256 of initial
+- src/data/02_silver/data_pipeline/deduplication.py: canonical SHA256 of initial
   board, side, and action sequence. Ignore source-provided fingerprints.
-- src/data/silver/data_pipeline/writers.py: SilverWriter, QuarantineWriter.
-- src/data/silver/data_pipeline/pipeline.py: SilverPipeline orchestration and report.
-- src/data/silver/models.py and reader.py: shared validated data contracts.
+- src/data/02_silver/data_pipeline/writers.py: SilverWriter, QuarantineWriter.
+- src/data/02_silver/data_pipeline/pipeline.py: SilverPipeline orchestration and report.
+- src/data/02_silver/models.py and reader.py: shared validated data contracts.
 
 ## Run
 
 From project/backend:
 
-    python -m scripts.build_silver data/bronze/alphabeta/games.jsonl --output-dir data/silver/run_001
+    python -m scripts.build_silver data/01_bronze/alphabeta/games.jsonl --output-dir data/02_silver/run_001
 
 Multiple input JSONL files are supported; dedup is applied across them.
 Use a new output directory for every run; outputs are never overwritten.
@@ -58,3 +58,7 @@ duplicate_games, and quarantined_records.
 Run unit tests:
 
     python -m unittest discover -s tests -v
+
+## Numbered folders
+
+Physical source-code folders are `src/data/01_bronze/`, `src/data/02_silver/`, and `src/data/03_gold/`. Existing Python import paths (`src.data.bronze`, `src.data.silver`, `src.data.gold`) are retained as runtime aliases from `src/data/__init__.py`, because Python import statements cannot use identifiers beginning with digits. Dataset storage paths on Drive are separate from source-code paths and are not moved by this commit.

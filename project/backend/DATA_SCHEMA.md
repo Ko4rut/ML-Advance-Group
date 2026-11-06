@@ -1,7 +1,7 @@
 # Xiangqi Medallion data contracts (v1)
 
 The src/data/ directory contains Python code only. Keep large files OUTSIDE Git:
-data/bronze, data/silver, data/gold on Drive or a separate configurable storage root.
+data/01_bronze, data/02_silver, data/03_gold on Drive or a separate configurable storage root.
 
 | Layer | Pydantic models | Readers |
 | --- | --- | --- |
@@ -29,9 +29,13 @@ data/bronze, data/silver, data/gold on Drive or a separate configurable storage 
   Split train/val/test by entire game AFTER grouping duplicates.
 - Readers only parse/validate JSONL; they do NOT replay GameEngine,
   parse CCPD notation, deduplicate, quarantine, build Gold, or write files.
-  Implement these as separate ETL stages in src/data_pipeline/.
+  Implement these as separate ETL stages in src/data/02_silver/data_pipeline/.
 - BronzeRecord tracks the original source file SHA256, dataset version,
   licensing information, and ingestion time. Never mutate raw input files.
 
 Run tests from project/backend:
 python -m unittest discover -s tests -v
+
+## Numbered folders
+
+Physical source-code folders are `src/data/01_bronze/`, `src/data/02_silver/`, and `src/data/03_gold/`. Existing Python import paths (`src.data.bronze`, `src.data.silver`, `src.data.gold`) are retained as runtime aliases from `src/data/__init__.py`, because Python import statements cannot use identifiers beginning with digits. Dataset storage paths on Drive are separate from source-code paths and are not moved by this commit.
