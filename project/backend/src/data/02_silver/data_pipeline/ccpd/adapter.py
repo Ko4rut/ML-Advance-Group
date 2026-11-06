@@ -4,13 +4,14 @@ from src.data.models import MoveModel, Provenance
 from src.data.silver.models import GameMove, GameOutcome, SilverGame
 from src.environment import GameEngine, GameState, Side
 
+from ..adapters import SourceAdapter
 from ..deduplication import canonical_game_hash
 from ..errors import SilverValidationError
 from .notation import resolve_move
 from .pgn_parser import CCPDRecord
 
 
-class CCPDAdapter:
+class CCPDAdapter(SourceAdapter[CCPDRecord]):
     """Decode notation with real engine legality; never infer an ambiguous action."""
 
     def __init__(self, engine: GameEngine | None = None) -> None:
