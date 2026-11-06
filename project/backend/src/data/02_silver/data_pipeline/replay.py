@@ -53,6 +53,22 @@ class SilverReplayValidator:
 
         actual = self.engine.outcome(state)
         declared = game.outcome
+        if declared.result_source == "recorded":
+            # CCPD result is the match record, not necessarily checkmate.
+            # A game can end by resignation, adjudication or the clock.
+            # Still reject a recorded winner contradicted by a verified terminal state.
+            if actual is not None:
+                if declared.status != "finished" or _side_name(actual.winner) != declared.winner:
+                    raise SilverValidationError(
+                        "OUTCOME_MISMATCH", "PGN result conflicts with engine terminal state"
+                    )
+            if transitions and declared.status == "finished":
+                transitions[-1] = transitions[-1].model_copy(
+                    update={"recorded_game_end": True}
+                )
+            return transitions
+
+        # Preserve strict outcome checks for existing Alpha-Beta self-play.
         if actual is None:
             if declared.status == "finished":
                 raise SilverValidationError(

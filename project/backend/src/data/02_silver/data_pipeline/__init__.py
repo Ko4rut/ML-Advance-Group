@@ -1,6 +1,7 @@
 """Replay-validated Bronze -> Silver conversion."""
 
 from .adapters import AlphaBetaAdapter, SourceAdapter
+from .ccpd import CCPDAdapter, CCPDPipeline
 from .deduplication import GameDeduplicator
 from .pipeline import SilverPipeline, SilverReport
 from .replay import SilverReplayValidator
@@ -9,5 +10,5 @@ from .writers import QuarantineWriter, SilverWriter
 __all__ = [
     "AlphaBetaAdapter", "SourceAdapter", "GameDeduplicator",
     "SilverPipeline", "SilverReport", "SilverReplayValidator",
-    "QuarantineWriter", "SilverWriter",
+    "QuarantineWriter", "SilverWriter", "CCPDAdapter", "CCPDPipeline",
 ]

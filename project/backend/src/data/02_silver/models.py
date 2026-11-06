@@ -13,6 +13,8 @@ class GameOutcome(StrictModel):
     status: Literal["finished", "truncated", "unknown"]
     winner: SideName | None = None
     reason: str | None = None
+    # Engine terminal verdict and PGN result are different kinds of evidence.
+    result_source: Literal["engine", "recorded"] = "engine"
 
     @model_validator(mode="after")
     def no_winner_for_unfinished(self) -> "GameOutcome":
@@ -57,6 +59,8 @@ class SilverTransition(VersionedRecord):
     recorded_reward: float | None = None
     terminated: bool = False
     truncated: bool = False
+    # PGN ends here, independently of engine checkmate/stalemate.
+    recorded_game_end: bool = False
 
     @model_validator(mode="after")
     def consistent_turn(self) -> "SilverTransition":
