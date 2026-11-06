@@ -53,6 +53,5 @@ def apply_move(state: GameState, move: Move, rules: RulesConfig | None = None) -
 def outcome(state: GameState, rules: RulesConfig | None = None) -> GameResult | None:
     return GameEngine(rules).outcome(state)
 
-
 def legal_moves(state: GameState) -> list[Move]:
     return _DEFAULT_ENGINE.legal_moves(state)

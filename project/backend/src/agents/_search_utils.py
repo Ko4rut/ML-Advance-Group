@@ -35,7 +35,6 @@ class SearchContext:
             raise SearchLimitReached
         self.nodes += 1
 
-
 def create_search_context(
     state: GameState,
     budget: SearchBudget | None,
@@ -51,12 +50,10 @@ def create_search_context(
         deadline=deadline,
     )
 
-
 def search_depth(max_depth: int, budget: SearchBudget | None) -> int:
     if budget is not None and budget.max_depth is not None:
         return min(max_depth, budget.max_depth)
     return max_depth
-
 
 def terminal_score(reward: int, ply: int) -> int:
     if reward > 0:
@@ -65,14 +62,12 @@ def terminal_score(reward: int, ply: int) -> int:
         return -MATE_SCORE + ply
     return 0
 
-
 def material_score(state: GameState, side: Side) -> int:
     return sum(
         PIECE_VALUES[abs(piece)] * (1 if piece > 0 else -1) * int(side)
         for piece in state.board
         if piece
     )
-
 
 def validate_search_root(engine: GameEngine, state: GameState) -> list[Move]:
     moves = engine.legal_moves(state)
