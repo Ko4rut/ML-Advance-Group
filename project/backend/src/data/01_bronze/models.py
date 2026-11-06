@@ -30,3 +30,17 @@ class AlphaBetaRawGame(BaseModel):
     initial_board: Board
     moves: list[dict[str, Any]]
     outcome: dict[str, Any]
+
+
+class BronzeFileManifest(VersionedRecord):
+    """File-level Bronze metadata; accepts legacy sidecars from Colab."""
+
+    source: str = Field(min_length=1)
+    source_version: str = Field(min_length=1)
+    source_file: str = Field(min_length=1)
+    file_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    ingested_at: AwareDatetime
+    license: str | None = None
+    original_path: str | None = None
+    relative_path: str | None = None
+    size_bytes: int | None = Field(default=None, ge=0)
