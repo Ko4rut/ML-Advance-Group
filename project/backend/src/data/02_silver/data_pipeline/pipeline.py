@@ -53,8 +53,11 @@ class SilverPipeline:
     def run_alphabeta(
         self, input_files: Sequence[str | Path], output_dir: str | Path,
         *, source_version: str = "batch-v1", license: str | None = None,
+        max_records: int | None = None,
     ) -> SilverReport:
         """Build new Silver files and quarantine bad rows without aborting the batch."""
+        if max_records is not None and max_records <= 0:
+            raise ValueError("max_records must be positive")
         inputs = [Path(path) for path in input_files]
         if not inputs:
             raise ValueError("at least one input file is required")
@@ -81,6 +84,8 @@ class SilverPipeline:
                 digest = _sha256_file(source)
                 with source.open("r", encoding="utf-8") as stream:
                     for line_number, raw_line in enumerate(stream, start=1):
+                        if max_records is not None and report.source_records >= max_records:
+                            break
                         if not raw_line.strip():
                             continue
                         report.source_records += 1
@@ -125,4 +130,6 @@ class SilverPipeline:
                         writer.write_game(game, steps)
                         report.accepted_games += 1
                         report.transitions += len(steps)
+                if max_records is not None and report.source_records >= max_records:
+                    break
         return report

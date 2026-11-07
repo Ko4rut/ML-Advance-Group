@@ -23,7 +23,7 @@ project/backend/
 │           ├── adapter.py                 # SilverGame, human source labels
 │           └── pipeline.py                # replay, dedup, quarantine, report
 ├── scripts/build_ccpd_silver.py
-├── notebooks/xiangqi_colab_ccpd_silver.ipynb
+├── notebooks/xiangqi_colab_data_pipeline.ipynb
 └── tests/data_pipeline/test_ccpd_pipeline.py
 ```
 
@@ -48,9 +48,10 @@ python -m scripts.build_ccpd_silver /path/to/test.pgn \
 
 Do not use `--allow-missing-manifest` for production or training source material.
 
-For Google Colab, open `notebooks/xiangqi_colab_ccpd_silver.ipynb`, mount Drive,
-run `MODE="sample"` (20 files, fixed seed 42), inspect `report.json` and
-`quarantine.jsonl`; when satisfied, change to `MODE="full"` (all 595 PGNs).
+For Google Colab, open `notebooks/xiangqi_colab_data_pipeline.ipynb`, mount Drive,
+set `SOURCES=["ccpd"]`, use `MODE="sample"` (20 files, fixed seed 42) for
+verification or `MODE="full"` (all 595 PGNs), then inspect `report.json` and
+`quarantine.jsonl`.
 The notebook stages source data in `/content` and only publishes results after
 copying and checking SHA-256 against the local output.
 
@@ -80,8 +81,8 @@ piece movement legality, check protection or flying-generals rules**.
 
 Chinese notation forms that cannot be identified uniquely are sent to
 quarantine. Parsing errors should be fixed in adapters, **not by editing Bronze**.
-Full CCPD compatibility has not yet been established by a complete 595-game
-run on Google Colab.
+A full 595-PGN run has not yet been verified on Colab; run the shared
+`xiangqi_colab_data_pipeline.ipynb` with `SOURCES=["ccpd"]` and `MODE="full"`.
 
 Verification performed during implementation: 18 actual PGNs from
 World Mind Sports Games were replayed end-to-end with 1,697 transitions,

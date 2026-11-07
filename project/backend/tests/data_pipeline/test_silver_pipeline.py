@@ -41,6 +41,38 @@ class SilverPipelineTests(unittest.TestCase):
     def read_jsonl(self, path: Path) -> list[dict]:
         return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
 
+
+    def test_sample_limit_preserves_full_bronze_provenance(self):
+        """Sample rows must retain the SHA of the entire source file."""
+        import hashlib
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            items = [self.sample_game() for _ in range(3)]
+            for index, item in enumerate(items):
+                item["game_id"] = f"game-{index}"
+                item["moves"][0]["action"] = {"source": 54 + 2 * index, "target": 45 + 2 * index}
+                # Keep source snapshots consistent with their newly chosen action.
+                engine = GameEngine()
+                after = engine.apply_move(GameState.initial(), Move(54 + 2 * index, 45 + 2 * index))
+                item["moves"][0]["next_board"] = list(after.board)
+                item["final_board"] = list(after.board)
+            source = self.write_records(root, "bronze.jsonl", items)
+            result = SilverPipeline().run_alphabeta(
+                [source], root / "silver", max_records=2
+            )
+            self.assertEqual(result.source_records, 2)
+            self.assertEqual(result.accepted_games, 2)
+            checksum = hashlib.sha256(source.read_bytes()).hexdigest()
+            for row in self.read_jsonl(root / "silver", "games.jsonl"):
+                self.assertEqual(row["provenance"]["file_sha256"], checksum)
+
+    def test_sample_limit_rejects_invalid_counts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = self.write_records(root, "bronze.jsonl", [self.sample_game()])
+            with self.assertRaises(ValueError):
+                SilverPipeline().run_alphabeta([source], root / "silver", max_records=0)
+
     def test_valid_replay_produces_shared_schema(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
