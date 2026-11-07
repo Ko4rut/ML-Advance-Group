@@ -24,8 +24,9 @@ from src.data.silver.data_pipeline.deduplication import canonical_game_hash
 from src.data.silver.reader import SilverGameReader, SilverTransitionReader
 from src.environment import GameEngine, GameState, Side
 
+from .rewards import RewardConfig, calculate_reward
 
-REWARD_DEFINITION = "terminal_outcome_sparse_actor_perspective_v1"
+
 SPLITS = ("train", "val", "test")
 OUTPUTS = tuple(f"{kind}_{split}.jsonl" for kind in ("policy", "offline_rl") for split in SPLITS)
 
@@ -69,9 +70,15 @@ class GoldPipeline:
     containing sample/full/revalidation runs because that would double-count.
     """
 
-    def __init__(self, config: GoldConfig | None = None, engine: GameEngine | None = None) -> None:
+    def __init__(
+        self,
+        config: GoldConfig | None = None,
+        engine: GameEngine | None = None,
+        reward_config: RewardConfig | None = None,
+    ) -> None:
         self.config = config or GoldConfig()
         self.engine = engine or GameEngine()
+        self.reward_config = reward_config or RewardConfig(mode="sparse")
         self._legal_cache: dict[tuple[tuple[int, ...], str], list[int]] = {}
 
     def _legal_ids(self, board: list[int], side: str) -> list[int]:
@@ -130,12 +137,6 @@ class GoldPipeline:
             return True, False, origin
         return False, True, "none"
 
-    @staticmethod
-    def _reward(game: SilverGame, step: SilverTransition, terminal: bool) -> float:
-        if not terminal or game.outcome.winner is None:
-            return 0.0
-        return 1.0 if step.side == game.outcome.winner else -1.0
-
     def run(self, silver_dirs: Sequence[str | Path], output_dir: str | Path) -> dict[str, object]:
         sources = [Path(path).resolve() for path in silver_dirs]
         if not sources or len(set(sources)) != len(sources):
@@ -158,7 +159,8 @@ class GoldPipeline:
 
         report: dict[str, object] = {
             "schema_version": 1,
-            "reward_definition": REWARD_DEFINITION,
+            "reward_definition": self.reward_config.definition,
+            "reward_config": self.reward_config.as_dict(),
             "action_encoding": "from_to_8100_v1",
             "reward_perspective": "side_that_selected_action",
             "bootstrap_note": "For alternating zero-sum states use r - gamma * opponent_next_Q; do not add next_Q.",
@@ -229,8 +231,8 @@ class GoldPipeline:
                             rl = OfflineRLSample(
                                 game_id=game_id, ply=step.ply, split=split,
                                 state=step.board, side=step.side, action_id=action_id,
-                                reward=self._reward(game, step, terminal),
-                                reward_definition=REWARD_DEFINITION,
+                                reward=calculate_reward(game, step, terminal, self.reward_config),
+                                reward_definition=self.reward_config.definition,
                                 next_state=step.next_board, next_side=step.next_side,
                                 legal_action_ids=legal_actions,
                                 next_legal_action_ids=next_legal,
