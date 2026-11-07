@@ -17,7 +17,8 @@ python -m scripts.build_gold \
     /content/xiangqi_silver_stage/ccpd_full_20261107T080132614436Z \
     /content/xiangqi_silver_stage/alphabeta_full_20261107T074509139310Z \
   --output-dir /content/xiangqi_gold_runs/gold_20261107_v1 \
-  --seed 42 --train-ratio 0.8 --val-ratio 0.1
+  --seed 42 --train-ratio 0.8 --val-ratio 0.1 \
+  --reward-mode shaped --gamma 0.99 --shaping-weight 0.15
 ```
 
 On Colab, mount `/content/drive` and stage each source run's `games.jsonl`
@@ -75,3 +76,66 @@ Gold output alone does not implement a trainer or self-play loop.
 
 To check the implementation, run `python -m unittest tests.data_pipeline.test_gold_pipeline -v`
 from `project/backend`.
+
+## Gold reward profiles (v1 sparse and v2 shaped)
+
+Silver's `recorded_reward` remains source-neutral and is never modified.
+Gold's `offline_rl_*.jsonl` reward is assigned by the **explicitly versioned**
+reward policy. `policy_*.jsonl`, labels, legal actions, and game splits are
+the same for both policies.
+
+**Sparse v1:** `--reward-mode sparse` is the backward-compatible baseline:
+only the last finished action receives +1/-1/0 from the actor's perspective.
+All intermediate and truncated actions receive 0.
+
+**Shaped v2 (default CLI):** `--reward-mode shaped` uses a bounded,
+zero-sum potential `Phi(board, side) = tanh((material + pawn_progress)/300)`.
+The king has **zero material weight** because winning is already represented
+by the terminal outcome. The symmetric material values use the project's
+existing heuristic weights: advisors 20, elephants 20, horses 40, rooks 90,
+cannons 45, pawns 10. Pawn progress adds just 1 point per advanced rank
+(relative to the player's travel direction).
+
+For the action-taking player, apply
+
+```text
+r_v2 = r_terminal + lambda * (gamma * Phi(next_board, actor) - Phi(board, actor))
+Phi(next_board, actor) = 0 when terminated=True
+defaults: gamma=0.99, lambda=0.15
+```
+
+For truncated (nonterminal) episodes, retain the next potential and the
+original truncation flag. A recorded PGN win/loss/draw ends its dataset
+episode, so its terminal successor potential is zero; the recorded result is
+*not* an engine checkmate label. Terminal rewards remain dominant. Fixed
+"capture +X" / "check +Y" rewards are deliberately avoided: they may encourage
+material chasing or loops and are not necessarily policy-preserving.
+
+**Crucial two-player detail:** the potential uses **the actor's** perspective
+on *both* boards. Because the next turn belongs to their opponent and `Phi`
+is anti-symmetric, this is equivalent to
+`gamma * (-Phi(next_board, opponent)) - Phi(board, actor)`.
+For a negamax DQN whose Q-values are from the acting side's perspective,
+bootstrap with `r - gamma * max_legal Q(next_state, a')` and mask terminal
+transitions. Use the **same gamma** in Gold construction and training; using a
+different discount factor invalidates the potential-shaping guarantee.
+For transitions marked `truncated`, retain and handle the time-limit bootstrapping
+semantics explicitly.
+
+The report records `reward_definition` and `reward_config` so experiments
+are reproducible. `lambda=0` makes shaped rewards numerically identical to
+sparse rewards while retaining the v2 definition label. No claim of stronger
+play is implied until a held-out evaluation against Alpha-Beta is run.
+
+**Do not overwrite Gold v1.** Use a fresh run name (e.g.
+`gold_shaped_v2_<timestamp>`) in `data/03_gold`. The updated Colab notebook
+selects the new branch and generates its own fresh timestamped run.
+To validate just rewards, run
+
+```bash
+python -m unittest tests.data_pipeline.test_gold_rewards -v
+python -m unittest tests.data_pipeline.test_gold_pipeline -v
+```
+
+The sparse dataset is still the essential **control group** when evaluating
+whether shaping accelerates learning or changes playing strength.
