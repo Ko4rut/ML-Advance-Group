@@ -30,6 +30,7 @@ class PolicySample(VersionedRecord):
     target_action_id: ActionId
     legal_action_ids: list[ActionId] = Field(min_length=1)
     behavior_source_type: SourceType
+    source_dataset: str | None = None
     action_encoding: Literal["from_to_8100_v1"] = "from_to_8100_v1"
 
     @model_validator(mode="after")
@@ -51,13 +52,29 @@ class OfflineRLSample(VersionedRecord):
     reward: float
     reward_definition: str = Field(min_length=1)
     next_state: Board
+    next_side: SideName | None = None
+    legal_action_ids: list[ActionId] = Field(default_factory=list)
+    next_legal_action_ids: list[ActionId] = Field(default_factory=list)
     terminated: bool
     truncated: bool
+    termination_source: Literal["none", "engine", "recorded"] = "none"
     behavior_source_type: SourceType
+    source_dataset: str | None = None
     action_encoding: Literal["from_to_8100_v1"] = "from_to_8100_v1"
 
     @model_validator(mode="after")
     def terminal_flags(self) -> "OfflineRLSample":
         if self.terminated and self.truncated:
             raise ValueError("terminated and truncated are mutually exclusive")
+        if self.next_side is not None and self.next_side == self.side:
+            raise ValueError("next_side must alternate after each move")
+        for ids in (self.legal_action_ids, self.next_legal_action_ids):
+            if len(ids) != len(set(ids)):
+                raise ValueError("legal action IDs must be unique")
+        if self.legal_action_ids and self.action_id not in self.legal_action_ids:
+            raise ValueError("action_id must be legal in state")
+        if self.terminated and self.next_legal_action_ids:
+            raise ValueError("terminal transitions must have empty next_legal_action_ids")
+        if self.termination_source != "none" and not self.terminated:
+            raise ValueError("termination_source requires terminated=True")
         return self
