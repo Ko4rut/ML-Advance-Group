@@ -9,6 +9,8 @@
 # I represent the state (board) as a vector of length 9. 
 # The values are ' ', 'x', 'o'. 
 
+from numbers import Integral
+
 import numpy as np
 
 def empty_board():
@@ -24,8 +26,18 @@ def actions(board):
 
 def result(state, player, action):
     """Add a single symbol to the board."""
+    if len(state) != 9:
+        raise ValueError("state must contain exactly 9 cells")
+    if player not in ('x', 'o'):
+        raise ValueError("player must be 'x' or 'o'")
+    if terminal(state):
+        raise ValueError("cannot make a move from a terminal state")
+    if isinstance(action, bool) or not isinstance(action, Integral):
+        raise ValueError("action must be an integer index")
+    if action < 0 or action >= len(state):
+        raise ValueError(f"Illegal action {action} by player {player}!")
     if state[action] != ' ':
-        raise Exception(f"Illegal action {action} by player {player}!")
+        raise ValueError(f"Illegal action {action} by player {player}!")
     
     state = state.copy()
     state[action] = player

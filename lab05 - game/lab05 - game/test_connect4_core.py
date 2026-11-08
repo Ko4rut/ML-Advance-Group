@@ -78,6 +78,10 @@ class Connect4CoreTests(unittest.TestCase):
         self.assertTrue(terminal(board))
         self.assertEqual(utility(board, 1), 0)
         self.assertEqual(utility(board, -1), 0)
+        self.assertEqual(actions(board), [])
+
+        with self.assertRaisesRegex(ValueError, "terminal state"):
+            result(board, 1, 0)
 
     def test_nonterminal_board(self):
         board = result(empty_board((4, 4)), 1, 0)
@@ -123,6 +127,9 @@ class Connect4CoreTests(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             random_player(board)
+
+        with self.assertRaisesRegex(ValueError, "terminal state"):
+            result(board, -1, 4)
 
     def test_utility_rejects_both_players_winning(self):
         board = empty_board()

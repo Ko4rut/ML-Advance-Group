@@ -1,5 +1,28 @@
 # Adversarial Search and Games
 
+## Running the Tic-Tac-Toe and Connect 4 work
+
+Run these commands from this directory so notebook imports resolve to the local
+`tictactoe.py` and `connect4_core.py` files:
+
+```powershell
+python -m pip install -r "..\..\requirements.txt"
+python -m unittest -v test_connect4_core
+jupyter lab tictactoe_definitions.ipynb tictactoe_interactive.ipynb assignment_connect4.ipynb
+```
+
+In the interactive Tic-Tac-Toe notebook, set `PLAY_AS_X` or `PLAY_AS_O` to
+`True` in the corresponding cell to start a live game. Enter `-1` to quit.
+Connect 4's Task 1–2 implementation is in `connect4_core.py`; its seeded
+1,000-game Random-vs-Random experiment and results are in
+`assignment_connect4.ipynb`.
+
+To export the Connect 4 notebook after its saved outputs are in place:
+
+```powershell
+jupyter nbconvert --to html assignment_connect4.ipynb
+```
+
 ## Defining a Game
 * [Defining Tic-Tac-Toe](tictactoe_definitions.ipynb)
 
