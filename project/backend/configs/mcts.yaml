@@ -1,2 +1,7 @@
-# TODO: Define mcts configuration during implementation.
-{}
+# MCTS (UCT + rollout/static evaluation) configuration.
+c: 1.4                     # UCT exploration constant (values in [-1, 1])
+rollout_policy: capture_first   # random | capture_first
+rollout_depth: 2           # 0 = pure static eval at leaf (fastest); null = play to the end (cap 300 plies)
+eval_scale: 100            # value = tanh(evaluate_position / eval_scale); a rook = 90
+time_limit: 1.0            # seconds per move
+seed: 0
