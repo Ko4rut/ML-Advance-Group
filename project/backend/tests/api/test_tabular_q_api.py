@@ -10,7 +10,7 @@ from src.agents.tabular_q_agent import TabularQAgent
 from src.api.main import create_app
 from src.api.services.matches import MatchService
 from src.api.services.tabular_q import TabularQService
-from src.environment import GameState
+from src.environment import GameEngine, GameState
 from src.training.tabular_qlearning import TabularQConfig, TabularQTable, state_key
 
 
@@ -63,10 +63,10 @@ class TabularQApiTests(unittest.TestCase):
                 response = client.post("/api/v1/matches", json={
                     "red": {"type": "agent", "agent_id": "tabular_q"},
                     "black": {"type": "human"},
-                    "opening_mode": "none",
                 })
                 self.assertEqual(response.status_code, 201, response.text)
                 match = response.json()
+                self.assertEqual(match["opening_mode"], "none")
                 agent = match_service._matches[match["match_id"]].red_agent
                 self.assertIsInstance(agent, TabularQAgent)
                 self.assertEqual(agent.epsilon, 0.0)
@@ -83,7 +83,6 @@ class TabularQApiTests(unittest.TestCase):
             path = Path(tmp) / "q_table.json.gz"
             write_checkpoint(path)
             service = TabularQService(path)
-            from src.environment import GameEngine
             agent = service.make_agent(GameEngine())
             initial = GameState.initial()
             known = agent.select_action(initial)
@@ -98,6 +97,8 @@ class TabularQApiTests(unittest.TestCase):
             self.assertFalse(agent.last_action_supported)
             self.assertEqual(first.move, second.move)
             self.assertIn(first.move, engine.legal_moves(next_state))
+            from src.agents.rule_based import RuleBasedAgent
+            self.assertEqual(first.move, RuleBasedAgent(engine).select_action(next_state).move)
 
 
 if __name__ == "__main__":
