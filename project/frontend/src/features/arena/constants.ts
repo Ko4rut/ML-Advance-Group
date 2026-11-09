@@ -8,6 +8,7 @@ export const AGENTS: Agent[] = [
   { id: "minimax", label: "Minimax", symbol: "M", hint: "Game tree search" },
   { id: "alphabeta", label: "Alpha-Beta", symbol: "αβ", hint: "Pruned search" },
   { id: "mcts", label: "MCTS", symbol: "⌘", hint: "Monte Carlo search" },
+  { id: "tabular_q", label: "Tabular Q", symbol: "Q", hint: "Q-table greedy · dự phòng Rule-Based khi chưa biết thế cờ" },
   { id: "neural", label: "Neural MCTS", symbol: "N", hint: "Neural-guided search" },
   { id: "dqn", label: "DQN", symbol: "D", hint: "Deep Q-network" },
 ];
