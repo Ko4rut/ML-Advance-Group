@@ -5,6 +5,49 @@ The offline Gold v2 Q-table can now play through the existing
 train or expand the Q-table. If a Google Drive file ID is configured, the
 service automatically downloads the checkpoint on the first readiness check.
 
+## Download or import the model with one command
+
+The standalone CLI uses the backend's existing Drive download implementation,
+validates the Tabular Q checkpoint, and installs it into
+`project/backend/models/tabular_q/q_table.json.gz` by default. It does **not**
+train the model. You only need to run it once per model version.
+
+**Easy option: download manually in the browser** from
+[the trained Q-table](https://drive.google.com/file/d/1pU8pcxCwWLCaKj44OT8ZvWOy1Cd8AA9c/view),
+then from the `project/backend` PowerShell directory:
+
+```powershell
+python -m scripts.download_tabular_q_model --from-file "$env:USERPROFILE\Downloads\q_table.json.gz"
+```
+
+This mode requires **no Google CLI, ADC or API credentials**. The script checks
+the model structure and prints the path to configure in FastAPI.
+
+**Automatic private Drive download** (requires Google ADC configured as
+described below):
+
+```powershell
+python -m scripts.download_tabular_q_model
+```
+
+The default file ID is the existing Gold v2 Q-table above. To choose another
+model version, use `--drive-file-id OTHER_ID` or set a different `--output`.
+Existing model files are protected from accidental overwrite. Explicit
+`--replace` validates the new model first, then atomically replaces the old
+file. Keep the API stopped during a model replacement and restart it afterward.
+
+**Use the imported local checkpoint for API inference:**
+
+```powershell
+Remove-Item Env:XIANGQI_TABULAR_Q_DRIVE_FILE_ID -ErrorAction SilentlyContinue
+$env:XIANGQI_TABULAR_Q_CHECKPOINT=(Resolve-Path "./models/tabular_q/q_table.json.gz").Path
+fastapi dev src/api/main.py
+```
+
+Then check `http://127.0.0.1:8000/api/v1/models/tabular-q/status`; its
+`available` field should become `true`. Refresh the frontend so the Tabular
+Q choice becomes enabled.
+
 ## Configure the checkpoint
 
 The service supports either a locally accessible checkpoint or a private
@@ -166,6 +209,7 @@ Run from `project/backend` with the API/Drive/test extras installed:
 
 ```bash
 python -m pip install -e ".[api,drive,test]"
+python -m unittest tests.api.test_download_tabular_q_model -v
 python -m unittest tests.api.test_tabular_q_status_api -v
 python -m unittest tests.api.test_tabular_q_drive -v
 python -m unittest tests.api.test_tabular_q_api -v
