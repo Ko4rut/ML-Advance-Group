@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 
 from connect4_core import (
+    Position,
     actions,
     empty_board,
     random_player,
@@ -138,6 +139,55 @@ class Connect4CoreTests(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             utility(board, 1)
+
+
+class PositionTests(unittest.TestCase):
+    def test_drop_tracks_the_winner_like_a_full_scan(self):
+        """the winner that Position.drop finds from the new disc equals a scan of the whole board."""
+        np.random.seed(20261109)
+        for shape in ((4, 4), (5, 6), (6, 7)):
+            for _ in range(40):
+                position, player = Position.from_board(empty_board(shape)), 1
+                while not position.terminal:
+                    position = position.drop(player, random_player(position.board, player))
+                    self.assertEqual(position.winners, Position.from_board(position.board).winners)
+                    player = -player
+
+    def test_from_board_does_not_copy_but_drop_does_not_touch_the_original(self):
+        board = empty_board((4, 4))
+        position = Position.from_board(board)
+
+        child = position.drop(1, 0)
+
+        self.assertIs(position.board, board)
+        self.assertTrue(np.all(board == 0))
+        self.assertEqual(child.board[3, 0], 1)
+        self.assertEqual(child.empty_cells, position.empty_cells - 1)
+
+    def test_position_reports_the_same_answers_as_the_board_functions(self):
+        board = empty_board()
+        board[5, :4] = 1
+        position = Position.from_board(board)
+
+        self.assertTrue(position.terminal)
+        self.assertEqual(position.legal_columns(), actions(board))
+        self.assertEqual(position.utility(-1), utility(board, -1))
+
+    def test_drop_refuses_a_terminal_position_and_bad_players(self):
+        board = empty_board()
+        board[5, :4] = 1
+        with self.assertRaisesRegex(ValueError, "terminal state"):
+            Position.from_board(board).drop(-1, 4)
+        with self.assertRaises(ValueError):
+            Position.from_board(empty_board()).drop(True, 0)
+
+    def test_terminal_and_actions_tolerate_a_board_where_both_players_won(self):
+        board = empty_board()
+        board[5, :4] = 1
+        board[4, :4] = -1
+
+        self.assertTrue(terminal(board))
+        self.assertEqual(actions(board), [])
 
 
 if __name__ == "__main__":

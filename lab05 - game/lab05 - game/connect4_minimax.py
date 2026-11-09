@@ -1,8 +1,9 @@
 """Minimax search with alpha-beta pruning and move ordering for the Connect 4 assignment.
 
-The structure follows ``tictactoe_alpha_beta_tree_search.ipynb``. The only differences are
-that players are ``1`` / ``-1`` (the opponent of ``player`` is ``-player``) and that the
-game functions come from ``connect4_core.py``.
+The idea follows ``tictactoe_alpha_beta_tree_search.ipynb``. The differences are that
+players are ``1`` / ``-1`` (the opponent of ``player`` is ``-player``), that the game
+comes from ``connect4_core.py``, and that the max and min steps of the notebook are one
+function (``Search.visit``) because they only differ in which side moves.
 """
 
 from __future__ import annotations
@@ -10,13 +11,7 @@ from __future__ import annotations
 import math
 import time
 
-import numpy as np
-
-from connect4_core import actions, empty_board, random_player, result, terminal, utility
-
-# global variables
-DEBUG = 1  # 0 ... silent, 1 ... count nodes, 2 ... debug each node (same meaning as tic-tac-toe notebook)
-COUNT = 0
+from connect4_core import Position, empty_board, result, terminal, utility
 
 
 class SearchLimitReached(Exception):
@@ -52,152 +47,76 @@ def win_block_center(board, player, moves):
     return sorted(moves, key=lambda column: (rank(column), abs(column - middle)))
 
 
-# ---- minimax search ----
+# ---- search ----
 
-def minimax_search(board, player=1, node_limit=None):
-    """start the search.
+class Search:
+    """One search run for ``player``: counts the nodes, enforces the node limit and prints the trace.
 
-    Returns {"move", "value", "nodes"}. The number of nodes is returned in the dict because
-    ``from connect4_minimax import COUNT`` would only give a copy that is never updated.
+    All values are from ``player``'s view (+1 win, 0 draw, -1 loss). With ``prune=False`` it
+    is plain minimax; with ``prune=True`` it is minimax with alpha-beta pruning.
+    verbose: 0 ... silent, 1 ... print the number of nodes, 2 ... trace each node.
     """
-    global DEBUG, COUNT
-    COUNT = 0
 
-    value, move = max_value(board, player, node_limit)
-    nodes = COUNT
+    def __init__(self, player, move_order=no_ordering, node_limit=None, prune=True, verbose=0):
+        self.player = player
+        self.move_order = move_order
+        self.node_limit = node_limit
+        self.prune = prune
+        self.verbose = verbose
+        self.nodes = 0
 
-    if DEBUG >= 1: print(f"Number of nodes searched: {nodes}")
+    def run(self, board):
+        """search from board with ``player`` to move. Returns {"move", "value", "nodes"}."""
+        value, move = self.visit(Position.from_board(board), self.player, -math.inf, +math.inf)
+        if self.verbose >= 1: print(f"Number of nodes searched: {self.nodes}")
+        return {"move": move, "value": value, "nodes": self.nodes}
 
-    return {"move": move, "value": value, "nodes": nodes}
+    def visit(self, position, mover, alpha, beta):
+        """value and best column of a state where ``mover`` moves. ``player`` maximizes, the opponent minimizes."""
+        self.nodes += 1
+        if self.node_limit is not None and self.nodes > self.node_limit:
+            raise SearchLimitReached(f"more than {self.node_limit} nodes")
 
+        # return utility of state if it is a terminal state
+        v = position.utility(self.player)
+        if self.verbose >= 2: print(f"node: {position.board.tolist()} mover={mover} [alpha,beta]=[{alpha},{beta}] v={v}")
+        if v is not None: return v, None
 
-def max_value(state, player, node_limit=None):
-    """player's best move."""
-    global DEBUG, COUNT
-    COUNT += 1
-    if node_limit is not None and COUNT > node_limit:
-        raise SearchLimitReached(f"more than {node_limit} nodes")
+        maximizing = mover == self.player
+        v, move = (-math.inf if maximizing else +math.inf), None
 
-    # return utility of state if it is a terminal state
-    v = utility(state, player)
-    if DEBUG >= 2: print("max in: " + str(state.tolist()) + str([v]))
-    if v is not None: return v, None
+        # try all actions, keep the move with the largest (max) or smallest (min) value, update alpha / beta
+        for a in self.move_order(position.board, mover, position.legal_columns()):
+            v2, _ = self.visit(position.drop(mover, a), -mover, alpha, beta)
+            if maximizing and v2 > v:
+                v, move = v2, a
+                alpha = max(alpha, v)
+            elif not maximizing and v2 < v:
+                v, move = v2, a
+                beta = min(beta, v)
+            cutoff = v >= beta if maximizing else v <= alpha
+            if self.prune and cutoff:
+                if self.verbose >= 2: print(f"     cutoff (v={v}, alpha={alpha}, beta={beta}): pruning remaining actions.")
+                break
 
-    v, move = -math.inf, None
-
-    # check all possible actions in the state, return move with the largest value
-    for a in actions(state):
-        v2, a2 = min_value(result(state, player, a), player, node_limit)
-        if v2 > v:
-            v, move = v2, a
-
-    if DEBUG >= 2: print("max out: " + str(state.tolist()) + str([v, move]))
-    return v, move
-
-
-def min_value(state, player, node_limit=None):
-    """opponent's best response."""
-    global DEBUG, COUNT
-    COUNT += 1
-    if node_limit is not None and COUNT > node_limit:
-        raise SearchLimitReached(f"more than {node_limit} nodes")
-
-    # return utility of state if it is a terminal state
-    v = utility(state, player)
-    if DEBUG >= 2: print("min in: " + str(state.tolist()) + str([v]))
-    if v is not None: return v, None
-
-    v, move = +math.inf, None
-
-    # check all possible actions in the state, return move with the smallest value
-    for a in actions(state):
-        v2, a2 = max_value(result(state, -player, a), player, node_limit)
-        if v2 < v:
-            v, move = v2, a
-
-    if DEBUG >= 2: print("min out: " + str(state.tolist()) + str([v, move]))
-    return v, move
+        return v, move
 
 
-# ---- minimax search with alpha-beta pruning ----
+def minimax_search(board, player=1, node_limit=None, verbose=0):
+    """minimax search without pruning.
 
-def alpha_beta_search(board, player=1, move_order=no_ordering, node_limit=None):
-    """start the search. move_order decides in which order the columns are tried.
-
-    Returns {"move", "value", "nodes"}; see minimax_search for why "nodes" is in the dict.
+    Returns {"move", "value", "nodes"}. The number of nodes is part of the result, so no
+    shared counter is needed.
     """
-    global DEBUG, COUNT
-    COUNT = 0
-
-    value, move = max_value_ab(board, player, -math.inf, +math.inf, move_order, node_limit)
-    nodes = COUNT
-
-    if DEBUG >= 1: print(f"Number of nodes searched: {nodes}")
-
-    return {"move": move, "value": value, "nodes": nodes}
+    return Search(player, node_limit=node_limit, prune=False, verbose=verbose).run(board)
 
 
-def max_value_ab(state, player, alpha, beta, move_order=no_ordering, node_limit=None):
-    """player's best move."""
-    global DEBUG, COUNT
-    COUNT += 1
-    if node_limit is not None and COUNT > node_limit:
-        raise SearchLimitReached(f"more than {node_limit} nodes")
+def alpha_beta_search(board, player=1, move_order=no_ordering, node_limit=None, verbose=0):
+    """minimax search with alpha-beta pruning. move_order decides in which order the columns are tried.
 
-    # return utility of state is a terminal state
-    v = utility(state, player)
-    if DEBUG >= 2: print(f"max: {state.tolist()} [alpha,beta]=[{alpha},{beta}] v={v}")
-    if v is not None:
-        if DEBUG >= 2: print("     found terminal state. backtracking.")
-        return v, None
-
-    v, move = -math.inf, None
-
-    # check all possible actions in the state, update alpha and return move with the largest value
-    for a in move_order(state, player, actions(state)):
-        v2, a2 = min_value_ab(result(state, player, a), player, alpha, beta, move_order, node_limit)
-        if DEBUG >= 2: print(f"max: {state.tolist()} (backtracked) [alpha,beta]=[{alpha},{beta}] v={v2}")
-
-        if v2 > v:
-            v, move = v2, a
-            alpha = max(alpha, v)
-        if v >= beta:
-            if DEBUG >= 2: print(f"     v>=beta ({v}>={beta}): pruning remaining subtree (actions). backtracking.")
-            return v, move
-
-    return v, move
-
-
-def min_value_ab(state, player, alpha, beta, move_order=no_ordering, node_limit=None):
-    """opponent's best response."""
-    global DEBUG, COUNT
-    COUNT += 1
-    if node_limit is not None and COUNT > node_limit:
-        raise SearchLimitReached(f"more than {node_limit} nodes")
-
-    # return utility of state is a terminal state
-    v = utility(state, player)
-    if DEBUG >= 2: print(f"min: {state.tolist()} [alpha,beta]=[{alpha},{beta}] v={v}")
-    if v is not None:
-        if DEBUG >= 2: print("     found terminal state. backtracking.")
-        return v, None
-
-    v, move = +math.inf, None
-
-    # check all possible actions in the state, update beta and return move with the smallest value
-    # (the opponent is the one who moves here, so the move order gets -player)
-    for a in move_order(state, -player, actions(state)):
-        v2, a2 = max_value_ab(result(state, -player, a), player, alpha, beta, move_order, node_limit)
-        if DEBUG >= 2: print(f"min: {state.tolist()} (backtracked) [alpha,beta]=[{alpha},{beta}] v={v2}")
-
-        if v2 < v:
-            v, move = v2, a
-            beta = min(beta, v)
-        if v <= alpha:
-            if DEBUG >= 2: print(f"     v<=alpha ({v}<={alpha}): pruning remaining subtree (actions). backtracking.")
-            return v, move
-
-    return v, move
+    Returns {"move", "value", "nodes"}.
+    """
+    return Search(player, move_order, node_limit, prune=True, verbose=verbose).run(board)
 
 
 # ---- helpers ----
@@ -219,16 +138,12 @@ def timed_search(search, board, player=1, **kwargs):
 
     The search runs silently. If it visits more than node_limit nodes, the result has
     move=None, value=None, nodes=node_limit and finished=False."""
-    global DEBUG
-    old_debug, DEBUG = DEBUG, 0
     start = time.perf_counter()
     try:
-        info = search(board, player, **kwargs)
+        info = search(board, player, verbose=0, **kwargs)
         info["finished"] = True
     except SearchLimitReached:
         info = {"move": None, "value": None, "nodes": kwargs.get("node_limit"), "finished": False}
-    finally:
-        DEBUG = old_debug
     info["time_ms"] = (time.perf_counter() - start) * 1000
     return info
 
@@ -253,9 +168,8 @@ class AlphaBetaAgent:
         if self.remember_moves and key in self.known_moves:
             return self.known_moves[key]
 
-        start = time.perf_counter()
         info = timed_search(alpha_beta_search, board, player, move_order=self.move_order)
-        self.move_times.append(time.perf_counter() - start)
+        self.move_times.append(info["time_ms"] / 1000)
         self.nodes.append(info["nodes"])
 
         move = int(info["move"])
@@ -265,12 +179,7 @@ class AlphaBetaAgent:
 
 def alpha_beta_player(board, player=1):
     """simple agent function like alpha_beta_player in the tic-tac-toe notebook."""
-    global DEBUG
-    old_debug, DEBUG = DEBUG, 0
-    try:
-        return int(alpha_beta_search(board, player)["move"])
-    finally:
-        DEBUG = old_debug
+    return int(alpha_beta_search(board, player)["move"])
 
 
 def play(first, second, N=100, shape=(4, 4)):

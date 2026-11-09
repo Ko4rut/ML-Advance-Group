@@ -1,8 +1,9 @@
+import contextlib
+import io
 import unittest
 
 import numpy as np
 
-import connect4_minimax
 from connect4_core import actions, empty_board, random_player, result, terminal
 from connect4_minimax import (
     AlphaBetaAgent,
@@ -36,9 +37,6 @@ def small_boards(count=10, empty_cells=8, seed=20261109):
 
 
 class Connect4MinimaxTests(unittest.TestCase):
-    def setUp(self):
-        connect4_minimax.DEBUG = 0
-
     def assert_keeps_the_win(self, board, player, move):
         """after `move` the opponent must lose, i.e. the win is still there."""
         after = result(board, player, move)
@@ -95,6 +93,32 @@ class Connect4MinimaxTests(unittest.TestCase):
         self.assertFalse(info["finished"])
         self.assertIsNone(info["move"])
         self.assertEqual(info["nodes"], 50)
+
+    def test_searches_are_silent_unless_verbose(self):
+        board, player = board_from_moves((4, 4), [0, 0, 1, 0, 2])
+
+        quiet = io.StringIO()
+        with contextlib.redirect_stdout(quiet):
+            alpha_beta_search(board, player)
+            minimax_search(board, player)
+        self.assertEqual(quiet.getvalue(), "")
+
+        loud = io.StringIO()
+        with contextlib.redirect_stdout(loud):
+            info = alpha_beta_search(board, player, verbose=1)
+        self.assertEqual(loud.getvalue(), f"Number of nodes searched: {info['nodes']}\n")
+
+    def test_searches_do_not_share_a_node_counter(self):
+        board = empty_board((4, 4))
+        first = alpha_beta_search(board, 1, move_order=center_first)
+        alpha_beta_search(board, 1)  # a search in between must not change the count of the next
+        self.assertEqual(alpha_beta_search(board, 1, move_order=center_first)["nodes"], first["nodes"])
+
+    def test_pruning_visits_fewer_nodes_than_plain_minimax(self):
+        for board, player in small_boards():
+            plain = minimax_search(board, player)
+            pruned = alpha_beta_search(board, player)
+            self.assertLessEqual(pruned["nodes"], plain["nodes"])
 
     def test_agent_returns_a_legal_column_and_keeps_the_board(self):
         board, player = board_from_moves((4, 4), [1, 2, 1, 2, 3])
