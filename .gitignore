@@ -41,3 +41,6 @@ Desktop.ini
 
 # Generated Xiangqi games, checkpoints and reports
 project/artifacts/
+
+.agents/**
+.claude/**

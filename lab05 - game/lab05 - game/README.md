@@ -51,3 +51,30 @@ You can test your own agent function using the
 * [Adversarial Search: Playing Connect 4](assignment_connect4.ipynb)
 * [Adversarial Search: Playing "Mean" Connect 4](assignment_mean_connect4.ipynb)
 * [Adversarial Search: Playing Dots and Boxes](assignment_dots_and_boxes.ipynb)
+
+## Connect 4 Task 3 — Minimax / Alpha-Beta (Tùng Thiện)
+
+Code tìm kiếm nằm trong `connect4_minimax.py` (dùng lại `Position, empty_board, result, terminal, utility` từ `connect4_core.py`).
+Notebook làm việc riêng của phần này là `connect4_task3_minimax.ipynb`; các mục của notebook khớp 1-1 với Task 3 trong `assignment_connect4.ipynb`.
+
+Chạy từ thư mục này:
+
+```bash
+python -m unittest -v test_connect4_core test_connect4_minimax
+python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 connect4_task3_minimax.ipynb
+```
+
+Các hàm chính (mọi hàm tìm kiếm trả về dict `{"move", "value", "nodes"}`; `node_limit = None` là không giới hạn, vượt giới hạn thì `raise SearchLimitReached`; `verbose = 0` là không in gì, `1` in số nút, `2` in từng nút; không còn biến toàn cục `DEBUG`/`COUNT`):
+
+* `minimax_search(board, player = 1, node_limit = None, verbose = 0)`
+* `alpha_beta_search(board, player = 1, move_order = no_ordering, node_limit = None, verbose = 0)`
+* Cả hai là một lớp `Search(...)` duy nhất (`prune = False` là Minimax, `prune = True` là Alpha-Beta); `Search.visit` thay cho bốn hàm `max_value`/`min_value`/`max_value_ab`/`min_value_ab` trước đây.
+* `connect4_core.Position` — thế cờ đã kiểm tra một lần, nhớ người thắng; `drop(player, column)` trả về `Position` mới nên tìm kiếm không phải kiểm tra lại bàn cờ ở mỗi nút.
+* Thứ tự nước đi (`move_order`): `no_ordering`, `center_first`, `win_block_center`. Một hàm sắp xếp nhận `(board, player, moves)` và trả về danh sách cột đã sắp xếp.
+* `AlphaBetaAgent(move_order = ..., remember_moves = True).act(board, player = 1)` — tác tử dạng class, nhớ thế cờ đã tính (`known_moves`, `move_times`, `nodes`).
+* `board_from_moves(shape, moves, first_player = 1)` — tạo bàn hợp lệ từ danh sách cột, trả về `(board, người_cần_đi)`.
+* `timed_search(search, board, player = 1, **kwargs)` — chạy một hàm tìm kiếm và thêm `"time_ms"`, `"finished"` vào kết quả.
+* `play(first, second, N = 100, shape = (4, 4))` — cho hai tác tử đấu N ván, trả về `{"first", "second", "draw"}`.
+
+Gợi ý cho Heuristic Alpha-Beta (Task 4): muốn thêm cắt độ sâu có thể dựa theo `max_value_ab` / `min_value_ab`
+giống cách `tictactoe_heuristic_alpha_beta_tree_search.ipynb` đã làm: thêm tham số `depth` / `cutoff` và hàm đánh giá vào `Search.visit` (chỉ một chỗ để sửa).
