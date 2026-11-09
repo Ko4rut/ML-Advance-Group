@@ -131,11 +131,11 @@ class MatchService:
         opening_mode = request.opening_mode
         if opening_mode is None:
             opening_mode = "none"
-            if request.red.agent_id == "tabular_q" or request.black.agent_id == "tabular_q":
-                # Evaluate the Q-table from the first move by default.
-                opening_mode = "none"
-            elif request.red.type == "agent" or request.black.type == "agent":
-                opening_mode = "book"
+            # Keep Q-learning's early decisions genuine unless book is
+            # explicitly requested. Other agent matches retain random book.
+            if request.red.agent_id != "tabular_q" and request.black.agent_id != "tabular_q":
+                if request.red.type == "agent" or request.black.type == "agent":
+                    opening_mode = "book"
         opening = self._opening_book.start(
             opening_mode, request.opening_plies, request.opening_seed
         )
