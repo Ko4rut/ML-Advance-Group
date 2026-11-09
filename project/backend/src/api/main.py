@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .routes.matches import router
+from .routes.tabular_q import router as tabular_q_router
 from .services.matches import MatchError, MatchService
 
 
@@ -26,6 +27,7 @@ def create_app(service: MatchService | None = None) -> FastAPI:
         return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
 
     app.include_router(router)
+    app.include_router(tabular_q_router)
     return app
 
 
