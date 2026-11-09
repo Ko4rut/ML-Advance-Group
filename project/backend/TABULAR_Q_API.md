@@ -7,11 +7,10 @@ automatically.
 
 ## Configure the checkpoint
 
-The backend needs **local filesystem access** to the model checkpoint.
-Download `q_table.json.gz` from the chosen
-`MyDrive/XiangqiAI/models/tabular_qlearning/<run>/` checkpoint directory
-to your backend machine, or mount the Google Drive directory where the API
-process runs.
+The service supports either a locally accessible checkpoint or a private
+Google Drive file ID. For Drive mode, the API host authenticates with Google
+Application Default Credentials (ADC) and caches the downloaded file locally.
+Gold/Drive data is never modified by inference.
 
 From `project/backend`, in PowerShell:
 
@@ -28,7 +27,46 @@ uvicorn src.api.main:app --port 8000
 ```
 
 The path must point to the **.json.gz file**, not the containing directory.
-Restart the backend after changing the checkpoint file or environment variable.
+The local path configuration takes precedence over Drive when both are set.
+
+### Google Drive mode (no manual model download)
+
+Install the optional Drive dependencies:
+
+```bash
+python -m pip install -e ".[api,drive,test]"
+```
+
+The existing trained checkpoint is:
+- [Q-table on Drive](https://drive.google.com/file/d/1pU8pcxCwWLCaKj44OT8ZvWOy1Cd8AA9c/view)
+- Drive file ID: `1pU8pcxCwWLCaKj44OT8ZvWOy1Cd8AA9c`
+
+For local development, authenticate once using Google Cloud SDK
+(`gcloud auth application-default login --scopes=https://www.googleapis.com/auth/drive.readonly,https://www.googleapis.com/auth/cloud-platform`).
+The signed-in Google identity must have read permission on the file, and the
+Google Cloud project must be authorized to use the Drive API.
+
+```powershell
+Remove-Item Env:XIANGQI_TABULAR_Q_CHECKPOINT -ErrorAction SilentlyContinue
+$env:XIANGQI_TABULAR_Q_DRIVE_FILE_ID="1pU8pcxCwWLCaKj44OT8ZvWOy1Cd8AA9c"
+$env:XIANGQI_TABULAR_Q_CACHE_DIR="E:\\xiangqi-models\\cache"
+fastapi dev src/api/main.py
+```
+
+On Colab, you can instead use the **local Drive mount** config:
+`XIANGQI_TABULAR_Q_CHECKPOINT=/content/drive/MyDrive/XiangqiAI/models/tabular_qlearning/<run>/q_table.json.gz`.
+Do not use Drive API mode unless the API process has valid ADC with Drive read access.
+
+The cache is a single file, keyed by Drive file ID. On first access
+(`GET /api/v1/agents` or creating the first Tabular Q match), the service
+downloads it and loads it into memory. Further matches reuse that shared table.
+If you replace the checkpoint under the **same Drive file ID**, delete its
+cache file and restart the API process to reload it. For a new immutable model
+run, point the configuration to the new file ID.
+
+Restart the backend after changing any checkpoint configuration. If the Drive
+API is inaccessible, invalid credentials are supplied, or the file is corrupt,
+Tabular Q is advertised as unavailable; other agents continue operating.
 
 If no checkpoint is configured, missing or invalid, `/api/v1/agents`
 advertises `tabular_q` as `available: false` and attempting to create
@@ -95,10 +133,11 @@ coverage from the initial Gold v2 baseline is about 16%, not a win rate.
 
 ## Verification
 
-Run from `project/backend` with the API/test extras installed:
+Run from `project/backend` with the API/Drive/test extras installed:
 
 ```bash
-python -m pip install -e ".[api,test]"
+python -m pip install -e ".[api,drive,test]"
+python -m unittest tests.api.test_tabular_q_drive -v
 python -m unittest tests.api.test_tabular_q_api -v
 python -m unittest tests.api.test_matches -v
 ```
