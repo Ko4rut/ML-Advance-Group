@@ -21,6 +21,8 @@ _DRIVE_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{10,128}$")
 _MAX_CHECKPOINT_BYTES = 128 * 1024 * 1024
 _DRIVE_READ_SCOPE = "https://www.googleapis.com/auth/drive.readonly"
 
+_BACKEND_ROOT = Path(__file__).resolve().parents[3]
+
 CheckpointDownloader = Callable[[str, Path], None]
 
 
@@ -44,9 +46,14 @@ class TabularQCheckpointSource:
         if configured_cache is None:
             configured_cache = os.getenv("XIANGQI_TABULAR_Q_CACHE_DIR")
 
-        self.checkpoint_path = (
-            Path(configured_path).expanduser() if configured_path else None
-        )
+        # Resolve relative model paths against project/backend, never cwd.
+        # This makes the .env template work with "fastapi dev" from any folder.
+        self.checkpoint_path: Path | None = None
+        if configured_path:
+            path = Path(configured_path).expanduser()
+            if not path.is_absolute():
+                path = _BACKEND_ROOT / path
+            self.checkpoint_path = path.resolve()
         self.drive_file_id = configured_id.strip() if configured_id else None
         self.cache_dir = (
             Path(configured_cache).expanduser()
