@@ -12,9 +12,10 @@ from src.training.tabular_qlearning import TabularQTable, state_key
 
 
 class TabularQAgent(Agent):
-    """Pick the best Q-valued legal TRAIN-supported move; fallback to random.
+    """Choose best TRAIN-supported Q-action, with configurable fallback.
 
-    Unknown-state fallback is explicit and measurable; it is NOT learned play.
+    API inference uses a deterministic RuleBasedAgent fallback. The standalone
+    class retains the historical random fallback when no fallback_agent is set.
     """
 
     def __init__(
