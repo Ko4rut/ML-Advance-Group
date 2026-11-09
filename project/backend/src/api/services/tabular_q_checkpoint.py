@@ -92,6 +92,11 @@ class TabularQCheckpointSource:
                 raise ValueError("Drive checkpoint download was empty")
             if temporary.stat().st_size > _MAX_CHECKPOINT_BYTES:
                 raise ValueError("Drive checkpoint exceeds maximum allowed size")
+            # Reject invalid/corrupt downloads BEFORE exposing them as cache.
+            # This prevents a bad response from poisoning later API restarts.
+            from ...training.tabular_qlearning import TabularQTable
+
+            TabularQTable.load(temporary)
             os.replace(temporary, cached)
             temporary = None
             return cached
