@@ -6,12 +6,15 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from .config import load_backend_env
 from .routes.matches import router
 from .routes.tabular_q import router as tabular_q_router
 from .services.matches import MatchError, MatchService
 
 
 def create_app(service: MatchService | None = None) -> FastAPI:
+    # Read project/backend/.env before instantiating checkpoint-backed services.
+    load_backend_env()
     app = FastAPI(title="Xiangqi AI API", version="0.1.0")
     app.state.match_service = service if service is not None else MatchService()
     origins = [item.strip() for item in os.getenv(
