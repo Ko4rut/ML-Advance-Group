@@ -22,6 +22,7 @@ src/api/
   models/match.py             # Pydantic request/response contracts
   routes/matches.py           # Versioned HTTP routes
   services/matches.py         # Game sessions, XiangqiEnv, agent registry
+  services/mcts.py            # MCTS config loading and per-move search budget
   services/opening_book.py    # Per-match curated opening state and AI handoff
 ```
 
@@ -48,6 +49,28 @@ src/api/
 Use `"agent_id":"astar"` to create a match against the A* agent. It searches for a
 shortest predicted checkmate against a deterministic one-ply opponent model, so it
 does not guarantee a win against a human who responds differently.
+
+### Play against MCTS
+
+MCTS uses the same match API as other agents; no separate endpoint is required.
+Choose `mcts` as a participant and call `POST /api/v1/matches/{id}/step`
+only when it is that agent's turn:
+
+```json
+{
+  "red": {"type": "human"},
+  "black": {"type": "agent", "agent_id": "mcts"},
+  "opening_mode": "none"
+}
+```
+
+The MCTS implementation uses UCT with a rollout/static position evaluator.
+Settings are loaded from `configs/mcts.yaml` relative to the backend, not the
+current working directory. `time_limit` (default: 1 second) limits search per
+AI move; optional `max_simulations` can limit simulations as well. The limit
+is checked between simulations, so an individual simulation may run over the
+time limit. A match's opening-book moves still take precedence over search.
+Install with `pip install -e ".[api,test]"` to include the YAML reader.
 
 ### Configure Opening Book
 
@@ -94,7 +117,7 @@ Every snapshot includes `match_id`, `red`, `black`, a 90-integer `board`, `side_
 
 - MVP matches are stored in **process memory**; restarting clears them. Run **one Uvicorn worker**. Do not use multiple workers until storage/locking has been centralized.
 - No authentication, persistence, rate limiting, WebSocket, auto-play loop, or statistics database yet. Expose only on a trusted development environment.
-- Random, Rule-Based, Minimax, and Alpha-Beta are enabled. Remaining agents are unavailable until implemented.
+- Random, Rule-Based, A*, Minimax, Alpha-Beta, and MCTS are enabled. Neural MCTS and DQN remain unavailable.
 - Frontend can instantly show legal move dots from a snapshot; backend remains the source of truth for all moves.
 
 ## Tests
@@ -105,4 +128,4 @@ With the optional test dependencies installed, from the repository root:
 python -m unittest project.backend.tests.api.test_matches -v
 ```
 
-Or from `project/backend`: `python -m unittest discover -s tests -v` (requires the repository root on `PYTHONPATH` for current legacy tests).
+Or from `project/backend`: `python -m unittest discover -s tests -v` (requires the repository root on `PYTHONPATH` for current legacy tests). To check the MCTS endpoint specifically: `python -m unittest tests.api.test_mcts_api -v`.

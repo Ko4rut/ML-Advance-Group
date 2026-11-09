@@ -9,6 +9,7 @@ from ...agents import (
     AlphaBetaAgent,
     HeuristicAgent,
     MinimaxAgent,
+    MCTSAgent,
     RandomAgent,
     RuleBasedAgent,
 )
@@ -17,6 +18,7 @@ from ..models.match import (
     AgentInfo, CreateMatchRequest, LegalMovesResponse, MatchSnapshot,
     MoveModel, MoveRequest, ParticipantModel, StepRequest,
 )
+from .mcts import MCTSService
 from .opening_book import OpeningBookService, OpeningSession
 
 class MatchError(Exception):
@@ -33,7 +35,7 @@ AGENT_CATALOG = (
     AgentInfo(id="astar", name="A*", available=True),
     AgentInfo(id="minimax", name="Minimax", available=True),
     AgentInfo(id="alphabeta", name="Alpha-Beta", available=True),
-    AgentInfo(id="mcts", name="MCTS", available=False),
+    AgentInfo(id="mcts", name="MCTS", available=True),
     AgentInfo(id="neural", name="Neural MCTS", available=False),
     AgentInfo(id="dqn", name="DQN", available=False),
 )
@@ -63,10 +65,11 @@ class Match:
 class MatchService:
     """In-memory MVP store. A process restart deletes matches; use one worker."""
 
-    def __init__(self) -> None:
+    def __init__(self, mcts_service: MCTSService | None = None) -> None:
         self._matches: dict[str, Match] = {}
         self._lock = RLock()
         self._opening_book = OpeningBookService()
+        self._mcts = mcts_service if mcts_service is not None else MCTSService()
 
     def agents(self) -> list[AgentInfo]:
         return list(AGENT_CATALOG)
@@ -74,8 +77,7 @@ class MatchService:
     def openings(self) -> list[dict[str, str]]:
         return self._opening_book.list_openings()
 
-    @staticmethod
-    def _make_agent(participant: ParticipantModel, env: XiangqiEnv) -> Agent | None:
+    def _make_agent(self, participant: ParticipantModel, env: XiangqiEnv) -> Agent | None:
         if participant.type == "human":
             return None
         agent_id = participant.agent_id
@@ -94,6 +96,8 @@ class MatchService:
             return MinimaxAgent(env.engine)
         if agent_id == "alphabeta":
             return AlphaBetaAgent(env.engine)
+        if agent_id == "mcts":
+            return self._mcts.make_agent(env.engine)
         raise MatchError(503, f"agent not implemented yet: {agent_id}")
 
     def create(self, request: CreateMatchRequest) -> MatchSnapshot:
@@ -170,7 +174,10 @@ class MatchService:
             legal_moves = match.env.get_legal_actions()
             action = self._opening_book.next_move(match.opening, state, legal_moves)
             if action is None:
-                action = agent.select_action(state).move
+                if isinstance(agent, MCTSAgent):
+                    action = self._mcts.select_move(agent, state)
+                else:
+                    action = agent.select_action(state).move
             if action not in legal_moves:
                 raise MatchError(422, "agent produced an illegal move")
             match.env.step(action)
