@@ -13,6 +13,7 @@ from threading import RLock
 from ...agents.rule_based import RuleBasedAgent
 from ...agents.tabular_q_agent import TabularQAgent
 from ...environment import GameEngine
+from ..models.tabular_q import TabularQModelStatus
 from ...training.tabular_qlearning import MODEL_VERSION, TabularQTable
 from .tabular_q_checkpoint import TabularQCheckpointSource, CheckpointDownloader
 
@@ -63,6 +64,32 @@ class TabularQService:
         with self._lock:
             self._load()
             return self._error
+
+    def status(self) -> TabularQModelStatus:
+        """Inspect shared model readiness without exposing credentials or paths."""
+        with self._lock:
+            self._load()
+            source = "unconfigured"
+            if self._source.checkpoint_path is not None:
+                source = "local"
+            elif self._source.drive_file_id is not None:
+                source = "drive"
+            table = self._table
+            if table is None:
+                return TabularQModelStatus(
+                    available=False,
+                    source=source,
+                    model_version=None,
+                    known_states=0,
+                    known_state_action_pairs=0,
+                )
+            return TabularQModelStatus(
+                available=True,
+                source=source,
+                model_version=MODEL_VERSION,
+                known_states=len(table.values),
+                known_state_action_pairs=sum(len(actions) for actions in table.values.values()),
+            )
 
     def make_agent(self, engine: GameEngine) -> TabularQAgent:
         """Deterministic greedy inference, with rule-based unknown-state fallback."""
