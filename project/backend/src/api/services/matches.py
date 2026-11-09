@@ -14,6 +14,7 @@ from ...agents import (
     RuleBasedAgent,
 )
 from ...environment import Move, Side, XiangqiEnv
+from ..models.tabular_q import TabularQModelStatus
 from ..models.match import (
     AgentInfo, CreateMatchRequest, LegalMovesResponse, MatchSnapshot,
     MoveModel, MoveRequest, ParticipantModel, StepRequest,
@@ -88,6 +89,9 @@ class MatchService:
             else:
                 agents.append(agent)
         return agents
+
+    def tabular_q_status(self) -> TabularQModelStatus:
+        return self._tabular_q.status()
 
     def openings(self) -> list[dict[str, str]]:
         return self._opening_book.list_openings()
