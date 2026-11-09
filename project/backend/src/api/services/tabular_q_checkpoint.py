@@ -115,8 +115,14 @@ def download_drive_checkpoint(file_id: str, destination: Path) -> None:
             "Run: python -m pip install -e '.[api,drive]'"
         ) from exc
 
-    credentials, _ = google.auth.default(scopes=[_DRIVE_READ_SCOPE])
-    session = AuthorizedSession(credentials)
+    try:
+        credentials, _ = google.auth.default(scopes=[_DRIVE_READ_SCOPE])
+        session = AuthorizedSession(credentials)
+    except Exception as exc:
+        raise RuntimeError(
+            "Google Drive authentication failed. Configure Application Default "
+            "Credentials with read access to the checkpoint file."
+        ) from exc
     response = None
     try:
         response = session.get(
@@ -137,6 +143,13 @@ def download_drive_checkpoint(file_id: str, destination: Path) -> None:
                 stream.write(chunk)
         if received == 0:
             raise ValueError("Downloaded Drive checkpoint is empty")
+    except ValueError:
+        raise
+    except Exception as exc:
+        raise RuntimeError(
+            "Unable to download Tabular Q checkpoint from Google Drive. "
+            "Check the file ID, Drive permissions and network connection."
+        ) from exc
     finally:
         if response is not None:
             response.close()
