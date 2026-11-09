@@ -2,8 +2,8 @@
 
 The offline Gold v2 Q-table can now play through the existing
 `/api/v1/matches` endpoints. **This is inference only.** The API does not
-train or expand the Q-table, and it does not download a checkpoint from Drive
-automatically.
+train or expand the Q-table. If a Google Drive file ID is configured, the
+service automatically downloads the checkpoint on the first readiness check.
 
 ## Configure the checkpoint
 
@@ -75,7 +75,36 @@ agents continue working.
 
 ## Endpoints
 
-The routes follow the existing API contracts; no new frontend or route
+The existing match routes remain compatible with the frontend. A separate,
+read-only model status endpoint is now available:
+
+```http
+GET /api/v1/models/tabular-q/status
+```
+
+When the trained Gold v2 checkpoint is loaded, the response reports:
+
+```json
+{
+  "agent_id": "tabular_q",
+  "available": true,
+  "source": "drive",
+  "model_version": "tabular_qlearning_exact_board_v1",
+  "known_states": 29101,
+  "known_state_action_pairs": 29831,
+  "epsilon": 0.0,
+  "unknown_state_fallback": "rule_based"
+}
+```
+
+The values above describe the initial checkpoint; future checkpoints will
+report their own table sizes. A missing checkpoint returns `available: false`,
+zero counts and `model_version: null` with HTTP 200. This endpoint does not
+expose credentials, Drive IDs or filesystem paths. It reads the **same loaded
+service** used for creating live matches and can trigger the first Drive
+download.
+
+The routes follow the existing API contracts; no new frontend or match request
 shape is necessary.
 
 ```http
@@ -137,6 +166,7 @@ Run from `project/backend` with the API/Drive/test extras installed:
 
 ```bash
 python -m pip install -e ".[api,drive,test]"
+python -m unittest tests.api.test_tabular_q_status_api -v
 python -m unittest tests.api.test_tabular_q_drive -v
 python -m unittest tests.api.test_tabular_q_api -v
 python -m unittest tests.api.test_matches -v
