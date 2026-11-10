@@ -38,7 +38,7 @@ AGENT_CATALOG = (
     AgentInfo(id="minimax", name="Minimax", available=True),
     AgentInfo(id="alphabeta", name="Alpha-Beta", available=True),
     AgentInfo(id="mcts", name="MCTS", available=True),
-    AgentInfo(id="tabular_q", name="Tabular Q-Learning", available=False),
+    AgentInfo(id="tabular_q", name="Tabular Q-Learning", available=True),
     AgentInfo(id="neural", name="Neural MCTS", available=False),
     AgentInfo(id="dqn", name="DQN", available=False),
 )
