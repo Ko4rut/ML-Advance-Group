@@ -5,7 +5,7 @@ import unittest
 from fastapi.testclient import TestClient
 
 from src.api.main import create_app
-from src.training.opening_book import sample_opening, BOOK_VERSION
+from src.training.opening_book import OPENING_LINES, sample_opening, BOOK_VERSION
 
 
 class OpeningBookApiTests(unittest.TestCase):
@@ -42,8 +42,12 @@ class OpeningBookApiTests(unittest.TestCase):
         response = self.client.get("/api/v1/openings")
         self.assertEqual(response.status_code, 200)
         rows = response.json()
-        self.assertEqual(len(rows), 12)
-        self.assertEqual(len({row["family"] for row in rows}), 5)
+        # The API serves the current default book (v2); counts follow it.
+        self.assertEqual(len(rows), len(OPENING_LINES))
+        self.assertEqual(
+            len({row["family"] for row in rows}),
+            len({line.family for line in OPENING_LINES}),
+        )
         self.assertNotIn("moves", rows[0])
 
     def test_agent_plays_scripted_moves_then_hands_off(self):
