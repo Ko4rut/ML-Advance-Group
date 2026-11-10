@@ -12,14 +12,11 @@ because ``Position`` is checked once and then every ``drop`` is cheap.
 
 from __future__ import annotations
 
-import math
 import time
 
 import numpy as np
 
 from connect4_core import Position, actions
-
-DEBUG = 1   # 0 ... silent, 1 ... print the average utility of each action (same meaning as the tic-tac-toe notebook)
 
 
 def playout(state, action, player = 1):
@@ -33,10 +30,10 @@ def playout(state, action, player = 1):
     position = Position.from_board(state).drop(player, action)
     current_player = -player
 
-    while(True):
+    while True:
         # reached terminal state?
         u = position.utility(player)
-        if u is not None: return(u)
+        if u is not None: return u
 
         # we use a random playout policy
         a = np.random.choice(position.legal_columns())
@@ -51,62 +48,47 @@ def playouts(board, action, player = 1, N = 100):
     return [ playout(board, action, player) for i in range(N) ]
 
 
-def pmcs_values(board, N = 100, player = 1):
+def pmcs_values(board, N = 100, player = 1, verbose = 0):
     """Average utility of every legal action. The N playouts are evenly divided between the actions.
 
     Different from the tic-tac-toe notebook: every action gets at least one playout
-    (n = max(1, floor(N / number of actions))). The notebook uses n = floor(N / len(acts)),
-    which is 0 when N is smaller than the number of actions (it never happens there with
-    N >= 10 and at most 9 actions, but here N < 7 would give a mean of an empty list).
-    On a 6x7 board with 7 columns, N = 10 gives n = 1.
+    (n = max(1, N // number of actions)), because N < number of actions would give n = 0 and
+    the mean of an empty list. On a 6x7 board with 7 columns, N = 10 gives n = 1.
+    verbose: 0 ... silent, 1 ... print the playouts per action and the average utility of each action.
     """
     acts = actions(board)
     if not acts:
         raise ValueError("pmcs cannot move from a terminal state")
 
-    n = max(1, math.floor(N/len(acts)))
-    if DEBUG >= 1: print(f"Actions: {acts} ({N} total playouts = {n} playouts per action)")
+    n = max(1, N // len(acts))
+    ps = { i : float(np.mean(playouts(board, i, player, N = n))) for i in acts }
 
-    return { i : float(np.mean(playouts(board, i, player, N = n))) for i in acts }
+    if verbose >= 1:
+        print(f"Actions: {acts} ({N} total playouts = {n} playouts per action)")
+        print({ i : round(v, 3) for i, v in ps.items() })
+    return ps
 
 
-def pmcs(board, N = 100, player = 1):
+def pmcs(board, N = 100, player = 1, verbose = 0):
     """Pure Monte Carlo Search. Returns the action that has the largest average utility.
     The N playouts are evenly divided between the possible actions (at least one per action).
     Equal averages: the column on the left wins, like max(ps, key = ps.get) in the notebook."""
-    ps = pmcs_values(board, N, player)
-    if DEBUG >= 1: print({ i : round(v, 3) for i, v in ps.items() })
-
-    action = max(ps, key=ps.get)
-    return action
+    ps = pmcs_values(board, N, player, verbose)
+    return max(ps, key=ps.get)
 
 
 class PMCSAgent:
     """agent that plays the column found by pure Monte Carlo search; it keeps the time of its moves."""
 
-    def __init__(self, N = 100, name = None):
+    def __init__(self, N = 100, name = None, verbose = 0):
         self.N = N
         self.name = name or f"PMCS ({N})"
-        self.move_times = []   # seconds for every move
-        self.calls = 0         # number of moves played
+        self.verbose = verbose
+        self.move_times = []   # seconds for every move (so len(move_times) is the number of moves)
 
     def act(self, board, player = 1):
         """return the best column for player."""
         start = time.perf_counter()
-        move = int(pmcs(board, N = self.N, player = player))
+        move = int(pmcs(board, N = self.N, player = player, verbose = self.verbose))
         self.move_times.append(time.perf_counter() - start)
-        self.calls += 1
         return move
-
-
-def pmcs10_player(board, player = 1):
-    action = pmcs(board, N = 10, player = player)
-    return action
-
-def pmcs100_player(board, player = 1):
-    action = pmcs(board, N = 100, player = player)
-    return action
-
-def pmcs1000_player(board, player = 1):
-    action = pmcs(board, N = 1000, player = player)
-    return action

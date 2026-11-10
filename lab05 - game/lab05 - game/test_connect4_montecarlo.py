@@ -2,7 +2,6 @@ import unittest
 
 import numpy as np
 
-import connect4_montecarlo
 from connect4_core import empty_board, result, terminal
 from connect4_minimax import board_from_moves
 from connect4_montecarlo import (
@@ -10,7 +9,6 @@ from connect4_montecarlo import (
     playout,
     playouts,
     pmcs,
-    pmcs10_player,
     pmcs_values,
 )
 
@@ -26,13 +24,6 @@ BOARD_SPECS = {
 
 
 class Connect4MonteCarloTests(unittest.TestCase):
-    def setUp(self):
-        self.old_debug = connect4_montecarlo.DEBUG
-        connect4_montecarlo.DEBUG = 0
-
-    def tearDown(self):
-        connect4_montecarlo.DEBUG = self.old_debug
-
     def board(self, name):
         shape, moves, _ = BOARD_SPECS[name]
         return board_from_moves(shape, moves)
@@ -86,17 +77,13 @@ class Connect4MonteCarloTests(unittest.TestCase):
         agent = PMCSAgent(N = 20)
         board = empty_board((4, 4))
         player = 1
-        moves = 0
         while not terminal(board):
             column = agent.act(board, player)
             self.assertIn(column, range(4))
             board = result(board, player, column)  # raises if the column is full
             player = -player
-            moves += 1
-        self.assertEqual(agent.calls, moves)
-        self.assertEqual(len(agent.move_times), moves)
+        self.assertEqual(len(agent.move_times), int(np.sum(board != 0)))
         self.assertTrue(all(t >= 0 for t in agent.move_times))
-        self.assertIn(pmcs10_player(empty_board((4, 4))), range(4))
 
     def test_same_seed_gives_the_same_move(self):
         board = empty_board((6, 7))

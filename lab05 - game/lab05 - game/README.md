@@ -91,14 +91,13 @@ python -m unittest -v test_connect4_core test_connect4_minimax test_connect4_mon
 python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 connect4_task5_montecarlo.ipynb
 ```
 
-Các hàm chính (biến toàn cục `DEBUG = 0` im lặng, `DEBUG = 1` in điểm trung bình của từng cột; mọi chỗ có ngẫu nhiên dùng `np.random`, nên đặt `np.random.seed(...)` trước để chạy lại ra đúng kết quả; seed của phần này là `20261110`):
+Các hàm chính (`verbose = 0` là không in gì, `verbose = 1` in số ván đánh thử và điểm trung bình của từng cột; mọi chỗ có ngẫu nhiên dùng `np.random`, nên đặt `np.random.seed(...)` trước để chạy lại ra đúng kết quả; seed của phần này là `20261110`):
 
 * `playout(state, action, player = 1)` — thả quân vào `action` rồi cho hai bên đi ngẫu nhiên tới hết ván; trả về `+1` / `0` / `-1` nhìn từ `player`.
 * `playouts(board, action, player = 1, N = 100)` — `N` ván đánh thử cho một cột.
-* `pmcs_values(board, N = 100, player = 1)` — điểm trung bình của từng cột; `N` ván được chia đều cho các cột (mỗi cột ít nhất 1 ván).
-* `pmcs(board, N = 100, player = 1)` — Pure Monte Carlo Search, trả về cột có điểm trung bình cao nhất (bằng điểm thì lấy cột bên trái). Bàn đã kết thúc thì `raise ValueError`.
-* `PMCSAgent(N = 100).act(board, player = 1)` — tác tử dạng class, lưu thời gian mỗi nước (`move_times`) và số nước đã đi (`calls`).
-* `pmcs10_player`, `pmcs100_player`, `pmcs1000_player` — tác tử dạng hàm, giống notebook Tic-Tac-Toe.
+* `pmcs_values(board, N = 100, player = 1, verbose = 0)` — điểm trung bình của từng cột; `N` ván được chia đều cho các cột (mỗi cột ít nhất 1 ván).
+* `pmcs(board, N = 100, player = 1, verbose = 0)` — Pure Monte Carlo Search, trả về cột có điểm trung bình cao nhất (bằng điểm thì lấy cột bên trái). Bàn đã kết thúc thì `raise ValueError`.
+* `PMCSAgent(N = 100, verbose = 0).act(board, player = 1)` — tác tử dạng class, lưu thời gian mỗi nước trong `move_times` (số nước đã đi là `len(move_times)`).
 
 Tic-Tac-Toe: phần Bài 5 và Bài 6 của Toàn Thắng được **thêm ở cuối** hai notebook `tictactoe_pure_monte_carlo_search.ipynb` (Pure Monte Carlo) và `tictactoe_monte_carlo_tree_search_restricted.ipynb` (UCB1), cùng các ô nhận xét và ô đặt seed chèn giữa các ô gốc.
 
