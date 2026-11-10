@@ -82,13 +82,13 @@ giống cách `tictactoe_heuristic_alpha_beta_tree_search.ipynb` đã làm: thê
 ## Connect 4 Task 5 — Pure Monte Carlo (Toàn Thắng)
 
 Code nằm trong `connect4_montecarlo.py` (dùng lại `Position`, `actions` từ `connect4_core.py`; `board_from_moves`, `AlphaBetaAgent`, `play`... từ `connect4_minimax.py` chỉ dùng trong test và notebook). Cấu trúc theo `tictactoe_pure_monte_carlo_search.ipynb`: người chơi là `1` / `-1`, ván đánh thử (playout) dùng `Position` cho nhanh.
-Notebook làm việc riêng của phần này là `connect4_task5_montecarlo.ipynb`; các mục của notebook khớp 1-1 với Task 5 trong `assignment_connect4.ipynb`.
+Phần thí nghiệm và nhận xét nằm ở mục Task 5 của `assignment_connect4.ipynb` (từ tiêu đề `## Task 5` tới trước `## Graduate student advanced task`).
 
 Chạy từ thư mục này:
 
 ```bash
 python -m unittest -v test_connect4_core test_connect4_minimax test_connect4_montecarlo
-python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 connect4_task5_montecarlo.ipynb
+python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=3600 assignment_connect4.ipynb
 ```
 
 Các hàm chính (`verbose = 0` là không in gì, `verbose = 1` in số ván đánh thử và điểm trung bình của từng cột; mọi chỗ có ngẫu nhiên dùng `np.random`, nên đặt `np.random.seed(...)` trước để chạy lại ra đúng kết quả; seed của phần này là `20261110`):
@@ -115,7 +115,7 @@ Tic-Tac-Toe: phần Bài 5 và Bài 6 của Toàn Thắng được **thêm ở c
 | [assignment_connect4.ipynb](assignment_connect4.ipynb), `assignment_connect4.html` | Bài 8: Connect 4 (bản HTML là bản đã chạy để nộp) | Task 1–2: Tú; Task 3: Thiện; Task 4: Tiến; Task 5: Thắng |
 | [connect4_core.py](connect4_core.py), [test_connect4_core.py](test_connect4_core.py) | Môi trường Connect 4 và test | Tú |
 | [connect4_minimax.py](connect4_minimax.py), [test_connect4_minimax.py](test_connect4_minimax.py) | Minimax / Alpha-Beta (Task 3) | Thiện |
-| [connect4_montecarlo.py](connect4_montecarlo.py), [test_connect4_montecarlo.py](test_connect4_montecarlo.py), [connect4_task5_montecarlo.ipynb](connect4_task5_montecarlo.ipynb) | Pure Monte Carlo (Task 5) và notebook làm việc | Thắng |
+| [connect4_montecarlo.py](connect4_montecarlo.py), [test_connect4_montecarlo.py](test_connect4_montecarlo.py) | Pure Monte Carlo (Task 5) và test | Thắng |
 | `bao_cao.pdf`, `bao_cao.docx` | Báo cáo tổng hợp của nhóm | Thắng tổng hợp |
 
 Chạy lại các phần Monte Carlo (từ thư mục này):
@@ -124,7 +124,6 @@ Chạy lại các phần Monte Carlo (từ thư mục này):
 python -m unittest -v test_connect4_core test_connect4_minimax test_connect4_montecarlo
 python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 tictactoe_pure_monte_carlo_search.ipynb
 python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 tictactoe_monte_carlo_tree_search_restricted.ipynb
-python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 connect4_task5_montecarlo.ipynb
 ```
 
 Notebook Connect 4 chung chạy lâu hơn (Task 3 có phần đo thời gian); sau khi chạy xong thì xuất lại bản HTML để nộp:
