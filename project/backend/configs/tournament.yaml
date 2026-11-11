@@ -1,0 +1,54 @@
+# Round-robin tournament (see TOURNAMENT.md).
+# Every pair plays len(openings) x colors_per_opening games (here 25 x 2 = 50).
+# Changing anything except `workers` changes the config hash, so an existing
+# run cannot be resumed with a different config.
+name: round_robin_v1
+master_seed: 20261110
+opening_book_version: xiangqi-curated-v2
+
+# 25 fixed openings, balanced across families, all with distinct final
+# positions (v1's elephant_right/horse_right and horse_left duplicates omitted).
+openings:
+  - screen_horses_c57
+  - screen_horses_c56
+  - screen_horses_pawn7
+  - reverse_palace_p7
+  - reverse_palace_mirror
+  - shun_cannon_straight_rook
+  - shun_cannon_rook_race
+  - lie_cannon_p7
+  - pawn_vs_bottom_cannon_central
+  - pawn_vs_bottom_cannon_horses
+  - pawn_vs_pawn_c3
+  - pawn_vs_pawn_horses
+  - elephant_left
+  - elephant_vs_central_cannon
+  - elephant_vs_screen_setup
+  - horse_vs_central_cannon
+  - horse_vs_cannon_left
+  - corner_cannon_vs_central
+  - cross_palace_right
+  - cross_palace_left
+  - palace_cannon_left
+  - central_cannon_screen_horses
+  - central_cannon_counter_cannon
+  - pawn_left
+  - pawn_center
+
+colors_per_opening: 2   # each opening: A plays Red once and Black once
+max_plies: 300          # counts the opening plies too; beyond it the game is "truncated"
+
+# Agents run with the defaults of their own code unless a value is given here:
+#   alphabeta -> AlphaBetaAgent default depth, no time limit
+#   heuristic -> HeuristicAgent defaults (max_depth/max_nodes/time_limit from its constructor)
+#   mcts      -> configs/mcts.yaml (incl. time_limit); max_simulations: N makes it replayable
+#   tabular_q -> greedy (epsilon 0) with the rule-based fallback, as the API serves it
+agents:
+  random:    {seed_mode: per_game}
+  rules:     {}
+  alphabeta: {}
+  heuristic: {}
+  mcts:      {config: configs/mcts.yaml}
+  tabular_q: {checkpoint_env: XIANGQI_TABULAR_Q_CHECKPOINT, required: false}
+
+workers: auto           # auto = max(1, cpu_count - 1); not part of the config hash
