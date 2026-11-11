@@ -158,7 +158,31 @@ def build_parser() -> argparse.ArgumentParser:
                                    help="with --resume: continue even if the git commit changed")
     tournament_parser.add_argument("--retry-errors", action="store_true",
                                    help="with --resume: re-run games that ended in an agent error")
+    report_parser = commands.add_parser(
+        "tournament-report",
+        help="regenerate summary/ (CSV, plots, report.md) of a tournament run from its raw log",
+    )
+    report_parser.add_argument("run_dir", help="run directory containing manifest.json and games.jsonl")
+    report_parser.add_argument("--no-plots", action="store_true", help="skip PNG charts")
     return parser
+
+
+def run_tournament_report_command(args: argparse.Namespace) -> int:
+    """Lazy-import the report stack, like the `tournament` subcommand."""
+    from .evaluation import report
+
+    try:
+        result = report.generate_report(args.run_dir, plots=not args.no_plots)
+    except ValueError as exc:
+        raise SystemExit(f"error: {exc}") from None
+    print(f"Report regenerated in {result['summary_dir']} ({result['completed']}/{result['total']} games)")
+    if result["completed"] < result["total"]:
+        print(f"WARNING: run is incomplete ({result['completed']}/{result['total']} games)")
+    if result["errors"]:
+        print(f"WARNING: {result['errors']} game(s) ended in an agent error (see errors.csv)")
+    for path in result["files"]:
+        print(f"  {path}")
+    return 0
 
 
 def run_tournament_command(args: argparse.Namespace, argv: Sequence[str] | None) -> int:
@@ -241,6 +265,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "tournament":
         return run_tournament_command(args, argv)
+    if args.command == "tournament-report":
+        return run_tournament_report_command(args)
 
     if args.max_plies < 1:
         raise SystemExit("--max-plies must be at least 1")

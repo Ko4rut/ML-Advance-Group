@@ -37,7 +37,12 @@ jobs:
             tests.test_opening_book \
             tests.test_dataset_exploration \
             tests.api.test_matches \
-            tests.api.test_opening_book_api
+            tests.api.test_opening_book_api \
+            tests.test_opening_book_v2 \
+            tests.evaluation.test_tournament \
+            tests.evaluation.test_api_parity \
+            tests.evaluation.test_metrics \
+            tests.evaluation.test_report
       - name: Original vs optimized microbenchmark
         env:
           PYTHONPATH: ../..:.
