@@ -60,6 +60,10 @@ def utility(state, player = 'x'):
 ## helper functions
 def check_board(state):
     """check the board and return one of x, o, d (draw), or n (for next move)"""
+    if len(state) != 9:
+        raise ValueError("state must contain exactly 9 cells")
+    if any(cell not in (' ', 'x', 'o') for cell in state):
+        raise ValueError("state cells must be ' ', 'x', or 'o'")
     
     state = np.array(state).reshape((3,3))
     
