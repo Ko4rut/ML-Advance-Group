@@ -1,0 +1,63 @@
+{
+  "repository": "https://github.com/hskl18/cc-lite",
+  "revision": "7d305c0e5adbfae4e23db40997603d8dc86b078b",
+  "license": "Apache-2.0",
+  "files": {
+    "DESIGN.md": {
+      "bytes": 16394,
+      "sha256": "f393f53fb16250749964631561f0e06a96ff3cf453f90ae14bdcd8160af420c2"
+    },
+    "LICENSE": {
+      "bytes": 11351,
+      "sha256": "48767af185800375c2ee18deaae80af39cc5bdfeeb5a3c1c2f519932ad2cbeb8"
+    },
+    "README.md": {
+      "bytes": 25698,
+      "sha256": "915e56aabc449837cbb0539718dfe1e691a9f5346c409dd04542d2d5ae842885"
+    },
+    "configs/distill_gpu.yaml": {
+      "bytes": 388,
+      "sha256": "c168298a3bc30447816815119b5058a39d0363f6905c5f11df34c7dd24e208cd"
+    },
+    "evidence/distill-v4/train/manifest.json": {
+      "bytes": 1248,
+      "sha256": "29031dceacf8d105acfa9cd38efed16f227af43805bf3290a19d6394388243d2"
+    },
+    "pyproject.toml": {
+      "bytes": 771,
+      "sha256": "eec039c3d9c9d3d10c495052d2f75f5f563704e11a2048ecfbb85e3cae05d7aa"
+    },
+    "src/mcts/search.py": {
+      "bytes": 7469,
+      "sha256": "bed16ecf722cbe2793ed1e52e61bdb064ed59b37f21be2f6cc0ccf69f194f440"
+    },
+    "src/model/checkpoint.py": {
+      "bytes": 1102,
+      "sha256": "6d2c5429d1698d3afef25fbaa8cb046d51a7cdfbfda089b2569d651b835570ff"
+    },
+    "src/model/network.py": {
+      "bytes": 2570,
+      "sha256": "398dbbfb3ce2ee16b7e71873b9c1001dc75bc276f5e7b2e7dced77945dcab08c"
+    },
+    "src/xiangqi/board.py": {
+      "bytes": 22138,
+      "sha256": "8b4a936b3fa66b511c1e1456a25e976e7f0c42ffd1d639dc1e882fd818a8124a"
+    },
+    "src/xiangqi/encoding.py": {
+      "bytes": 1937,
+      "sha256": "dfbb8f1077904be2f248236356a01d3c782653ebb321a0cb9302f5246ec11bb5"
+    }
+  },
+  "checkpoint": {
+    "path": "evidence/distill-v4/train/checkpoint.pt",
+    "bytes": 15500553,
+    "sha256": "1be52664b216529ce56240043406878a93f95f57e4153ff73c4d63afd772fba4"
+  },
+  "alternate_checkpoints": {
+    "distill-v4-large": {
+      "path": "evidence/distill-v4-large/train/checkpoint.pt",
+      "bytes": 38033337,
+      "sha256": "05927ccd874c4d97588ba7d06266fda9ba17700d436fdc03ff6844a0d61d0dff"
+    }
+  }
+}

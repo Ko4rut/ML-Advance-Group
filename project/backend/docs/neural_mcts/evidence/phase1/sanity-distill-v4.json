@@ -1,0 +1,300 @@
+{
+  "opening_line": [
+    {
+      "side": "RED",
+      "value": -0.1493,
+      "top3": [
+        [
+          "g3g4",
+          0.1921
+        ],
+        [
+          "c3c4",
+          0.1627
+        ],
+        [
+          "h2e2",
+          0.1501
+        ]
+      ],
+      "played": "h2e2",
+      "played_prior": 0.1501
+    },
+    {
+      "side": "BLACK",
+      "value": 0.0223,
+      "top3": [
+        [
+          "h9g7",
+          0.3616
+        ],
+        [
+          "b9c7",
+          0.1588
+        ],
+        [
+          "h7e7",
+          0.1203
+        ]
+      ],
+      "played": "h9g7",
+      "played_prior": 0.3616
+    },
+    {
+      "side": "RED",
+      "value": -0.2909,
+      "top3": [
+        [
+          "h0g2",
+          0.3387
+        ],
+        [
+          "g3g4",
+          0.1834
+        ],
+        [
+          "b0c2",
+          0.1624
+        ]
+      ],
+      "played": "h0g2",
+      "played_prior": 0.3387
+    },
+    {
+      "side": "BLACK",
+      "value": -0.0332,
+      "top3": [
+        [
+          "g6g5",
+          0.3286
+        ],
+        [
+          "i9h9",
+          0.1547
+        ],
+        [
+          "c6c5",
+          0.1474
+        ]
+      ],
+      "played": "i9h9",
+      "played_prior": 0.1547
+    },
+    {
+      "side": "RED",
+      "value": -0.24,
+      "top3": [
+        [
+          "c3c4",
+          0.2233
+        ],
+        [
+          "g3g4",
+          0.2083
+        ],
+        [
+          "b0c2",
+          0.191
+        ]
+      ],
+      "played": "i0h0",
+      "played_prior": 0.1825
+    },
+    {
+      "side": "BLACK",
+      "value": -0.0469,
+      "top3": [
+        [
+          "g6g5",
+          0.2798
+        ],
+        [
+          "b9c7",
+          0.1796
+        ],
+        [
+          "c6c5",
+          0.1499
+        ]
+      ],
+      "played": "b9c7",
+      "played_prior": 0.1796
+    },
+    {
+      "side": "RED",
+      "value": -0.1069,
+      "top3": [
+        [
+          "c3c4",
+          0.2943
+        ],
+        [
+          "g3g4",
+          0.1886
+        ],
+        [
+          "b0c2",
+          0.1459
+        ]
+      ],
+      "played": null
+    }
+  ],
+  "value_sign": {
+    "black_loses_rook": {
+      "value_red_to_move": 0.8638,
+      "value_black_to_move": -0.9012
+    },
+    "red_loses_rook": {
+      "value_red_to_move": -0.9819,
+      "value_black_to_move": 0.9695
+    },
+    "black_loses_both_rooks": {
+      "value_red_to_move": 0.9999,
+      "value_black_to_move": -0.9982
+    },
+    "red_loses_both_rooks": {
+      "value_red_to_move": -0.9993,
+      "value_black_to_move": 0.9997
+    },
+    "black_loses_cannon": {
+      "value_red_to_move": 0.33,
+      "value_black_to_move": -0.5804
+    },
+    "red_loses_cannon": {
+      "value_red_to_move": -0.7882,
+      "value_black_to_move": 0.5622
+    }
+  },
+  "policy_only_vs_random": {
+    "games": 20,
+    "policy_wins": 17,
+    "draws": 3,
+    "policy_losses": 0,
+    "unfinished_at_cap": 0,
+    "per_game": [
+      {
+        "policy_side": "RED",
+        "seed": 0,
+        "plies": 35,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 1,
+        "plies": 37,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 2,
+        "plies": 41,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 3,
+        "plies": 41,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 4,
+        "plies": 41,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 5,
+        "plies": 65,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 6,
+        "plies": 61,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 7,
+        "plies": 31,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 8,
+        "plies": 26,
+        "outcome": "draw:repetition"
+      },
+      {
+        "policy_side": "RED",
+        "seed": 9,
+        "plies": 41,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 0,
+        "plies": 64,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 1,
+        "plies": 44,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 2,
+        "plies": 60,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 3,
+        "plies": 24,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 4,
+        "plies": 116,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 5,
+        "plies": 38,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 6,
+        "plies": 38,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 7,
+        "plies": 28,
+        "outcome": "policy_win"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 8,
+        "plies": 48,
+        "outcome": "draw:repetition"
+      },
+      {
+        "policy_side": "BLACK",
+        "seed": 9,
+        "plies": 47,
+        "outcome": "draw:repetition"
+      }
+    ]
+  },
+  "forward_calls": 486,
+  "mcts_executed": false
+}
