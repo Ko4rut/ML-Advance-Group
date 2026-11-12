@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
@@ -84,6 +85,43 @@ class Connect4MonteCarloTests(unittest.TestCase):
             player = -player
         self.assertEqual(len(agent.move_times), int(np.sum(board != 0)))
         self.assertTrue(all(t >= 0 for t in agent.move_times))
+
+    def test_batched_playouts_match_individual_calls(self):
+        # Reusing a Position must preserve the exact random playout sequence.
+        board = empty_board((6, 7))
+        before = board.copy()
+        np.random.seed(SEED)
+        batch = playouts(board, 3, player = 1, N = 25)
+        np.random.seed(SEED)
+        one_by_one = [playout(board, 3, player = 1) for _ in range(25)]
+        self.assertEqual(batch, one_by_one)
+        np.testing.assert_array_equal(board, before)
+
+    def test_bad_simulation_budgets_fail_explicitly(self):
+        board = empty_board((6, 7))
+        for N in (0, -1):
+            with self.subTest(N = N), self.assertRaises(ValueError):
+                playouts(board, 0, N = N)
+            with self.subTest(N = N), self.assertRaises(ValueError):
+                pmcs_values(board, N = N)
+        for N in (True, 1.5, "100", None):
+            with self.subTest(N = N), self.assertRaises(TypeError):
+                playouts(board, 0, N = N)
+            with self.subTest(N = N), self.assertRaises(TypeError):
+                pmcs_values(board, N = N)
+
+    def test_requested_and_actual_budget_are_distinguished(self):
+        # Keep the original notebook's uniform-per-column policy reproducible.
+        # A request for 10 trials on seven columns runs 7 actual trials;
+        # 100 runs 98 and 1000 runs 994.
+        board = empty_board((6, 7))
+        for N, expected in ((3, 7), (10, 7), (100, 98), (1000, 994)):
+            with self.subTest(N = N):
+                with patch("connect4_montecarlo._playout_from_position", return_value = 1) as mocked:
+                    scores = pmcs_values(board, N = N)
+                self.assertEqual(mocked.call_count, expected)
+                self.assertEqual(len(scores), 7)
+                self.assertTrue(all(value == 1 for value in scores.values()))
 
     def test_same_seed_gives_the_same_move(self):
         board = empty_board((6, 7))
