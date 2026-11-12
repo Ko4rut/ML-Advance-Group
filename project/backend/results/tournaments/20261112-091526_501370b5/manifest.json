@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "run_id": "20261112-091526_501370b5",
+  "name": "round_robin_v1",
+  "mode": "full",
+  "config_path": "configs/tournament.yaml",
+  "config_hash": "501370b5a7a644cf73d692cc7dbb8453c13eceecccef9d32e7198e376098add8",
+  "config": {
+    "name": "round_robin_v1",
+    "master_seed": 20261110,
+    "opening_book_version": "xiangqi-curated-v2",
+    "openings": [
+      "screen_horses_c57",
+      "screen_horses_c56",
+      "screen_horses_pawn7",
+      "reverse_palace_p7",
+      "reverse_palace_mirror",
+      "shun_cannon_straight_rook",
+      "shun_cannon_rook_race",
+      "lie_cannon_p7",
+      "pawn_vs_bottom_cannon_central",
+      "pawn_vs_bottom_cannon_horses",
+      "pawn_vs_pawn_c3",
+      "pawn_vs_pawn_horses",
+      "elephant_left",
+      "elephant_vs_central_cannon",
+      "elephant_vs_screen_setup",
+      "horse_vs_central_cannon",
+      "horse_vs_cannon_left",
+      "corner_cannon_vs_central",
+      "cross_palace_right",
+      "cross_palace_left",
+      "palace_cannon_left",
+      "central_cannon_screen_horses",
+      "central_cannon_counter_cannon",
+      "pawn_left",
+      "pawn_center"
+    ],
+    "colors_per_opening": 2,
+    "max_plies": 300,
+    "agents": {
+      "random": {
+        "seed_mode": "per_game"
+      },
+      "rules": {},
+      "alphabeta": {
+        "max_depth": 2
+      },
+      "heuristic": {
+        "max_depth": 6,
+        "max_nodes": 2000,
+        "time_limit": 1.0
+      },
+      "mcts": {
+        "config": {
+          "c": 1.4,
+          "rollout_policy": "capture_first",
+          "rollout_depth": 2,
+          "eval_scale": 100
+        },
+        "time_limit": 1.0,
+        "max_simulations": null,
+        "seed_mode": "per_game"
+      },
+      "tabular_q": {
+        "checkpoint_sha256": "eeb21b0fabbc22d980ff1e43930a1eb1531d251a541785e3963eb2acb9921afc",
+        "epsilon": 0.0,
+        "fallback": "rules"
+      }
+    }
+  },
+  "games_per_pair": 50,
+  "total_games": 750,
+  "agents": {
+    "random": {
+      "class": "RandomAgent",
+      "module": "src.agents.random_agent",
+      "params": {
+        "seed_mode": "per_game"
+      },
+      "budget": null,
+      "is_deterministic": false
+    },
+    "rules": {
+      "class": "RuleBasedAgent",
+      "module": "src.agents.rule_based",
+      "params": {},
+      "budget": null,
+      "is_deterministic": true
+    },
+    "alphabeta": {
+      "class": "AlphaBetaAgent",
+      "module": "src.agents.alphabeta_agent",
+      "params": {
+        "max_depth": 2
+      },
+      "budget": null,
+      "is_deterministic": true
+    },
+    "heuristic": {
+      "class": "HeuristicAgent",
+      "module": "src.agents.heuristic",
+      "params": {
+        "max_depth": 6,
+        "max_nodes": 2000,
+        "time_limit": 1.0
+      },
+      "budget": null,
+      "is_deterministic": false
+    },
+    "mcts": {
+      "class": "MCTSAgent",
+      "module": "src.agents.mcts_agent",
+      "params": {
+        "config": {
+          "c": 1.4,
+          "rollout_policy": "capture_first",
+          "rollout_depth": 2,
+          "eval_scale": 100
+        },
+        "config_source": "configs/mcts.yaml",
+        "time_limit": 1.0,
+        "max_simulations": null,
+        "seed_mode": "per_game"
+      },
+      "budget": {
+        "time_limit": 1.0
+      },
+      "is_deterministic": false
+    },
+    "tabular_q": {
+      "class": "TabularQAgent",
+      "module": "src.agents.tabular_q_agent",
+      "params": {
+        "checkpoint": "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/models/tabular_q/q_table.json.gz",
+        "checkpoint_sha256": "eeb21b0fabbc22d980ff1e43930a1eb1531d251a541785e3963eb2acb9921afc",
+        "epsilon": 0.0,
+        "fallback": "rules"
+      },
+      "budget": null,
+      "is_deterministic": true
+    }
+  },
+  "excluded_agents": {},
+  "openings": [
+    {
+      "id": "screen_horses_c57",
+      "family": "screen_horses",
+      "moves_sha256": "3cb6cc09ef8d805f5f2393c1fa4d75d808bc1a714920938da829bde58780db9e"
+    },
+    {
+      "id": "screen_horses_c56",
+      "family": "screen_horses",
+      "moves_sha256": "4333d6c6d4764318f4ae0e8fc9c3aa71d8554d22743df2174df9039412a01a75"
+    },
+    {
+      "id": "screen_horses_pawn7",
+      "family": "screen_horses",
+      "moves_sha256": "f84ae838aa4019b6a8432de5a3143b760d4f1d345ae8da9eb8a497842ac9f9e2"
+    },
+    {
+      "id": "reverse_palace_p7",
+      "family": "reverse_palace_horse",
+      "moves_sha256": "ba15c49facf60cdb6906967fe72f324c4bc6cef07ed016bfbc8bba3b06ae65b0"
+    },
+    {
+      "id": "reverse_palace_mirror",
+      "family": "reverse_palace_horse",
+      "moves_sha256": "684692dd555cf2383db7911a7b354fd077a3e07e6a5c5070c0c559b89d8caf6b"
+    },
+    {
+      "id": "shun_cannon_straight_rook",
+      "family": "same_direction_cannon",
+      "moves_sha256": "766b6df5f566ed990145986b49c42055d33730957bf80187a8d6436914b42e5b"
+    },
+    {
+      "id": "shun_cannon_rook_race",
+      "family": "same_direction_cannon",
+      "moves_sha256": "a790fe8f584e076be0845e9388b736996c8bea69f87f188ecfa1927ed529a4f0"
+    },
+    {
+      "id": "lie_cannon_p7",
+      "family": "opposed_cannon",
+      "moves_sha256": "9721f454561957e1210871cea6407fe310f80ff7bf5703aff91e6d1f2dc8693a"
+    },
+    {
+      "id": "pawn_vs_bottom_cannon_central",
+      "family": "pawn_vs_bottom_cannon",
+      "moves_sha256": "28a486a43ecddaed72dff6f849cfbc1fde4602452b375a2eaed4d2761b12f567"
+    },
+    {
+      "id": "pawn_vs_bottom_cannon_horses",
+      "family": "pawn_vs_bottom_cannon",
+      "moves_sha256": "761db1876a4f32b17cc23d456df1503828b989c5d9b2e2c9d9d30efe7ea4576b"
+    },
+    {
+      "id": "pawn_vs_pawn_c3",
+      "family": "pawn_vs_pawn",
+      "moves_sha256": "3a789b93486801530865248dee344d8a3f80322fe7a29cfaeb59253a3d71baa9"
+    },
+    {
+      "id": "pawn_vs_pawn_horses",
+      "family": "pawn_vs_pawn",
+      "moves_sha256": "fb3d373d61f14387b710a4ac08509256a349767225ab2528c815ca24d543ec19"
+    },
+    {
+      "id": "elephant_left",
+      "family": "flying_elephant",
+      "moves_sha256": "57a6f6663a9184e5f3b3c15978b53e27bce6deb38adb39148366f672a76d8302"
+    },
+    {
+      "id": "elephant_vs_central_cannon",
+      "family": "flying_elephant",
+      "moves_sha256": "ba0b4272c1717411f4a52aecedd2720eafd3d04d049c94abf403f097a982d4a9"
+    },
+    {
+      "id": "elephant_vs_screen_setup",
+      "family": "flying_elephant",
+      "moves_sha256": "bb1d48a51107bf005276dbf949b487f0bcdf849e0b812625992501d63211b7b2"
+    },
+    {
+      "id": "horse_vs_central_cannon",
+      "family": "develop_horse",
+      "moves_sha256": "250e1eb32eb6b853a15474e33b32d2928dfded466f1e354f7de079365668b20d"
+    },
+    {
+      "id": "horse_vs_cannon_left",
+      "family": "develop_horse",
+      "moves_sha256": "60c5d464577b8be56797e547e0fd33024bef1355befee4d333a464d87d6d98dc"
+    },
+    {
+      "id": "corner_cannon_vs_central",
+      "family": "corner_cannon",
+      "moves_sha256": "a02114c9357aa902b74c265e995d4d732c7f8aef656b6fc9cdd081106192c045"
+    },
+    {
+      "id": "cross_palace_right",
+      "family": "cross_palace_cannon",
+      "moves_sha256": "9f35f7528b5c6b07a6602b2c03c81f21d886d7113019123f2b63890ce92a4503"
+    },
+    {
+      "id": "cross_palace_left",
+      "family": "cross_palace_cannon",
+      "moves_sha256": "b456116a635593435792681c69606cdb6effa23fe2724677b3fb2ec2e8538285"
+    },
+    {
+      "id": "palace_cannon_left",
+      "family": "palace_cannon",
+      "moves_sha256": "baaa8b066e5802a8e0ed199bf22214751a0bc332f62aa715c78833b0e1c8f37a"
+    },
+    {
+      "id": "central_cannon_screen_horses",
+      "family": "central_cannon",
+      "moves_sha256": "186ae0c937ebf935280430d66688b8290a669e06a02c0fcc7a6a6204a687dfab"
+    },
+    {
+      "id": "central_cannon_counter_cannon",
+      "family": "central_cannon",
+      "moves_sha256": "9ca229aaaf0bb581ca3432bf4b399b5bc6ddba18a3588ad23f4f1fadb89a67b7"
+    },
+    {
+      "id": "pawn_left",
+      "family": "advance_pawn",
+      "moves_sha256": "49f1b988440bb47bec6c5c4acf4e8bbd43e2ef987a0d85179df7de0ec0440c87"
+    },
+    {
+      "id": "pawn_center",
+      "family": "advance_pawn",
+      "moves_sha256": "974942db653394bd721011032d1b85b906bba701681fac8d2583f4608c02a859"
+    }
+  ],
+  "provenance": {
+    "git": {
+      "available": true,
+      "commit": "22d8943e3710b47ee65b29cc41260f77d6a99b8a",
+      "branch": "feature/round-robin-tournament",
+      "dirty": false,
+      "status": [],
+      "untracked": []
+    },
+    "system": {
+      "python": "3.14.9",
+      "python_implementation": "CPython",
+      "platform": "Linux-7.2.14-arch1-1-x86_64-with-glibc2.44",
+      "processor": "",
+      "machine": "x86_64",
+      "cpu_count": 12
+    },
+    "packages": {
+      "pydantic": "2.14.3",
+      "PyYAML": "6.0.3",
+      "fastapi": null,
+      "python-dotenv": null,
+      "numpy": "2.5.3",
+      "matplotlib": "3.11.2",
+      "torch": null
+    },
+    "argv": [
+      "python",
+      "-m",
+      "src",
+      "tournament",
+      "--config",
+      "configs/tournament.yaml",
+      "--workers",
+      "5"
+    ]
+  },
+  "started_at": "2026-11-12T09:15:26+00:00",
+  "workers": 5,
+  "resume_history": [],
+  "status": "complete",
+  "finished_at": "2026-11-12T10:09:39+00:00",
+  "session_seconds": [
+    3252.681
+  ],
+  "total_seconds": 3252.681
+}

@@ -1,0 +1,754 @@
+2026-11-12 16:15:26,662 INFO Run 20261112-091526_501370b5 (full) -> /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/results/tournaments/20261112-091526_501370b5
+2026-11-12 16:15:26,662 INFO Agents: random, rules, alphabeta, heuristic, mcts, tabular_q | games/pair: 50 | total games: 750 | workers: 5
+2026-11-12 16:15:26,662 INFO Already done: 0/750 | pending: 750
+2026-11-12 16:15:27,971 INFO [1/750] random vs rules | opening=screen_horses_c56 | A=red | rules wins (checkmate) | 32 plies | 1.1s | ETA 16m55s
+2026-11-12 16:15:28,473 INFO [2/750] random vs rules | opening=screen_horses_c56 | A=black | rules wins (checkmate) | 61 plies | 1.6s | ETA 11m34s
+2026-11-12 16:15:28,581 INFO [3/750] random vs rules | opening=screen_horses_c57 | A=black | rules wins (checkmate) | 51 plies | 1.7s | ETA 8m09s
+2026-11-12 16:15:29,901 INFO [4/750] random vs rules | opening=screen_horses_pawn7 | A=black | rules wins (checkmate) | 51 plies | 2.0s | ETA 10m12s
+2026-11-12 16:15:30,215 INFO [5/750] random vs rules | opening=reverse_palace_p7 | A=red | draw (repetition) | 80 plies | 1.8s | ETA 8m56s
+2026-11-12 16:15:30,287 INFO [6/750] random vs rules | opening=screen_horses_c57 | A=red | rules wins (checkmate) | 92 plies | 3.5s | ETA 7m35s
+2026-11-12 16:15:31,011 INFO [7/750] random vs rules | opening=reverse_palace_p7 | A=black | rules wins (checkmate) | 71 plies | 2.4s | ETA 7m46s
+2026-11-12 16:15:31,454 INFO [8/750] random vs rules | opening=screen_horses_pawn7 | A=red | draw (repetition) | 149 plies | 4.5s | ETA 7m28s
+2026-11-12 16:15:31,934 INFO [9/750] random vs rules | opening=shun_cannon_straight_rook | A=black | rules wins (checkmate) | 41 plies | 0.9s | ETA 7m18s
+2026-11-12 16:15:33,234 INFO [10/750] random vs rules | opening=shun_cannon_rook_race | A=red | rules wins (checkmate) | 42 plies | 1.8s | ETA 8m09s
+2026-11-12 16:15:33,565 INFO [11/750] random vs rules | opening=reverse_palace_mirror | A=red | draw (repetition) | 153 plies | 3.6s | ETA 7m47s
+2026-11-12 16:15:34,403 INFO [12/750] random vs rules | opening=shun_cannon_rook_race | A=black | rules wins (checkmate) | 81 plies | 2.4s | ETA 7m59s
+2026-11-12 16:15:34,619 INFO [13/750] random vs rules | opening=reverse_palace_mirror | A=black | draw (repetition) | 97 plies | 4.3s | ETA 7m33s
+2026-11-12 16:15:34,723 INFO [14/750] random vs rules | opening=lie_cannon_p7 | A=black | rules wins (checkmate) | 39 plies | 1.2s | ETA 7m06s
+2026-11-12 16:15:34,806 INFO [15/750] random vs rules | opening=shun_cannon_straight_rook | A=red | draw (repetition) | 225 plies | 4.5s | ETA 6m41s
+2026-11-12 16:15:37,226 INFO [16/750] random vs rules | opening=pawn_vs_bottom_cannon_central | A=red | rules wins (checkmate) | 70 plies | 2.8s | ETA 8m06s
+2026-11-12 16:15:37,553 INFO [17/750] random vs rules | opening=pawn_vs_bottom_cannon_central | A=black | draw (repetition) | 81 plies | 2.9s | ETA 7m51s
+2026-11-12 16:15:37,894 INFO [18/750] random vs rules | opening=pawn_vs_bottom_cannon_horses | A=black | rules wins (checkmate) | 99 plies | 3.0s | ETA 7m38s
+2026-11-12 16:15:39,068 INFO [19/750] random vs rules | opening=pawn_vs_pawn_c3 | A=black | rules wins (checkmate) | 87 plies | 1.5s | ETA 7m59s
+2026-11-12 16:15:39,330 INFO [20/750] random vs rules | opening=pawn_vs_bottom_cannon_horses | A=red | draw (repetition) | 165 plies | 4.6s | ETA 7m44s
+2026-11-12 16:15:39,716 INFO [21/750] random vs rules | opening=pawn_vs_pawn_horses | A=red | rules wins (stalemate) | 68 plies | 1.9s | ETA 7m34s
+2026-11-12 16:15:39,856 INFO [22/750] random vs rules | opening=lie_cannon_p7 | A=red | draw (repetition) | 103 plies | 6.6s | ETA 7m18s
+2026-11-12 16:15:41,279 INFO [23/750] random vs rules | opening=elephant_left | A=black | rules wins (checkmate) | 43 plies | 1.5s | ETA 7m43s
+2026-11-12 16:15:41,319 INFO [24/750] random vs rules | opening=pawn_vs_pawn_horses | A=black | rules wins (stalemate) | 85 plies | 2.3s | ETA 7m24s
+2026-11-12 16:15:42,282 INFO [25/750] random vs rules | opening=elephant_vs_central_cannon | A=red | rules wins (stalemate) | 58 plies | 2.4s | ETA 7m34s
+2026-11-12 16:15:42,547 INFO [26/750] random vs rules | opening=pawn_vs_pawn_c3 | A=red | draw (repetition) | 171 plies | 5.3s | ETA 7m23s
+2026-11-12 16:15:43,883 INFO [27/750] random vs rules | opening=elephant_vs_screen_setup | A=red | draw (repetition) | 90 plies | 2.6s | ETA 7m42s
+2026-11-12 16:15:43,898 INFO [28/750] random vs rules | opening=elephant_vs_central_cannon | A=black | draw (repetition) | 90 plies | 2.6s | ETA 7m25s
+2026-11-12 16:15:44,677 INFO [29/750] random vs rules | opening=elephant_left | A=red | rules wins (checkmate) | 168 plies | 5.3s | ETA 7m28s
+2026-11-12 16:15:44,702 INFO [30/750] random vs rules | opening=horse_vs_central_cannon | A=red | rules wins (stalemate) | 38 plies | 2.2s | ETA 7m13s
+2026-11-12 16:15:44,959 INFO [31/750] random vs rules | opening=horse_vs_cannon_left | A=red | rules wins (checkmate) | 30 plies | 1.0s | ETA 7m05s
+2026-11-12 16:15:45,416 INFO [32/750] random vs rules | opening=elephant_vs_screen_setup | A=black | rules wins (checkmate) | 79 plies | 3.1s | ETA 7m01s
+2026-11-12 16:15:45,808 INFO [33/750] random vs rules | opening=corner_cannon_vs_central | A=black | rules wins (checkmate) | 35 plies | 0.9s | ETA 6m57s
+2026-11-12 16:15:46,279 INFO [34/750] random vs rules | opening=horse_vs_central_cannon | A=black | rules wins (stalemate) | 65 plies | 2.3s | ETA 6m54s
+2026-11-12 16:15:47,335 INFO [35/750] random vs rules | opening=horse_vs_cannon_left | A=black | rules wins (stalemate) | 61 plies | 2.6s | ETA 7m03s
+2026-11-12 16:15:47,664 INFO [36/750] random vs rules | opening=cross_palace_left | A=red | draw (repetition) | 79 plies | 1.4s | ETA 6m57s
+2026-11-12 16:15:48,107 INFO [37/750] random vs rules | opening=corner_cannon_vs_central | A=red | rules wins (checkmate) | 62 plies | 3.4s | ETA 6m54s
+2026-11-12 16:15:48,133 INFO [38/750] random vs rules | opening=cross_palace_right | A=black | rules wins (stalemate) | 73 plies | 2.3s | ETA 6m43s
+2026-11-12 16:15:48,391 INFO [39/750] random vs rules | opening=cross_palace_left | A=black | rules wins (checkmate) | 47 plies | 1.2s | ETA 6m37s
+2026-11-12 16:15:49,156 INFO [40/750] random vs rules | opening=cross_palace_right | A=red | draw (repetition) | 109 plies | 3.7s | ETA 6m40s
+2026-11-12 16:15:50,120 INFO [41/750] random vs rules | opening=palace_cannon_left | A=red | draw (repetition) | 74 plies | 2.6s | ETA 6m46s
+2026-11-12 16:15:50,841 INFO [42/750] random vs rules | opening=central_cannon_counter_cannon | A=black | rules wins (checkmate) | 19 plies | 0.7s | ETA 6m48s
+2026-11-12 16:15:51,110 INFO [43/750] random vs rules | opening=central_cannon_counter_cannon | A=red | rules wins (checkmate) | 50 plies | 2.0s | ETA 6m42s
+2026-11-12 16:15:51,542 INFO [44/750] random vs rules | opening=central_cannon_screen_horses | A=black | rules wins (checkmate) | 133 plies | 3.1s | ETA 6m39s
+2026-11-12 16:15:51,556 INFO [45/750] random vs rules | opening=central_cannon_screen_horses | A=red | rules wins (checkmate) | 96 plies | 3.4s | ETA 6m30s
+2026-11-12 16:15:52,279 INFO [46/750] random vs rules | opening=pawn_left | A=black | rules wins (checkmate) | 57 plies | 1.2s | ETA 6m32s
+2026-11-12 16:15:52,544 INFO [47/750] random vs rules | opening=palace_cannon_left | A=black | rules wins (checkmate) | 49 plies | 4.5s | ETA 6m27s
+2026-11-12 16:15:53,589 INFO [48/750] random vs rules | opening=pawn_center | A=red | rules wins (checkmate) | 46 plies | 2.1s | ETA 6m34s
+2026-11-12 16:15:54,292 INFO [49/750] random vs alphabeta | opening=screen_horses_c57 | A=red | alphabeta wins (checkmate) | 44 plies | 2.0s | ETA 6m35s
+2026-11-12 16:15:54,342 INFO [50/750] random vs rules | opening=pawn_left | A=red | rules wins (checkmate) | 90 plies | 3.5s | ETA 6m28s
+2026-11-12 16:15:54,691 INFO [51/750] random vs alphabeta | opening=screen_horses_c56 | A=red | alphabeta wins (checkmate) | 24 plies | 1.1s | ETA 6m24s
+2026-11-12 16:15:54,939 INFO [52/750] random vs alphabeta | opening=screen_horses_c57 | A=black | alphabeta wins (checkmate) | 35 plies | 2.4s | ETA 6m20s
+2026-11-12 16:15:55,432 INFO [53/750] random vs rules | opening=pawn_center | A=black | draw (repetition) | 154 plies | 3.9s | ETA 6m18s
+2026-11-12 16:15:55,446 INFO [54/750] random vs alphabeta | opening=screen_horses_pawn7 | A=black | alphabeta wins (checkmate) | 27 plies | 0.8s | ETA 6m11s
+2026-11-12 16:15:56,322 INFO [55/750] random vs alphabeta | opening=screen_horses_pawn7 | A=red | alphabeta wins (stalemate) | 50 plies | 1.9s | ETA 6m15s
+2026-11-12 16:15:56,758 INFO [56/750] random vs alphabeta | opening=screen_horses_c56 | A=black | alphabeta wins (stalemate) | 57 plies | 2.5s | ETA 6m13s
+2026-11-12 16:15:56,794 INFO [57/750] random vs alphabeta | opening=reverse_palace_p7 | A=black | alphabeta wins (stalemate) | 51 plies | 1.4s | ETA 6m06s
+2026-11-12 16:15:58,160 INFO [58/750] random vs alphabeta | opening=reverse_palace_p7 | A=red | alphabeta wins (checkmate) | 44 plies | 3.2s | ETA 6m16s
+2026-11-12 16:15:58,176 INFO [59/750] random vs alphabeta | opening=shun_cannon_straight_rook | A=black | alphabeta wins (checkmate) | 35 plies | 1.3s | ETA 6m09s
+2026-11-12 16:15:58,341 INFO [60/750] random vs alphabeta | opening=shun_cannon_straight_rook | A=red | alphabeta wins (stalemate) | 46 plies | 1.6s | ETA 6m04s
+2026-11-12 16:15:58,494 INFO [61/750] random vs alphabeta | opening=reverse_palace_mirror | A=black | alphabeta wins (checkmate) | 43 plies | 2.2s | ETA 6m00s
+2026-11-12 16:15:58,538 INFO [62/750] random vs alphabeta | opening=reverse_palace_mirror | A=red | alphabeta wins (checkmate) | 66 plies | 3.1s | ETA 5m54s
+2026-11-12 16:16:00,344 INFO [63/750] random vs alphabeta | opening=lie_cannon_p7 | A=black | alphabeta wins (checkmate) | 49 plies | 1.8s | ETA 6m07s
+2026-11-12 16:16:00,363 INFO [64/750] random vs alphabeta | opening=pawn_vs_bottom_cannon_central | A=red | alphabeta wins (checkmate) | 40 plies | 1.8s | ETA 6m01s
+2026-11-12 16:16:00,462 INFO [65/750] random vs alphabeta | opening=lie_cannon_p7 | A=red | alphabeta wins (stalemate) | 60 plies | 2.1s | ETA 5m56s
+2026-11-12 16:16:00,497 INFO [66/750] random vs alphabeta | opening=shun_cannon_rook_race | A=black | alphabeta wins (checkmate) | 49 plies | 2.4s | ETA 5m51s
+2026-11-12 16:16:01,762 INFO [67/750] random vs alphabeta | opening=pawn_vs_bottom_cannon_horses | A=black | alphabeta wins (checkmate) | 31 plies | 1.3s | ETA 5m58s
+2026-11-12 16:16:01,928 INFO [68/750] random vs alphabeta | opening=shun_cannon_rook_race | A=red | alphabeta wins (checkmate) | 44 plies | 3.8s | ETA 5m54s
+2026-11-12 16:16:02,120 INFO [69/750] random vs alphabeta | opening=pawn_vs_pawn_c3 | A=red | alphabeta wins (checkmate) | 56 plies | 1.6s | ETA 5m50s
+2026-11-12 16:16:02,229 INFO [70/750] random vs alphabeta | opening=pawn_vs_bottom_cannon_horses | A=red | alphabeta wins (checkmate) | 28 plies | 1.9s | ETA 5m45s
+2026-11-12 16:16:02,950 INFO [71/750] random vs alphabeta | opening=pawn_vs_bottom_cannon_central | A=black | alphabeta wins (checkmate) | 39 plies | 2.6s | ETA 5m47s
+2026-11-12 16:16:03,807 INFO [72/750] random vs alphabeta | opening=pawn_vs_pawn_c3 | A=black | alphabeta wins (checkmate) | 61 plies | 2.1s | ETA 5m50s
+2026-11-12 16:16:04,043 INFO [73/750] random vs alphabeta | opening=pawn_vs_pawn_horses | A=black | alphabeta wins (stalemate) | 53 plies | 1.9s | ETA 5m47s
+2026-11-12 16:16:04,369 INFO [74/750] random vs alphabeta | opening=elephant_left | A=red | alphabeta wins (stalemate) | 68 plies | 2.1s | ETA 5m44s
+2026-11-12 16:16:05,196 INFO [75/750] random vs alphabeta | opening=pawn_vs_pawn_horses | A=red | alphabeta wins (stalemate) | 60 plies | 3.3s | ETA 5m47s
+2026-11-12 16:16:05,273 INFO [76/750] random vs alphabeta | opening=elephant_vs_central_cannon | A=red | alphabeta wins (checkmate) | 34 plies | 1.5s | ETA 5m42s
+2026-11-12 16:16:05,485 INFO [77/750] random vs alphabeta | opening=elephant_left | A=black | alphabeta wins (checkmate) | 57 plies | 2.5s | ETA 5m39s
+2026-11-12 16:16:06,298 INFO [78/750] random vs alphabeta | opening=horse_vs_central_cannon | A=red | alphabeta wins (checkmate) | 28 plies | 1.0s | ETA 5m41s
+2026-11-12 16:16:06,417 INFO [79/750] random vs alphabeta | opening=elephant_vs_central_cannon | A=black | alphabeta wins (checkmate) | 63 plies | 2.4s | ETA 5m38s
+2026-11-12 16:16:06,899 INFO [80/750] random vs alphabeta | opening=horse_vs_central_cannon | A=black | alphabeta wins (stalemate) | 47 plies | 1.4s | ETA 5m37s
+2026-11-12 16:16:06,986 INFO [81/750] random vs alphabeta | opening=elephant_vs_screen_setup | A=black | alphabeta wins (checkmate) | 25 plies | 1.8s | ETA 5m33s
+2026-11-12 16:16:07,279 INFO [82/750] random vs alphabeta | opening=elephant_vs_screen_setup | A=red | alphabeta wins (checkmate) | 40 plies | 2.9s | ETA 5m31s
+2026-11-12 16:16:07,825 INFO [83/750] random vs alphabeta | opening=horse_vs_cannon_left | A=red | alphabeta wins (checkmate) | 30 plies | 1.5s | ETA 5m31s
+2026-11-12 16:16:08,090 INFO [84/750] random vs alphabeta | opening=corner_cannon_vs_central | A=red | alphabeta wins (checkmate) | 32 plies | 1.2s | ETA 5m28s
+2026-11-12 16:16:08,373 INFO [85/750] random vs alphabeta | opening=horse_vs_cannon_left | A=black | alphabeta wins (stalemate) | 53 plies | 2.0s | ETA 5m26s
+2026-11-12 16:16:08,885 INFO [86/750] random vs alphabeta | opening=cross_palace_right | A=red | alphabeta wins (checkmate) | 38 plies | 1.6s | ETA 5m26s
+2026-11-12 16:16:09,496 INFO [87/750] random vs alphabeta | opening=cross_palace_left | A=black | alphabeta wins (checkmate) | 31 plies | 1.1s | ETA 5m26s
+2026-11-12 16:16:09,573 INFO [88/750] random vs alphabeta | opening=cross_palace_left | A=red | alphabeta wins (checkmate) | 44 plies | 1.5s | ETA 5m23s
+2026-11-12 16:16:09,654 INFO [89/750] random vs alphabeta | opening=cross_palace_right | A=black | alphabeta wins (checkmate) | 47 plies | 1.8s | ETA 5m19s
+2026-11-12 16:16:09,673 INFO [90/750] random vs alphabeta | opening=corner_cannon_vs_central | A=black | alphabeta wins (checkmate) | 29 plies | 2.7s | ETA 5m15s
+2026-11-12 16:16:10,603 INFO [91/750] random vs alphabeta | opening=palace_cannon_left | A=red | alphabeta wins (checkmate) | 42 plies | 1.7s | ETA 5m18s
+2026-11-12 16:16:10,900 INFO [92/750] random vs alphabeta | opening=central_cannon_screen_horses | A=red | alphabeta wins (checkmate) | 28 plies | 1.3s | ETA 5m16s
+2026-11-12 16:16:10,927 INFO [93/750] random vs alphabeta | opening=central_cannon_screen_horses | A=black | alphabeta wins (checkmate) | 23 plies | 1.3s | ETA 5m12s
+2026-11-12 16:16:11,232 INFO [94/750] random vs alphabeta | opening=palace_cannon_left | A=black | alphabeta wins (checkmate) | 27 plies | 1.7s | ETA 5m11s
+2026-11-12 16:16:12,003 INFO [95/750] random vs alphabeta | opening=pawn_left | A=black | alphabeta wins (checkmate) | 31 plies | 1.1s | ETA 5m12s
+2026-11-12 16:16:12,809 INFO [96/750] random vs alphabeta | opening=pawn_left | A=red | alphabeta wins (stalemate) | 52 plies | 1.9s | ETA 5m14s
+2026-11-12 16:16:13,214 INFO [97/750] random vs alphabeta | opening=pawn_center | A=red | alphabeta wins (checkmate) | 36 plies | 2.0s | ETA 5m13s
+2026-11-12 16:16:13,596 INFO [98/750] random vs alphabeta | opening=central_cannon_counter_cannon | A=red | alphabeta wins (checkmate) | 48 plies | 3.9s | ETA 5m12s
+2026-11-12 16:16:13,609 INFO [99/750] random vs alphabeta | opening=central_cannon_counter_cannon | A=black | alphabeta wins (checkmate) | 73 plies | 3.0s | ETA 5m09s
+2026-11-12 16:16:14,186 INFO [100/750] random vs alphabeta | opening=pawn_center | A=black | alphabeta wins (stalemate) | 67 plies | 2.2s | ETA 5m09s
+2026-11-12 16:16:24,260 INFO [101/750] random vs heuristic | opening=screen_horses_c57 | A=red | heuristic wins (checkmate) | 34 plies | 11.5s | ETA 6m10s
+2026-11-12 16:16:30,490 INFO [102/750] random vs heuristic | opening=screen_horses_pawn7 | A=red | heuristic wins (checkmate) | 44 plies | 16.3s | ETA 6m45s
+2026-11-12 16:16:33,603 INFO [103/750] random vs heuristic | opening=screen_horses_c57 | A=black | draw (repetition) | 50 plies | 20.4s | ETA 7m00s
+2026-11-12 16:16:36,893 INFO [104/750] random vs heuristic | opening=screen_horses_c56 | A=black | heuristic wins (checkmate) | 57 plies | 23.3s | ETA 7m16s
+2026-11-12 16:16:48,726 INFO [105/750] random vs heuristic | opening=screen_horses_pawn7 | A=black | heuristic wins (checkmate) | 59 plies | 24.4s | ETA 8m24s
+2026-11-12 16:16:49,053 INFO [106/750] random vs heuristic | opening=reverse_palace_p7 | A=black | heuristic wins (checkmate) | 41 plies | 15.5s | ETA 8m20s
+2026-11-12 16:16:50,915 INFO [107/750] random vs heuristic | opening=reverse_palace_p7 | A=red | heuristic wins (checkmate) | 52 plies | 20.4s | ETA 8m26s
+2026-11-12 16:16:51,197 INFO [108/750] random vs heuristic | opening=screen_horses_c56 | A=red | heuristic wins (stalemate) | 86 plies | 37.6s | ETA 8m22s
+2026-11-12 16:17:04,349 INFO [109/750] random vs heuristic | opening=reverse_palace_mirror | A=red | heuristic wins (checkmate) | 66 plies | 27.4s | ETA 9m34s
+2026-11-12 16:17:08,292 INFO [110/750] random vs heuristic | opening=shun_cannon_straight_rook | A=red | heuristic wins (checkmate) | 50 plies | 19.3s | ETA 9m51s
+2026-11-12 16:17:14,587 INFO [111/750] random vs heuristic | opening=shun_cannon_rook_race | A=black | heuristic wins (checkmate) | 31 plies | 10.2s | ETA 10m21s
+2026-11-12 16:17:18,264 INFO [112/750] random vs heuristic | opening=shun_cannon_straight_rook | A=black | heuristic wins (stalemate) | 65 plies | 27.4s | ETA 10m36s
+2026-11-12 16:17:20,068 INFO [113/750] random vs heuristic | opening=reverse_palace_mirror | A=black | heuristic wins (checkmate) | 73 plies | 31.4s | ETA 10m39s
+2026-11-12 16:17:22,457 INFO [114/750] random vs heuristic | opening=shun_cannon_rook_race | A=red | heuristic wins (stalemate) | 74 plies | 31.2s | ETA 10m46s
+2026-11-12 16:17:37,840 INFO [115/750] random vs heuristic | opening=lie_cannon_p7 | A=red | heuristic wins (checkmate) | 70 plies | 29.5s | ETA 12m04s
+2026-11-12 16:17:41,602 INFO [116/750] random vs heuristic | opening=pawn_vs_bottom_cannon_central | A=black | heuristic wins (checkmate) | 53 plies | 21.5s | ETA 12m17s
+2026-11-12 16:17:41,616 INFO [117/750] random vs heuristic | opening=pawn_vs_bottom_cannon_central | A=red | draw (repetition) | 57 plies | 23.3s | ETA 12m10s
+2026-11-12 16:17:50,163 INFO [118/750] random vs heuristic | opening=lie_cannon_p7 | A=black | heuristic wins (checkmate) | 81 plies | 35.5s | ETA 12m48s
+2026-11-12 16:17:55,832 INFO [119/750] random vs heuristic | opening=pawn_vs_pawn_c3 | A=red | heuristic wins (checkmate) | 40 plies | 14.3s | ETA 13m11s
+2026-11-12 16:18:00,325 INFO [120/750] random vs heuristic | opening=pawn_vs_pawn_horses | A=red | heuristic wins (checkmate) | 32 plies | 10.3s | ETA 13m26s
+2026-11-12 16:18:02,812 INFO [121/750] random vs heuristic | opening=pawn_vs_bottom_cannon_horses | A=red | draw (repetition) | 91 plies | 40.4s | ETA 13m31s
+2026-11-12 16:18:04,043 INFO [122/750] random vs heuristic | opening=pawn_vs_pawn_c3 | A=black | heuristic wins (checkmate) | 55 plies | 22.4s | ETA 13m29s
+2026-11-12 16:18:08,323 INFO [123/750] random vs heuristic | opening=pawn_vs_bottom_cannon_horses | A=black | heuristic wins (checkmate) | 71 plies | 30.4s | ETA 13m44s
+2026-11-12 16:18:15,116 INFO [124/750] random vs heuristic | opening=pawn_vs_pawn_horses | A=black | heuristic wins (checkmate) | 49 plies | 19.2s | ETA 14m10s
+2026-11-12 16:18:16,994 INFO [125/750] random vs heuristic | opening=elephant_left | A=black | heuristic wins (checkmate) | 35 plies | 14.3s | ETA 14m11s
+2026-11-12 16:18:30,318 INFO [126/750] random vs heuristic | opening=elephant_vs_central_cannon | A=red | heuristic wins (checkmate) | 64 plies | 26.3s | ETA 15m09s
+2026-11-12 16:18:32,392 INFO [127/750] random vs heuristic | opening=elephant_vs_screen_setup | A=black | heuristic wins (checkmate) | 41 plies | 15.4s | ETA 15m11s
+2026-11-12 16:18:32,644 INFO [128/750] random vs heuristic | opening=elephant_left | A=red | draw (repetition) | 71 plies | 32.3s | ETA 15m03s
+2026-11-12 16:18:38,780 INFO [129/750] random vs heuristic | opening=horse_vs_central_cannon | A=black | heuristic wins (checkmate) | 23 plies | 6.4s | ETA 15m25s
+2026-11-12 16:18:41,525 INFO [130/750] random vs heuristic | opening=horse_vs_central_cannon | A=red | heuristic wins (checkmate) | 34 plies | 11.2s | ETA 15m29s
+2026-11-12 16:18:42,632 INFO [131/750] random vs heuristic | opening=elephant_vs_central_cannon | A=black | draw (repetition) | 78 plies | 34.4s | ETA 15m26s
+2026-11-12 16:18:43,472 INFO [132/750] random vs heuristic | opening=elephant_vs_screen_setup | A=red | heuristic wins (stalemate) | 68 plies | 28.4s | ETA 15m21s
+2026-11-12 16:18:52,015 INFO [133/750] random vs heuristic | opening=corner_cannon_vs_central | A=black | heuristic wins (checkmate) | 29 plies | 9.4s | ETA 15m52s
+2026-11-12 16:18:57,865 INFO [134/750] random vs heuristic | opening=cross_palace_right | A=red | heuristic wins (checkmate) | 40 plies | 14.4s | ETA 16m11s
+2026-11-12 16:19:02,703 INFO [135/750] random vs heuristic | opening=corner_cannon_vs_central | A=red | heuristic wins (checkmate) | 54 plies | 21.2s | ETA 16m24s
+2026-11-12 16:19:04,085 INFO [136/750] random vs heuristic | opening=horse_vs_cannon_left | A=black | heuristic wins (checkmate) | 61 plies | 25.3s | ETA 16m21s
+2026-11-12 16:19:16,982 INFO [137/750] random vs heuristic | opening=cross_palace_left | A=black | heuristic wins (checkmate) | 39 plies | 14.2s | ETA 17m10s
+2026-11-12 16:19:17,492 INFO [138/750] random vs heuristic | opening=horse_vs_cannon_left | A=red | heuristic wins (checkmate) | 102 plies | 44.9s | ETA 17m03s
+2026-11-12 16:19:17,576 INFO [139/750] random vs heuristic | opening=cross_palace_right | A=black | heuristic wins (checkmate) | 61 plies | 25.6s | ETA 16m55s
+2026-11-12 16:19:23,270 INFO [140/750] random vs heuristic | opening=cross_palace_left | A=red | heuristic wins (stalemate) | 62 plies | 25.4s | ETA 17m11s
+2026-11-12 16:19:41,699 INFO [141/750] random vs heuristic | opening=central_cannon_counter_cannon | A=red | heuristic wins (checkmate) | 44 plies | 18.5s | ETA 18m21s
+2026-11-12 16:19:43,046 INFO [142/750] random vs heuristic | opening=central_cannon_screen_horses | A=red | heuristic wins (checkmate) | 58 plies | 25.6s | ETA 18m17s
+2026-11-12 16:19:48,833 INFO [143/750] random vs heuristic | opening=palace_cannon_left | A=red | heuristic wins (checkmate) | 96 plies | 44.7s | ETA 18m33s
+2026-11-12 16:20:00,356 INFO [144/750] random vs heuristic | opening=palace_cannon_left | A=black | heuristic wins (checkmate) | 93 plies | 43.4s | ETA 19m12s
+2026-11-12 16:20:13,070 INFO [145/750] random vs heuristic | opening=central_cannon_screen_horses | A=black | draw (repetition) | 118 plies | 55.5s | ETA 19m55s
+2026-11-12 16:20:17,958 INFO [146/750] random vs heuristic | opening=central_cannon_counter_cannon | A=black | draw (repetition) | 78 plies | 36.3s | ETA 20m05s
+2026-11-12 16:20:18,428 INFO [147/750] random vs heuristic | opening=pawn_left | A=red | heuristic wins (checkmate) | 78 plies | 35.4s | ETA 19m57s
+2026-11-12 16:20:27,152 INFO [148/750] random vs heuristic | opening=pawn_left | A=black | heuristic wins (checkmate) | 83 plies | 38.3s | ETA 20m22s
+2026-11-12 16:20:28,662 INFO [149/750] random vs mcts | opening=screen_horses_c57 | A=black | mcts wins (checkmate) | 31 plies | 10.2s | ETA 20m18s
+2026-11-12 16:20:34,502 INFO [150/750] random vs heuristic | opening=pawn_center | A=black | heuristic wins (checkmate) | 49 plies | 21.4s | ETA 20m31s
+2026-11-12 16:20:34,612 INFO [151/750] random vs heuristic | opening=pawn_center | A=red | heuristic wins (checkmate) | 76 plies | 34.3s | ETA 20m21s
+2026-11-12 16:20:37,491 INFO [152/750] random vs mcts | opening=screen_horses_c56 | A=red | mcts wins (checkmate) | 32 plies | 10.3s | ETA 20m23s
+2026-11-12 16:20:41,020 INFO [153/750] random vs mcts | opening=screen_horses_c56 | A=black | mcts wins (checkmate) | 35 plies | 12.3s | ETA 20m26s
+2026-11-12 16:20:48,199 INFO [154/750] random vs mcts | opening=screen_horses_pawn7 | A=red | mcts wins (checkmate) | 38 plies | 13.7s | ETA 20m44s
+2026-11-12 16:20:52,022 INFO [155/750] random vs mcts | opening=screen_horses_pawn7 | A=black | mcts wins (checkmate) | 45 plies | 17.3s | ETA 20m49s
+2026-11-12 16:20:52,649 INFO [156/750] random vs mcts | opening=screen_horses_c57 | A=red | mcts wins (stalemate) | 80 plies | 34.6s | ETA 20m41s
+2026-11-12 16:20:57,600 INFO [157/750] random vs mcts | opening=reverse_palace_mirror | A=red | mcts wins (checkmate) | 30 plies | 9.4s | ETA 20m50s
+2026-11-12 16:21:01,128 INFO [158/750] random vs mcts | opening=reverse_palace_p7 | A=red | mcts wins (checkmate) | 58 plies | 23.6s | ETA 20m53s
+2026-11-12 16:21:07,955 INFO [159/750] random vs mcts | opening=shun_cannon_straight_rook | A=red | mcts wins (checkmate) | 42 plies | 15.3s | ETA 21m08s
+2026-11-12 16:21:09,346 INFO [160/750] random vs mcts | opening=reverse_palace_mirror | A=black | mcts wins (stalemate) | 45 plies | 17.4s | ETA 21m03s
+2026-11-12 16:21:16,661 INFO [161/750] random vs mcts | opening=reverse_palace_p7 | A=black | mcts wins (checkmate) | 81 plies | 35.6s | ETA 21m20s
+2026-11-12 16:21:23,713 INFO [162/750] random vs mcts | opening=shun_cannon_rook_race | A=red | mcts wins (stalemate) | 56 plies | 22.6s | ETA 21m36s
+2026-11-12 16:21:35,195 INFO [163/750] random vs mcts | opening=lie_cannon_p7 | A=black | mcts wins (checkmate) | 47 plies | 18.5s | ETA 22m07s
+2026-11-12 16:21:35,778 INFO [164/750] random vs mcts | opening=shun_cannon_rook_race | A=black | mcts wins (stalemate) | 65 plies | 27.8s | ETA 21m59s
+2026-11-12 16:21:38,810 INFO [165/750] random vs mcts | opening=lie_cannon_p7 | A=red | mcts wins (stalemate) | 70 plies | 29.4s | ETA 21m59s
+2026-11-12 16:21:39,479 INFO [166/750] random vs mcts | opening=pawn_vs_bottom_cannon_central | A=red | mcts wins (checkmate) | 42 plies | 15.7s | ETA 21m51s
+2026-11-12 16:21:40,919 INFO [167/750] random vs mcts | opening=pawn_vs_bottom_cannon_horses | A=red | mcts wins (checkmate) | 22 plies | 5.2s | ETA 21m46s
+2026-11-12 16:21:45,092 INFO [168/750] random vs mcts | opening=pawn_vs_pawn_c3 | A=black | mcts wins (checkmate) | 19 plies | 4.1s | ETA 21m51s
+2026-11-12 16:21:45,559 INFO [169/750] random vs mcts | opening=shun_cannon_straight_rook | A=black | mcts wins (stalemate) | 105 plies | 47.9s | ETA 21m42s
+2026-11-12 16:21:49,918 INFO [170/750] random vs mcts | opening=pawn_vs_pawn_c3 | A=red | mcts wins (checkmate) | 32 plies | 10.4s | ETA 21m47s
+2026-11-12 16:21:55,162 INFO [171/750] random vs mcts | opening=pawn_vs_bottom_cannon_horses | A=black | mcts wins (checkmate) | 43 plies | 16.4s | ETA 21m55s
+2026-11-12 16:21:56,109 INFO [172/750] random vs mcts | opening=elephant_left | A=red | mcts wins (checkmate) | 20 plies | 6.2s | ETA 21m48s
+2026-11-12 16:22:07,797 INFO [173/750] random vs mcts | opening=pawn_vs_pawn_horses | A=red | mcts wins (checkmate) | 56 plies | 22.7s | ETA 22m18s
+2026-11-12 16:22:08,005 INFO [174/750] random vs mcts | opening=pawn_vs_pawn_horses | A=black | mcts wins (checkmate) | 55 plies | 22.5s | ETA 22m08s
+2026-11-12 16:22:09,956 INFO [175/750] random vs mcts | opening=pawn_vs_bottom_cannon_central | A=black | mcts wins (checkmate) | 79 plies | 34.8s | ETA 22m05s
+2026-11-12 16:22:15,275 INFO [176/750] random vs mcts | opening=elephant_vs_screen_setup | A=red | mcts wins (checkmate) | 26 plies | 7.3s | ETA 22m12s
+2026-11-12 16:22:16,568 INFO [177/750] random vs mcts | opening=elephant_left | A=black | mcts wins (checkmate) | 49 plies | 21.4s | ETA 22m07s
+2026-11-12 16:22:24,488 INFO [178/750] random vs mcts | opening=horse_vs_central_cannon | A=red | mcts wins (checkmate) | 30 plies | 9.2s | ETA 22m22s
+2026-11-12 16:22:26,550 INFO [179/750] random vs mcts | opening=elephant_vs_screen_setup | A=black | mcts wins (checkmate) | 43 plies | 16.6s | ETA 22m19s
+2026-11-12 16:22:32,035 INFO [180/750] random vs mcts | opening=elephant_vs_central_cannon | A=red | mcts wins (stalemate) | 82 plies | 35.9s | ETA 22m27s
+2026-11-12 16:22:36,002 INFO [181/750] random vs mcts | opening=horse_vs_cannon_left | A=black | mcts wins (checkmate) | 29 plies | 9.4s | ETA 22m29s
+2026-11-12 16:22:37,840 INFO [182/750] random vs mcts | opening=horse_vs_cannon_left | A=red | mcts wins (checkmate) | 38 plies | 13.3s | ETA 22m25s
+2026-11-12 16:22:38,034 INFO [183/750] random vs mcts | opening=horse_vs_central_cannon | A=black | mcts wins (stalemate) | 53 plies | 21.5s | ETA 22m16s
+2026-11-12 16:22:42,545 INFO [184/750] random vs mcts | opening=elephant_vs_central_cannon | A=black | mcts wins (checkmate) | 79 plies | 34.7s | ETA 22m20s
+2026-11-12 16:22:56,340 INFO [185/750] random vs mcts | opening=cross_palace_right | A=red | mcts wins (checkmate) | 48 plies | 18.5s | ETA 22m53s
+2026-11-12 16:22:57,915 INFO [186/750] random vs mcts | opening=corner_cannon_vs_central | A=red | mcts wins (checkmate) | 62 plies | 25.8s | ETA 22m48s
+2026-11-12 16:23:02,622 INFO [187/750] random vs mcts | opening=cross_palace_right | A=black | mcts wins (checkmate) | 59 plies | 24.6s | ETA 22m52s
+2026-11-12 16:23:03,607 INFO [188/750] random vs mcts | opening=corner_cannon_vs_central | A=black | mcts wins (checkmate) | 65 plies | 27.6s | ETA 22m45s
+2026-11-12 16:23:08,133 INFO [189/750] random vs mcts | opening=cross_palace_left | A=red | mcts wins (checkmate) | 62 plies | 25.7s | ETA 22m49s
+2026-11-12 16:23:13,922 INFO [190/750] random vs mcts | opening=palace_cannon_left | A=black | mcts wins (checkmate) | 29 plies | 11.3s | ETA 22m57s
+2026-11-12 16:23:14,919 INFO [191/750] random vs mcts | opening=central_cannon_screen_horses | A=red | mcts wins (checkmate) | 30 plies | 11.2s | ETA 22m50s
+2026-11-12 16:23:20,446 INFO [192/750] random vs mcts | opening=palace_cannon_left | A=red | mcts wins (checkmate) | 52 plies | 22.6s | ETA 22m57s
+2026-11-12 16:23:27,305 INFO [193/750] random vs mcts | opening=cross_palace_left | A=black | mcts wins (checkmate) | 71 plies | 31.0s | ETA 23m07s
+2026-11-12 16:23:33,498 INFO [194/750] random vs mcts | opening=central_cannon_counter_cannon | A=red | mcts wins (checkmate) | 46 plies | 19.6s | ETA 23m15s
+2026-11-12 16:23:34,732 INFO [195/750] random vs mcts | opening=central_cannon_screen_horses | A=black | mcts wins (checkmate) | 59 plies | 26.6s | ETA 23m09s
+2026-11-12 16:23:34,911 INFO [196/750] random vs mcts | opening=pawn_left | A=red | mcts wins (checkmate) | 36 plies | 14.5s | ETA 23m00s
+2026-11-12 16:23:36,616 INFO [197/750] random vs tabular_q | opening=screen_horses_c57 | A=red | random wins (checkmate) | 31 plies | 1.7s | ETA 22m55s
+2026-11-12 16:23:39,006 INFO [198/750] random vs tabular_q | opening=screen_horses_c57 | A=black | tabular_q wins (checkmate) | 67 plies | 2.4s | ETA 22m52s
+2026-11-12 16:23:40,386 INFO [199/750] random vs mcts | opening=central_cannon_counter_cannon | A=black | mcts wins (checkmate) | 57 plies | 25.6s | ETA 22m47s
+2026-11-12 16:23:40,927 INFO [200/750] random vs tabular_q | opening=screen_horses_c56 | A=red | draw (repetition) | 85 plies | 1.9s | ETA 22m39s
+2026-11-12 16:23:42,875 INFO [201/750] random vs tabular_q | opening=screen_horses_pawn7 | A=red | draw (repetition) | 89 plies | 2.0s | ETA 22m35s
+2026-11-12 16:23:43,993 INFO [202/750] random vs tabular_q | opening=screen_horses_c56 | A=black | tabular_q wins (checkmate) | 51 plies | 3.7s | ETA 22m29s
+2026-11-12 16:23:46,420 INFO [203/750] random vs tabular_q | opening=screen_horses_pawn7 | A=black | tabular_q wins (checkmate) | 73 plies | 3.6s | ETA 22m26s
+2026-11-12 16:23:48,895 INFO [204/750] random vs tabular_q | opening=reverse_palace_p7 | A=black | tabular_q wins (checkmate) | 69 plies | 2.4s | ETA 22m24s
+2026-11-12 16:23:48,944 INFO [205/750] random vs tabular_q | opening=reverse_palace_p7 | A=red | tabular_q wins (checkmate) | 94 plies | 5.0s | ETA 22m15s
+2026-11-12 16:23:51,409 INFO [206/750] random vs tabular_q | opening=reverse_palace_mirror | A=black | draw (repetition) | 92 plies | 2.4s | ETA 22m13s
+2026-11-12 16:23:53,102 INFO [207/750] random vs mcts | opening=pawn_center | A=red | mcts wins (checkmate) | 46 plies | 19.6s | ETA 22m08s
+2026-11-12 16:23:53,292 INFO [208/750] random vs tabular_q | opening=reverse_palace_mirror | A=red | draw (repetition) | 155 plies | 4.5s | ETA 22m00s
+2026-11-12 16:23:53,989 INFO [209/750] random vs tabular_q | opening=shun_cannon_straight_rook | A=red | tabular_q wins (checkmate) | 76 plies | 2.6s | ETA 21m53s
+2026-11-12 16:23:54,579 INFO [210/750] random vs tabular_q | opening=shun_cannon_straight_rook | A=black | tabular_q wins (checkmate) | 41 plies | 1.5s | ETA 21m46s
+2026-11-12 16:23:54,735 INFO [211/750] random vs mcts | opening=pawn_left | A=black | mcts wins (stalemate) | 61 plies | 27.4s | ETA 21m37s
+2026-11-12 16:23:55,351 INFO [212/750] random vs tabular_q | opening=shun_cannon_rook_race | A=red | tabular_q wins (checkmate) | 56 plies | 2.0s | ETA 21m31s
+2026-11-12 16:23:56,200 INFO [213/750] random vs tabular_q | opening=lie_cannon_p7 | A=black | tabular_q wins (checkmate) | 39 plies | 1.4s | ETA 21m24s
+2026-11-12 16:23:57,260 INFO [214/750] random vs tabular_q | opening=lie_cannon_p7 | A=red | draw (repetition) | 87 plies | 2.6s | ETA 21m18s
+2026-11-12 16:23:57,705 INFO [215/750] random vs tabular_q | opening=shun_cannon_rook_race | A=black | tabular_q wins (checkmate) | 63 plies | 3.7s | ETA 21m11s
+2026-11-12 16:23:59,086 INFO [216/750] random vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=red | draw (repetition) | 159 plies | 3.7s | ETA 21m06s
+2026-11-12 16:23:59,305 INFO [217/750] random vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=black | tabular_q wins (checkmate) | 67 plies | 3.1s | ETA 20m59s
+2026-11-12 16:23:59,319 INFO [218/750] random vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=black | tabular_q wins (checkmate) | 29 plies | 1.6s | ETA 20m51s
+2026-11-12 16:23:59,817 INFO [219/750] random vs tabular_q | opening=pawn_vs_pawn_c3 | A=black | tabular_q wins (checkmate) | 23 plies | 0.5s | ETA 20m44s
+2026-11-12 16:24:00,010 INFO [220/750] random vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=red | draw (repetition) | 90 plies | 2.8s | ETA 20m36s
+2026-11-12 16:24:00,939 INFO [221/750] random vs tabular_q | opening=pawn_vs_pawn_c3 | A=red | tabular_q wins (stalemate) | 108 plies | 1.9s | ETA 20m31s
+2026-11-12 16:24:01,168 INFO [222/750] random vs tabular_q | opening=elephant_left | A=black | tabular_q wins (checkmate) | 11 plies | 0.2s | ETA 20m23s
+2026-11-12 16:24:02,292 INFO [223/750] random vs tabular_q | opening=pawn_vs_pawn_horses | A=red | draw (repetition) | 55 plies | 3.0s | ETA 20m18s
+2026-11-12 16:24:03,879 INFO [224/750] random vs tabular_q | opening=elephant_vs_central_cannon | A=black | tabular_q wins (checkmate) | 55 plies | 1.6s | ETA 20m14s
+2026-11-12 16:24:04,042 INFO [225/750] random vs tabular_q | opening=elephant_vs_central_cannon | A=red | tabular_q wins (checkmate) | 80 plies | 2.9s | ETA 20m07s
+2026-11-12 16:24:04,134 INFO [226/750] random vs tabular_q | opening=pawn_vs_pawn_horses | A=black | draw (repetition) | 186 plies | 4.4s | ETA 19m59s
+2026-11-12 16:24:04,608 INFO [227/750] random vs mcts | opening=pawn_center | A=black | mcts wins (checkmate) | 65 plies | 29.9s | ETA 19m53s
+2026-11-12 16:24:05,302 INFO [228/750] random vs tabular_q | opening=elephant_left | A=red | tabular_q wins (checkmate) | 134 plies | 5.2s | ETA 19m47s
+2026-11-12 16:24:05,885 INFO [229/750] random vs tabular_q | opening=horse_vs_central_cannon | A=red | tabular_q wins (checkmate) | 90 plies | 1.7s | ETA 19m41s
+2026-11-12 16:24:06,332 INFO [230/750] random vs tabular_q | opening=elephant_vs_screen_setup | A=black | tabular_q wins (stalemate) | 81 plies | 2.3s | ETA 19m35s
+2026-11-12 16:24:07,099 INFO [231/750] random vs tabular_q | opening=elephant_vs_screen_setup | A=red | draw (repetition) | 104 plies | 3.2s | ETA 19m29s
+2026-11-12 16:24:07,677 INFO [232/750] random vs tabular_q | opening=horse_vs_cannon_left | A=red | draw (repetition) | 71 plies | 2.4s | ETA 19m23s
+2026-11-12 16:24:08,306 INFO [233/750] random vs tabular_q | opening=corner_cannon_vs_central | A=black | tabular_q wins (checkmate) | 41 plies | 1.2s | ETA 19m17s
+2026-11-12 16:24:08,582 INFO [234/750] random vs tabular_q | opening=horse_vs_cannon_left | A=black | draw (repetition) | 169 plies | 2.6s | ETA 19m11s
+2026-11-12 16:24:08,917 INFO [235/750] random vs tabular_q | opening=horse_vs_central_cannon | A=black | draw (repetition) | 75 plies | 4.3s | ETA 19m04s
+2026-11-12 16:24:09,571 INFO [236/750] random vs tabular_q | opening=corner_cannon_vs_central | A=red | draw (repetition) | 105 plies | 3.2s | ETA 18m58s
+2026-11-12 16:24:09,628 INFO [237/750] random vs tabular_q | opening=cross_palace_left | A=red | tabular_q wins (checkmate) | 30 plies | 1.2s | ETA 18m52s
+2026-11-12 16:24:10,308 INFO [238/750] random vs tabular_q | opening=cross_palace_right | A=black | tabular_q wins (stalemate) | 87 plies | 2.0s | ETA 18m46s
+2026-11-12 16:24:11,022 INFO [239/750] random vs tabular_q | opening=cross_palace_left | A=black | draw (repetition) | 92 plies | 2.1s | ETA 18m41s
+2026-11-12 16:24:12,554 INFO [240/750] random vs tabular_q | opening=palace_cannon_left | A=red | tabular_q wins (checkmate) | 98 plies | 2.9s | ETA 18m37s
+2026-11-12 16:24:12,670 INFO [241/750] random vs tabular_q | opening=central_cannon_screen_horses | A=red | tabular_q wins (checkmate) | 90 plies | 2.4s | ETA 18m31s
+2026-11-12 16:24:12,757 INFO [242/750] random vs tabular_q | opening=cross_palace_right | A=red | tabular_q wins (checkmate) | 138 plies | 5.1s | ETA 18m24s
+2026-11-12 16:24:12,886 INFO [243/750] random vs tabular_q | opening=central_cannon_screen_horses | A=black | tabular_q wins (checkmate) | 47 plies | 2.0s | ETA 18m18s
+2026-11-12 16:24:14,494 INFO [244/750] random vs tabular_q | opening=central_cannon_counter_cannon | A=black | tabular_q wins (checkmate) | 37 plies | 1.7s | ETA 18m14s
+2026-11-12 16:24:14,861 INFO [245/750] random vs tabular_q | opening=pawn_left | A=black | tabular_q wins (checkmate) | 59 plies | 1.9s | ETA 18m08s
+2026-11-12 16:24:16,074 INFO [246/750] random vs tabular_q | opening=central_cannon_counter_cannon | A=red | random wins (checkmate) | 81 plies | 3.7s | ETA 18m04s
+2026-11-12 16:24:16,186 INFO [247/750] random vs tabular_q | opening=palace_cannon_left | A=black | tabular_q wins (checkmate) | 79 plies | 6.6s | ETA 17m58s
+2026-11-12 16:24:17,769 INFO [248/750] random vs tabular_q | opening=pawn_center | A=red | draw (repetition) | 124 plies | 3.4s | ETA 17m55s
+2026-11-12 16:24:18,572 INFO [249/750] random vs tabular_q | opening=pawn_left | A=red | truncated (max_plies) | 300 plies | 5.7s | ETA 17m50s
+2026-11-12 16:24:19,555 INFO [250/750] random vs tabular_q | opening=pawn_center | A=black | draw (repetition) | 123 plies | 4.7s | ETA 17m45s
+2026-11-12 16:24:20,167 INFO [251/750] rules vs alphabeta | opening=screen_horses_c56 | A=black | alphabeta wins (checkmate) | 33 plies | 1.6s | ETA 17m40s
+2026-11-12 16:24:20,567 INFO [252/750] rules vs alphabeta | opening=screen_horses_c57 | A=black | alphabeta wins (checkmate) | 57 plies | 4.3s | ETA 17m35s
+2026-11-12 16:24:22,060 INFO [253/750] rules vs alphabeta | opening=screen_horses_c56 | A=red | alphabeta wins (checkmate) | 92 plies | 4.3s | ETA 17m31s
+2026-11-12 16:24:22,475 INFO [254/750] rules vs alphabeta | opening=reverse_palace_p7 | A=red | alphabeta wins (checkmate) | 36 plies | 2.0s | ETA 17m26s
+2026-11-12 16:24:22,975 INFO [255/750] rules vs alphabeta | opening=screen_horses_c57 | A=red | alphabeta wins (checkmate) | 94 plies | 6.9s | ETA 17m21s
+2026-11-12 16:24:25,006 INFO [256/750] rules vs alphabeta | opening=reverse_palace_mirror | A=red | alphabeta wins (stalemate) | 64 plies | 2.5s | ETA 17m18s
+2026-11-12 16:24:25,143 INFO [257/750] rules vs alphabeta | opening=screen_horses_pawn7 | A=black | alphabeta wins (checkmate) | 105 plies | 5.1s | ETA 17m13s
+2026-11-12 16:24:26,083 INFO [258/750] rules vs alphabeta | opening=screen_horses_pawn7 | A=red | alphabeta wins (checkmate) | 36 plies | 6.5s | ETA 17m08s
+2026-11-12 16:24:27,188 INFO [259/750] rules vs alphabeta | opening=reverse_palace_p7 | A=black | alphabeta wins (checkmate) | 81 plies | 5.1s | ETA 17m04s
+2026-11-12 16:24:27,855 INFO [260/750] rules vs alphabeta | opening=shun_cannon_straight_rook | A=black | alphabeta wins (checkmate) | 35 plies | 2.6s | ETA 17m00s
+2026-11-12 16:24:28,672 INFO [261/750] rules vs alphabeta | opening=shun_cannon_straight_rook | A=red | alphabeta wins (checkmate) | 40 plies | 3.6s | ETA 16m55s
+2026-11-12 16:24:29,581 INFO [262/750] rules vs alphabeta | opening=reverse_palace_mirror | A=black | alphabeta wins (checkmate) | 91 plies | 6.6s | ETA 16m51s
+2026-11-12 16:24:30,044 INFO [263/750] rules vs alphabeta | opening=lie_cannon_p7 | A=black | alphabeta wins (checkmate) | 51 plies | 1.4s | ETA 16m46s
+2026-11-12 16:24:31,301 INFO [264/750] rules vs alphabeta | opening=shun_cannon_rook_race | A=black | alphabeta wins (checkmate) | 55 plies | 4.0s | ETA 16m42s
+2026-11-12 16:24:32,640 INFO [265/750] rules vs alphabeta | opening=pawn_vs_bottom_cannon_central | A=black | alphabeta wins (checkmate) | 53 plies | 2.7s | ETA 16m39s
+2026-11-12 16:24:33,153 INFO [266/750] rules vs alphabeta | opening=pawn_vs_bottom_cannon_central | A=red | alphabeta wins (checkmate) | 58 plies | 3.4s | ETA 16m34s
+2026-11-12 16:24:33,652 INFO [267/750] rules vs alphabeta | opening=pawn_vs_bottom_cannon_horses | A=red | alphabeta wins (checkmate) | 66 plies | 2.5s | ETA 16m29s
+2026-11-12 16:24:34,247 INFO [268/750] rules vs alphabeta | opening=pawn_vs_pawn_c3 | A=black | alphabeta wins (checkmate) | 19 plies | 0.6s | ETA 16m24s
+2026-11-12 16:24:34,678 INFO [269/750] rules vs alphabeta | opening=pawn_vs_bottom_cannon_horses | A=black | alphabeta wins (checkmate) | 51 plies | 2.0s | ETA 16m19s
+2026-11-12 16:24:34,921 INFO [270/750] rules vs alphabeta | opening=lie_cannon_p7 | A=red | alphabeta wins (stalemate) | 272 plies | 7.1s | ETA 16m14s
+2026-11-12 16:24:35,130 INFO [271/750] rules vs alphabeta | opening=shun_cannon_rook_race | A=red | alphabeta wins (checkmate) | 48 plies | 9.1s | ETA 16m09s
+2026-11-12 16:24:35,783 INFO [272/750] rules vs alphabeta | opening=pawn_vs_pawn_c3 | A=red | alphabeta wins (stalemate) | 66 plies | 2.8s | ETA 16m05s
+2026-11-12 16:24:36,384 INFO [273/750] rules vs alphabeta | opening=pawn_vs_pawn_horses | A=black | alphabeta wins (checkmate) | 41 plies | 1.7s | ETA 16m00s
+2026-11-12 16:24:36,885 INFO [274/750] rules vs alphabeta | opening=pawn_vs_pawn_horses | A=red | alphabeta wins (checkmate) | 58 plies | 2.7s | ETA 15m55s
+2026-11-12 16:24:38,388 INFO [275/750] rules vs alphabeta | opening=elephant_vs_central_cannon | A=black | alphabeta wins (checkmate) | 27 plies | 2.0s | ETA 15m53s
+2026-11-12 16:24:38,468 INFO [276/750] rules vs alphabeta | opening=elephant_left | A=red | alphabeta wins (checkmate) | 68 plies | 3.6s | ETA 15m47s
+2026-11-12 16:24:39,821 INFO [277/750] rules vs alphabeta | opening=elephant_vs_screen_setup | A=black | alphabeta wins (checkmate) | 31 plies | 1.4s | ETA 15m44s
+2026-11-12 16:24:40,257 INFO [278/750] rules vs alphabeta | opening=elephant_left | A=black | alphabeta wins (checkmate) | 45 plies | 5.1s | ETA 15m39s
+2026-11-12 16:24:40,271 INFO [279/750] rules vs alphabeta | opening=elephant_vs_central_cannon | A=red | alphabeta wins (checkmate) | 56 plies | 4.5s | ETA 15m34s
+2026-11-12 16:24:40,738 INFO [280/750] rules vs alphabeta | opening=horse_vs_central_cannon | A=black | alphabeta wins (checkmate) | 25 plies | 0.9s | ETA 15m30s
+2026-11-12 16:24:40,940 INFO [281/750] rules vs alphabeta | opening=elephant_vs_screen_setup | A=red | alphabeta wins (checkmate) | 56 plies | 4.1s | ETA 15m25s
+2026-11-12 16:24:41,428 INFO [282/750] rules vs alphabeta | opening=horse_vs_central_cannon | A=red | alphabeta wins (checkmate) | 76 plies | 2.9s | ETA 15m20s
+2026-11-12 16:24:41,610 INFO [283/750] rules vs alphabeta | opening=horse_vs_cannon_left | A=black | alphabeta wins (checkmate) | 29 plies | 1.3s | ETA 15m15s
+2026-11-12 16:24:42,662 INFO [284/750] rules vs alphabeta | opening=corner_cannon_vs_central | A=black | alphabeta wins (stalemate) | 71 plies | 1.7s | ETA 15m12s
+2026-11-12 16:24:42,735 INFO [285/750] rules vs alphabeta | opening=corner_cannon_vs_central | A=red | alphabeta wins (checkmate) | 64 plies | 2.0s | ETA 15m07s
+2026-11-12 16:24:43,783 INFO [286/750] rules vs alphabeta | opening=cross_palace_right | A=black | alphabeta wins (checkmate) | 41 plies | 2.2s | ETA 15m03s
+2026-11-12 16:24:43,876 INFO [287/750] rules vs alphabeta | opening=horse_vs_cannon_left | A=red | alphabeta wins (stalemate) | 48 plies | 3.6s | ETA 14m58s
+2026-11-12 16:24:44,718 INFO [288/750] rules vs alphabeta | opening=cross_palace_left | A=black | alphabeta wins (stalemate) | 47 plies | 2.0s | ETA 14m55s
+2026-11-12 16:24:44,733 INFO [289/750] rules vs alphabeta | opening=cross_palace_right | A=red | alphabeta wins (checkmate) | 46 plies | 3.3s | ETA 14m50s
+2026-11-12 16:24:44,891 INFO [290/750] rules vs alphabeta | opening=cross_palace_left | A=red | alphabeta wins (checkmate) | 62 plies | 2.2s | ETA 14m45s
+2026-11-12 16:24:46,843 INFO [291/750] rules vs alphabeta | opening=palace_cannon_left | A=red | alphabeta wins (checkmate) | 36 plies | 3.0s | ETA 14m43s
+2026-11-12 16:24:47,517 INFO [292/750] rules vs alphabeta | opening=central_cannon_screen_horses | A=red | alphabeta wins (checkmate) | 52 plies | 2.8s | ETA 14m39s
+2026-11-12 16:24:48,296 INFO [293/750] rules vs alphabeta | opening=central_cannon_counter_cannon | A=black | alphabeta wins (checkmate) | 33 plies | 1.4s | ETA 14m36s
+2026-11-12 16:24:48,556 INFO [294/750] rules vs alphabeta | opening=central_cannon_screen_horses | A=black | alphabeta wins (checkmate) | 67 plies | 3.8s | ETA 14m31s
+2026-11-12 16:24:49,462 INFO [295/750] rules vs alphabeta | opening=pawn_left | A=red | alphabeta wins (checkmate) | 32 plies | 1.9s | ETA 14m28s
+2026-11-12 16:24:49,953 INFO [296/750] rules vs alphabeta | opening=central_cannon_counter_cannon | A=red | alphabeta wins (checkmate) | 80 plies | 5.0s | ETA 14m24s
+2026-11-12 16:24:50,198 INFO [297/750] rules vs alphabeta | opening=palace_cannon_left | A=black | alphabeta wins (checkmate) | 51 plies | 6.3s | ETA 14m19s
+2026-11-12 16:24:50,745 INFO [298/750] rules vs alphabeta | opening=pawn_left | A=black | alphabeta wins (checkmate) | 45 plies | 2.5s | ETA 14m15s
+2026-11-12 16:24:52,571 INFO [299/750] rules vs alphabeta | opening=pawn_center | A=black | alphabeta wins (checkmate) | 39 plies | 3.1s | ETA 14m13s
+2026-11-12 16:25:01,669 INFO [300/750] rules vs heuristic | opening=screen_horses_c56 | A=red | draw (repetition) | 31 plies | 10.8s | ETA 14m22s
+2026-11-12 16:25:05,575 INFO [301/750] rules vs heuristic | opening=screen_horses_c56 | A=black | heuristic wins (checkmate) | 35 plies | 13.0s | ETA 14m23s
+2026-11-12 16:25:06,299 INFO [302/750] rules vs alphabeta | opening=pawn_center | A=red | alphabeta wins (checkmate) | 280 plies | 17.8s | ETA 14m19s
+2026-11-12 16:25:10,545 INFO [303/750] rules vs heuristic | opening=screen_horses_c57 | A=black | heuristic wins (checkmate) | 49 plies | 20.4s | ETA 14m21s
+2026-11-12 16:25:16,288 INFO [304/750] rules vs heuristic | opening=screen_horses_pawn7 | A=black | heuristic wins (checkmate) | 31 plies | 10.7s | ETA 14m25s
+2026-11-12 16:25:20,542 INFO [305/750] rules vs heuristic | opening=screen_horses_c57 | A=red | draw (repetition) | 65 plies | 30.6s | ETA 14m26s
+2026-11-12 16:25:32,709 INFO [306/750] rules vs heuristic | opening=reverse_palace_mirror | A=black | draw (repetition) | 32 plies | 12.2s | ETA 14m39s
+2026-11-12 16:25:37,667 INFO [307/750] rules vs heuristic | opening=reverse_palace_p7 | A=black | heuristic wins (checkmate) | 59 plies | 27.1s | ETA 14m41s
+2026-11-12 16:25:46,333 INFO [308/750] rules vs heuristic | opening=shun_cannon_straight_rook | A=black | heuristic wins (checkmate) | 27 plies | 8.7s | ETA 14m49s
+2026-11-12 16:25:48,790 INFO [309/750] rules vs heuristic | opening=reverse_palace_mirror | A=red | draw (repetition) | 69 plies | 32.4s | ETA 14m47s
+2026-11-12 16:25:55,995 INFO [310/750] rules vs heuristic | opening=screen_horses_pawn7 | A=red | rules wins (checkmate) | 111 plies | 54.4s | ETA 14m53s
+2026-11-12 16:25:59,458 INFO [311/750] rules vs heuristic | opening=shun_cannon_straight_rook | A=red | draw (repetition) | 61 plies | 26.7s | ETA 14m53s
+2026-11-12 16:26:03,637 INFO [312/750] rules vs heuristic | opening=shun_cannon_rook_race | A=black | rules wins (checkmate) | 38 plies | 14.9s | ETA 14m54s
+2026-11-12 16:26:04,297 INFO [313/750] rules vs heuristic | opening=reverse_palace_p7 | A=red | draw (repetition) | 119 plies | 58.0s | ETA 14m50s
+2026-11-12 16:26:12,347 INFO [314/750] rules vs heuristic | opening=lie_cannon_p7 | A=black | heuristic wins (checkmate) | 35 plies | 12.7s | ETA 14m56s
+2026-11-12 16:26:20,578 INFO [315/750] rules vs heuristic | opening=pawn_vs_bottom_cannon_central | A=black | draw (repetition) | 38 plies | 16.3s | ETA 15m03s
+2026-11-12 16:26:25,962 INFO [316/750] rules vs heuristic | opening=lie_cannon_p7 | A=red | draw (repetition) | 69 plies | 30.0s | ETA 15m05s
+2026-11-12 16:26:27,977 INFO [317/750] rules vs heuristic | opening=shun_cannon_rook_race | A=red | draw (repetition) | 89 plies | 41.6s | ETA 15m03s
+2026-11-12 16:26:36,478 INFO [318/750] rules vs heuristic | opening=pawn_vs_bottom_cannon_horses | A=red | draw (repetition) | 57 plies | 24.3s | ETA 15m10s
+2026-11-12 16:26:41,381 INFO [319/750] rules vs heuristic | opening=pawn_vs_bottom_cannon_horses | A=black | heuristic wins (checkmate) | 51 plies | 20.8s | ETA 15m11s
+2026-11-12 16:26:42,132 INFO [320/750] rules vs heuristic | opening=pawn_vs_pawn_c3 | A=red | draw (repetition) | 41 plies | 16.0s | ETA 15m07s
+2026-11-12 16:26:42,927 INFO [321/750] rules vs heuristic | opening=pawn_vs_pawn_c3 | A=black | heuristic wins (checkmate) | 39 plies | 15.0s | ETA 15m03s
+2026-11-12 16:26:52,677 INFO [322/750] rules vs heuristic | opening=elephant_left | A=black | heuristic wins (checkmate) | 25 plies | 9.7s | ETA 15m11s
+2026-11-12 16:26:54,158 INFO [323/750] rules vs heuristic | opening=pawn_vs_pawn_horses | A=black | heuristic wins (checkmate) | 35 plies | 12.7s | ETA 15m08s
+2026-11-12 16:27:01,529 INFO [324/750] rules vs heuristic | opening=elephant_vs_central_cannon | A=red | draw (repetition) | 27 plies | 8.8s | ETA 15m13s
+2026-11-12 16:27:03,548 INFO [325/750] rules vs heuristic | opening=elephant_left | A=red | heuristic wins (checkmate) | 46 plies | 21.3s | ETA 15m11s
+2026-11-12 16:27:12,002 INFO [326/750] rules vs heuristic | opening=elephant_vs_screen_setup | A=black | heuristic wins (checkmate) | 27 plies | 8.7s | ETA 15m17s
+2026-11-12 16:27:16,200 INFO [327/750] rules vs heuristic | opening=elephant_vs_screen_setup | A=red | draw (repetition) | 37 plies | 14.8s | ETA 15m17s
+2026-11-12 16:27:21,961 INFO [328/750] rules vs heuristic | opening=elephant_vs_central_cannon | A=black | draw (repetition) | 62 plies | 27.8s | ETA 15m20s
+2026-11-12 16:27:25,471 INFO [329/750] rules vs heuristic | opening=pawn_vs_bottom_cannon_central | A=red | draw (no_capture_limit) | 159 plies | 81.8s | ETA 15m19s
+2026-11-12 16:27:32,783 INFO [330/750] rules vs heuristic | opening=horse_vs_central_cannon | A=black | heuristic wins (checkmate) | 41 plies | 16.5s | ETA 15m24s
+2026-11-12 16:28:10,194 INFO [331/750] rules vs heuristic | opening=horse_vs_cannon_left | A=black | draw (repetition) | 94 plies | 44.6s | ETA 16m06s
+2026-11-12 16:28:23,857 INFO [332/750] rules vs heuristic | opening=corner_cannon_vs_central | A=black | heuristic wins (checkmate) | 37 plies | 13.8s | ETA 16m18s
+2026-11-12 16:28:41,962 INFO [333/750] rules vs heuristic | opening=horse_vs_central_cannon | A=red | draw (repetition) | 185 plies | 90.0s | ETA 16m35s
+2026-11-12 16:28:51,292 INFO [334/750] rules vs heuristic | opening=cross_palace_right | A=black | heuristic wins (checkmate) | 27 plies | 9.3s | ETA 16m42s
+2026-11-12 16:29:04,058 INFO [335/750] rules vs heuristic | opening=cross_palace_right | A=red | draw (repetition) | 83 plies | 40.2s | ETA 16m52s
+2026-11-12 16:29:05,565 INFO [336/750] rules vs heuristic | opening=pawn_vs_pawn_horses | A=red | draw (repetition) | 297 plies | 149.1s | ETA 16m49s
+2026-11-12 16:29:13,001 INFO [337/750] rules vs heuristic | opening=cross_palace_left | A=red | heuristic wins (checkmate) | 56 plies | 21.7s | ETA 16m52s
+2026-11-12 16:29:16,780 INFO [338/750] rules vs heuristic | opening=cross_palace_left | A=black | heuristic wins (checkmate) | 35 plies | 12.6s | ETA 16m51s
+2026-11-12 16:29:16,792 INFO [339/750] rules vs heuristic | opening=palace_cannon_left | A=red | draw (repetition) | 27 plies | 11.1s | ETA 16m46s
+2026-11-12 16:29:21,603 INFO [340/750] rules vs heuristic | opening=corner_cannon_vs_central | A=red | draw (no_capture_limit) | 226 plies | 108.9s | ETA 16m46s
+2026-11-12 16:29:22,122 INFO [341/750] rules vs heuristic | opening=palace_cannon_left | A=black | heuristic wins (checkmate) | 23 plies | 9.1s | ETA 16m42s
+2026-11-12 16:29:29,784 INFO [342/750] rules vs heuristic | opening=central_cannon_screen_horses | A=black | draw (repetition) | 30 plies | 13.1s | ETA 16m45s
+2026-11-12 16:29:33,576 INFO [343/750] rules vs heuristic | opening=central_cannon_counter_cannon | A=red | draw (repetition) | 29 plies | 12.0s | ETA 16m44s
+2026-11-12 16:29:34,135 INFO [344/750] rules vs heuristic | opening=horse_vs_cannon_left | A=red | draw (repetition) | 264 plies | 132.2s | ETA 16m40s
+2026-11-12 16:29:48,236 INFO [345/750] rules vs heuristic | opening=pawn_left | A=black | heuristic wins (checkmate) | 35 plies | 14.7s | ETA 16m51s
+2026-11-12 16:29:56,618 INFO [346/750] rules vs heuristic | opening=central_cannon_counter_cannon | A=black | draw (repetition) | 70 plies | 34.5s | ETA 16m55s
+2026-11-12 16:30:06,767 INFO [347/750] rules vs heuristic | opening=pawn_left | A=red | heuristic wins (checkmate) | 78 plies | 37.0s | ETA 17m02s
+2026-11-12 16:30:07,739 INFO [348/750] rules vs heuristic | opening=pawn_center | A=black | heuristic wins (checkmate) | 43 plies | 19.4s | ETA 16m57s
+2026-11-12 16:30:08,715 INFO [349/750] rules vs mcts | opening=screen_horses_c57 | A=red | draw (repetition) | 33 plies | 12.0s | ETA 16m53s
+2026-11-12 16:30:17,617 INFO [350/750] rules vs mcts | opening=screen_horses_c56 | A=black | mcts wins (checkmate) | 27 plies | 9.0s | ETA 16m58s
+2026-11-12 16:30:18,592 INFO [351/750] rules vs mcts | opening=screen_horses_c57 | A=black | mcts wins (checkmate) | 33 plies | 11.8s | ETA 16m53s
+2026-11-12 16:30:35,803 INFO [352/750] rules vs heuristic | opening=central_cannon_screen_horses | A=red | draw (repetition) | 157 plies | 79.0s | ETA 17m08s
+2026-11-12 16:30:39,696 INFO [353/750] rules vs mcts | opening=screen_horses_pawn7 | A=red | mcts wins (checkmate) | 52 plies | 22.1s | ETA 17m06s
+2026-11-12 16:30:41,655 INFO [354/750] rules vs mcts | opening=screen_horses_c56 | A=red | mcts wins (checkmate) | 74 plies | 34.0s | ETA 17m03s
+2026-11-12 16:30:44,450 INFO [355/750] rules vs mcts | opening=screen_horses_pawn7 | A=black | mcts wins (checkmate) | 61 plies | 25.8s | ETA 17m01s
+2026-11-12 16:30:52,458 INFO [356/750] rules vs mcts | opening=reverse_palace_p7 | A=black | mcts wins (checkmate) | 35 plies | 12.8s | ETA 17m04s
+2026-11-12 16:31:00,545 INFO [357/750] rules vs mcts | opening=reverse_palace_mirror | A=black | mcts wins (checkmate) | 41 plies | 16.0s | ETA 17m08s
+2026-11-12 16:31:09,990 INFO [358/750] rules vs mcts | opening=reverse_palace_p7 | A=red | mcts wins (checkmate) | 76 plies | 34.3s | ETA 17m12s
+2026-11-12 16:31:15,509 INFO [359/750] rules vs mcts | opening=shun_cannon_straight_rook | A=black | mcts wins (checkmate) | 39 plies | 15.1s | ETA 17m13s
+2026-11-12 16:31:16,395 INFO [360/750] rules vs mcts | opening=shun_cannon_straight_rook | A=red | mcts wins (checkmate) | 56 plies | 24.0s | ETA 17m08s
+2026-11-12 16:31:32,731 INFO [361/750] rules vs mcts | opening=shun_cannon_rook_race | A=black | mcts wins (checkmate) | 43 plies | 17.2s | ETA 17m21s
+2026-11-12 16:31:38,021 INFO [362/750] rules vs mcts | opening=reverse_palace_mirror | A=red | mcts wins (checkmate) | 108 plies | 56.4s | ETA 17m21s
+2026-11-12 16:31:39,069 INFO [363/750] rules vs mcts | opening=shun_cannon_rook_race | A=red | mcts wins (checkmate) | 66 plies | 29.0s | ETA 17m16s
+2026-11-12 16:31:43,528 INFO [364/750] rules vs mcts | opening=lie_cannon_p7 | A=red | draw (repetition) | 63 plies | 27.2s | ETA 17m15s
+2026-11-12 16:31:52,710 INFO [365/750] rules vs heuristic | opening=pawn_center | A=red | draw (no_capture_limit) | 261 plies | 138.6s | ETA 17m20s
+2026-11-12 16:31:53,646 INFO [366/750] rules vs mcts | opening=pawn_vs_bottom_cannon_central | A=black | mcts wins (checkmate) | 37 plies | 14.6s | ETA 17m15s
+2026-11-12 16:32:05,056 INFO [367/750] rules vs mcts | opening=pawn_vs_pawn_c3 | A=red | mcts wins (checkmate) | 32 plies | 11.4s | ETA 17m21s
+2026-11-12 16:32:06,624 INFO [368/750] rules vs mcts | opening=pawn_vs_bottom_cannon_horses | A=black | mcts wins (checkmate) | 37 plies | 13.9s | ETA 17m18s
+2026-11-12 16:32:17,704 INFO [369/750] rules vs mcts | opening=lie_cannon_p7 | A=black | mcts wins (stalemate) | 99 plies | 45.0s | ETA 17m23s
+2026-11-12 16:32:20,982 INFO [370/750] rules vs mcts | opening=pawn_vs_pawn_c3 | A=black | mcts wins (checkmate) | 39 plies | 15.9s | ETA 17m21s
+2026-11-12 16:32:28,045 INFO [371/750] rules vs mcts | opening=pawn_vs_pawn_horses | A=red | mcts wins (checkmate) | 52 plies | 21.3s | ETA 17m23s
+2026-11-12 16:32:34,172 INFO [372/750] rules vs mcts | opening=pawn_vs_pawn_horses | A=black | mcts wins (checkmate) | 41 plies | 16.2s | ETA 17m24s
+2026-11-12 16:32:36,950 INFO [373/750] rules vs mcts | opening=pawn_vs_bottom_cannon_horses | A=red | mcts wins (checkmate) | 114 plies | 53.3s | ETA 17m21s
+2026-11-12 16:32:39,921 INFO [374/750] rules vs mcts | opening=pawn_vs_bottom_cannon_central | A=red | mcts wins (checkmate) | 126 plies | 61.8s | ETA 17m18s
+2026-11-12 16:32:45,880 INFO [375/750] rules vs mcts | opening=elephant_left | A=black | mcts wins (checkmate) | 39 plies | 17.8s | ETA 17m19s
+2026-11-12 16:32:51,045 INFO [376/750] rules vs mcts | opening=elephant_vs_central_cannon | A=black | mcts wins (checkmate) | 37 plies | 14.2s | ETA 17m18s
+2026-11-12 16:32:56,721 INFO [377/750] rules vs mcts | opening=elephant_vs_screen_setup | A=black | mcts wins (checkmate) | 31 plies | 11.0s | ETA 17m18s
+2026-11-12 16:33:13,187 INFO [378/750] rules vs mcts | opening=horse_vs_central_cannon | A=black | mcts wins (checkmate) | 41 plies | 16.5s | ETA 17m29s
+2026-11-12 16:33:14,803 INFO [379/750] rules vs mcts | opening=elephant_vs_screen_setup | A=red | mcts wins (checkmate) | 70 plies | 35.0s | ETA 17m25s
+2026-11-12 16:33:15,907 INFO [380/750] rules vs mcts | opening=elephant_vs_central_cannon | A=red | mcts wins (checkmate) | 90 plies | 42.0s | ETA 17m21s
+2026-11-12 16:33:21,859 INFO [381/750] rules vs mcts | opening=horse_vs_central_cannon | A=red | mcts wins (checkmate) | 68 plies | 30.8s | ETA 17m21s
+2026-11-12 16:33:27,758 INFO [382/750] rules vs mcts | opening=horse_vs_cannon_left | A=black | mcts wins (checkmate) | 35 plies | 13.0s | ETA 17m21s
+2026-11-12 16:33:32,156 INFO [383/750] rules vs mcts | opening=corner_cannon_vs_central | A=red | mcts wins (checkmate) | 42 plies | 16.2s | ETA 17m20s
+2026-11-12 16:33:40,451 INFO [384/750] rules vs mcts | opening=elephant_left | A=red | mcts wins (checkmate) | 156 plies | 79.5s | ETA 17m22s
+2026-11-12 16:33:41,232 INFO [385/750] rules vs mcts | opening=cross_palace_right | A=black | mcts wins (checkmate) | 27 plies | 9.1s | ETA 17m17s
+2026-11-12 16:33:46,831 INFO [386/750] rules vs mcts | opening=horse_vs_cannon_left | A=red | mcts wins (checkmate) | 76 plies | 33.6s | ETA 17m17s
+2026-11-12 16:33:47,335 INFO [387/750] rules vs mcts | opening=corner_cannon_vs_central | A=black | mcts wins (checkmate) | 57 plies | 25.5s | ETA 17m12s
+2026-11-12 16:33:49,453 INFO [388/750] rules vs mcts | opening=cross_palace_right | A=red | mcts wins (checkmate) | 50 plies | 21.7s | ETA 17m08s
+2026-11-12 16:33:51,046 INFO [389/750] rules vs mcts | opening=cross_palace_left | A=black | mcts wins (checkmate) | 29 plies | 9.8s | ETA 17m04s
+2026-11-12 16:34:05,400 INFO [390/750] rules vs mcts | opening=palace_cannon_left | A=black | mcts wins (checkmate) | 39 plies | 18.1s | ETA 17m12s
+2026-11-12 16:34:12,766 INFO [391/750] rules vs mcts | opening=palace_cannon_left | A=red | mcts wins (checkmate) | 52 plies | 26.0s | ETA 17m13s
+2026-11-12 16:34:16,081 INFO [392/750] rules vs mcts | opening=central_cannon_screen_horses | A=red | mcts wins (stalemate) | 58 plies | 26.6s | ETA 17m11s
+2026-11-12 16:34:20,424 INFO [393/750] rules vs mcts | opening=central_cannon_counter_cannon | A=red | mcts wins (checkmate) | 36 plies | 15.0s | ETA 17m09s
+2026-11-12 16:34:32,145 INFO [394/750] rules vs mcts | opening=central_cannon_counter_cannon | A=black | mcts wins (checkmate) | 43 plies | 19.4s | ETA 17m15s
+2026-11-12 16:34:33,097 INFO [395/750] rules vs mcts | opening=pawn_left | A=black | mcts wins (checkmate) | 31 plies | 12.7s | ETA 17m10s
+2026-11-12 16:34:48,786 INFO [396/750] rules vs mcts | opening=pawn_center | A=black | mcts wins (checkmate) | 35 plies | 15.7s | ETA 17m18s
+2026-11-12 16:34:51,744 INFO [397/750] rules vs tabular_q | opening=screen_horses_c57 | A=red | draw (repetition) | 43 plies | 3.0s | ETA 17m15s
+2026-11-12 16:34:53,001 INFO [398/750] rules vs mcts | opening=central_cannon_screen_horses | A=black | mcts wins (checkmate) | 127 plies | 62.0s | ETA 17m11s
+2026-11-12 16:34:54,588 INFO [399/750] rules vs tabular_q | opening=screen_horses_c56 | A=red | rules wins (checkmate) | 21 plies | 1.6s | ETA 17m07s
+2026-11-12 16:34:54,726 INFO [400/750] rules vs tabular_q | opening=screen_horses_c57 | A=black | draw (repetition) | 43 plies | 3.0s | ETA 17m02s
+2026-11-12 16:34:56,023 INFO [401/750] rules vs tabular_q | opening=screen_horses_c56 | A=black | tabular_q wins (checkmate) | 21 plies | 1.4s | ETA 16m57s
+2026-11-12 16:34:57,523 INFO [402/750] rules vs mcts | opening=pawn_center | A=red | mcts wins (checkmate) | 54 plies | 25.4s | ETA 16m53s
+2026-11-12 16:34:57,673 INFO [403/750] rules vs tabular_q | opening=screen_horses_pawn7 | A=red | draw (repetition) | 37 plies | 2.9s | ETA 16m48s
+2026-11-12 16:34:59,646 INFO [404/750] rules vs tabular_q | opening=screen_horses_pawn7 | A=black | draw (repetition) | 37 plies | 3.6s | ETA 16m44s
+2026-11-12 16:35:01,137 INFO [405/750] rules vs tabular_q | opening=reverse_palace_p7 | A=black | draw (repetition) | 42 plies | 3.5s | ETA 16m40s
+2026-11-12 16:35:01,365 INFO [406/750] rules vs tabular_q | opening=reverse_palace_p7 | A=red | draw (repetition) | 42 plies | 3.8s | ETA 16m35s
+2026-11-12 16:35:02,672 INFO [407/750] rules vs tabular_q | opening=reverse_palace_mirror | A=red | draw (repetition) | 32 plies | 3.0s | ETA 16m31s
+2026-11-12 16:35:03,225 INFO [408/750] rules vs tabular_q | opening=shun_cannon_straight_rook | A=red | rules wins (checkmate) | 31 plies | 1.9s | ETA 16m26s
+2026-11-12 16:35:03,637 INFO [409/750] rules vs tabular_q | opening=reverse_palace_mirror | A=black | draw (repetition) | 32 plies | 2.5s | ETA 16m21s
+2026-11-12 16:35:04,884 INFO [410/750] rules vs tabular_q | opening=shun_cannon_straight_rook | A=black | tabular_q wins (checkmate) | 31 plies | 2.2s | ETA 16m17s
+2026-11-12 16:35:07,979 INFO [411/750] rules vs tabular_q | opening=shun_cannon_rook_race | A=red | rules wins (checkmate) | 63 plies | 4.8s | ETA 16m14s
+2026-11-12 16:35:08,056 INFO [412/750] rules vs tabular_q | opening=lie_cannon_p7 | A=red | draw (repetition) | 38 plies | 3.2s | ETA 16m09s
+2026-11-12 16:35:08,907 INFO [413/750] rules vs tabular_q | opening=shun_cannon_rook_race | A=black | tabular_q wins (checkmate) | 63 plies | 5.3s | ETA 16m04s
+2026-11-12 16:35:11,163 INFO [414/750] rules vs tabular_q | opening=lie_cannon_p7 | A=black | draw (repetition) | 38 plies | 3.2s | ETA 16m01s
+2026-11-12 16:35:13,184 INFO [415/750] rules vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=red | draw (repetition) | 52 plies | 5.1s | ETA 15m57s
+2026-11-12 16:35:14,520 INFO [416/750] rules vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=black | draw (repetition) | 52 plies | 5.6s | ETA 15m53s
+2026-11-12 16:35:15,719 INFO [417/750] rules vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=red | draw (repetition) | 50 plies | 4.5s | ETA 15m49s
+2026-11-12 16:35:15,937 INFO [418/750] rules vs tabular_q | opening=pawn_vs_pawn_c3 | A=red | draw (repetition) | 36 plies | 1.4s | ETA 15m44s
+2026-11-12 16:35:17,465 INFO [419/750] rules vs tabular_q | opening=pawn_vs_pawn_c3 | A=black | draw (repetition) | 36 plies | 1.8s | ETA 15m40s
+2026-11-12 16:35:17,989 INFO [420/750] rules vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=black | draw (repetition) | 50 plies | 4.8s | ETA 15m36s
+2026-11-12 16:35:18,144 INFO [421/750] rules vs tabular_q | opening=pawn_vs_pawn_horses | A=red | draw (repetition) | 42 plies | 2.2s | ETA 15m31s
+2026-11-12 16:35:19,628 INFO [422/750] rules vs tabular_q | opening=elephant_left | A=black | draw (repetition) | 43 plies | 1.5s | ETA 15m27s
+2026-11-12 16:35:19,830 INFO [423/750] rules vs tabular_q | opening=pawn_vs_pawn_horses | A=black | draw (repetition) | 42 plies | 2.4s | ETA 15m22s
+2026-11-12 16:35:20,295 INFO [424/750] rules vs mcts | opening=pawn_left | A=red | mcts wins (checkmate) | 126 plies | 64.2s | ETA 15m17s
+2026-11-12 16:35:21,432 INFO [425/750] rules vs tabular_q | opening=elephant_left | A=red | draw (repetition) | 42 plies | 3.4s | ETA 15m13s
+2026-11-12 16:35:21,906 INFO [426/750] rules vs tabular_q | opening=elephant_vs_central_cannon | A=red | draw (repetition) | 35 plies | 2.3s | ETA 15m09s
+2026-11-12 16:35:22,447 INFO [427/750] rules vs tabular_q | opening=elephant_vs_central_cannon | A=black | draw (repetition) | 35 plies | 2.6s | ETA 15m04s
+2026-11-12 16:35:24,208 INFO [428/750] rules vs tabular_q | opening=elephant_vs_screen_setup | A=black | draw (repetition) | 32 plies | 2.8s | ETA 15m00s
+2026-11-12 16:35:24,720 INFO [429/750] rules vs tabular_q | opening=elephant_vs_screen_setup | A=red | draw (repetition) | 32 plies | 4.4s | ETA 14m56s
+2026-11-12 16:35:25,752 INFO [430/750] rules vs tabular_q | opening=horse_vs_cannon_left | A=red | rules wins (checkmate) | 31 plies | 1.5s | ETA 14m52s
+2026-11-12 16:35:25,773 INFO [431/750] rules vs tabular_q | opening=horse_vs_central_cannon | A=red | draw (repetition) | 52 plies | 3.8s | ETA 14m47s
+2026-11-12 16:35:25,868 INFO [432/750] rules vs tabular_q | opening=horse_vs_central_cannon | A=black | draw (repetition) | 52 plies | 3.4s | ETA 14m42s
+2026-11-12 16:35:27,841 INFO [433/750] rules vs tabular_q | opening=horse_vs_cannon_left | A=black | tabular_q wins (checkmate) | 31 plies | 3.1s | ETA 14m39s
+2026-11-12 16:35:28,848 INFO [434/750] rules vs tabular_q | opening=cross_palace_right | A=red | draw (repetition) | 36 plies | 3.0s | ETA 14m35s
+2026-11-12 16:35:28,938 INFO [435/750] rules vs tabular_q | opening=corner_cannon_vs_central | A=black | tabular_q wins (checkmate) | 41 plies | 3.2s | ETA 14m30s
+2026-11-12 16:35:29,282 INFO [436/750] rules vs tabular_q | opening=corner_cannon_vs_central | A=red | rules wins (checkmate) | 41 plies | 3.5s | ETA 14m26s
+2026-11-12 16:35:30,414 INFO [437/750] rules vs tabular_q | opening=cross_palace_left | A=black | draw (repetition) | 32 plies | 1.5s | ETA 14m22s
+2026-11-12 16:35:30,437 INFO [438/750] rules vs tabular_q | opening=cross_palace_left | A=red | draw (repetition) | 32 plies | 1.6s | ETA 14m17s
+2026-11-12 16:35:31,635 INFO [439/750] rules vs tabular_q | opening=palace_cannon_left | A=black | tabular_q wins (checkmate) | 19 plies | 1.2s | ETA 14m13s
+2026-11-12 16:35:33,008 INFO [440/750] rules vs tabular_q | opening=palace_cannon_left | A=red | draw (repetition) | 49 plies | 3.7s | ETA 14m09s
+2026-11-12 16:35:33,205 INFO [441/750] rules vs tabular_q | opening=central_cannon_screen_horses | A=red | draw (repetition) | 43 plies | 2.8s | ETA 14m05s
+2026-11-12 16:35:33,407 INFO [442/750] rules vs tabular_q | opening=cross_palace_right | A=black | draw (repetition) | 36 plies | 5.6s | ETA 14m00s
+2026-11-12 16:35:34,940 INFO [443/750] rules vs tabular_q | opening=central_cannon_counter_cannon | A=black | draw (repetition) | 34 plies | 1.7s | ETA 13m57s
+2026-11-12 16:35:35,035 INFO [444/750] rules vs tabular_q | opening=central_cannon_screen_horses | A=black | draw (repetition) | 51 plies | 3.4s | ETA 13m52s
+2026-11-12 16:35:36,031 INFO [445/750] rules vs tabular_q | opening=central_cannon_counter_cannon | A=red | draw (repetition) | 34 plies | 3.0s | ETA 13m48s
+2026-11-12 16:35:36,523 INFO [446/750] rules vs tabular_q | opening=pawn_left | A=black | draw (repetition) | 51 plies | 1.6s | ETA 13m44s
+2026-11-12 16:35:37,234 INFO [447/750] rules vs tabular_q | opening=pawn_center | A=red | draw (repetition) | 30 plies | 2.2s | ETA 13m40s
+2026-11-12 16:35:37,596 INFO [448/750] rules vs tabular_q | opening=pawn_center | A=black | draw (repetition) | 23 plies | 1.5s | ETA 13m36s
+2026-11-12 16:35:38,090 INFO [449/750] rules vs tabular_q | opening=pawn_left | A=red | draw (repetition) | 35 plies | 4.7s | ETA 13m32s
+2026-11-12 16:35:39,270 INFO [450/750] rules vs mcts | opening=cross_palace_left | A=red | mcts wins (checkmate) | 242 plies | 118.8s | ETA 13m28s
+2026-11-12 16:35:47,690 INFO [451/750] alphabeta vs heuristic | opening=screen_horses_c57 | A=red | alphabeta wins (checkmate) | 33 plies | 11.2s | ETA 13m29s
+2026-11-12 16:35:53,230 INFO [452/750] alphabeta vs heuristic | opening=screen_horses_c57 | A=black | draw (repetition) | 38 plies | 16.0s | ETA 13m28s
+2026-11-12 16:36:00,469 INFO [453/750] alphabeta vs heuristic | opening=screen_horses_c56 | A=red | draw (no_capture_limit) | 262 plies | 22.9s | ETA 13m28s
+2026-11-12 16:36:10,162 INFO [454/750] alphabeta vs heuristic | opening=screen_horses_pawn7 | A=red | alphabeta wins (checkmate) | 85 plies | 30.9s | ETA 13m30s
+2026-11-12 16:36:19,506 INFO [455/750] alphabeta vs heuristic | opening=reverse_palace_p7 | A=black | alphabeta wins (checkmate) | 52 plies | 19.0s | ETA 13m32s
+2026-11-12 16:36:23,572 INFO [456/750] alphabeta vs heuristic | opening=reverse_palace_p7 | A=red | alphabeta wins (stalemate) | 79 plies | 30.2s | ETA 13m30s
+2026-11-12 16:36:25,238 INFO [457/750] alphabeta vs heuristic | opening=screen_horses_pawn7 | A=black | alphabeta wins (checkmate) | 86 plies | 37.6s | ETA 13m26s
+2026-11-12 16:36:44,588 INFO [458/750] alphabeta vs heuristic | opening=shun_cannon_straight_rook | A=black | alphabeta wins (checkmate) | 56 plies | 19.3s | ETA 13m34s
+2026-11-12 16:36:53,632 INFO [459/750] alphabeta vs heuristic | opening=reverse_palace_mirror | A=black | alphabeta wins (stalemate) | 82 plies | 34.1s | ETA 13m35s
+2026-11-12 16:36:55,943 INFO [460/750] alphabeta vs heuristic | opening=shun_cannon_straight_rook | A=red | alphabeta wins (stalemate) | 79 plies | 32.4s | ETA 13m32s
+2026-11-12 16:37:05,126 INFO [461/750] alphabeta vs heuristic | opening=shun_cannon_rook_race | A=black | alphabeta wins (checkmate) | 30 plies | 11.5s | ETA 13m34s
+2026-11-12 16:37:11,482 INFO [462/750] alphabeta vs heuristic | opening=screen_horses_c56 | A=black | alphabeta wins (checkmate) | 190 plies | 93.2s | ETA 13m33s
+2026-11-12 16:37:19,570 INFO [463/750] alphabeta vs heuristic | opening=lie_cannon_p7 | A=red | alphabeta wins (checkmate) | 63 plies | 23.8s | ETA 13m33s
+2026-11-12 16:37:22,052 INFO [464/750] alphabeta vs heuristic | opening=pawn_vs_bottom_cannon_central | A=red | alphabeta wins (checkmate) | 41 plies | 10.7s | ETA 13m30s
+2026-11-12 16:37:22,565 INFO [465/750] alphabeta vs heuristic | opening=lie_cannon_p7 | A=black | alphabeta wins (checkmate) | 42 plies | 17.4s | ETA 13m26s
+2026-11-12 16:37:26,315 INFO [466/750] alphabeta vs heuristic | opening=shun_cannon_rook_race | A=red | alphabeta wins (checkmate) | 111 plies | 41.7s | ETA 13m24s
+2026-11-12 16:37:34,298 INFO [467/750] alphabeta vs heuristic | opening=pawn_vs_bottom_cannon_horses | A=red | alphabeta wins (checkmate) | 43 plies | 12.3s | ETA 13m24s
+2026-11-12 16:37:38,400 INFO [468/750] alphabeta vs heuristic | opening=pawn_vs_bottom_cannon_central | A=black | alphabeta wins (checkmate) | 44 plies | 18.8s | ETA 13m22s
+2026-11-12 16:37:47,373 INFO [469/750] alphabeta vs heuristic | opening=pawn_vs_pawn_c3 | A=black | draw (repetition) | 34 plies | 13.1s | ETA 13m23s
+2026-11-12 16:37:54,959 INFO [470/750] alphabeta vs heuristic | opening=pawn_vs_bottom_cannon_horses | A=black | alphabeta wins (stalemate) | 110 plies | 32.4s | ETA 13m23s
+2026-11-12 16:37:55,200 INFO [471/750] alphabeta vs heuristic | opening=pawn_vs_pawn_c3 | A=red | alphabeta wins (stalemate) | 89 plies | 28.9s | ETA 13m18s
+2026-11-12 16:38:06,373 INFO [472/750] alphabeta vs heuristic | opening=pawn_vs_pawn_horses | A=black | alphabeta wins (checkmate) | 64 plies | 19.0s | ETA 13m20s
+2026-11-12 16:38:07,105 INFO [473/750] alphabeta vs heuristic | opening=pawn_vs_pawn_horses | A=red | alphabeta wins (stalemate) | 101 plies | 28.7s | ETA 13m16s
+2026-11-12 16:38:10,487 INFO [474/750] alphabeta vs heuristic | opening=reverse_palace_mirror | A=red | alphabeta wins (checkmate) | 223 plies | 120.3s | ETA 13m14s
+2026-11-12 16:38:12,638 INFO [475/750] alphabeta vs heuristic | opening=elephant_left | A=red | alphabeta wins (checkmate) | 39 plies | 17.7s | ETA 13m10s
+2026-11-12 16:38:26,661 INFO [476/750] alphabeta vs heuristic | opening=elephant_vs_central_cannon | A=red | alphabeta wins (checkmate) | 47 plies | 20.3s | ETA 13m14s
+2026-11-12 16:38:37,646 INFO [477/750] alphabeta vs heuristic | opening=elephant_vs_screen_setup | A=red | alphabeta wins (checkmate) | 67 plies | 27.2s | ETA 13m16s
+2026-11-12 16:38:40,141 INFO [478/750] alphabeta vs heuristic | opening=horse_vs_central_cannon | A=red | alphabeta wins (checkmate) | 41 plies | 13.5s | ETA 13m12s
+2026-11-12 16:38:46,496 INFO [479/750] alphabeta vs heuristic | opening=elephant_left | A=black | alphabeta wins (stalemate) | 114 plies | 51.3s | ETA 13m11s
+2026-11-12 16:38:48,493 INFO [480/750] alphabeta vs heuristic | opening=elephant_vs_screen_setup | A=black | alphabeta wins (checkmate) | 104 plies | 35.8s | ETA 13m08s
+2026-11-12 16:38:49,366 INFO [481/750] alphabeta vs heuristic | opening=horse_vs_cannon_left | A=red | alphabeta wins (stalemate) | 43 plies | 9.3s | ETA 13m04s
+2026-11-12 16:38:49,607 INFO [482/750] alphabeta vs heuristic | opening=elephant_vs_central_cannon | A=black | alphabeta wins (checkmate) | 90 plies | 42.5s | ETA 13m00s
+2026-11-12 16:39:00,342 INFO [483/750] alphabeta vs heuristic | opening=cross_palace_right | A=red | alphabeta wins (checkmate) | 51 plies | 10.7s | ETA 13m01s
+2026-11-12 16:39:07,047 INFO [484/750] alphabeta vs heuristic | opening=corner_cannon_vs_central | A=black | alphabeta wins (checkmate) | 56 plies | 17.7s | ETA 13m00s
+2026-11-12 16:39:08,602 INFO [485/750] alphabeta vs heuristic | opening=corner_cannon_vs_central | A=red | alphabeta wins (checkmate) | 83 plies | 20.1s | ETA 12m56s
+2026-11-12 16:39:11,670 INFO [486/750] alphabeta vs heuristic | opening=horse_vs_central_cannon | A=black | alphabeta wins (checkmate) | 78 plies | 34.0s | ETA 12m54s
+2026-11-12 16:39:20,130 INFO [487/750] alphabeta vs heuristic | opening=cross_palace_left | A=red | alphabeta wins (checkmate) | 47 plies | 13.1s | ETA 12m54s
+2026-11-12 16:39:24,835 INFO [488/750] alphabeta vs heuristic | opening=horse_vs_cannon_left | A=black | alphabeta wins (checkmate) | 80 plies | 38.4s | ETA 12m52s
+2026-11-12 16:39:26,549 INFO [489/750] alphabeta vs heuristic | opening=cross_palace_right | A=black | alphabeta wins (checkmate) | 62 plies | 26.2s | ETA 12m48s
+2026-11-12 16:39:35,741 INFO [490/750] alphabeta vs heuristic | opening=cross_palace_left | A=black | alphabeta wins (stalemate) | 76 plies | 27.1s | ETA 12m48s
+2026-11-12 16:39:37,780 INFO [491/750] alphabeta vs heuristic | opening=palace_cannon_left | A=red | alphabeta wins (checkmate) | 55 plies | 26.1s | ETA 12m45s
+2026-11-12 16:39:51,123 INFO [492/750] alphabeta vs heuristic | opening=central_cannon_screen_horses | A=red | alphabeta wins (checkmate) | 51 plies | 26.3s | ETA 12m47s
+2026-11-12 16:39:58,268 INFO [493/750] alphabeta vs heuristic | opening=central_cannon_counter_cannon | A=red | alphabeta wins (stalemate) | 85 plies | 22.6s | ETA 12m47s
+2026-11-12 16:39:58,908 INFO [494/750] alphabeta vs heuristic | opening=palace_cannon_left | A=black | alphabeta wins (checkmate) | 90 plies | 38.8s | ETA 12m42s
+2026-11-12 16:39:59,779 INFO [495/750] alphabeta vs heuristic | opening=central_cannon_screen_horses | A=black | alphabeta wins (stalemate) | 94 plies | 33.2s | ETA 12m38s
+2026-11-12 16:40:01,369 INFO [496/750] alphabeta vs heuristic | opening=central_cannon_counter_cannon | A=black | alphabeta wins (stalemate) | 98 plies | 23.5s | ETA 12m35s
+2026-11-12 16:40:03,896 INFO [497/750] alphabeta vs heuristic | opening=pawn_left | A=red | alphabeta wins (stalemate) | 87 plies | 12.8s | ETA 12m32s
+2026-11-12 16:40:11,733 INFO [498/750] alphabeta vs heuristic | opening=pawn_left | A=black | alphabeta wins (checkmate) | 30 plies | 13.4s | ETA 12m31s
+2026-11-12 16:40:22,058 INFO [499/750] alphabeta vs heuristic | opening=pawn_center | A=black | alphabeta wins (checkmate) | 48 plies | 22.3s | ETA 12m32s
+2026-11-12 16:40:28,125 INFO [500/750] alphabeta vs mcts | opening=screen_horses_c57 | A=black | alphabeta wins (stalemate) | 56 plies | 24.2s | ETA 12m30s
+2026-11-12 16:40:31,394 INFO [501/750] alphabeta vs mcts | opening=screen_horses_c57 | A=red | alphabeta wins (checkmate) | 67 plies | 30.0s | ETA 12m27s
+2026-11-12 16:40:32,705 INFO [502/750] alphabeta vs heuristic | opening=pawn_center | A=red | alphabeta wins (stalemate) | 89 plies | 33.8s | ETA 12m24s
+2026-11-12 16:40:57,842 INFO [503/750] alphabeta vs mcts | opening=reverse_palace_p7 | A=red | alphabeta wins (checkmate) | 57 plies | 25.1s | ETA 12m31s
+2026-11-12 16:41:00,591 INFO [504/750] alphabeta vs mcts | opening=screen_horses_c56 | A=red | alphabeta wins (checkmate) | 101 plies | 48.8s | ETA 12m28s
+2026-11-12 16:41:02,233 INFO [505/750] alphabeta vs mcts | opening=screen_horses_pawn7 | A=black | alphabeta wins (checkmate) | 68 plies | 30.8s | ETA 12m25s
+2026-11-12 16:41:19,489 INFO [506/750] alphabeta vs mcts | opening=reverse_palace_mirror | A=black | alphabeta wins (checkmate) | 42 plies | 17.4s | ETA 12m28s
+2026-11-12 16:41:31,922 INFO [507/750] alphabeta vs mcts | opening=screen_horses_c56 | A=black | alphabeta wins (checkmate) | 142 plies | 69.9s | ETA 12m30s
+2026-11-12 16:41:32,611 INFO [508/750] alphabeta vs mcts | opening=screen_horses_pawn7 | A=red | alphabeta wins (checkmate) | 131 plies | 64.5s | ETA 12m26s
+2026-11-12 16:41:43,565 INFO [509/750] alphabeta vs mcts | opening=shun_cannon_straight_rook | A=red | alphabeta wins (checkmate) | 55 plies | 24.1s | ETA 12m26s
+2026-11-12 16:41:48,081 INFO [510/750] alphabeta vs mcts | opening=reverse_palace_p7 | A=black | alphabeta wins (checkmate) | 104 plies | 50.2s | ETA 12m24s
+2026-11-12 16:41:55,179 INFO [511/750] alphabeta vs mcts | opening=shun_cannon_straight_rook | A=black | alphabeta wins (checkmate) | 50 plies | 23.3s | ETA 12m22s
+2026-11-12 16:42:03,173 INFO [512/750] alphabeta vs mcts | opening=shun_cannon_rook_race | A=red | alphabeta wins (checkmate) | 65 plies | 30.6s | ETA 12m22s
+2026-11-12 16:42:06,585 INFO [513/750] alphabeta vs mcts | opening=shun_cannon_rook_race | A=black | alphabeta wins (stalemate) | 52 plies | 23.0s | ETA 12m19s
+2026-11-12 16:42:27,594 INFO [514/750] alphabeta vs mcts | opening=lie_cannon_p7 | A=red | alphabeta wins (checkmate) | 81 plies | 39.5s | ETA 12m24s
+2026-11-12 16:42:28,712 INFO [515/750] alphabeta vs mcts | opening=pawn_vs_bottom_cannon_central | A=black | alphabeta wins (checkmate) | 48 plies | 22.1s | ETA 12m20s
+2026-11-12 16:42:51,363 INFO [516/750] alphabeta vs mcts | opening=pawn_vs_bottom_cannon_central | A=red | alphabeta wins (stalemate) | 97 plies | 48.2s | ETA 12m25s
+2026-11-12 16:42:53,975 INFO [517/750] alphabeta vs mcts | opening=pawn_vs_bottom_cannon_horses | A=red | alphabeta wins (checkmate) | 59 plies | 26.3s | ETA 12m22s
+2026-11-12 16:43:10,619 INFO [518/750] alphabeta vs mcts | opening=lie_cannon_p7 | A=black | mcts wins (checkmate) | 155 plies | 75.4s | ETA 12m25s
+2026-11-12 16:43:19,746 INFO [519/750] alphabeta vs mcts | opening=reverse_palace_mirror | A=red | mcts wins (checkmate) | 274 plies | 139.2s | ETA 12m24s
+2026-11-12 16:43:22,939 INFO [520/750] alphabeta vs mcts | opening=pawn_vs_pawn_c3 | A=red | alphabeta wins (stalemate) | 67 plies | 31.6s | ETA 12m21s
+2026-11-12 16:43:26,409 INFO [521/750] alphabeta vs mcts | opening=elephant_left | A=red | alphabeta wins (checkmate) | 13 plies | 3.5s | ETA 12m18s
+2026-11-12 16:43:30,732 INFO [522/750] alphabeta vs mcts | opening=pawn_vs_bottom_cannon_horses | A=black | alphabeta wins (checkmate) | 126 plies | 62.0s | ETA 12m15s
+2026-11-12 16:43:36,810 INFO [523/750] alphabeta vs mcts | opening=pawn_vs_pawn_horses | A=red | alphabeta wins (checkmate) | 59 plies | 26.2s | ETA 12m13s
+2026-11-12 16:43:41,848 INFO [524/750] alphabeta vs mcts | opening=pawn_vs_pawn_c3 | A=black | alphabeta wins (stalemate) | 98 plies | 47.9s | ETA 12m11s
+2026-11-12 16:43:48,751 INFO [525/750] alphabeta vs mcts | opening=elephant_left | A=black | alphabeta wins (checkmate) | 46 plies | 22.3s | ETA 12m09s
+2026-11-12 16:43:56,059 INFO [526/750] alphabeta vs mcts | opening=elephant_vs_central_cannon | A=red | alphabeta wins (stalemate) | 57 plies | 25.3s | ETA 12m07s
+2026-11-12 16:44:16,397 INFO [527/750] alphabeta vs mcts | opening=elephant_vs_screen_setup | A=black | alphabeta wins (checkmate) | 60 plies | 27.6s | ETA 12m11s
+2026-11-12 16:44:18,676 INFO [528/750] alphabeta vs mcts | opening=horse_vs_central_cannon | A=red | alphabeta wins (checkmate) | 53 plies | 22.5s | ETA 12m08s
+2026-11-12 16:44:26,735 INFO [529/750] alphabeta vs mcts | opening=pawn_vs_pawn_horses | A=black | alphabeta wins (checkmate) | 136 plies | 67.1s | ETA 12m06s
+2026-11-12 16:44:29,662 INFO [530/750] alphabeta vs mcts | opening=horse_vs_cannon_left | A=red | alphabeta wins (checkmate) | 29 plies | 11.1s | ETA 12m03s
+2026-11-12 16:44:30,612 INFO [531/750] alphabeta vs mcts | opening=elephant_vs_screen_setup | A=red | alphabeta wins (checkmate) | 97 plies | 48.8s | ETA 11m59s
+2026-11-12 16:44:44,177 INFO [532/750] alphabeta vs mcts | opening=elephant_vs_central_cannon | A=black | alphabeta wins (checkmate) | 134 plies | 67.4s | ETA 12m00s
+2026-11-12 16:44:45,092 INFO [533/750] alphabeta vs mcts | opening=horse_vs_central_cannon | A=black | alphabeta wins (checkmate) | 64 plies | 28.8s | ETA 11m55s
+2026-11-12 16:44:50,032 INFO [534/750] alphabeta vs mcts | opening=corner_cannon_vs_central | A=red | alphabeta wins (checkmate) | 47 plies | 20.4s | ETA 11m53s
+2026-11-12 16:45:15,775 INFO [535/750] alphabeta vs mcts | opening=cross_palace_right | A=black | alphabeta wins (checkmate) | 66 plies | 30.6s | ETA 11m59s
+2026-11-12 16:45:24,306 INFO [536/750] alphabeta vs mcts | opening=cross_palace_left | A=red | alphabeta wins (stalemate) | 75 plies | 34.2s | ETA 11m57s
+2026-11-12 16:45:24,522 INFO [537/750] alphabeta vs mcts | opening=horse_vs_cannon_left | A=black | alphabeta wins (checkmate) | 116 plies | 57.8s | ETA 11m53s
+2026-11-12 16:45:29,886 INFO [538/750] alphabeta vs mcts | opening=cross_palace_right | A=red | alphabeta wins (checkmate) | 95 plies | 45.7s | ETA 11m50s
+2026-11-12 16:45:33,278 INFO [539/750] alphabeta vs mcts | opening=corner_cannon_vs_central | A=black | mcts wins (stalemate) | 129 plies | 62.7s | ETA 11m47s
+2026-11-12 16:45:51,668 INFO [540/750] alphabeta vs mcts | opening=cross_palace_left | A=black | alphabeta wins (checkmate) | 74 plies | 35.9s | ETA 11m49s
+2026-11-12 16:45:52,991 INFO [541/750] alphabeta vs mcts | opening=palace_cannon_left | A=black | alphabeta wins (checkmate) | 60 plies | 28.5s | ETA 11m45s
+2026-11-12 16:46:01,859 INFO [542/750] alphabeta vs mcts | opening=central_cannon_screen_horses | A=red | alphabeta wins (checkmate) | 65 plies | 31.9s | ETA 11m44s
+2026-11-12 16:46:12,212 INFO [543/750] alphabeta vs mcts | opening=central_cannon_counter_cannon | A=red | alphabeta wins (checkmate) | 43 plies | 20.5s | ETA 11m43s
+2026-11-12 16:46:12,910 INFO [544/750] alphabeta vs mcts | opening=palace_cannon_left | A=red | alphabeta wins (stalemate) | 89 plies | 48.5s | ETA 11m39s
+2026-11-12 16:46:16,125 INFO [545/750] alphabeta vs mcts | opening=central_cannon_screen_horses | A=black | alphabeta wins (checkmate) | 88 plies | 42.9s | ETA 11m35s
+2026-11-12 16:46:16,489 INFO [546/750] alphabeta vs mcts | opening=central_cannon_counter_cannon | A=black | alphabeta wins (checkmate) | 48 plies | 23.4s | ETA 11m31s
+2026-11-12 16:46:22,078 INFO [547/750] alphabeta vs tabular_q | opening=screen_horses_c57 | A=red | alphabeta wins (checkmate) | 57 plies | 5.6s | ETA 11m28s
+2026-11-12 16:46:24,494 INFO [548/750] alphabeta vs mcts | opening=pawn_left | A=red | alphabeta wins (checkmate) | 49 plies | 22.6s | ETA 11m24s
+2026-11-12 16:46:26,152 INFO [549/750] alphabeta vs tabular_q | opening=screen_horses_c56 | A=red | alphabeta wins (checkmate) | 33 plies | 1.7s | ETA 11m20s
+2026-11-12 16:46:30,110 INFO [550/750] alphabeta vs tabular_q | opening=screen_horses_c56 | A=black | alphabeta wins (checkmate) | 92 plies | 4.0s | ETA 11m17s
+2026-11-12 16:46:30,585 INFO [551/750] alphabeta vs mcts | opening=pawn_center | A=red | alphabeta wins (checkmate) | 39 plies | 17.7s | ETA 11m13s
+2026-11-12 16:46:33,565 INFO [552/750] alphabeta vs tabular_q | opening=screen_horses_c57 | A=black | alphabeta wins (checkmate) | 94 plies | 11.5s | ETA 11m09s
+2026-11-12 16:46:33,581 INFO [553/750] alphabeta vs tabular_q | opening=screen_horses_pawn7 | A=black | alphabeta wins (checkmate) | 36 plies | 3.0s | ETA 11m05s
+2026-11-12 16:46:34,954 INFO [554/750] alphabeta vs tabular_q | opening=screen_horses_pawn7 | A=red | alphabeta wins (checkmate) | 105 plies | 4.8s | ETA 11m01s
+2026-11-12 16:46:35,283 INFO [555/750] alphabeta vs tabular_q | opening=reverse_palace_p7 | A=black | alphabeta wins (checkmate) | 36 plies | 1.7s | ETA 10m56s
+2026-11-12 16:46:37,663 INFO [556/750] alphabeta vs tabular_q | opening=reverse_palace_mirror | A=black | alphabeta wins (stalemate) | 64 plies | 2.4s | ETA 10m52s
+2026-11-12 16:46:39,903 INFO [557/750] alphabeta vs tabular_q | opening=shun_cannon_straight_rook | A=red | alphabeta wins (checkmate) | 35 plies | 2.2s | ETA 10m49s
+2026-11-12 16:46:40,665 INFO [558/750] alphabeta vs tabular_q | opening=reverse_palace_mirror | A=red | alphabeta wins (checkmate) | 91 plies | 5.8s | ETA 10m44s
+2026-11-12 16:46:41,745 INFO [559/750] alphabeta vs tabular_q | opening=reverse_palace_p7 | A=red | alphabeta wins (checkmate) | 81 plies | 8.2s | ETA 10m40s
+2026-11-12 16:46:43,295 INFO [560/750] alphabeta vs tabular_q | opening=shun_cannon_straight_rook | A=black | alphabeta wins (checkmate) | 40 plies | 3.4s | ETA 10m36s
+2026-11-12 16:46:44,286 INFO [561/750] alphabeta vs tabular_q | opening=shun_cannon_rook_race | A=red | alphabeta wins (checkmate) | 55 plies | 3.5s | ETA 10m32s
+2026-11-12 16:46:44,631 INFO [562/750] alphabeta vs tabular_q | opening=lie_cannon_p7 | A=red | alphabeta wins (checkmate) | 51 plies | 1.3s | ETA 10m28s
+2026-11-12 16:46:45,380 INFO [563/750] alphabeta vs mcts | opening=pawn_left | A=black | alphabeta wins (checkmate) | 66 plies | 33.2s | ETA 10m24s
+2026-11-12 16:46:46,995 INFO [564/750] alphabeta vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=red | alphabeta wins (checkmate) | 53 plies | 2.4s | ETA 10m20s
+2026-11-12 16:46:48,265 INFO [565/750] alphabeta vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=black | alphabeta wins (checkmate) | 58 plies | 3.0s | ETA 10m16s
+2026-11-12 16:46:48,935 INFO [566/750] alphabeta vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=red | alphabeta wins (checkmate) | 51 plies | 1.9s | ETA 10m11s
+2026-11-12 16:46:49,181 INFO [567/750] alphabeta vs tabular_q | opening=shun_cannon_rook_race | A=black | alphabeta wins (checkmate) | 48 plies | 7.5s | ETA 10m07s
+2026-11-12 16:46:49,390 INFO [568/750] alphabeta vs tabular_q | opening=pawn_vs_pawn_c3 | A=red | alphabeta wins (checkmate) | 19 plies | 0.5s | ETA 10m03s
+2026-11-12 16:46:50,205 INFO [569/750] alphabeta vs mcts | opening=pawn_center | A=black | alphabeta wins (checkmate) | 70 plies | 34.0s | ETA 9m59s
+2026-11-12 16:46:50,310 INFO [570/750] alphabeta vs tabular_q | opening=lie_cannon_p7 | A=black | alphabeta wins (stalemate) | 272 plies | 6.1s | ETA 9m54s
+2026-11-12 16:46:51,041 INFO [571/750] alphabeta vs tabular_q | opening=pawn_vs_pawn_horses | A=red | alphabeta wins (checkmate) | 41 plies | 1.6s | ETA 9m50s
+2026-11-12 16:46:52,045 INFO [572/750] alphabeta vs tabular_q | opening=pawn_vs_pawn_c3 | A=black | alphabeta wins (stalemate) | 66 plies | 2.8s | ETA 9m46s
+2026-11-12 16:46:52,834 INFO [573/750] alphabeta vs tabular_q | opening=pawn_vs_pawn_horses | A=black | alphabeta wins (checkmate) | 58 plies | 2.7s | ETA 9m42s
+2026-11-12 16:46:52,953 INFO [574/750] alphabeta vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=black | alphabeta wins (checkmate) | 66 plies | 4.7s | ETA 9m38s
+2026-11-12 16:46:53,047 INFO [575/750] alphabeta vs tabular_q | opening=elephant_left | A=red | alphabeta wins (checkmate) | 45 plies | 2.7s | ETA 9m34s
+2026-11-12 16:46:53,666 INFO [576/750] alphabeta vs tabular_q | opening=elephant_vs_central_cannon | A=red | alphabeta wins (checkmate) | 27 plies | 1.7s | ETA 9m30s
+2026-11-12 16:46:53,991 INFO [577/750] alphabeta vs tabular_q | opening=elephant_left | A=black | alphabeta wins (checkmate) | 56 plies | 3.0s | ETA 9m25s
+2026-11-12 16:46:54,503 INFO [578/750] alphabeta vs tabular_q | opening=horse_vs_central_cannon | A=red | alphabeta wins (checkmate) | 25 plies | 0.8s | ETA 9m21s
+2026-11-12 16:46:55,616 INFO [579/750] alphabeta vs tabular_q | opening=horse_vs_cannon_left | A=red | alphabeta wins (checkmate) | 29 plies | 1.1s | ETA 9m17s
+2026-11-12 16:46:55,646 INFO [580/750] alphabeta vs tabular_q | opening=elephant_vs_screen_setup | A=red | alphabeta wins (checkmate) | 31 plies | 2.7s | ETA 9m13s
+2026-11-12 16:46:56,274 INFO [581/750] alphabeta vs tabular_q | opening=elephant_vs_central_cannon | A=black | alphabeta wins (checkmate) | 56 plies | 3.4s | ETA 9m09s
+2026-11-12 16:46:56,649 INFO [582/750] alphabeta vs tabular_q | opening=elephant_vs_screen_setup | A=black | alphabeta wins (checkmate) | 56 plies | 3.6s | ETA 9m05s
+2026-11-12 16:46:56,813 INFO [583/750] alphabeta vs tabular_q | opening=horse_vs_central_cannon | A=black | alphabeta wins (checkmate) | 76 plies | 2.8s | ETA 9m01s
+2026-11-12 16:46:57,254 INFO [584/750] alphabeta vs tabular_q | opening=horse_vs_cannon_left | A=black | alphabeta wins (stalemate) | 48 plies | 1.6s | ETA 8m57s
+2026-11-12 16:46:58,058 INFO [585/750] alphabeta vs tabular_q | opening=corner_cannon_vs_central | A=black | alphabeta wins (checkmate) | 64 plies | 1.8s | ETA 8m53s
+2026-11-12 16:46:58,268 INFO [586/750] alphabeta vs tabular_q | opening=corner_cannon_vs_central | A=red | alphabeta wins (stalemate) | 71 plies | 2.6s | ETA 8m49s
+2026-11-12 16:46:58,473 INFO [587/750] alphabeta vs tabular_q | opening=cross_palace_right | A=red | alphabeta wins (checkmate) | 41 plies | 1.8s | ETA 8m45s
+2026-11-12 16:46:58,971 INFO [588/750] alphabeta vs tabular_q | opening=cross_palace_left | A=red | alphabeta wins (stalemate) | 47 plies | 1.7s | ETA 8m41s
+2026-11-12 16:46:59,761 INFO [589/750] alphabeta vs tabular_q | opening=cross_palace_right | A=black | alphabeta wins (checkmate) | 46 plies | 3.0s | ETA 8m37s
+2026-11-12 16:46:59,899 INFO [590/750] alphabeta vs tabular_q | opening=cross_palace_left | A=black | alphabeta wins (checkmate) | 62 plies | 1.8s | ETA 8m33s
+2026-11-12 16:47:01,091 INFO [591/750] alphabeta vs tabular_q | opening=central_cannon_counter_cannon | A=red | alphabeta wins (checkmate) | 33 plies | 1.2s | ETA 8m29s
+2026-11-12 16:47:02,424 INFO [592/750] alphabeta vs tabular_q | opening=central_cannon_screen_horses | A=red | alphabeta wins (checkmate) | 67 plies | 3.4s | ETA 8m25s
+2026-11-12 16:47:03,365 INFO [593/750] alphabeta vs tabular_q | opening=palace_cannon_left | A=red | alphabeta wins (checkmate) | 51 plies | 5.1s | ETA 8m22s
+2026-11-12 16:47:03,624 INFO [594/750] alphabeta vs tabular_q | opening=central_cannon_counter_cannon | A=black | alphabeta wins (checkmate) | 48 plies | 2.6s | ETA 8m18s
+2026-11-12 16:47:04,235 INFO [595/750] alphabeta vs tabular_q | opening=central_cannon_screen_horses | A=black | alphabeta wins (checkmate) | 60 plies | 4.5s | ETA 8m14s
+2026-11-12 16:47:04,247 INFO [596/750] alphabeta vs tabular_q | opening=pawn_left | A=red | alphabeta wins (checkmate) | 27 plies | 1.9s | ETA 8m10s
+2026-11-12 16:47:06,165 INFO [597/750] alphabeta vs tabular_q | opening=pawn_center | A=red | alphabeta wins (checkmate) | 33 plies | 2.5s | ETA 8m06s
+2026-11-12 16:47:07,515 INFO [598/750] alphabeta vs tabular_q | opening=pawn_left | A=black | alphabeta wins (checkmate) | 58 plies | 4.1s | ETA 8m03s
+2026-11-12 16:47:12,721 INFO [599/750] alphabeta vs tabular_q | opening=palace_cannon_left | A=black | alphabeta wins (checkmate) | 154 plies | 14.2s | ETA 8m00s
+2026-11-12 16:47:26,923 INFO [600/750] alphabeta vs tabular_q | opening=pawn_center | A=black | alphabeta wins (checkmate) | 280 plies | 22.6s | ETA 8m00s
+2026-11-12 16:47:47,834 INFO [601/750] heuristic vs mcts | opening=screen_horses_c56 | A=red | heuristic wins (checkmate) | 51 plies | 40.3s | ETA 8m01s
+2026-11-12 16:48:18,638 INFO [602/750] heuristic vs mcts | opening=screen_horses_c57 | A=red | heuristic wins (checkmate) | 85 plies | 74.4s | ETA 8m04s
+2026-11-12 16:48:29,391 INFO [603/750] heuristic vs mcts | opening=screen_horses_pawn7 | A=red | mcts wins (checkmate) | 76 plies | 62.5s | ETA 8m03s
+2026-11-12 16:48:45,565 INFO [604/750] heuristic vs mcts | opening=screen_horses_c56 | A=black | heuristic wins (checkmate) | 104 plies | 92.8s | ETA 8m03s
+2026-11-12 16:49:07,537 INFO [605/750] heuristic vs mcts | opening=screen_horses_c57 | A=black | heuristic wins (checkmate) | 132 plies | 121.4s | ETA 8m04s
+2026-11-12 16:49:16,097 INFO [606/750] heuristic vs mcts | opening=screen_horses_pawn7 | A=black | mcts wins (checkmate) | 101 plies | 88.2s | ETA 8m02s
+2026-11-12 16:49:24,999 INFO [607/750] heuristic vs mcts | opening=reverse_palace_p7 | A=black | heuristic wins (checkmate) | 66 plies | 55.6s | ETA 8m00s
+2026-11-12 16:50:15,469 INFO [608/750] heuristic vs mcts | opening=reverse_palace_mirror | A=red | mcts wins (checkmate) | 102 plies | 90.0s | ETA 8m07s
+2026-11-12 16:50:15,676 INFO [609/750] heuristic vs mcts | opening=reverse_palace_p7 | A=red | mcts wins (checkmate) | 128 plies | 117.0s | ETA 8m03s
+2026-11-12 16:50:29,536 INFO [610/750] heuristic vs mcts | opening=shun_cannon_straight_rook | A=red | mcts wins (checkmate) | 88 plies | 73.5s | ETA 8m02s
+2026-11-12 16:50:32,663 INFO [611/750] heuristic vs mcts | opening=reverse_palace_mirror | A=black | mcts wins (stalemate) | 111 plies | 85.2s | ETA 7m59s
+2026-11-12 16:50:37,125 INFO [612/750] heuristic vs mcts | opening=shun_cannon_rook_race | A=black | mcts wins (checkmate) | 33 plies | 21.4s | ETA 7m55s
+2026-11-12 16:50:38,800 INFO [613/750] heuristic vs mcts | opening=shun_cannon_rook_race | A=red | mcts wins (checkmate) | 34 plies | 23.3s | ETA 7m52s
+2026-11-12 16:50:46,675 INFO [614/750] heuristic vs mcts | opening=shun_cannon_straight_rook | A=black | heuristic wins (checkmate) | 94 plies | 81.7s | ETA 7m49s
+2026-11-12 16:51:10,176 INFO [615/750] heuristic vs mcts | opening=lie_cannon_p7 | A=black | mcts wins (checkmate) | 53 plies | 37.5s | ETA 7m50s
+2026-11-12 16:51:16,215 INFO [616/750] heuristic vs mcts | opening=pawn_vs_bottom_cannon_central | A=red | heuristic wins (checkmate) | 49 plies | 39.1s | ETA 7m47s
+2026-11-12 16:51:27,909 INFO [617/750] heuristic vs mcts | opening=lie_cannon_p7 | A=red | heuristic wins (checkmate) | 69 plies | 58.4s | ETA 7m45s
+2026-11-12 16:51:45,850 INFO [618/750] heuristic vs mcts | opening=pawn_vs_bottom_cannon_central | A=black | mcts wins (stalemate) | 91 plies | 67.0s | ETA 7m45s
+2026-11-12 16:51:52,105 INFO [619/750] heuristic vs mcts | opening=pawn_vs_bottom_cannon_horses | A=black | mcts wins (checkmate) | 57 plies | 41.9s | ETA 7m42s
+2026-11-12 16:52:16,122 INFO [620/750] heuristic vs mcts | opening=pawn_vs_pawn_horses | A=red | heuristic wins (stalemate) | 41 plies | 30.3s | ETA 7m43s
+2026-11-12 16:52:26,376 INFO [621/750] heuristic vs mcts | opening=pawn_vs_pawn_c3 | A=black | mcts wins (stalemate) | 83 plies | 58.5s | ETA 7m41s
+2026-11-12 16:52:34,744 INFO [622/750] heuristic vs mcts | opening=pawn_vs_bottom_cannon_horses | A=red | mcts wins (checkmate) | 118 plies | 108.1s | ETA 7m38s
+2026-11-12 16:52:45,094 INFO [623/750] heuristic vs mcts | opening=pawn_vs_pawn_horses | A=black | heuristic wins (checkmate) | 64 plies | 53.0s | ETA 7m36s
+2026-11-12 16:52:53,017 INFO [624/750] heuristic vs mcts | opening=pawn_vs_pawn_c3 | A=red | heuristic wins (checkmate) | 107 plies | 96.8s | ETA 7m33s
+2026-11-12 16:53:00,560 INFO [625/750] heuristic vs mcts | opening=elephant_left | A=red | heuristic wins (checkmate) | 51 plies | 44.4s | ETA 7m30s
+2026-11-12 16:53:09,233 INFO [626/750] heuristic vs mcts | opening=elephant_vs_central_cannon | A=red | heuristic wins (checkmate) | 45 plies | 34.4s | ETA 7m28s
+2026-11-12 16:53:21,574 INFO [627/750] heuristic vs mcts | opening=elephant_left | A=black | mcts wins (checkmate) | 65 plies | 55.1s | ETA 7m26s
+2026-11-12 16:53:41,621 INFO [628/750] heuristic vs mcts | opening=elephant_vs_central_cannon | A=black | mcts wins (checkmate) | 89 plies | 56.5s | ETA 7m25s
+2026-11-12 16:53:43,808 INFO [629/750] heuristic vs mcts | opening=elephant_vs_screen_setup | A=red | heuristic wins (checkmate) | 61 plies | 50.8s | ETA 7m21s
+2026-11-12 16:54:04,250 INFO [630/750] heuristic vs mcts | opening=horse_vs_central_cannon | A=black | mcts wins (stalemate) | 59 plies | 42.8s | ETA 7m21s
+2026-11-12 16:54:16,588 INFO [631/750] heuristic vs mcts | opening=horse_vs_central_cannon | A=red | mcts wins (stalemate) | 92 plies | 67.4s | ETA 7m19s
+2026-11-12 16:54:41,920 INFO [632/750] heuristic vs mcts | opening=corner_cannon_vs_central | A=red | mcts wins (stalemate) | 54 plies | 37.6s | ETA 7m19s
+2026-11-12 16:54:43,670 INFO [633/750] heuristic vs mcts | opening=elephant_vs_screen_setup | A=black | mcts wins (stalemate) | 123 plies | 103.1s | ETA 7m15s
+2026-11-12 16:55:10,320 INFO [634/750] heuristic vs mcts | opening=corner_cannon_vs_central | A=black | mcts wins (stalemate) | 79 plies | 53.7s | ETA 7m16s
+2026-11-12 16:55:42,866 INFO [635/750] heuristic vs mcts | opening=horse_vs_cannon_left | A=black | mcts wins (stalemate) | 135 plies | 119.0s | ETA 7m17s
+2026-11-12 16:55:47,061 INFO [636/750] heuristic vs mcts | opening=cross_palace_right | A=black | heuristic wins (checkmate) | 74 plies | 63.4s | ETA 7m13s
+2026-11-12 16:55:51,579 INFO [637/750] heuristic vs mcts | opening=horse_vs_cannon_left | A=red | mcts wins (stalemate) | 168 plies | 129.9s | ETA 7m10s
+2026-11-12 16:56:00,789 INFO [638/750] heuristic vs mcts | opening=cross_palace_left | A=red | heuristic wins (checkmate) | 61 plies | 50.5s | ETA 7m07s
+2026-11-12 16:56:04,527 INFO [639/750] heuristic vs mcts | opening=cross_palace_right | A=red | heuristic wins (checkmate) | 93 plies | 82.7s | ETA 7m03s
+2026-11-12 16:56:09,359 INFO [640/750] heuristic vs mcts | opening=palace_cannon_left | A=red | heuristic wins (checkmate) | 29 plies | 22.3s | ETA 6m59s
+2026-11-12 16:56:34,458 INFO [641/750] heuristic vs mcts | opening=cross_palace_left | A=black | mcts wins (checkmate) | 67 plies | 51.6s | ETA 6m59s
+2026-11-12 16:56:51,697 INFO [642/750] heuristic vs mcts | opening=central_cannon_counter_cannon | A=red | mcts wins (checkmate) | 52 plies | 42.4s | ETA 6m58s
+2026-11-12 16:56:53,757 INFO [643/750] heuristic vs mcts | opening=palace_cannon_left | A=black | mcts wins (checkmate) | 71 plies | 62.2s | ETA 6m53s
+2026-11-12 16:57:15,534 INFO [644/750] heuristic vs mcts | opening=central_cannon_screen_horses | A=red | mcts wins (checkmate) | 84 plies | 74.7s | ETA 6m52s
+2026-11-12 16:57:34,825 INFO [645/750] heuristic vs mcts | opening=pawn_left | A=black | mcts wins (checkmate) | 55 plies | 41.0s | ETA 6m51s
+2026-11-12 16:57:54,273 INFO [646/750] heuristic vs mcts | opening=pawn_left | A=red | heuristic wins (checkmate) | 69 plies | 62.6s | ETA 6m50s
+2026-11-12 16:57:55,528 INFO [647/750] heuristic vs mcts | opening=pawn_center | A=red | mcts wins (checkmate) | 50 plies | 39.9s | ETA 6m45s
+2026-11-12 16:58:14,948 INFO [648/750] heuristic vs tabular_q | opening=screen_horses_c57 | A=red | heuristic wins (checkmate) | 49 plies | 20.7s | ETA 6m44s
+2026-11-12 16:58:24,841 INFO [649/750] heuristic vs tabular_q | opening=screen_horses_c57 | A=black | draw (repetition) | 65 plies | 29.3s | ETA 6m41s
+2026-11-12 16:58:28,375 INFO [650/750] heuristic vs tabular_q | opening=screen_horses_c56 | A=red | heuristic wins (checkmate) | 35 plies | 13.4s | ETA 6m37s
+2026-11-12 16:58:35,653 INFO [651/750] heuristic vs tabular_q | opening=screen_horses_c56 | A=black | draw (repetition) | 31 plies | 10.8s | ETA 6m33s
+2026-11-12 16:58:39,161 INFO [652/750] heuristic vs tabular_q | opening=screen_horses_pawn7 | A=red | heuristic wins (checkmate) | 31 plies | 10.7s | ETA 6m29s
+2026-11-12 16:58:54,400 INFO [653/750] heuristic vs mcts | opening=central_cannon_counter_cannon | A=black | draw (repetition) | 145 plies | 139.9s | ETA 6m27s
+2026-11-12 16:59:18,489 INFO [654/750] heuristic vs mcts | opening=pawn_center | A=black | draw (repetition) | 109 plies | 103.7s | ETA 6m26s
+2026-11-12 16:59:24,006 INFO [655/750] heuristic vs mcts | opening=central_cannon_screen_horses | A=black | mcts wins (checkmate) | 217 plies | 199.4s | ETA 6m22s
+2026-11-12 16:59:27,512 INFO [656/750] heuristic vs tabular_q | opening=screen_horses_pawn7 | A=black | tabular_q wins (checkmate) | 107 plies | 51.9s | ETA 6m18s
+2026-11-12 16:59:31,894 INFO [657/750] heuristic vs tabular_q | opening=reverse_palace_mirror | A=red | draw (repetition) | 32 plies | 13.3s | ETA 6m14s
+2026-11-12 16:59:38,576 INFO [658/750] heuristic vs tabular_q | opening=shun_cannon_straight_rook | A=red | heuristic wins (checkmate) | 31 plies | 11.0s | ETA 6m10s
+2026-11-12 16:59:43,993 INFO [659/750] heuristic vs tabular_q | opening=shun_cannon_straight_rook | A=black | draw (repetition) | 51 plies | 12.1s | ETA 6m06s
+2026-11-12 16:59:48,863 INFO [660/750] heuristic vs tabular_q | opening=reverse_palace_p7 | A=red | heuristic wins (checkmate) | 141 plies | 69.7s | ETA 6m03s
+2026-11-12 16:59:54,564 INFO [661/750] heuristic vs tabular_q | opening=shun_cannon_rook_race | A=red | tabular_q wins (checkmate) | 40 plies | 16.0s | ETA 5m59s
+2026-11-12 16:59:55,687 INFO [662/750] heuristic vs tabular_q | opening=reverse_palace_mirror | A=black | draw (repetition) | 69 plies | 31.7s | ETA 5m54s
+2026-11-12 17:00:01,548 INFO [663/750] heuristic vs tabular_q | opening=lie_cannon_p7 | A=red | heuristic wins (checkmate) | 35 plies | 12.7s | ETA 5m51s
+2026-11-12 17:00:07,026 INFO [664/750] heuristic vs tabular_q | opening=reverse_palace_p7 | A=black | truncated (max_plies) | 300 plies | 72.6s | ETA 5m47s
+2026-11-12 17:00:09,801 INFO [665/750] heuristic vs tabular_q | opening=shun_cannon_rook_race | A=black | tabular_q wins (checkmate) | 61 plies | 25.8s | ETA 5m42s
+2026-11-12 17:00:11,383 INFO [666/750] heuristic vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=red | draw (repetition) | 38 plies | 15.6s | ETA 5m38s
+2026-11-12 17:00:26,308 INFO [667/750] heuristic vs tabular_q | opening=pawn_vs_pawn_c3 | A=red | heuristic wins (checkmate) | 39 plies | 14.9s | ETA 5m35s
+2026-11-12 17:00:29,711 INFO [668/750] heuristic vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=red | heuristic wins (checkmate) | 55 plies | 22.7s | ETA 5m31s
+2026-11-12 17:00:32,015 INFO [669/750] heuristic vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=black | draw (repetition) | 53 plies | 22.2s | ETA 5m27s
+2026-11-12 17:00:41,302 INFO [670/750] heuristic vs tabular_q | opening=lie_cannon_p7 | A=black | draw (repetition) | 103 plies | 46.7s | ETA 5m24s
+2026-11-12 17:00:42,350 INFO [671/750] heuristic vs tabular_q | opening=pawn_vs_pawn_horses | A=red | heuristic wins (checkmate) | 35 plies | 12.7s | ETA 5m19s
+2026-11-12 17:00:42,992 INFO [672/750] heuristic vs tabular_q | opening=pawn_vs_pawn_c3 | A=black | draw (repetition) | 43 plies | 16.7s | ETA 5m15s
+2026-11-12 17:00:50,976 INFO [673/750] heuristic vs tabular_q | opening=elephant_left | A=red | heuristic wins (checkmate) | 25 plies | 9.7s | ETA 5m11s
+2026-11-12 17:00:58,044 INFO [674/750] heuristic vs tabular_q | opening=elephant_vs_central_cannon | A=red | draw (repetition) | 38 plies | 15.1s | ETA 5m07s
+2026-11-12 17:00:59,708 INFO [675/750] heuristic vs tabular_q | opening=elephant_vs_central_cannon | A=black | draw (repetition) | 27 plies | 8.8s | ETA 5m03s
+2026-11-12 17:01:06,601 INFO [676/750] heuristic vs tabular_q | opening=pawn_vs_pawn_horses | A=black | heuristic wins (checkmate) | 78 plies | 34.6s | ETA 4m59s
+2026-11-12 17:01:06,665 INFO [677/750] heuristic vs tabular_q | opening=elephant_vs_screen_setup | A=red | heuristic wins (checkmate) | 27 plies | 8.6s | ETA 4m55s
+2026-11-12 17:01:11,211 INFO [678/750] heuristic vs tabular_q | opening=elephant_vs_screen_setup | A=black | draw (repetition) | 31 plies | 11.5s | ETA 4m51s
+2026-11-12 17:01:13,307 INFO [679/750] heuristic vs tabular_q | opening=elephant_left | A=black | heuristic wins (checkmate) | 68 plies | 30.9s | ETA 4m47s
+2026-11-12 17:01:18,292 INFO [680/750] heuristic vs tabular_q | opening=horse_vs_central_cannon | A=red | heuristic wins (checkmate) | 33 plies | 11.6s | ETA 4m43s
+2026-11-12 17:01:24,911 INFO [681/750] heuristic vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=black | draw (no_capture_limit) | 159 plies | 83.3s | ETA 4m39s
+2026-11-12 17:01:34,764 INFO [682/750] heuristic vs tabular_q | opening=corner_cannon_vs_central | A=red | heuristic wins (checkmate) | 43 plies | 16.5s | ETA 4m36s
+2026-11-12 17:01:36,816 INFO [683/750] heuristic vs tabular_q | opening=horse_vs_cannon_left | A=red | draw (repetition) | 56 plies | 25.6s | ETA 4m31s
+2026-11-12 17:01:47,226 INFO [684/750] heuristic vs tabular_q | opening=cross_palace_right | A=red | heuristic wins (checkmate) | 33 plies | 12.5s | ETA 4m28s
+2026-11-12 17:01:59,881 INFO [685/750] heuristic vs tabular_q | opening=cross_palace_left | A=red | heuristic wins (checkmate) | 35 plies | 12.6s | ETA 4m25s
+2026-11-12 17:02:20,352 INFO [686/750] heuristic vs tabular_q | opening=cross_palace_left | A=black | draw (repetition) | 83 plies | 20.5s | ETA 4m22s
+2026-11-12 17:02:21,756 INFO [687/750] heuristic vs tabular_q | opening=cross_palace_right | A=black | tabular_q wins (checkmate) | 93 plies | 44.9s | ETA 4m18s
+2026-11-12 17:02:29,931 INFO [688/750] heuristic vs tabular_q | opening=palace_cannon_left | A=red | heuristic wins (checkmate) | 23 plies | 9.6s | ETA 4m14s
+2026-11-12 17:02:33,904 INFO [689/750] heuristic vs tabular_q | opening=palace_cannon_left | A=black | draw (repetition) | 29 plies | 12.1s | ETA 4m10s
+2026-11-12 17:02:36,351 INFO [690/750] heuristic vs tabular_q | opening=horse_vs_central_cannon | A=black | draw (repetition) | 185 plies | 89.7s | ETA 4m06s
+2026-11-12 17:02:44,007 INFO [691/750] heuristic vs tabular_q | opening=central_cannon_screen_horses | A=red | draw (repetition) | 30 plies | 14.1s | ETA 4m02s
+2026-11-12 17:02:50,871 INFO [692/750] heuristic vs tabular_q | opening=central_cannon_counter_cannon | A=red | draw (repetition) | 34 plies | 14.5s | ETA 3m58s
+2026-11-12 17:03:01,496 INFO [693/750] heuristic vs tabular_q | opening=pawn_left | A=red | heuristic wins (checkmate) | 27 plies | 10.6s | ETA 3m54s
+2026-11-12 17:03:13,316 INFO [694/750] heuristic vs tabular_q | opening=corner_cannon_vs_central | A=black | draw (no_capture_limit) | 226 plies | 108.4s | ETA 3m51s
+2026-11-12 17:03:14,636 INFO [695/750] heuristic vs tabular_q | opening=pawn_left | A=black | draw (repetition) | 45 plies | 13.2s | ETA 3m46s
+2026-11-12 17:03:23,271 INFO [696/750] heuristic vs tabular_q | opening=horse_vs_cannon_left | A=black | draw (no_capture_limit) | 264 plies | 129.9s | ETA 3m43s
+2026-11-12 17:03:47,899 INFO [697/750] heuristic vs tabular_q | opening=central_cannon_screen_horses | A=black | tabular_q wins (checkmate) | 165 plies | 74.0s | ETA 3m40s
+2026-11-12 17:03:52,882 INFO [698/750] mcts vs tabular_q | opening=screen_horses_c57 | A=red | mcts wins (checkmate) | 67 plies | 29.7s | ETA 3m36s
+2026-11-12 17:03:53,999 INFO [699/750] heuristic vs tabular_q | opening=central_cannon_counter_cannon | A=black | draw (repetition) | 139 plies | 70.0s | ETA 3m32s
+2026-11-12 17:04:09,886 INFO [700/750] mcts vs tabular_q | opening=screen_horses_c56 | A=red | mcts wins (checkmate) | 43 plies | 16.9s | ETA 3m28s
+2026-11-12 17:04:33,791 INFO [701/750] heuristic vs tabular_q | opening=pawn_center | A=red | draw (repetition) | 160 plies | 80.5s | ETA 3m26s
+2026-11-12 17:04:40,559 INFO [702/750] mcts vs tabular_q | opening=screen_horses_c56 | A=black | mcts wins (stalemate) | 102 plies | 46.6s | ETA 3m21s
+2026-11-12 17:04:52,573 INFO [703/750] mcts vs tabular_q | opening=reverse_palace_p7 | A=red | mcts wins (checkmate) | 33 plies | 12.0s | ETA 3m18s
+2026-11-12 17:04:59,891 INFO [704/750] mcts vs tabular_q | opening=screen_horses_pawn7 | A=red | mcts wins (checkmate) | 107 plies | 50.1s | ETA 3m14s
+2026-11-12 17:05:02,809 INFO [705/750] mcts vs tabular_q | opening=screen_horses_pawn7 | A=black | mcts wins (checkmate) | 66 plies | 28.9s | ETA 3m09s
+2026-11-12 17:05:06,498 INFO [706/750] mcts vs tabular_q | opening=reverse_palace_mirror | A=red | mcts wins (checkmate) | 23 plies | 6.6s | ETA 3m05s
+2026-11-12 17:05:22,378 INFO [707/750] mcts vs tabular_q | opening=shun_cannon_straight_rook | A=red | mcts wins (checkmate) | 41 plies | 15.8s | ETA 3m02s
+2026-11-12 17:05:27,039 INFO [708/750] mcts vs tabular_q | opening=reverse_palace_p7 | A=black | mcts wins (checkmate) | 76 plies | 34.5s | ETA 2m57s
+2026-11-12 17:05:27,978 INFO [709/750] mcts vs tabular_q | opening=reverse_palace_mirror | A=black | draw (repetition) | 59 plies | 25.3s | ETA 2m53s
+2026-11-12 17:05:29,042 INFO [710/750] mcts vs tabular_q | opening=shun_cannon_straight_rook | A=black | draw (repetition) | 23 plies | 6.7s | ETA 2m49s
+2026-11-12 17:05:34,866 INFO [711/750] heuristic vs tabular_q | opening=pawn_center | A=black | draw (no_capture_limit) | 261 plies | 140.2s | ETA 2m45s
+2026-11-12 17:05:36,329 INFO [712/750] mcts vs tabular_q | opening=screen_horses_c57 | A=black | draw (repetition) | 215 plies | 108.4s | ETA 2m40s
+2026-11-12 17:05:44,591 INFO [713/750] mcts vs tabular_q | opening=shun_cannon_rook_race | A=black | mcts wins (checkmate) | 42 plies | 16.6s | ETA 2m36s
+2026-11-12 17:05:45,795 INFO [714/750] mcts vs tabular_q | opening=lie_cannon_p7 | A=red | mcts wins (checkmate) | 43 plies | 16.7s | ETA 2m32s
+2026-11-12 17:05:51,485 INFO [715/750] mcts vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=red | mcts wins (checkmate) | 39 plies | 15.1s | ETA 2m28s
+2026-11-12 17:05:52,882 INFO [716/750] mcts vs tabular_q | opening=shun_cannon_rook_race | A=red | mcts wins (checkmate) | 57 plies | 25.8s | ETA 2m23s
+2026-11-12 17:05:53,661 INFO [717/750] mcts vs tabular_q | opening=lie_cannon_p7 | A=black | tabular_q wins (checkmate) | 47 plies | 18.8s | ETA 2m19s
+2026-11-12 17:05:57,390 INFO [718/750] mcts vs tabular_q | opening=pawn_vs_pawn_c3 | A=red | mcts wins (checkmate) | 19 plies | 4.5s | ETA 2m15s
+2026-11-12 17:05:58,464 INFO [719/750] mcts vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=red | mcts wins (checkmate) | 35 plies | 12.7s | ETA 2m10s
+2026-11-12 17:06:10,854 INFO [720/750] mcts vs tabular_q | opening=pawn_vs_pawn_c3 | A=black | mcts wins (checkmate) | 44 plies | 17.1s | ETA 2m06s
+2026-11-12 17:06:10,909 INFO [721/750] mcts vs tabular_q | opening=pawn_vs_pawn_horses | A=red | mcts wins (checkmate) | 35 plies | 13.5s | ETA 2m02s
+2026-11-12 17:06:19,964 INFO [722/750] mcts vs tabular_q | opening=pawn_vs_bottom_cannon_central | A=black | mcts wins (checkmate) | 76 plies | 35.4s | ETA 1m58s
+2026-11-12 17:06:22,955 INFO [723/750] mcts vs tabular_q | opening=pawn_vs_pawn_horses | A=black | mcts wins (checkmate) | 58 plies | 24.4s | ETA 1m54s
+2026-11-12 17:06:33,720 INFO [724/750] mcts vs tabular_q | opening=elephant_left | A=red | draw (repetition) | 49 plies | 23.0s | ETA 1m50s
+2026-11-12 17:06:36,702 INFO [725/750] mcts vs tabular_q | opening=pawn_vs_bottom_cannon_horses | A=black | mcts wins (checkmate) | 96 plies | 45.2s | ETA 1m45s
+2026-11-12 17:06:37,959 INFO [726/750] mcts vs tabular_q | opening=elephant_left | A=black | draw (repetition) | 56 plies | 27.0s | ETA 1m41s
+2026-11-12 17:06:46,280 INFO [727/750] mcts vs tabular_q | opening=elephant_vs_central_cannon | A=red | mcts wins (checkmate) | 61 plies | 26.3s | ETA 1m37s
+2026-11-12 17:06:50,256 INFO [728/750] mcts vs tabular_q | opening=elephant_vs_central_cannon | A=black | draw (repetition) | 63 plies | 27.3s | ETA 1m33s
+2026-11-12 17:07:04,495 INFO [729/750] mcts vs tabular_q | opening=horse_vs_central_cannon | A=red | draw (repetition) | 59 plies | 26.6s | ETA 1m29s
+2026-11-12 17:07:09,554 INFO [730/750] mcts vs tabular_q | opening=elephant_vs_screen_setup | A=black | mcts wins (checkmate) | 74 plies | 32.7s | ETA 1m25s
+2026-11-12 17:07:15,245 INFO [731/750] mcts vs tabular_q | opening=elephant_vs_screen_setup | A=red | mcts wins (checkmate) | 91 plies | 41.5s | ETA 1m20s
+2026-11-12 17:07:15,934 INFO [732/750] mcts vs tabular_q | opening=corner_cannon_vs_central | A=red | mcts wins (checkmate) | 23 plies | 6.4s | ETA 1m16s
+2026-11-12 17:07:16,799 INFO [733/750] mcts vs tabular_q | opening=horse_vs_cannon_left | A=black | mcts wins (checkmate) | 34 plies | 12.3s | ETA 1m12s
+2026-11-12 17:07:25,751 INFO [734/750] mcts vs tabular_q | opening=corner_cannon_vs_central | A=black | mcts wins (checkmate) | 32 plies | 10.5s | ETA 1m07s
+2026-11-12 17:07:36,502 INFO [735/750] mcts vs tabular_q | opening=cross_palace_left | A=red | mcts wins (checkmate) | 31 plies | 10.7s | ETA 1m03s
+2026-11-12 17:07:42,327 INFO [736/750] mcts vs tabular_q | opening=horse_vs_central_cannon | A=black | mcts wins (checkmate) | 118 plies | 56.0s | ETA 59s
+2026-11-12 17:08:08,872 INFO [737/750] mcts vs tabular_q | opening=cross_palace_right | A=red | mcts wins (checkmate) | 113 plies | 53.0s | ETA 55s
+2026-11-12 17:08:23,715 INFO [738/750] mcts vs tabular_q | opening=palace_cannon_left | A=black | tabular_q wins (checkmate) | 33 plies | 14.9s | ETA 51s
+2026-11-12 17:08:25,105 INFO [739/750] mcts vs tabular_q | opening=cross_palace_left | A=black | draw (repetition) | 105 plies | 48.6s | ETA 47s
+2026-11-12 17:08:25,361 INFO [740/750] mcts vs tabular_q | opening=cross_palace_right | A=black | mcts wins (stalemate) | 136 plies | 68.5s | ETA 42s
+2026-11-12 17:08:34,864 INFO [741/750] mcts vs tabular_q | opening=central_cannon_counter_cannon | A=red | mcts wins (checkmate) | 25 plies | 9.5s | ETA 38s
+2026-11-12 17:08:42,580 INFO [742/750] mcts vs tabular_q | opening=central_cannon_screen_horses | A=red | draw (repetition) | 39 plies | 18.9s | ETA 34s
+2026-11-12 17:08:43,700 INFO [743/750] mcts vs tabular_q | opening=palace_cannon_left | A=red | mcts wins (checkmate) | 127 plies | 61.4s | ETA 30s
+2026-11-12 17:08:44,123 INFO [744/750] mcts vs tabular_q | opening=horse_vs_cannon_left | A=red | mcts wins (stalemate) | 235 plies | 114.0s | ETA 25s
+2026-11-12 17:08:58,086 INFO [745/750] mcts vs tabular_q | opening=pawn_left | A=red | mcts wins (checkmate) | 35 plies | 15.5s | ETA 21s
+2026-11-12 17:08:58,100 INFO [746/750] mcts vs tabular_q | opening=central_cannon_counter_cannon | A=black | mcts wins (checkmate) | 52 plies | 23.3s | ETA 17s
+2026-11-12 17:09:01,334 INFO [747/750] mcts vs tabular_q | opening=pawn_left | A=black | mcts wins (checkmate) | 40 plies | 17.6s | ETA 12s
+2026-11-12 17:09:03,873 INFO [748/750] mcts vs tabular_q | opening=central_cannon_screen_horses | A=black | mcts wins (checkmate) | 82 plies | 38.7s | ETA 8s
+2026-11-12 17:09:10,182 INFO [749/750] mcts vs tabular_q | opening=pawn_center | A=red | mcts wins (checkmate) | 57 plies | 26.0s | ETA 4s
+2026-11-12 17:09:39,272 INFO [750/750] mcts vs tabular_q | opening=pawn_center | A=black | mcts wins (checkmate) | 86 plies | 41.1s | ETA 0s
+2026-11-12 17:09:39,289 INFO Tournament complete: 750 games in /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/results/tournaments/20261112-091526_501370b5

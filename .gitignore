@@ -44,3 +44,7 @@ project/artifacts/
 
 .agents/**
 .claude/**
+skills-lock.json
+
+# Tournament run outputs (raw logs, summaries, plots)
+# project/backend/results/tournaments/

@@ -11,17 +11,22 @@ from src.training.batch_games import generate_batch, play_game
 from src.training.opening_book import (
     BOOK_VERSION,
     OPENING_LINES,
+    OPENING_LINES_V1,
     sample_opening,
     validate_opening_book,
 )
 
+V1 = "xiangqi-curated-v1"
+
 
 class OpeningBookTests(unittest.TestCase):
     def test_every_opening_is_legal_and_all_families_covered(self):
-        self.assertEqual(validate_opening_book(), len(OPENING_LINES))
-        self.assertGreaterEqual(len(OPENING_LINES), 10)
+        # These assertions describe the frozen v1 book explicitly; the default
+        # book is now v2 (see tests/test_opening_book_v2.py).
+        self.assertEqual(validate_opening_book(version=V1), len(OPENING_LINES_V1))
+        self.assertGreaterEqual(len(OPENING_LINES_V1), 10)
         self.assertEqual(
-            {line.family for line in OPENING_LINES},
+            {line.family for line in OPENING_LINES_V1},
             {
                 "central_cannon", "advance_pawn", "flying_elephant",
                 "develop_horse", "palace_cannon",
@@ -29,8 +34,8 @@ class OpeningBookTests(unittest.TestCase):
         )
 
     def test_sample_is_deterministic_and_varied(self):
-        self.assertEqual(sample_opening(42, 6), sample_opening(42, 6))
-        families = Counter(sample_opening(seed, 6).line.family for seed in range(200))
+        self.assertEqual(sample_opening(42, 6, V1), sample_opening(42, 6, V1))
+        families = Counter(sample_opening(seed, 6, V1).line.family for seed in range(200))
         self.assertEqual(len(families), 5)
         self.assertTrue(all(count >= 20 for count in families.values()))
 

@@ -1,0 +1,56 @@
+name: round_robin_v1
+master_seed: 20261110
+opening_book_version: xiangqi-curated-v2
+openings:
+- screen_horses_c57
+- screen_horses_c56
+- screen_horses_pawn7
+- reverse_palace_p7
+- reverse_palace_mirror
+- shun_cannon_straight_rook
+- shun_cannon_rook_race
+- lie_cannon_p7
+- pawn_vs_bottom_cannon_central
+- pawn_vs_bottom_cannon_horses
+- pawn_vs_pawn_c3
+- pawn_vs_pawn_horses
+- elephant_left
+- elephant_vs_central_cannon
+- elephant_vs_screen_setup
+- horse_vs_central_cannon
+- horse_vs_cannon_left
+- corner_cannon_vs_central
+- cross_palace_right
+- cross_palace_left
+- palace_cannon_left
+- central_cannon_screen_horses
+- central_cannon_counter_cannon
+- pawn_left
+- pawn_center
+colors_per_opening: 2
+max_plies: 300
+agents:
+  random:
+    seed_mode: per_game
+  rules: {}
+  alphabeta:
+    max_depth: 2
+  heuristic:
+    max_depth: 6
+    max_nodes: 2000
+    time_limit: 1.0
+  mcts:
+    config:
+      c: 1.4
+      rollout_policy: capture_first
+      rollout_depth: 2
+      eval_scale: 100
+    config_source: configs/mcts.yaml
+    time_limit: 1.0
+    max_simulations: null
+    seed_mode: per_game
+  tabular_q:
+    checkpoint: /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/models/tabular_q/q_table.json.gz
+    checkpoint_sha256: eeb21b0fabbc22d980ff1e43930a1eb1531d251a541785e3963eb2acb9921afc
+    epsilon: 0.0
+    fallback: rules
