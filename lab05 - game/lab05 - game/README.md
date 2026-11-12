@@ -79,6 +79,38 @@ Các hàm chính (mọi hàm tìm kiếm trả về dict `{"move", "value", "nod
 Gợi ý cho Heuristic Alpha-Beta (Task 4): muốn thêm cắt độ sâu có thể dựa theo `max_value_ab` / `min_value_ab`
 giống cách `tictactoe_heuristic_alpha_beta_tree_search.ipynb` đã làm: thêm tham số `depth` / `cutoff` và hàm đánh giá vào `Search.visit` (chỉ một chỗ để sửa).
 
+## Connect 4 Task 4 — Heuristic Alpha-Beta (Minh Tiến)
+
+Phần Task 4 của **Connect 4 chuẩn** được tích hợp có chọn lọc từ PR #59 vào
+`assignment_connect4.ipynb` trên nền notebook `main`. PR #59 đã xung đột vì
+thiếu Task 5 của Thắng; **không merge đè nguyên notebook cũ**.
+
+Mã nguồn trong `connect4_heuristic.py` dùng `connect4_core` (không dùng
+luật của Mean Connect 4). Các thành phần chính:
+- `heuristic_evaluation(board, player=1)`: đánh giá các cửa sổ 4 ô và
+  ưu tiên cột giữa; trả utility chính xác cho bàn kết thúc, còn bàn chưa
+  kết thúc nằm trong (-1, 1) nhờ `tanh`.
+- `HeuristicAlphaBetaAgent(depth=3)`: tìm kiếm Alpha-Beta giới hạn
+  số nước `depth`, sắp xếp nước bằng heuristic, lưu `nodes` và
+  `last_elapsed`; gọi bằng `agent(board, player)`.
+- `play_heuristic_match(...)`: đấu 2 agent không ngẫu nhiên trên 4x5.
+
+Notebook có 5 thế cờ kiểm thử, đo độ sâu 1–3 trên các bàn 4x4 đến 6x7,
+và 1 trận cutoff 2 vs 3. Sau phần Task 5 còn có trận đối chứng
+Monte Carlo (N=100) vs Heuristic cutoff 2/3 trên bàn 6x7.
+
+Chạy unit tests:
+
+```bash
+cd "lab05 - game/lab05 - game"
+python -m unittest -v test_connect4_core test_connect4_minimax test_connect4_heuristic test_connect4_montecarlo
+```
+
+Sau khi tích hợp và kiểm thử thành công, chạy `assignment_connect4.ipynb`
+và xuất `assignment_connect4.html` mới (bản HTML từ 08/11 không còn
+phản ánh notebook hiện tại). Kết quả đo thời gian phụ thuộc máy; so
+sánh Monte Carlo vs heuristic trên 5 ván mỗi phía chỉ là minh họa.
+
 ## Connect 4 Task 5 — Pure Monte Carlo (Toàn Thắng)
 
 Code nằm trong `connect4_montecarlo.py` (dùng lại `Position`, `actions` từ `connect4_core.py`; `board_from_moves`, `AlphaBetaAgent`, `play`... từ `connect4_minimax.py` chỉ dùng trong test và notebook). Cấu trúc theo `tictactoe_pure_monte_carlo_search.ipynb`: người chơi là `1` / `-1`, ván đánh thử (playout) dùng `Position` cho nhanh.
