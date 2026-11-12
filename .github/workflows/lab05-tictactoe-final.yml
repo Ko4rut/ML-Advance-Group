@@ -1,0 +1,115 @@
+name: Lab05 TicTacToe full verification
+
+on:
+  push:
+    branches:
+      - fix/lab05-tictactoe-reexecute-discussions
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  execute:
+    name: Execute ${{ matrix.notebook }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      max-parallel: 7
+      matrix:
+        notebook:
+          - tictactoe_definitions.ipynb
+          - tictactoe_and_or_tree_search.ipynb
+          - tictactoe_alpha_beta_tree_search.ipynb
+          - tictactoe_heuristic_alpha_beta_tree_search.ipynb
+          - tictactoe_pure_monte_carlo_search.ipynb
+          - tictactoe_monte_carlo_tree_search_restricted.ipynb
+          - tictactoe_interactive.ipynb
+    defaults:
+      run:
+        working-directory: lab05 - game/lab05 - game
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install notebook dependencies
+        run: python -m pip install 'numpy>=1.23,<3' 'pandas>=1.5,<4' 'matplotlib>=3.6,<4' 'nbconvert>=7,<9' ipykernel
+      - name: Execute selected notebook from top to bottom
+        env:
+          MPLBACKEND: Agg
+          NB: ${{ matrix.notebook }}
+        run: |
+          python -m jupyter nbconvert --to notebook --execute --inplace \
+            --ExecutePreprocessor.timeout=1200 "$NB"
+      - name: Check all code cells executed and no errors
+        env:
+          NB: ${{ matrix.notebook }}
+        run: |
+          python - <<'PY'
+          import json, os
+          with open(os.environ['NB'], encoding='utf-8') as f:
+              nb = json.load(f)
+          cells = [c for c in nb['cells'] if c['cell_type'] == 'code']
+          missing = [i for i, c in enumerate(cells) if c.get('execution_count') is None]
+          errors = [(i, o.get('ename'), o.get('evalue')) for i, c in enumerate(cells)
+                    for o in c.get('outputs', []) if o.get('output_type') == 'error']
+          print(f"{os.environ['NB']}: {len(cells)-len(missing)}/{len(cells)} code cells executed; errors={errors}")
+          assert not missing, f"Unexecuted cells: {missing}"
+          assert not errors, errors
+          PY
+      - name: Upload executed notebook
+        uses: actions/upload-artifact@v4
+        with:
+          name: ttt-executed-${{ matrix.notebook }}
+          path: lab05 - game/lab05 - game/${{ matrix.notebook }}
+
+  collect:
+    needs: execute
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ttt-executed-*
+          merge-multiple: true
+          path: lab05 - game/lab05 - game
+      - name: Recheck all notebooks and discussion output
+        working-directory: lab05 - game/lab05 - game
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          names = (
+              'tictactoe_definitions.ipynb',
+              'tictactoe_and_or_tree_search.ipynb',
+              'tictactoe_alpha_beta_tree_search.ipynb',
+              'tictactoe_heuristic_alpha_beta_tree_search.ipynb',
+              'tictactoe_pure_monte_carlo_search.ipynb',
+              'tictactoe_monte_carlo_tree_search_restricted.ipynb',
+              'tictactoe_interactive.ipynb',
+          )
+          for name in names:
+              nb = json.loads(pathlib.Path(name).read_text(encoding='utf-8'))
+              codes = [c for c in nb['cells'] if c['cell_type'] == 'code']
+              assert all(c.get('execution_count') is not None for c in codes), name
+              assert not any(o.get('output_type') == 'error' for c in codes for o in c.get('outputs', [])), name
+              print(name, len(codes), '/', len(codes), 'code cells passed')
+          for name in names[:4]:
+              if name == 'tictactoe_alpha_beta_tree_search.ipynb':
+                  continue
+              nb = json.loads(pathlib.Path(name).read_text(encoding='utf-8'))
+              last = nb['cells'][-1]
+              assert last['cell_type'] == 'code' and last.get('execution_count') is not None, name
+              assert last.get('outputs'), f'No Discussion experiment output in {name}'
+          PY
+      - name: Commit verified output notebooks
+        if: github.ref == 'refs/heads/fix/lab05-tictactoe-reexecute-discussions'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "lab05 - game/lab05 - game/"tictactoe_*.ipynb
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(lab05): save seven verified TicTacToe notebooks and Discussion outputs [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
