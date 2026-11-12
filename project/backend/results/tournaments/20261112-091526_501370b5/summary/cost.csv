@@ -1,0 +1,7 @@
+agent,moves,think_mean_s,think_median_s,think_p95_s,think_total_s,nodes_mean,simulations_mean,fallback_rate
+random,6863,0.0014,0.0011,0.0034,9.27,,,
+rules,6794,0.0595,0.0541,0.1437,404.29,,,
+alphabeta,7076,0.0861,0.0756,0.2020,609.52,176.8,,
+heuristic,8119,0.8881,1.0002,1.0017,7210.50,26.2,,
+mcts,7384,0.9873,1.0089,1.0237,7290.09,317.5,412.0,
+tabular_q,7151,0.0559,0.0489,0.1430,400.03,,,0.9924

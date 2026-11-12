@@ -1,0 +1,8 @@
+agent,red_games,red_points,red_score_pct,black_games,black_points,black_score_pct,red_minus_black_pct
+random,125,15.0,12.00,125,7.0,5.60,6.40
+rules,125,50.5,40.40,125,33.0,26.40,14.00
+alphabeta,125,123.5,98.80,125,122.0,97.60,1.20
+heuristic,125,78.5,62.80,125,56.0,44.80,18.00
+mcts,125,93.5,74.80,125,82.0,65.60,9.20
+tabular_q,125,56.0,44.80,125,33.0,26.40,18.40
+TOTAL,750,417.0,55.60,750,333.0,44.40,11.20
