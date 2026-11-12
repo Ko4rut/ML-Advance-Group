@@ -1,0 +1,17 @@
+test_sample_limit_preserves_full_bronze_provenance (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_sample_limit_preserves_full_bronze_provenance)
+Sample rows must retain the SHA of the entire source file. ... ERROR
+
+======================================================================
+ERROR: test_sample_limit_preserves_full_bronze_provenance (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_sample_limit_preserves_full_bronze_provenance)
+Sample rows must retain the SHA of the entire source file.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/tests/data_pipeline/test_silver_pipeline.py", line 66, in test_sample_limit_preserves_full_bronze_provenance
+    for row in self.read_jsonl(root / "silver", "games.jsonl"):
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: SilverPipelineTests.read_jsonl() takes 2 positional arguments but 3 were given
+
+----------------------------------------------------------------------
+Ran 1 test in 0.024s
+
+FAILED (errors=1)

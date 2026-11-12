@@ -1,0 +1,87 @@
+/tmp/neural-mcts-phase0/deps/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_captures_an_unprotected_rook (tests.search.test_mcts.MCTSAgentTests.test_captures_an_unprotected_rook) ... ok
+test_does_not_mutate_state_and_rejects_terminal_state (tests.search.test_mcts.MCTSAgentTests.test_does_not_mutate_state_and_rejects_terminal_state) ... ok
+test_finds_a_checkmate_in_one (tests.search.test_mcts.MCTSAgentTests.test_finds_a_checkmate_in_one) ... ok
+test_root_children_visits_add_up_to_simulations (tests.search.test_mcts.MCTSAgentTests.test_root_children_visits_add_up_to_simulations) ... ok
+test_same_seed_gives_the_same_result (tests.search.test_mcts.MCTSAgentTests.test_same_seed_gives_the_same_result) ... ok
+test_selects_a_legal_move_from_the_initial_position (tests.search.test_mcts.MCTSAgentTests.test_selects_a_legal_move_from_the_initial_position) ... ok
+test_value_sign_is_correct_for_both_colours (tests.search.test_mcts.MCTSAgentTests.test_value_sign_is_correct_for_both_colours) ... ok
+test_backpropagate_flips_sign_at_every_level (tests.search.test_mcts.MCTSInternalsTests.test_backpropagate_flips_sign_at_every_level) ... ok
+test_checkmated_side_evaluates_to_minus_one (tests.search.test_mcts.MCTSInternalsTests.test_checkmated_side_evaluates_to_minus_one) ... ok
+test_static_evaluation_follows_the_side_to_move (tests.search.test_mcts.MCTSInternalsTests.test_static_evaluation_follows_the_side_to_move) ... ok
+test_visit_policy (tests.search.test_mcts.MCTSInternalsTests.test_visit_policy) ... ok
+test_cannon_screen_and_rook_block (tests.environment.test_environment.RulesTests.test_cannon_screen_and_rook_block) ... ok
+test_capture_and_repetition_bookkeeping (tests.environment.test_environment.RulesTests.test_capture_and_repetition_bookkeeping) ... ok
+test_elephant_eye_and_river (tests.environment.test_environment.RulesTests.test_elephant_eye_and_river) ... ok
+test_environment_step_reward_and_clone (tests.environment.test_environment.RulesTests.test_environment_step_reward_and_clone) ... ok
+test_facing_kings_and_pin (tests.environment.test_environment.RulesTests.test_facing_kings_and_pin) ... ok
+test_horse_leg (tests.environment.test_environment.RulesTests.test_horse_leg) ... ok
+test_initial_position_and_move_count (tests.environment.test_environment.RulesTests.test_initial_position_and_move_count) ... ok
+test_mate_and_stalemate_are_terminal_losses (tests.environment.test_environment.RulesTests.test_mate_and_stalemate_are_terminal_losses) ... ok
+test_pawn_after_crossing_river (tests.environment.test_environment.RulesTests.test_pawn_after_crossing_river) ... ok
+test_apply_move_is_immutable_and_updates_counters (tests.test_foundation.EnvironmentIntegrationTests.test_apply_move_is_immutable_and_updates_counters) ... ok
+test_illegal_move_does_not_mutate_environment (tests.test_foundation.EnvironmentIntegrationTests.test_illegal_move_does_not_mutate_environment) ... ok
+test_initial_position_has_legal_moves (tests.test_foundation.EnvironmentIntegrationTests.test_initial_position_has_legal_moves) ... ok
+test_repetition_is_counted_with_side_to_move (tests.test_foundation.EnvironmentIntegrationTests.test_repetition_is_counted_with_side_to_move) ... ok
+test_terminal_environment_rejects_further_steps (tests.test_foundation.EnvironmentIntegrationTests.test_terminal_environment_rejects_further_steps) ... ok
+test_bad_silver_fails_without_publishing_gold (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_bad_silver_fails_without_publishing_gold) ... ok
+test_existing_output_is_not_overwritten (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_existing_output_is_not_overwritten) ... ok
+test_game_split_is_stable_and_seeded (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_game_split_is_stable_and_seeded) ... ok
+test_identical_games_across_silver_runs_are_not_double_counted (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_identical_games_across_silver_runs_are_not_double_counted) ... ok
+test_recorded_terminal_reward_and_legal_masks (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_recorded_terminal_reward_and_legal_masks) ... ok
+test_truncated_keeps_next_actions_and_does_not_reward (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_truncated_keeps_next_actions_and_does_not_reward) ... ok
+test_finished_win_and_draw_have_no_successor_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_finished_win_and_draw_have_no_successor_potential) ... ok
+test_invalid_configuration_rejected (tests.data_pipeline.test_gold_rewards.RewardTests.test_invalid_configuration_rejected) ... ok
+test_nonterminal_shaping_is_actor_perspective (tests.data_pipeline.test_gold_rewards.RewardTests.test_nonterminal_shaping_is_actor_perspective) ... ok
+test_pawn_advancement_changes_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_pawn_advancement_changes_potential) ... ok
+test_pipeline_emits_versioned_reward_and_metadata (tests.data_pipeline.test_gold_rewards.RewardTests.test_pipeline_emits_versioned_reward_and_metadata) ... ok
+test_side_symmetry_and_bounded_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_side_symmetry_and_bounded_potential) ... ok
+test_sparse_baseline_unchanged (tests.data_pipeline.test_gold_rewards.RewardTests.test_sparse_baseline_unchanged) ... ok
+test_truncation_is_not_a_draw_and_has_successor_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_truncation_is_not_a_draw_and_has_successor_potential) ... ok
+test_black_mcts_replies_to_human_move (tests.api.test_mcts_api.MCTSApiTests.test_black_mcts_replies_to_human_move) ... ok
+test_catalog_lists_mcts_as_available (tests.api.test_mcts_api.MCTSApiTests.test_catalog_lists_mcts_as_available) ... ok
+test_default_config_file_is_loadable (tests.api.test_mcts_api.MCTSApiTests.test_default_config_file_is_loadable) ... ok
+test_opening_book_and_reset_still_work_with_mcts (tests.api.test_mcts_api.MCTSApiTests.test_opening_book_and_reset_still_work_with_mcts) ... ok
+test_red_mcts_selects_legal_move_with_configured_budget (tests.api.test_mcts_api.MCTSApiTests.test_red_mcts_selects_legal_move_with_configured_budget) ... ok
+test_budgets_match_what_the_api_passes (tests.evaluation.test_api_parity.ApiParityTests.test_budgets_match_what_the_api_passes)
+API: select_action(state) with no budget, except MCTS (time_limit from its yaml). ... ok
+test_every_agent_is_built_like_the_api_builds_it (tests.evaluation.test_api_parity.ApiParityTests.test_every_agent_is_built_like_the_api_builds_it) ... ok
+test_games_per_pair_is_derived (tests.evaluation.test_tournament.ConfigTests.test_games_per_pair_is_derived) ... ok
+test_hash_ignores_workers_but_not_content (tests.evaluation.test_tournament.ConfigTests.test_hash_ignores_workers_but_not_content) ... ok
+test_missing_tabular_q_checkpoint_is_excluded_with_reason (tests.evaluation.test_tournament.ConfigTests.test_missing_tabular_q_checkpoint_is_excluded_with_reason) ... ok
+test_other_validation_errors (tests.evaluation.test_tournament.ConfigTests.test_other_validation_errors) ... ok
+test_pilot_and_smoke_overrides (tests.evaluation.test_tournament.ConfigTests.test_pilot_and_smoke_overrides) ... ok
+test_same_final_position_is_rejected (tests.evaluation.test_tournament.ConfigTests.test_same_final_position_is_rejected) ... ok
+test_shipped_config_is_valid_with_25_openings (tests.evaluation.test_tournament.ConfigTests.test_shipped_config_is_valid_with_25_openings) ... ok
+test_agent_error_becomes_error_game_and_tournament_continues (tests.evaluation.test_tournament.FakeAgentTests.test_agent_error_becomes_error_game_and_tournament_continues) ... ok
+test_each_side_receives_its_own_budget (tests.evaluation.test_tournament.FakeAgentTests.test_each_side_receives_its_own_budget) ... ok
+test_empty_params_resolve_to_each_agents_own_code_defaults (tests.evaluation.test_tournament.FakeAgentTests.test_empty_params_resolve_to_each_agents_own_code_defaults)
+No override in the config => exactly what the code ships with. ... ok
+test_real_registry_budgets_follow_the_plan (tests.evaluation.test_tournament.FakeAgentTests.test_real_registry_budgets_follow_the_plan) ... ok
+test_shipped_config_has_no_agent_overrides_except_wiring (tests.evaluation.test_tournament.FakeAgentTests.test_shipped_config_has_no_agent_overrides_except_wiring) ... ok
+test_finished_game_reports_engine_result (tests.evaluation.test_tournament.PlayGameTests.test_finished_game_reports_engine_result) ... ok
+test_opening_is_applied_and_excluded_from_agent_costs (tests.evaluation.test_tournament.PlayGameTests.test_opening_is_applied_and_excluded_from_agent_costs) ... ok
+test_random_agent_is_reproducible_from_its_seed (tests.evaluation.test_tournament.PlayGameTests.test_random_agent_is_reproducible_from_its_seed) ... ok
+test_record_schema_fields (tests.evaluation.test_tournament.PlayGameTests.test_record_schema_fields) ... ok
+test_same_spec_same_fingerprint_for_deterministic_agents (tests.evaluation.test_tournament.PlayGameTests.test_same_spec_same_fingerprint_for_deterministic_agents) ... ok
+test_truncated_is_not_a_draw (tests.evaluation.test_tournament.PlayGameTests.test_truncated_is_not_a_draw) ... ok
+test_corrupt_middle_line_is_an_error_not_silently_dropped (tests.evaluation.test_tournament.RunAndResumeTests.test_corrupt_middle_line_is_an_error_not_silently_dropped) ... ok
+test_duplicate_game_index_is_an_error (tests.evaluation.test_tournament.RunAndResumeTests.test_duplicate_game_index_is_an_error) ... ok
+test_full_run_writes_all_files (tests.evaluation.test_tournament.RunAndResumeTests.test_full_run_writes_all_files) ... ok
+test_one_and_two_workers_play_identical_games (tests.evaluation.test_tournament.RunAndResumeTests.test_one_and_two_workers_play_identical_games) ... ok
+test_resume_after_torn_last_line_runs_each_game_exactly_once (tests.evaluation.test_tournament.RunAndResumeTests.test_resume_after_torn_last_line_runs_each_game_exactly_once) ... ok
+test_resume_rejects_changed_config_and_lists_keys (tests.evaluation.test_tournament.RunAndResumeTests.test_resume_rejects_changed_config_and_lists_keys) ... ok
+test_resume_requires_flag_when_git_commit_changed (tests.evaluation.test_tournament.RunAndResumeTests.test_resume_requires_flag_when_git_commit_changed) ... ok
+test_retry_errors_reruns_only_failed_games (tests.evaluation.test_tournament.RunAndResumeTests.test_retry_errors_reruns_only_failed_games) ... ok
+test_five_agents_give_500_games (tests.evaluation.test_tournament.ScheduleTests.test_five_agents_give_500_games) ... ok
+test_red_and_black_agents_follow_a_color (tests.evaluation.test_tournament.ScheduleTests.test_red_and_black_agents_follow_a_color) ... ok
+test_schedule_is_deterministic_and_keys_unique (tests.evaluation.test_tournament.ScheduleTests.test_schedule_is_deterministic_and_keys_unique) ... ok
+test_seeds_are_pinned_sha256_values (tests.evaluation.test_tournament.ScheduleTests.test_seeds_are_pinned_sha256_values) ... ok
+test_six_agents_give_15_pairs_750_games_balanced_colors (tests.evaluation.test_tournament.ScheduleTests.test_six_agents_give_15_pairs_750_games_balanced_colors) ... ok
+test_tournament_class_schedule_matches_function (tests.evaluation.test_tournament.ScheduleTests.test_tournament_class_schedule_matches_function) ... ok
+
+----------------------------------------------------------------------
+Ran 78 tests in 23.352s
+
+OK

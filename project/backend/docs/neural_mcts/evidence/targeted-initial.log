@@ -1,0 +1,160 @@
+test_captures_an_unprotected_rook (tests.search.test_mcts.MCTSAgentTests.test_captures_an_unprotected_rook) ... ok
+test_does_not_mutate_state_and_rejects_terminal_state (tests.search.test_mcts.MCTSAgentTests.test_does_not_mutate_state_and_rejects_terminal_state) ... ok
+test_finds_a_checkmate_in_one (tests.search.test_mcts.MCTSAgentTests.test_finds_a_checkmate_in_one) ... ok
+test_root_children_visits_add_up_to_simulations (tests.search.test_mcts.MCTSAgentTests.test_root_children_visits_add_up_to_simulations) ... ok
+test_same_seed_gives_the_same_result (tests.search.test_mcts.MCTSAgentTests.test_same_seed_gives_the_same_result) ... ok
+test_selects_a_legal_move_from_the_initial_position (tests.search.test_mcts.MCTSAgentTests.test_selects_a_legal_move_from_the_initial_position) ... ok
+test_value_sign_is_correct_for_both_colours (tests.search.test_mcts.MCTSAgentTests.test_value_sign_is_correct_for_both_colours) ... ok
+test_backpropagate_flips_sign_at_every_level (tests.search.test_mcts.MCTSInternalsTests.test_backpropagate_flips_sign_at_every_level) ... ok
+test_checkmated_side_evaluates_to_minus_one (tests.search.test_mcts.MCTSInternalsTests.test_checkmated_side_evaluates_to_minus_one) ... ok
+test_static_evaluation_follows_the_side_to_move (tests.search.test_mcts.MCTSInternalsTests.test_static_evaluation_follows_the_side_to_move) ... ok
+test_visit_policy (tests.search.test_mcts.MCTSInternalsTests.test_visit_policy) ... ok
+test_environment (unittest.loader._FailedTest.test_environment) ... ERROR
+test_foundation (unittest.loader._FailedTest.test_foundation) ... ERROR
+test_bad_silver_fails_without_publishing_gold (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_bad_silver_fails_without_publishing_gold) ... ok
+test_existing_output_is_not_overwritten (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_existing_output_is_not_overwritten) ... ok
+test_game_split_is_stable_and_seeded (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_game_split_is_stable_and_seeded) ... ok
+test_identical_games_across_silver_runs_are_not_double_counted (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_identical_games_across_silver_runs_are_not_double_counted) ... ok
+test_recorded_terminal_reward_and_legal_masks (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_recorded_terminal_reward_and_legal_masks) ... ok
+test_truncated_keeps_next_actions_and_does_not_reward (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_truncated_keeps_next_actions_and_does_not_reward) ... ok
+test_finished_win_and_draw_have_no_successor_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_finished_win_and_draw_have_no_successor_potential) ... ok
+test_invalid_configuration_rejected (tests.data_pipeline.test_gold_rewards.RewardTests.test_invalid_configuration_rejected) ... ok
+test_nonterminal_shaping_is_actor_perspective (tests.data_pipeline.test_gold_rewards.RewardTests.test_nonterminal_shaping_is_actor_perspective) ... ok
+test_pawn_advancement_changes_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_pawn_advancement_changes_potential) ... ok
+test_pipeline_emits_versioned_reward_and_metadata (tests.data_pipeline.test_gold_rewards.RewardTests.test_pipeline_emits_versioned_reward_and_metadata) ... ok
+test_side_symmetry_and_bounded_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_side_symmetry_and_bounded_potential) ... ok
+test_sparse_baseline_unchanged (tests.data_pipeline.test_gold_rewards.RewardTests.test_sparse_baseline_unchanged) ... ok
+test_truncation_is_not_a_draw_and_has_successor_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_truncation_is_not_a_draw_and_has_successor_potential) ... ok
+test_mcts_api (unittest.loader._FailedTest.test_mcts_api) ... ERROR
+test_budgets_match_what_the_api_passes (tests.evaluation.test_api_parity.ApiParityTests.test_budgets_match_what_the_api_passes)
+API: select_action(state) with no budget, except MCTS (time_limit from its yaml). ... ok
+test_every_agent_is_built_like_the_api_builds_it (tests.evaluation.test_api_parity.ApiParityTests.test_every_agent_is_built_like_the_api_builds_it) ... ok
+test_games_per_pair_is_derived (tests.evaluation.test_tournament.ConfigTests.test_games_per_pair_is_derived) ... ok
+test_hash_ignores_workers_but_not_content (tests.evaluation.test_tournament.ConfigTests.test_hash_ignores_workers_but_not_content) ... ok
+test_missing_tabular_q_checkpoint_is_excluded_with_reason (tests.evaluation.test_tournament.ConfigTests.test_missing_tabular_q_checkpoint_is_excluded_with_reason) ... ok
+test_other_validation_errors (tests.evaluation.test_tournament.ConfigTests.test_other_validation_errors) ... ok
+test_pilot_and_smoke_overrides (tests.evaluation.test_tournament.ConfigTests.test_pilot_and_smoke_overrides) ... ok
+test_same_final_position_is_rejected (tests.evaluation.test_tournament.ConfigTests.test_same_final_position_is_rejected) ... ok
+test_shipped_config_is_valid_with_25_openings (tests.evaluation.test_tournament.ConfigTests.test_shipped_config_is_valid_with_25_openings) ... ok
+test_agent_error_becomes_error_game_and_tournament_continues (tests.evaluation.test_tournament.FakeAgentTests.test_agent_error_becomes_error_game_and_tournament_continues) ... ok
+test_each_side_receives_its_own_budget (tests.evaluation.test_tournament.FakeAgentTests.test_each_side_receives_its_own_budget) ... ok
+test_empty_params_resolve_to_each_agents_own_code_defaults (tests.evaluation.test_tournament.FakeAgentTests.test_empty_params_resolve_to_each_agents_own_code_defaults)
+No override in the config => exactly what the code ships with. ... ok
+test_real_registry_budgets_follow_the_plan (tests.evaluation.test_tournament.FakeAgentTests.test_real_registry_budgets_follow_the_plan) ... ok
+test_shipped_config_has_no_agent_overrides_except_wiring (tests.evaluation.test_tournament.FakeAgentTests.test_shipped_config_has_no_agent_overrides_except_wiring) ... ok
+test_finished_game_reports_engine_result (tests.evaluation.test_tournament.PlayGameTests.test_finished_game_reports_engine_result) ... ok
+test_opening_is_applied_and_excluded_from_agent_costs (tests.evaluation.test_tournament.PlayGameTests.test_opening_is_applied_and_excluded_from_agent_costs) ... ok
+test_random_agent_is_reproducible_from_its_seed (tests.evaluation.test_tournament.PlayGameTests.test_random_agent_is_reproducible_from_its_seed) ... ok
+test_record_schema_fields (tests.evaluation.test_tournament.PlayGameTests.test_record_schema_fields) ... ok
+test_same_spec_same_fingerprint_for_deterministic_agents (tests.evaluation.test_tournament.PlayGameTests.test_same_spec_same_fingerprint_for_deterministic_agents) ... ok
+test_truncated_is_not_a_draw (tests.evaluation.test_tournament.PlayGameTests.test_truncated_is_not_a_draw) ... ok
+test_corrupt_middle_line_is_an_error_not_silently_dropped (tests.evaluation.test_tournament.RunAndResumeTests.test_corrupt_middle_line_is_an_error_not_silently_dropped) ... ok
+test_duplicate_game_index_is_an_error (tests.evaluation.test_tournament.RunAndResumeTests.test_duplicate_game_index_is_an_error) ... ok
+test_full_run_writes_all_files (tests.evaluation.test_tournament.RunAndResumeTests.test_full_run_writes_all_files) ... ok
+test_one_and_two_workers_play_identical_games (tests.evaluation.test_tournament.RunAndResumeTests.test_one_and_two_workers_play_identical_games) ... ERROR
+test_resume_after_torn_last_line_runs_each_game_exactly_once (tests.evaluation.test_tournament.RunAndResumeTests.test_resume_after_torn_last_line_runs_each_game_exactly_once) ... ok
+test_resume_rejects_changed_config_and_lists_keys (tests.evaluation.test_tournament.RunAndResumeTests.test_resume_rejects_changed_config_and_lists_keys) ... ok
+test_resume_requires_flag_when_git_commit_changed (tests.evaluation.test_tournament.RunAndResumeTests.test_resume_requires_flag_when_git_commit_changed) ... ok
+test_retry_errors_reruns_only_failed_games (tests.evaluation.test_tournament.RunAndResumeTests.test_retry_errors_reruns_only_failed_games) ... ok
+test_five_agents_give_500_games (tests.evaluation.test_tournament.ScheduleTests.test_five_agents_give_500_games) ... ok
+test_red_and_black_agents_follow_a_color (tests.evaluation.test_tournament.ScheduleTests.test_red_and_black_agents_follow_a_color) ... ok
+test_schedule_is_deterministic_and_keys_unique (tests.evaluation.test_tournament.ScheduleTests.test_schedule_is_deterministic_and_keys_unique) ... ok
+test_seeds_are_pinned_sha256_values (tests.evaluation.test_tournament.ScheduleTests.test_seeds_are_pinned_sha256_values) ... ok
+test_six_agents_give_15_pairs_750_games_balanced_colors (tests.evaluation.test_tournament.ScheduleTests.test_six_agents_give_15_pairs_750_games_balanced_colors) ... ok
+test_tournament_class_schedule_matches_function (tests.evaluation.test_tournament.ScheduleTests.test_tournament_class_schedule_matches_function) ... ok
+
+======================================================================
+ERROR: test_environment (unittest.loader._FailedTest.test_environment)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_environment
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+  File "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/tests/environment/test_environment.py", line 3, in <module>
+    from project.backend.src.environment.engine import RulesConfig, apply_move, outcome
+ModuleNotFoundError: No module named 'project'
+
+
+======================================================================
+ERROR: test_foundation (unittest.loader._FailedTest.test_foundation)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_foundation
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+  File "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/tests/test_foundation.py", line 3, in <module>
+    from project.backend.src.environment.engine import RulesConfig, apply_move, outcome
+ModuleNotFoundError: No module named 'project'
+
+
+======================================================================
+ERROR: test_mcts_api (unittest.loader._FailedTest.test_mcts_api)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_mcts_api
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 141, in loadTestsFromName
+    module = __import__(module_name)
+  File "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/tests/api/test_mcts_api.py", line 5, in <module>
+    from fastapi.testclient import TestClient
+ModuleNotFoundError: No module named 'fastapi'
+
+
+======================================================================
+ERROR: test_one_and_two_workers_play_identical_games (tests.evaluation.test_tournament.RunAndResumeTests.test_one_and_two_workers_play_identical_games)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/tests/evaluation/test_tournament.py", line 434, in test_one_and_two_workers_play_identical_games
+    two = t.run_tournament(config, output_root=Path(self.root) / "w2", workers=2)
+  File "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/src/evaluation/tournament.py", line 761, in run_tournament
+    _execute(pending, data, run_id, chash, n_workers, on_result)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/src/evaluation/tournament.py", line 590, in _execute
+    submit_next()
+    ~~~~~~~~~~~^^
+  File "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/src/evaluation/tournament.py", line 585, in submit_next
+    inflight.add(pool.submit(_play_job, spec, data, run_id, config_hash))
+                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/concurrent/futures/process.py", line 915, in submit
+    self._adjust_process_count()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/concurrent/futures/process.py", line 879, in _adjust_process_count
+    self._spawn_process()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/concurrent/futures/process.py", line 890, in _spawn_process
+    _spawn_worker(self._mp_context, self._call_queue,
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  self._result_queue, self._initializer,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  self._initargs, self._max_tasks_per_child,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  self._processes)
+                  ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/concurrent/futures/process.py", line 283, in _spawn_worker
+    p.start()
+    ~~~~~~~^^
+  File "/usr/lib/python3.14/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+                  ~~~~~~~~~~~^^^^^^
+  File "/usr/lib/python3.14/multiprocessing/context.py", line 316, in _Popen
+    return Popen(process_obj)
+  File "/usr/lib/python3.14/multiprocessing/popen_forkserver.py", line 35, in __init__
+    super().__init__(process_obj)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/multiprocessing/popen_fork.py", line 20, in __init__
+    self._launch(process_obj)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/multiprocessing/popen_forkserver.py", line 51, in _launch
+    self.sentinel, w = forkserver.connect_to_new_process(self._fds)
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/usr/lib/python3.14/multiprocessing/forkserver.py", line 89, in connect_to_new_process
+    self.ensure_running()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/multiprocessing/forkserver.py", line 167, in ensure_running
+    listener.bind(address)
+    ~~~~~~~~~~~~~^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 62 tests in 21.417s
+
+FAILED (errors=4)

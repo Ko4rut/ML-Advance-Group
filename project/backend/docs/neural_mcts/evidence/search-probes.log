@@ -1,0 +1,11 @@
+{"probe": "classic", "side": "RED", "requested": 1, "simulations": 1, "nodes": 2, "move": [64, 1], "root_children": 1, "root_visits": 1, "child_visit_sum": 1, "policy_sum": 1.0}
+{"probe": "classic", "side": "RED", "requested": 2, "simulations": 2, "nodes": 3, "move": [64, 1], "root_children": 2, "root_visits": 2, "child_visit_sum": 2, "policy_sum": 1.0}
+{"probe": "classic", "side": "RED", "requested": 100, "simulations": 100, "nodes": 101, "move": [64, 1], "root_children": 44, "root_visits": 100, "child_visit_sum": 100, "policy_sum": 1.0}
+{"probe": "classic", "side": "BLACK", "requested": 1, "simulations": 1, "nodes": 2, "move": [19, 82], "root_children": 1, "root_visits": 1, "child_visit_sum": 1, "policy_sum": 1.0}
+{"probe": "classic", "side": "BLACK", "requested": 2, "simulations": 2, "nodes": 3, "move": [19, 82], "root_children": 2, "root_visits": 2, "child_visit_sum": 2, "policy_sum": 1.0}
+{"probe": "classic", "side": "BLACK", "requested": 100, "simulations": 100, "nodes": 101, "move": [19, 82], "root_children": 44, "root_visits": 100, "child_visit_sum": 100, "policy_sum": 1.0}
+{"probe": "PUCT-with-current-expansion", "simulations": 2, "legal_count": 44, "children": 2, "untried": 42, "unique_priors": [0.022727272727272728], "visits": [1, 1]}
+{"probe": "PUCT-with-current-expansion", "simulations": 44, "legal_count": 44, "children": 44, "untried": 0, "unique_priors": [0.022727272727272728], "visits": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+{"probe": "PUCT-with-current-expansion", "simulations": 45, "legal_count": 44, "children": 44, "untried": 0, "unique_priors": [0.022727272727272728], "visits": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2]}
+PUCT unit probe: equal Q/N selects manually supplied prior 0.99 over 0.01: PASS
+{"probe": "soft-time-budget", "requested_seconds": 1e-09, "observed_seconds": 0.010282786999596283, "simulations": 1}

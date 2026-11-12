@@ -1,0 +1,20 @@
+{
+  "checked_date": "2026-11-12",
+  "method": "HEAD",
+  "checkpoint_body_downloaded": false,
+  "observations": [
+    {
+      "url": "https://raw.githubusercontent.com/NeymarL/ChineseChess-AlphaZero/7f45b0cd7470f7f8e1da7331fc1a31374d6cc10f/data/model/model_best_weight.h5",
+      "http_status": 200,
+      "content_length": 30290240,
+      "content_type": "application/octet-stream",
+      "etag": "3494a38f32b6998198225992b1ab39c3c622abc8e3a6abb55c1fea000ebf37fa",
+      "note": "ETag is not asserted to be a checkpoint SHA-256"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/hskl18/cc-lite/7d305c0e5adbfae4e23db40997603d8dc86b078b/evidence/distill-v4/train/checkpoint.pt",
+      "http_status": 200,
+      "content_length": 15500553
+    }
+  ]
+}

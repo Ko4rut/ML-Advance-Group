@@ -1,0 +1,37 @@
+# Phase 0 — Risk register and decisions
+
+Date: 2026-11-12. HEAD: `d5ad26067aa29b72fe9a0337e7cf4500593b4619`. All unresolved items remain open; writing a mitigation does not resolve a risk. Evidence is detailed in the [audit](00_REPO_AUDIT.md), [tests](00_BASELINE_TESTS.md), and [shortlist](00_MODEL_SHORTLIST.md).
+
+| ID / severity | Status and evidence | Required control / acceptance gate |
+| --- | --- | --- |
+| R01 **BLOCKER**: real artifact/load | VERIFIED artifact metadata for cc-lite/CCZero; actual bytes/hash/load UNKNOWN; local model is Tabular Q only | Phase 1: approved, pinned checkpoint with computed SHA-256, successful CPU load and real P/V. No random substitute or heuristic labeled neural. Engineer; manager approves selection. |
+| R02 **BLOCKER**: model/code rights | Apache-2.0 signal for cc-lite, GPL-3.0 for CCZero; separate weight-use scope unresolved. Ink added-code license not located | Review intended internal/public use and redistribution; preserve notices; resolve data/weight provenance before adoption. Do not copy unclear code. Manager gate in Phase 1. |
+| R03 **BLOCKER**: encoding / action mismatch | VERIFIED repo Gold 8100 vs CCZero 2086; source coordinate/canonical flips differ. cc-lite resembles repo but is untested | Phase 1 source parity; Phase 2 piece/side/shape tests, every legal move mapped, bijective codec on valid vocabulary, both-color mirrored fixtures. Engineer. |
+| R04 **HIGH**: policy never reaches PUCT | VERIFIED uniform expansion, scalar evaluator; initial 44 moves receive one visit before PUCT selects | Phase 4 paired P/V lifecycle and legal priors at every expanded node; fake policy changes visits at root/deeper nodes. Preserve classic strategy. Engineer. |
+| R05 **HIGH**: value sign inverted | VERIFIED mover-view node Q, side-to-move evaluator; external cc-lite nodes use another convention | Define adapter V perspective; terminal precedence; red/black, two-/three-ply backup tests and mate fixtures. Phase 2–4. Engineer. |
+| R06 **HIGH**: classic behavior regression | VERIFIED capture-first ordering, one-child expansion, shortcut, `(N,Q)` ties, seed/reset, visits/nodes semantics | Keep separate neural lifecycle; exact seeded static/simulation regressions plus existing tests. Never silently switch baseline to NN. Phase 4. Engineer. |
+| R07 **HIGH**: runtime mismatch | VERIFIED Python 3.14.9, no ML runtime. CCZero expects TF1/Keras2; cc-lite source tested environment differs | Phase 1 isolated CPU environment, explicit versions and conversion parity; no shared dependency downgrade. ML optional/lazy in Phase 3. Engineer. |
+| R08 **HIGH**: misleading loader success | VERIFIED Ink generic loader returns success after heuristic fallback; no independent checkpoint in pinned tree | Reject generic success as pretrained evidence; verify backend identity and actual tensors, assert P/V invocation. Phase 1/3. Engineer. |
+| R09 **RESOLVED**: initial baseline test error | User authorized one-line Silver helper call repair; full backend suite now **270/270 pass** | [Before/after evidence](00_BASELINE_REPAIR.md); retain original failure logs. No production-code change. |
+| R10 **MED/HIGH**: rules/history mismatch | VERIFIED repo capture-only 120 counter and all threefold draws; cc-lite resets on pawn and adjudicates perpetual checks; tensor omits history | Repo engine remains authoritative; no source-engine terminal takeover. Document out-of-distribution effects, preserve full-state cache keys if caching later. Phase 2/4/6. Engineer. |
+| R11 **MED/HIGH**: latency, memory, deadline | VERIFIED soft time limit excludes root prework and cannot interrupt one forward; all-child expansion allocates more states. Latency/RSS UNKNOWN | Phase 1 CPU time/RSS; Phase 4 define simulations/nodes/time accounting; Phase 6 equal-time comparison including cold/warm separation. No hard deadline guarantee. Engineer; manager sets target budget. |
+| R12 **MED/HIGH**: checkpoint quality / BN | VERIFIED cc-lite sources flag older BN stats and value under-reporting; all strength relative to our agents UNKNOWN | Evaluate unchanged pinned checkpoint in eval mode; no silent re-estimation/fine-tuning. Functional checks do not certify strength. Re-select or document limitation. Phase 1/6. |
+| R13 **MED**: API/book/concurrency | VERIFIED neural unavailable, opening book may bypass search, MCTS isinstance dispatch, global RLock | Phase 5 dedicated neural dispatch/config, missing/bad model status, book-disabled invocation tests, cold-load behavior and lock latency assessment. Engineer. |
+| R14 **MED/HIGH**: misleading benchmark | VERIFIED tournament per-agent defaults are unequal; historical full run is another commit, no NN; truncated scoring is a convention | Phase 6 separate equal-wall-time and equal-simulation runs; paired colors/openings/seeds, complete-pair statistics, W/D/L/T/errors, confidence intervals, p50/p95, worker/resource metadata. Approval before long runs. |
+| R15 **MED**: unsupported deployment assumptions | VERIFIED local CPU/RAM only; NVIDIA driver unavailable. Deployment hardware/latency goals UNKNOWN | Phase 1 CPU-first; manager supplies deployment constraints before performance acceptance. Never promise GPU or playing strength. |
+| R16 **HIGH if training later**: wrong targets / scope creep | VERIFIED Gold selected-action policy labels and shaped actor rewards; existing full rollout cap returns 0 for search | Do not convert truncations/shaped rewards into terminal value labels. No training/self-play/fine-tune under current authorization. Phase 7 requires separate approval. |
+| R17 **MED**: supply chain / reproducibility | VERIFIED pinned metadata, no local checkpoint hash; availability may change | Pin source revision, weights SHA, codec/runtime/config; safe weights-only loader where supported; no arbitrary pickle, mutable auto-download, or huge artifacts in Git. Phase 1/3/8. |
+| R18 **LOW/MED**: docs and execution drift | VERIFIED stale README paths/status, mixed `src` and `project.backend.src` test imports, handover CI references absent at HEAD | Record working command/PYTHONPATH; keep deferred docs cleanup separate. Avoid mixing class identities across import namespaces in new adapters. Phase 0 evidence / later maintenance. |
+
+## Decisions at the next approval gate
+
+1. **Phase 1 only:** authorize isolated CPU qualification. Prefer cc-lite v4 first, CCZero as comparison; no source/model adoption implied by research ranking.
+2. **Rights:** confirm acceptable licenses and intended model distribution. Ink conversion stays on hold absent rights/parity evidence. No source copying or model redistribution approved here.
+3. **Existing test defect — completed:** user authorized the repair; all 270 backend tests now pass. No baseline exception is required for this defect.
+4. **Before performance acceptance:** identify deployment OS/Python, CPU/RAM, desired per-move latency and memory cap. Local observations are sufficient for Phase 0, not deployment promises.
+
+No question blocks completion of Phase 0. These are review decisions for subsequent work, not permission to proceed automatically.
+
+## GO / NO-GO
+
+**GO, conditional and approval required:** Phase 1 model qualification is technically justified by accessible candidate artifacts and a repaired, passing full backend suite. **NO-GO:** production integration, model compatibility certification, training/fine-tuning, or a strength claim. All model-specific unknowns remain open. Stop after this audit and its authorized baseline repair.

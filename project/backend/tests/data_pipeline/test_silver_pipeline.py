@@ -63,7 +63,7 @@ class SilverPipelineTests(unittest.TestCase):
             self.assertEqual(result.source_records, 2)
             self.assertEqual(result.accepted_games, 2)
             checksum = hashlib.sha256(source.read_bytes()).hexdigest()
-            for row in self.read_jsonl(root / "silver", "games.jsonl"):
+            for row in self.read_jsonl(root / "silver" / "games.jsonl"):
                 self.assertEqual(row["provenance"]["file_sha256"], checksum)
 
     def test_sample_limit_rejects_invalid_counts(self):
