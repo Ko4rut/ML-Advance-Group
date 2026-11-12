@@ -55,13 +55,13 @@ You can test your own agent function using the
 ## Connect 4 Task 3 — Minimax / Alpha-Beta (Tùng Thiện)
 
 Code tìm kiếm nằm trong `connect4_minimax.py` (dùng lại `Position, empty_board, result, terminal, utility` từ `connect4_core.py`).
-Notebook làm việc riêng của phần này là `connect4_task3_minimax.ipynb`; các mục của notebook khớp 1-1 với Task 3 trong `assignment_connect4.ipynb`.
+Phần Task 3 được tích hợp trực tiếp trong `assignment_connect4.ipynb` (không có file `connect4_task3_minimax.ipynb` riêng trên `main`).
 
 Chạy từ thư mục này:
 
 ```bash
 python -m unittest -v test_connect4_core test_connect4_minimax
-python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 connect4_task3_minimax.ipynb
+python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=1800 assignment_connect4.ipynb
 ```
 
 Các hàm chính (mọi hàm tìm kiếm trả về dict `{"move", "value", "nodes"}`; `node_limit = None` là không giới hạn, vượt giới hạn thì `raise SearchLimitReached`; `verbose = 0` là không in gì, `1` in số nút, `2` in từng nút; không còn biến toàn cục `DEBUG`/`COUNT`):
@@ -107,8 +107,7 @@ python -m unittest -v test_connect4_core test_connect4_minimax test_connect4_heu
 ```
 
 Sau khi tích hợp và kiểm thử thành công, chạy `assignment_connect4.ipynb`
-và xuất `assignment_connect4.html` mới (bản HTML từ 08/11 không còn
-phản ánh notebook hiện tại). Kết quả đo thời gian phụ thuộc máy; so
+và xuất `assignment_connect4.html` mới khi nội dung notebook tiếp tục thay đổi. Kết quả đo thời gian phụ thuộc máy; so
 sánh Monte Carlo vs heuristic trên 5 ván mỗi phía chỉ là minh họa.
 
 ## Connect 4 Task 5 — Pure Monte Carlo (Toàn Thắng)
@@ -147,6 +146,7 @@ Tic-Tac-Toe: phần Bài 5 và Bài 6 của Toàn Thắng được **thêm ở c
 | [assignment_connect4.ipynb](assignment_connect4.ipynb), `assignment_connect4.html` | Bài 8: Connect 4 (bản HTML là bản đã chạy để nộp) | Task 1–2: Tú; Task 3: Thiện; Task 4: Tiến; Task 5: Thắng |
 | [connect4_core.py](connect4_core.py), [test_connect4_core.py](test_connect4_core.py) | Môi trường Connect 4 và test | Tú |
 | [connect4_minimax.py](connect4_minimax.py), [test_connect4_minimax.py](test_connect4_minimax.py) | Minimax / Alpha-Beta (Task 3) | Thiện |
+| [connect4_heuristic.py](connect4_heuristic.py), [test_connect4_heuristic.py](test_connect4_heuristic.py) | Heuristic Alpha-Beta (Task 4) và test | Tiến |
 | [connect4_montecarlo.py](connect4_montecarlo.py), [test_connect4_montecarlo.py](test_connect4_montecarlo.py) | Pure Monte Carlo (Task 5) và test | Thắng |
 | `bao_cao.pdf`, `bao_cao.docx` | Báo cáo tổng hợp của nhóm | Thắng tổng hợp |
 
@@ -165,4 +165,4 @@ python -m jupyter nbconvert --to notebook --execute --inplace --ExecutePreproces
 python -m jupyter nbconvert --to html assignment_connect4.ipynb
 ```
 
-Thời gian trong các bảng đo trên máy của người chạy; các thí nghiệm có seed nên chạy lại ra đúng kết quả (thời gian thì khác theo máy). Báo cáo của nhóm nằm ở `bao_cao.pdf`.
+Thời gian trong các bảng đo trên máy của người chạy; các thí nghiệm có seed nên chạy lại ra đúng kết quả (thời gian thì khác theo máy). Lưu ý: trên `main` hiện có `bao_cao.docx`; cần hoàn thiện nội dung và xuất `bao_cao.pdf` trước khi đóng gói nộp.
