@@ -47,4 +47,4 @@ project/artifacts/
 skills-lock.json
 
 # Tournament run outputs (raw logs, summaries, plots)
-project/backend/results/tournaments/
+# project/backend/results/tournaments/
