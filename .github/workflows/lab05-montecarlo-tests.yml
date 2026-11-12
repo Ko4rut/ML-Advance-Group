@@ -1,0 +1,36 @@
+name: Lab05 Monte Carlo regression
+
+on:
+  push:
+    branches:
+      - lab05/thang-montecarlo-finalize
+    paths:
+      - 'lab05 - game/lab05 - game/*.py'
+      - '.github/workflows/lab05-montecarlo-tests.yml'
+  pull_request:
+    branches:
+      - Lab05/montecarlo
+      - main
+    paths:
+      - 'lab05 - game/lab05 - game/*.py'
+      - '.github/workflows/lab05-montecarlo-tests.yml'
+
+jobs:
+  montecarlo:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab05 - game/lab05 - game
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimum dependencies
+        run: python -m pip install 'numpy>=1.23,<3'
+      - name: Check Connect 4 core, minimax and Monte Carlo
+        run: |
+          python -m unittest -v \
+            test_connect4_core \
+            test_connect4_minimax \
+            test_connect4_montecarlo
