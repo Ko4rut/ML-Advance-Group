@@ -1,0 +1,51 @@
+test_encoding_formula_is_source_times_90_plus_target (tests.encoding.test_actions.ActionEncoderTests.test_encoding_formula_is_source_times_90_plus_target) ... ok
+test_every_index_round_trips (tests.encoding.test_actions.ActionEncoderTests.test_every_index_round_trips) ... ok
+test_legal_ids_sorted_unique_and_duplicates_rejected (tests.encoding.test_actions.ActionEncoderTests.test_legal_ids_sorted_unique_and_duplicates_rejected) ... ok
+test_mask_is_true_exactly_on_legal_moves (tests.encoding.test_actions.ActionEncoderTests.test_mask_is_true_exactly_on_legal_moves) ... ok
+test_space_size_matches_gold_contract (tests.encoding.test_actions.ActionEncoderTests.test_space_size_matches_gold_contract) ... ok
+test_unknown_ids_and_wrong_types_rejected (tests.encoding.test_actions.ActionEncoderTests.test_unknown_ids_and_wrong_types_rejected) ... ok
+test_array_input_accepted (tests.encoding.test_actions.LegalPriorsTests.test_array_input_accepted) ... ok
+test_bad_shape_empty_or_duplicate_moves_rejected (tests.encoding.test_actions.LegalPriorsTests.test_bad_shape_empty_or_duplicate_moves_rejected) ... ok
+test_extreme_legal_logits_are_numerically_stable (tests.encoding.test_actions.LegalPriorsTests.test_extreme_legal_logits_are_numerically_stable) ... ok
+test_huge_logit_on_illegal_action_has_no_effect (tests.encoding.test_actions.LegalPriorsTests.test_huge_logit_on_illegal_action_has_no_effect) ... ok
+test_negative_probability_and_unknown_kind_rejected (tests.encoding.test_actions.LegalPriorsTests.test_negative_probability_and_unknown_kind_rejected) ... ok
+test_nonfinite_anywhere_is_rejected_even_on_illegal_slots (tests.encoding.test_actions.LegalPriorsTests.test_nonfinite_anywhere_is_rejected_even_on_illegal_slots) ... ok
+test_numpy_input_matches_list_input (tests.encoding.test_actions.LegalPriorsTests.test_numpy_input_matches_list_input) ... ok
+test_priors_follow_softmax_of_legal_logits_only (tests.encoding.test_actions.LegalPriorsTests.test_priors_follow_softmax_of_legal_logits_only) ... ok
+test_probabilities_are_renormalized_over_legal_moves (tests.encoding.test_actions.LegalPriorsTests.test_probabilities_are_renormalized_over_legal_moves) ... ok
+test_zero_legal_probability_mass_is_an_error_not_a_fallback (tests.encoding.test_actions.LegalPriorsTests.test_zero_legal_probability_mass_is_an_error_not_a_fallback) ... ok
+test_zero_logits_give_uniform_distribution_over_legal_moves (tests.encoding.test_actions.LegalPriorsTests.test_zero_logits_give_uniform_distribution_over_legal_moves) ... ok
+test_bad_native_indices_rejected (tests.encoding.test_actions.VocabularyTests.test_bad_native_indices_rejected) ... ok
+test_native_vocabulary_is_separate_but_verified_identical_to_internal_ids (tests.encoding.test_actions.VocabularyTests.test_native_vocabulary_is_separate_but_verified_identical_to_internal_ids) ... ok
+test_transposed_mapping_would_be_detected (tests.encoding.test_actions.VocabularyTests.test_transposed_mapping_would_be_detected)
+target*90+source is not the contract: it picks different legal slots. ... ok
+test_engine_legal_ids_equal_upstream_legal_ids_for_every_state (tests.encoding.test_golden_parity.ActionParityTests.test_engine_legal_ids_equal_upstream_legal_ids_for_every_state) ... ok
+test_every_upstream_legal_index_decodes_to_an_engine_legal_move (tests.encoding.test_golden_parity.ActionParityTests.test_every_upstream_legal_index_decodes_to_an_engine_legal_move) ... ok
+test_mask_and_masked_priors_cover_exactly_the_upstream_legal_set (tests.encoding.test_golden_parity.ActionParityTests.test_mask_and_masked_priors_cover_exactly_the_upstream_legal_set) ... ok
+test_transposed_vocabulary_fails_golden_parity (tests.encoding.test_golden_parity.ActionParityTests.test_transposed_vocabulary_fails_golden_parity)
+Mutation check: a wrong (target*90+source) mapping must NOT match upstream. ... ok
+test_check_plane_equals_upstream_check_flag (tests.encoding.test_golden_parity.EncoderParityTests.test_check_plane_equals_upstream_check_flag) ... ok
+test_color_swapped_observation_differs_for_asymmetric_states (tests.encoding.test_golden_parity.EncoderParityTests.test_color_swapped_observation_differs_for_asymmetric_states)
+Guard against a vacuous parity test: color matters in the golden hashes. ... ok
+test_observation_bytes_equal_upstream_for_every_state (tests.encoding.test_golden_parity.EncoderParityTests.test_observation_bytes_equal_upstream_for_every_state) ... ok
+test_fixture_provenance_and_coverage (tests.encoding.test_golden_parity.GoldenFixtureTests.test_fixture_provenance_and_coverage) ... ok
+test_bad_lengths_rejected (tests.encoding.test_observations.NumpyConversionTests.test_bad_lengths_rejected) ... ok
+test_single_and_batch_conversion (tests.encoding.test_observations.NumpyConversionTests.test_single_and_batch_conversion) ... ok
+test_batch_is_concatenation_and_empty_batch_is_empty (tests.encoding.test_observations.ObservationContractTests.test_batch_is_concatenation_and_empty_batch_is_empty) ... ok
+test_black_to_move_keeps_absolute_board_and_clears_turn_plane (tests.encoding.test_observations.ObservationContractTests.test_black_to_move_keeps_absolute_board_and_clears_turn_plane) ... ok
+test_check_plane_both_sides_and_override (tests.encoding.test_observations.ObservationContractTests.test_check_plane_both_sides_and_override) ... ok
+test_color_rotation_equals_channel_exchange (tests.encoding.test_observations.ObservationContractTests.test_color_rotation_equals_channel_exchange) ... ok
+test_counters_and_history_are_not_encoded (tests.encoding.test_observations.ObservationContractTests.test_counters_and_history_are_not_encoded) ... ok
+test_deterministic_and_fresh_buffers (tests.encoding.test_observations.ObservationContractTests.test_deterministic_and_fresh_buffers) ... ok
+test_encoding_does_not_mutate_state (tests.encoding.test_observations.ObservationContractTests.test_encoding_does_not_mutate_state) ... ok
+test_importing_encoding_does_not_import_numpy_or_torch (tests.encoding.test_observations.ObservationContractTests.test_importing_encoding_does_not_import_numpy_or_torch) ... ok
+test_initial_position_exact_planes (tests.encoding.test_observations.ObservationContractTests.test_initial_position_exact_planes) ... ok
+test_per_plane_piece_counts_match_board (tests.encoding.test_observations.ObservationContractTests.test_per_plane_piece_counts_match_board) ... ok
+test_piece_plane_validation (tests.encoding.test_observations.ObservationContractTests.test_piece_plane_validation) ... ok
+test_rejects_non_state (tests.encoding.test_observations.ObservationContractTests.test_rejects_non_state) ... ok
+test_type_length_and_shape_constants (tests.encoding.test_observations.ObservationContractTests.test_type_length_and_shape_constants) ... ok
+
+----------------------------------------------------------------------
+Ran 43 tests in 2.471s
+
+OK

@@ -1,0 +1,8 @@
+test_batched_production_encoding_equals_single_state_encoding_through_the_model (test_real_checkpoint.RealCheckpointProductionStackTests.test_batched_production_encoding_equals_single_state_encoding_through_the_model) ... ok
+test_production_stack_matches_upstream_evaluator_on_all_nonterminal_fixture_states (test_real_checkpoint.RealCheckpointProductionStackTests.test_production_stack_matches_upstream_evaluator_on_all_nonterminal_fixture_states) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 23.826s
+
+OK
+[distill-v4-large] parity on 467 states / 17066 legal moves

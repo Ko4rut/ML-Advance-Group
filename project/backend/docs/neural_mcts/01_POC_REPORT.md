@@ -14,11 +14,11 @@
 | 4. I/O contracts documented | **VERIFIED** — [compatibility matrix](01_COMPATIBILITY_MATRIX.md) |
 | 5. Policy → legal-move mapping feasible | **VERIFIED** — all legal moves of 52 states (fixtures + seeded trajectory) match the source codec exactly |
 | 6. Value perspective and sign | **VERIFIED** — side-to-move, no color sign flip (§5) |
-| 7. License/provenance evaluated | Evaluated: Apache-2.0 + documented CC0-network labels (engineering assessment, not legal advice). **Manager sign-off still required** |
+| 7. License/provenance evaluated | Evaluated: Apache-2.0 + documented CC0-network labels (engineering assessment, not legal advice). **Manager approved 2026-11-12** (§9b) |
 | 8. Remaining integration requirements | Documented (§8) |
 | 9. Reproducible evidence | **VERIFIED** — raw JSON/logs in [evidence/phase1/](evidence/phase1/), commands in §3 |
 
-**Phase 1 status: PASS (technical), conditional on manager approval of the model choice and its license basis.** No strength claim is made: upstream reports both checkpoints lose most games to a real engine (§7).
+**Phase 1 status: PASS.** Technical gates verified; the manager approved the model choice and license basis on 2026-11-12 (§9b). No strength claim is made: upstream reports both checkpoints lose most games to a real engine (§7).
 
 ## 2. Recovery of the previous agent's work
 
@@ -111,7 +111,7 @@ Consequence for our MCTS (**INFERRED**, to be tested in Phase 4): the network va
 3. Optional-dependency story for torch (≈201 MB wheels, ≈870 MiB runtime directory) so classic MCTS users are unaffected; checkpoint stays outside git, loaded by path + SHA-256.
 4. MCTS lifecycle change (priors at every expanded node, value at leaves) — `MCTSSearch.expand` currently uses uniform `1/num_legal`.
 5. Latency budget: at batch 1 CPU, v4 ≈148 evals/s and v4-large ≈50 evals/s per thread (derived from p50); batching/caching are later work.
-6. Model choice (§9) and license sign-off.
+6. ~~Model choice and license sign-off~~ — approved (§9b); 3 s/move latency ceiling set.
 
 ## 9. Recommendation
 
@@ -120,11 +120,29 @@ Consequence for our MCTS (**INFERRED**, to be tested in Phase 4): the network va
 - Decision for the manager: accept the model and the license basis, and set the latency target (the choice between the two follows from it). The v4/v4-large strength difference is not statistically established upstream; the preference for v4-large rests on value calibration and cost, and should be confirmed in Phase 6 by our own benchmark.
 - **Not selected: NeymarL/ChineseChess-AlphaZero (CCZero)** — real H5 checkpoint exists but needs TF1/Keras 2.0.8 (Python 3.6 era) or an unverified H5→torch port, a 2086-label orientation-flipping codec, and GPL-3.0 with no separate weight terms. **Not executed this phase**: no download, load, conversion or parity test; only source/config/provenance review. Reserve option only.
 
+## 9b. Manager decisions and latency budget (2026-11-12)
+
+**Decisions recorded:** (1) the manager **approved** the cc-lite checkpoints (`distill-v4-large` primary, `distill-v4` fallback) and the documented Apache-2.0 / CC0-label license basis; (2) the acceptable maximum latency is **3 seconds per move**. This closes the Phase 1 license/model sign-off. Phase 2 still needs its own explicit start.
+
+**What 3 s buys (VERIFIED measurements, ESTIMATED node counts)** — [latency-distill-v4.json](evidence/phase1/latency-distill-v4.json), [latency-distill-v4-large.json](evidence/phase1/latency-distill-v4-large.json); host has 12 logical CPUs; `latency_probe.py`, 60 states from a fixed-seed random walk, median of repeated runs. Engine work per node (legal moves + outcome + one move + encoding) is **1.74–1.88 ms**. Estimated nodes = 3 s / (network ms per position + engine ms per node):
+
+| Setup | v4 ms/position → est. nodes | v4-large ms/position → est. nodes |
+| --- | --- | --- |
+| 1 thread, batch 1 | 7.35 → ~330 | 23.4 → ~118 |
+| 1 thread, batch 8 | 4.06 → ~517 | 13.5 → ~195 |
+| 4 threads, batch 1 | 3.39 → ~585 | 7.19 → ~330 |
+| 4 threads, batch 8 | 1.98 → ~807 | 4.44 → ~474 |
+| 4 threads, batch 32 | 1.72 → ~868 | 5.00 → ~436 |
+
+Caveats: these ignore tree overhead and batching latency (leaf batching needs virtual loss or similar, a Phase 4 design question); they assume one engine expansion per node, whereas eagerly building all ~40 child states would cost far more than 1.8 ms per node, so child states should be created lazily; thread counts above 4 were not measured; the 3 s limit is soft in the current search (root prework and a single in-flight forward are not interruptible), so the search should stop with margin, e.g. a ~2.5 s default — a Phase 4 decision.
+
+**Implication (INFERRED):** both checkpoints fit 3 s on this CPU, with roughly 120–330 nodes for v4-large and 330–590 for v4 at batch 1. With ~40 legal moves that is a shallow search that leans heavily on the priors. The model choice is not forced by the budget, so v4-large stays primary (calibration) with v4 as a config switch if Phase 6 shows the node count matters more. Deployment hardware is still unknown; a slower machine shrinks these numbers.
+
 ## 10. Unresolved / not done
 
 - Real forward pass for CCZero: **not attempted** (would need h5py + a port; GPL review first).
 - GPU behavior: untested; CPU-only wheel used.
-- Multi-thread/batched latency, memory model-only: unmeasured.
+- Latency beyond 4 threads, model-only memory, and real tree-search throughput: unmeasured (§9b gives estimates only).
 - Strength vs our baselines (UCT+rollout, alpha-beta, tournament agents): **unmeasured**, Phase 6.
 - Effect of rule mismatch (repetition/perpetual-check) on value quality: unmeasured.
 - Coverage is finite (52 parity states + 12 curated + 20 games). It does not prove parity over all legal Xiangqi positions; Phase 2 should widen it.
