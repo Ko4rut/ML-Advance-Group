@@ -66,3 +66,35 @@ it in the model-validation environment so the real-weight tests cannot pass vacu
 Missing file, wrong size/hash, unsupported format/architecture, missing torch, unsupported device or
 bad configuration raise a `NeuralModelError` subclass naming the cause. There is no fallback to random
 weights, another checkpoint or a heuristic.
+
+## Application integration (Phase 5)
+
+Install the API and test extras (`pip install -e ".[api,test]"`), provision the checkpoint above,
+then run from `project/backend`:
+
+```sh
+python -m uvicorn src.api.main:app --host 127.0.0.1 --port 8000
+```
+
+In a second terminal, run `npm ci && npm run dev` from `project/frontend`, open
+<http://localhost:3000>, select **Neural MCTS**, and create a match. Red moves first;
+click **Chạy AI** if the first turn belongs to the AI. After a human move the AI replies
+automatically. Both player colors and AI-vs-AI are supported.
+
+`configs/neural_mcts.yaml` controls PUCT and the soft 3-second search target, plus an optional
+simulation cap. Phase 3's environment variables override the YAML model fields. Only the
+manifest-approved weights are accepted. Neural matches default to `opening_mode=none`; an
+explicit opening book remains supported.
+
+The API starts without loading the network. The first `/api/v1/agents` request or neural match
+loads and validates it and performs one readiness forward. All matches share that adapter;
+each participant gets its own search. Missing runtime/weights, bad integrity or invalid settings
+leave other agents usable, expose `unavailable_reason` in the catalog, and return HTTP 503 for
+neural matches. Errors never trigger another model or a heuristic fallback.
+
+Readiness and failures are cached for the process lifetime. After installing dependencies,
+provisioning weights, or editing config, **restart the backend and reload the page**. For rollback,
+set `XIANGQI_NEURAL_ENABLED=false` and restart. Existing classic behavior is preserved.
+
+See [05_APPLICATION_INTEGRATION.md](../../docs/neural_mcts/05_APPLICATION_INTEGRATION.md)
+for exact validation commands, evidence, and deployment limitations.

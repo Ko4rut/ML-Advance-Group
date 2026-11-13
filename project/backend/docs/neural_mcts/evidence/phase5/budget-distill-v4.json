@@ -1,0 +1,100 @@
+{
+  "model": {
+    "name": "distill-v4",
+    "sha256": "1be52664b216529ce56240043406878a93f95f57e4153ff73c4d63afd772fba4",
+    "source_repository": "https://github.com/hskl18/cc-lite",
+    "source_revision": "7d305c0e5adbfae4e23db40997603d8dc86b078b",
+    "observation": "absolute_planes16_v1",
+    "action_vocabulary": "cclite_from_to_8100",
+    "device": "cpu",
+    "parameter_count": 3860347
+  },
+  "mode": "budget",
+  "config": {
+    "model": "distill-v4",
+    "time_limit": 3.0
+  },
+  "python": "3.14.9",
+  "torch": "2.11.0+cpu",
+  "threads": 8,
+  "cpu": "",
+  "cold_catalog_seconds": 0.85607510599948,
+  "load_count": 1,
+  "inference_calls": 1560,
+  "moves": [
+    {
+      "ply": 1,
+      "side": "red",
+      "move": {
+        "source": 64,
+        "target": 67
+      },
+      "http_seconds": 3.0380426880001323,
+      "simulations": 277,
+      "network_calls": 277
+    },
+    {
+      "ply": 2,
+      "side": "black",
+      "move": {
+        "source": 7,
+        "target": 24
+      },
+      "http_seconds": 3.0226323029983178,
+      "simulations": 438,
+      "network_calls": 438
+    },
+    {
+      "ply": 3,
+      "side": "red",
+      "move": {
+        "source": 82,
+        "target": 65
+      },
+      "http_seconds": 3.0299436320001405,
+      "simulations": 323,
+      "network_calls": 323
+    },
+    {
+      "ply": 4,
+      "side": "black",
+      "move": {
+        "source": 33,
+        "target": 42
+      },
+      "http_seconds": 3.0277596289997746,
+      "simulations": 286,
+      "network_calls": 286
+    },
+    {
+      "ply": 5,
+      "side": "red",
+      "move": {
+        "source": 81,
+        "target": 82
+      },
+      "http_seconds": 3.030932079000195,
+      "simulations": 209,
+      "network_calls": 209
+    },
+    {
+      "ply": 6,
+      "side": "black",
+      "move": {
+        "source": 0,
+        "target": 18
+      },
+      "http_seconds": 3.189865918999203,
+      "simulations": 26,
+      "network_calls": 26
+    }
+  ],
+  "result": {
+    "status": "playing",
+    "winner": null,
+    "reason": null,
+    "ply": 6
+  },
+  "all_moves_legal": true,
+  "reset_passed": true
+}

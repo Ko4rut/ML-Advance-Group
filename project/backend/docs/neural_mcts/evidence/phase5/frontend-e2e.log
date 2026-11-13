@@ -1,0 +1,14 @@
+npm notice run frontend@0.1.0 test:e2e
+npm notice run playwright test
+
+Running 5 tests using 1 worker
+
+(node:57549) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/neural-mcts.spec.ts:7:1 › unavailable checkpoint is disabled with an understandable reason (268ms)
+  ✓  2 tests/neural-mcts.spec.ts:19:1 › match creation errors remain visible (252ms)
+  ✓  3 tests/neural-mcts.spec.ts:32:1 › catalog connection error is shown (200ms)
+  ✓  4 tests/neural-mcts.spec.ts:40:3 › real pretrained Neural MCTS plays red through the browser (9.0s)
+  ✓  5 tests/neural-mcts.spec.ts:40:3 › real pretrained Neural MCTS plays black through the browser (4.1s)
+
+  5 passed (14.4s)

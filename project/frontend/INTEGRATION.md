@@ -50,6 +50,36 @@ Do **not** modify the engine's board ordering or its legal move indices.
 - If API is offline, a connection warning appears. CORS and the HTTP address must match your environment.
 - Agent availability is fetched once on page load. After adding or changing a model checkpoint, restart the backend and reload the frontend page to refresh the available agents.
 
+## Neural MCTS (Phase 5)
+
+Provision the CPU runtime and real weights using
+[models/neural/README.md](../backend/models/neural/README.md). The existing Neural MCTS
+button enables when the backend has loaded and probed the configured model. When unavailable,
+the selector displays the backend reason and disables that opponent. Match errors remain visible
+below the board. The normal play flow above supports both colors and AI-vs-AI.
+
+For browser tests, run the backend and frontend (production build or dev server), then:
+
+```sh
+npm ci
+npx playwright install chromium
+npm run lint
+npm run build
+npm run test:e2e  # 3 isolated UI cases; 2 real-model cases explicitly skip
+XIANGQI_NEURAL_REQUIRE_REAL=1 npm run test:e2e  # all 5, requires real backend on localhost:8000
+```
+
+Tests use `http://127.0.0.1:3000`; override with `XIANGQI_FRONTEND_URL` if needed.
+`NEXT_PUBLIC_XIANGQI_API_URL` is embedded at build time, so set it before building when
+testing a backend on another address. The default backend settings use the large model
+and approximately 3 seconds per AI move. Browser tests exercise actual clicks and HTTP moves,
+legal replies, turn handoff, reset, unavailable status, and creation/connection errors.
+
+The current Next.js 16.4.0 dependency produces a security advisory during builds. The Phase 5
+build passed on retry; the recorded npm audit contains 9 findings (1 critical, 1 high,
+7 moderate). Upgrade and revalidate dependencies before a public deployment. Phase 5
+does not change framework versions or authorize deployment.
+
 ## Tabular Q-Learning — model loading from Google Drive
 
 **Run the backend** to fetch/load the trained Q-table, not the Colab training

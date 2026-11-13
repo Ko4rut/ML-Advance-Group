@@ -1,0 +1,4 @@
+/tmp/neural-mcts-phase5/api-deps/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_env_does_not_replace_explicit_process_configuration (tests.api.test_dotenv_config.BackendDotenvTests.test_env_does_not_replace_explicit_process_configuration) ... ok
+test_fastapi_reads_dotenv_and_exposes_available_model (tests.api.test_dotenv_config.BackendDotenvTests.test_fastapi_reads_dotenv_and_exposes_available_model) ... 

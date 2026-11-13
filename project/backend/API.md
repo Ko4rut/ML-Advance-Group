@@ -23,6 +23,7 @@ src/api/
   routes/matches.py           # Versioned HTTP routes
   services/matches.py         # Game sessions, XiangqiEnv, agent registry
   services/mcts.py            # MCTS config loading and per-move search budget
+  services/neural_mcts.py     # Optional validated neural model, readiness and budget
   services/opening_book.py    # Per-match curated opening state and AI handoff
 ```
 
@@ -72,9 +73,25 @@ is checked between simulations, so an individual simulation may run over the
 time limit. A match's opening-book moves still take precedence over search.
 Install with `pip install -e ".[api,test]"` to include the YAML reader.
 
+### Play against Neural MCTS
+
+Use `"agent_id":"neural"` with the same match/move/step/reset routes, for either color.
+Provision the real checkpoint and optional CPU runtime using [models/neural/README.md](models/neural/README.md).
+Default model: `distill-v4-large`; alternative: `XIANGQI_NEURAL_MODEL=distill-v4`.
+`configs/neural_mcts.yaml` supplies `c_puct`, soft `time_limit: 3.0`, and optional
+`max_simulations`. No request-supplied model paths or new endpoints are needed.
+
+`GET /agents` loads and probes the configured model on first use. It reports neural
+`available=true` only after success; optional `unavailable_reason` explains failures.
+Startup and classic match creation do not load weights. The adapter is shared across
+matches and moves. Neural requests fail with HTTP 503 on bad configuration, missing
+runtime/checkpoints or inference failure; the engine state stays unchanged. There is
+no fallback. Restart after provisioning/config changes; set `XIANGQI_NEURAL_ENABLED=false`
+and restart to disable the feature. Neural matches default to no opening book.
+
 ### Configure Opening Book
 
-When at least one participant is AI, the API randomly selects **one opening line per match** by default. For human-versus-human games, opening mode defaults to `none`. You can override both behaviors with `opening_mode`.
+When at least one participant is AI, the API randomly selects **one opening line per match** by default, except matches containing `neural` or `tabular_q`, which default to `none`. Human-versus-human games also default to `none`. Override with `opening_mode`.
 
 ```json
 {
@@ -111,13 +128,13 @@ Every snapshot includes `match_id`, `red`, `black`, a 90-integer `board`, `side_
 
 **Coordinates:** indices 0–89, row-major `row*9+col`; **row 0 is Black's back rank and row 9 is Red's**. Signed piece IDs: `1..7` red; `-1..-7` black; `0` empty. Red moves first. If the UI visually displays red on top, translate each index `display_row -> engine_row = 9 - display_row` on both board and moves.
 
-**Errors:** 404 unknown match; 409 stale `expected_ply`, wrong type of turn, or game already finished; 422 invalid body, invalid move or unknown agent ID; 503 agent not implemented. Error body is `{"detail":"..."}`. No operation mutates the board when a request is rejected.
+**Errors:** 404 unknown match; 409 stale `expected_ply`, wrong type of turn, or game already finished; 422 invalid body, invalid move or unknown agent ID; 503 agent unavailable, including model configuration/load/inference errors. Error body is `{"detail":"..."}`. No operation mutates the board when a request is rejected.
 
 ## Boundaries
 
 - MVP matches are stored in **process memory**; restarting clears them. Run **one Uvicorn worker**. Do not use multiple workers until storage/locking has been centralized.
 - No authentication, persistence, rate limiting, WebSocket, auto-play loop, or statistics database yet. Expose only on a trusted development environment.
-- Random, Rule-Based, A*, Minimax, Alpha-Beta, and MCTS are enabled. Neural MCTS and DQN remain unavailable.
+- Random, Rule-Based, A*, Minimax, Alpha-Beta, and MCTS are enabled. Tabular Q and Neural MCTS depend on their configured model readiness; DQN remains unavailable.
 - Frontend can instantly show legal move dots from a snapshot; backend remains the source of truth for all moves.
 
 ## Tests

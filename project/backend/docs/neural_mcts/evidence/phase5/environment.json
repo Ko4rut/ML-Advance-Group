@@ -1,0 +1,28 @@
+{
+  "python": "3.14.9 (main, Oct 25 2026, 14:52:47) [GCC 16.2.1 20260810]",
+  "platform": "Linux-7.2.14-arch1-1-x86_64-with-glibc2.44",
+  "packages": {
+    "torch": "2.11.0+cpu",
+    "fastapi": "0.162.6",
+    "starlette": "1.10.0",
+    "pydantic": "2.14.3",
+    "uvicorn": "0.54.0",
+    "httpx": "0.28.1",
+    "PyYAML": "6.0.3",
+    "python-dotenv": "1.2.4"
+  },
+  "checkpoints": [
+    {
+      "model": "distill-v4-large",
+      "path": "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/models/neural/distill-v4-large.pt",
+      "bytes": 38033337,
+      "sha256": "05927ccd874c4d97588ba7d06266fda9ba17700d436fdc03ff6844a0d61d0dff"
+    },
+    {
+      "model": "distill-v4",
+      "path": "/home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/models/neural/distill-v4.pt",
+      "bytes": 15500553,
+      "sha256": "1be52664b216529ce56240043406878a93f95f57e4153ff73c4d63afd772fba4"
+    }
+  ]
+}

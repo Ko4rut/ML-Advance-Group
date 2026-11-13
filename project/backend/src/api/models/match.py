@@ -76,3 +76,4 @@ class AgentInfo(BaseModel):
     id: str
     name: str
     available: bool
+    unavailable_reason: str | None = None

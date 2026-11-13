@@ -7,6 +7,7 @@ type Props = {
   side: Side;
   value: AgentId;
   available: ReadonlySet<AgentId>;
+  unavailableReasons?: Partial<Record<AgentId, string>>;
   disabled?: boolean;
   onChange: (id: AgentId) => void;
 };
@@ -17,10 +18,11 @@ type OptionProps = {
   selected: boolean;
   enabled: boolean;
   disabled: boolean;
+  reason?: string;
   onChange: (id: AgentId) => void;
 };
 
-function AgentOption({ agent, side, selected, enabled, disabled, onChange }: OptionProps) {
+function AgentOption({ agent, side, selected, enabled, disabled, reason, onChange }: OptionProps) {
   let optionClass = "agent-option";
   let glyphClass = "agent-glyph";
   let glyph: React.ReactNode = agent.symbol;
@@ -34,7 +36,7 @@ function AgentOption({ agent, side, selected, enabled, disabled, onChange }: Opt
     glyph = <Icon name="user" size={23} />;
   }
   if (!enabled) {
-    hint = `${agent.label}: chưa khả dụng trên backend`;
+    hint = reason || `${agent.label}: chưa khả dụng trên backend`;
   }
 
   function handleSelect(): void {
@@ -52,6 +54,7 @@ function AgentOption({ agent, side, selected, enabled, disabled, onChange }: Opt
     >
       <span className={glyphClass}>{glyph}</span>
       <span className="agent-name">{getAgentName(agent.id, side)}</span>
+      {!enabled && <span className="agent-unavailable">Chưa khả dụng</span>}
     </button>
   );
 }
@@ -60,6 +63,7 @@ export function AgentSelector({
   side,
   value,
   available,
+  unavailableReasons = {},
   disabled = false,
   onChange,
 }: Props) {
@@ -90,12 +94,16 @@ export function AgentSelector({
               side={side}
               selected={value === agent.id}
               enabled={available.has(agent.id)}
+              reason={unavailableReasons[agent.id]}
               disabled={disabled}
               onChange={onChange}
             />
           );
         })}
       </div>
+      {!available.has("neural") && unavailableReasons.neural && (
+        <p className="neural-status" role="note">{unavailableReasons.neural}</p>
+      )}
     </section>
   );
 }

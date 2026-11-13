@@ -1,0 +1,21 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/.venv, got /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/.venv, got /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/../../.venv
+/tmp/neural-mcts-phase5/api-deps/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_real_human_matches_both_colors_model_reused_after_reset (tests.api.test_neural_mcts_real.RealNeuralApplicationLargeTests.test_real_human_matches_both_colors_model_reused_after_reset) ... ok
+test_real_neural_self_play_calls_network_for_both_participants (tests.api.test_neural_mcts_real.RealNeuralApplicationLargeTests.test_real_neural_self_play_calls_network_for_both_participants) ... ok
+test_real_human_matches_both_colors_model_reused_after_reset (tests.api.test_neural_mcts_real.RealNeuralApplicationV4Tests.test_real_human_matches_both_colors_model_reused_after_reset) ... ok
+test_real_neural_self_play_calls_network_for_both_participants (tests.api.test_neural_mcts_real.RealNeuralApplicationV4Tests.test_real_neural_self_play_calls_network_for_both_participants) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.622s
+
+OK
+[real API distill-v4-large] state['ply']=2 latency=0.1360s network_calls=4
+[real API distill-v4-large] state['ply']=4 latency=0.1291s network_calls=4
+[real API distill-v4-large] state['ply']=1 latency=0.1517s network_calls=4
+[real API distill-v4-large] state['ply']=3 latency=0.1304s network_calls=4
+[real API distill-v4] state['ply']=2 latency=0.1188s network_calls=4
+[real API distill-v4] state['ply']=4 latency=0.1258s network_calls=4
+[real API distill-v4] state['ply']=1 latency=0.0562s network_calls=4
+[real API distill-v4] state['ply']=3 latency=0.0831s network_calls=4

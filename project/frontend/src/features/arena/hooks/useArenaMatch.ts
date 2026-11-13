@@ -39,7 +39,7 @@ function getLastMove(match: MatchSnapshot | null): LegalMove | null {
  * no local chess rule is calculated or submitted without a legal-move check.
  */
 export function useArenaMatch() {
-  const { available, connected, catalogError } = useAgentCatalog();
+  const { available, unavailableReasons, connected, catalogError } = useAgentCatalog();
   const [top, setTop] = useState<AgentId>("human");
   const [bottom, setBottom] = useState<AgentId>("human");
   const [snapshot, setSnapshot] = useState<MatchSnapshot | null>(null);
@@ -53,12 +53,6 @@ export function useArenaMatch() {
   // Prevent duplicate requests and discard responses from obsolete matches.
   const busyRef = useRef(false);
   const generationRef = useRef(0);
-
-  useEffect(function showCatalogErrorEffect() {
-    if (catalogError) {
-      setNotice(catalogError);
-    }
-  }, [catalogError]);
 
   useEffect(function closeDialogOnEscapeEffect() {
     function handleEscape(event: KeyboardEvent): void {
@@ -336,7 +330,6 @@ export function useArenaMatch() {
       return;
     }
     if (snapshot.status === "finished" || getActiveParticipant(snapshot).type === "human") {
-      setRunning(false);
       return;
     }
 
@@ -360,6 +353,9 @@ export function useArenaMatch() {
             setRunning(false);
           } else {
             setNotice(`AI vừa đánh nước thứ ${next.ply}.`);
+            if (getActiveParticipant(next).type === "human") {
+              setRunning(false);
+            }
           }
         }
       } catch (error: unknown) {
@@ -405,10 +401,11 @@ export function useArenaMatch() {
     selection,
     legalTargets,
     lastMove,
-    notice,
+    notice: catalogError || notice,
     modal,
     lightMode,
     available,
+    unavailableReasons,
     connected,
     pending,
     running,

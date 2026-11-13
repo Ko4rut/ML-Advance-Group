@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 from src.api.main import create_app
 from src.api.services.matches import MatchService
 from src.api.services.mcts import MCTSService
+from src.api.services.neural_mcts import NeuralMCTSService
 
 
 class MCTSApiTests(unittest.TestCase):
@@ -21,7 +22,10 @@ class MCTSApiTests(unittest.TestCase):
             "max_simulations": 8,
             "time_limit": 2.0,
         })
-        self.match_service = MatchService(mcts_service=self.mcts_service)
+        self.match_service = MatchService(
+            mcts_service=self.mcts_service,
+            neural_service=NeuralMCTSService(config={"enabled": False}, env={}),
+        )
         self.client = TestClient(create_app(self.match_service))
 
     def create_match(self, red: str, black: str, **options) -> dict:

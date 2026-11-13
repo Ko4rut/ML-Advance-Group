@@ -74,7 +74,7 @@ export function MatchControls({
       </div>
       <div className="api-note">
         <span className="api-note-icon">i</span>
-        <span>Trận đấu được xử lý bởi FastAPI / XiangqiEnv. AI hỗ trợ Random và Rule-Based.</span>
+        <span>Chọn AI khả dụng từ backend. Neural MCTS dùng mô hình pretrained, khoảng 3 giây mỗi nước.</span>
       </div>
     </section>
   );
