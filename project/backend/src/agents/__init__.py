@@ -5,6 +5,7 @@ from .heuristic import HeuristicAgent
 from .alphabeta_agent import AlphaBetaAgent
 from .mcts_agent import MCTSAgent
 from .minimax_agent import MinimaxAgent
+from .neural_mcts_agent import NeuralMCTSAgent
 from .random_agent import RandomAgent
 from .rule_based import RuleBasedAgent
 
@@ -15,6 +16,7 @@ __all__ = [
     "AlphaBetaAgent",
     "MCTSAgent",
     "MinimaxAgent",
+    "NeuralMCTSAgent",
     "RandomAgent",
     "RuleBasedAgent",
     "SearchBudget",

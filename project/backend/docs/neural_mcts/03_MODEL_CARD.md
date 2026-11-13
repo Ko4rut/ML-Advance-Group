@@ -90,7 +90,7 @@ Reproduce: [experiments/neural_mcts/phase3/README.md](../../experiments/neural_m
 
 ## 8. Open items for Phase 4+
 
-1. Search integration is untouched: `MCTSSearch.expand` still assigns uniform priors, `NeuralEvaluator`/`NeuralMCTSAgent` remain stubs, the API registry still reports `neural` unavailable.
+1. *(Superseded by Phase 4, see [04_SEARCH_LIFECYCLE.md](04_SEARCH_LIFECYCLE.md).)* Search integration was untouched at the end of Phase 3: `MCTSSearch.expand` still assigns uniform priors, `NeuralEvaluator`/`NeuralMCTSAgent` remain stubs, the API registry still reports `neural` unavailable.
 2. Single-observation inference only; a batched `infer` is a small extension of `InferenceBackend` if Phase 4 profiling shows leaf batching pays (Phase 1 measured a ≈1.6–1.7× per-position gain at batch 8 on 4 threads).
 3. Thread count is process-global in torch (`XIANGQI_NEURAL_THREADS`); a server hosting several models or workers must choose it once.
 4. GPU is rejected, not merely untested-by-default; enabling it needs its own parity and determinism validation.
