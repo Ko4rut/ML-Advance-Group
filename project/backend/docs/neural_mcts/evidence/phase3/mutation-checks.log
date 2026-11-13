@@ -1,0 +1,16 @@
+baseline: PASS ( / OK (skipped=1))
+DETECTED  unsafe pickle loading  [ / FAILED (failures=1, skipped=1)]
+DETECTED  SHA-256 comparison disabled  [ / FAILED (failures=5, skipped=1)]
+DETECTED  size check disabled  [ / FAILED (failures=2, skipped=1)]
+DETECTED  value sign flipped for Black  [ / FAILED (failures=7, skipped=1)]
+DETECTED  terminal shortcut removed  [ / FAILED (failures=8, errors=3, skipped=1)]
+DETECTED  uniform-prior fallback on bad output  [ / FAILED (failures=17, skipped=1)]
+DETECTED  value range check removed  [ / FAILED (failures=3, skipped=1)]
+DETECTED  model left in training mode  [ / FAILED (failures=1, errors=29, skipped=1)]
+DETECTED  non-strict state-dict load  [ / FAILED (failures=2, skipped=1)]
+DETECTED  architecture check removed  [ / FAILED (failures=1, skipped=1)]
+DETECTED  SHA env assertion ignored  [ / FAILED (failures=2, skipped=1)]
+DETECTED  non-finite weights accepted  [ / FAILED (failures=2, skipped=1)]
+DETECTED  device restriction lifted  [ / FAILED (failures=5, skipped=1)]
+DETECTED  illegal moves not masked (priors over all indices of legal list reversed)  [ / FAILED (failures=1, skipped=1)]
+ALL MUTATIONS DETECTED

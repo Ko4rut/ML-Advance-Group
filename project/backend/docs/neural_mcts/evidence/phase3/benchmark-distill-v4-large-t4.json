@@ -1,0 +1,43 @@
+{
+  "model": "distill-v4-large",
+  "sha256": "05927ccd874c4d97588ba7d06266fda9ba17700d436fdc03ff6844a0d61d0dff",
+  "parameter_count": 9484219,
+  "machine": {
+    "platform": "Linux-7.2.14-arch1-1-x86_64-with-glibc2.44",
+    "python": "3.14.9",
+    "torch": "2.11.0+cpu",
+    "cpu_threads_used": 4,
+    "cpu_model": "13th Gen Intel(R) Core(TM) i5-13420H"
+  },
+  "method": {
+    "states": 200,
+    "seed": 0,
+    "warmup": 10,
+    "legal_moves_supplied": true
+  },
+  "import_torch_seconds": 0.7068005649998668,
+  "load_seconds_incl_sha256_deserialize_validate": 0.11378059400158236,
+  "predict": {
+    "n": 200,
+    "mean_ms": 8.547631845030992,
+    "p50_ms": 7.641074997081887,
+    "p95_ms": 14.236567003536038,
+    "max_ms": 18.382406000455376
+  },
+  "raw_forward": {
+    "n": 200,
+    "mean_ms": 8.20440066025185,
+    "p50_ms": 7.28502799756825,
+    "p95_ms": 13.129765997291543,
+    "max_ms": 17.00729099684395
+  },
+  "adapter_overhead_p50_ms": 0.36629749592975713,
+  "rss_mib": {
+    "python_start": 18.69921875,
+    "after_import_torch": 231.45703125,
+    "after_load": 278.7421875,
+    "after_predictions": 291.45703125,
+    "peak_VmHWM": 321.78125
+  },
+  "model_only_rss_delta_mib": 47.28515625
+}

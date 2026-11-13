@@ -93,7 +93,7 @@ What the checks establish (VERIFIED):
 - **Coverage is finite:** 472 states (48 states from 24 hand-built rule positions × 2 colors, 10 Phase 1 fixtures [the 2 history-only draw fixtures are excluded: they have the same board as the initial position], and 414 states from 6 seeded random games, one of which ended early), not all Xiangqi positions. It does not prove rule equivalence for rarer geometry; it does show no divergence on this broad set.
 - The golden fixture's expected values come from the pinned upstream revision `7d305c0e5adbfae4e23db40997603d8dc86b078b`; a different upstream revision or checkpoint trained on another layout would need regeneration and review.
 - The in-check plane is computed by our engine's validator; the golden check flag (from upstream's encoder) agrees on all 472 states.
-- Value perspective/range and terminal precedence are specified (§1.4) but not yet implemented as production code — Phase 3.
+- Value perspective/range and terminal precedence are specified (§1.4). *Update (Phase 3):* now implemented and tested in `src/networks/pretrained/adapter.py`; see [03_MODEL_CARD.md](03_MODEL_CARD.md).
 - No MCTS ran; no strength claim.
 
 ## 5. Gate and next step

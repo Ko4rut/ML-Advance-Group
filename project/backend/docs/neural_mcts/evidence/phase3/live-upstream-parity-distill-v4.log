@@ -1,0 +1,7 @@
+test_priors_and_value_match_upstream_on_every_nonterminal_golden_state (test_real_checkpoint.LiveUpstreamParityTests.test_priors_and_value_match_upstream_on_every_nonterminal_golden_state) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 30.810s
+
+OK
+[distill-v4] live upstream parity: 467 states / 17066 legal moves, max prior err 1.57e-07, max value err 0.00e+00, raw logits bit-identical: True

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "description": "Approved pretrained Xiangqi policy-value checkpoints. Weights are NOT stored in git; see README.md. A checkpoint is trusted only if its SHA-256 equals the value pinned here.",
+  "default_model": "distill-v4-large",
+  "contract": {
+    "observation": "absolute_planes16_v1",
+    "action_vocabulary": "cclite_from_to_8100",
+    "policy_output": "logits",
+    "value_output": "tanh scalar in [-1, 1], side-to-move perspective"
+  },
+  "source": {
+    "repository": "https://github.com/hskl18/cc-lite",
+    "revision": "7d305c0e5adbfae4e23db40997603d8dc86b078b",
+    "license": "Apache-2.0 (repository); labels from Fairy-Stockfish with a CC0 network per upstream DESIGN.md"
+  },
+  "models": {
+    "distill-v4-large": {
+      "file": "distill-v4-large.pt",
+      "bytes": 38033337,
+      "sha256": "05927ccd874c4d97588ba7d06266fda9ba17700d436fdc03ff6844a0d61d0dff",
+      "format": "torch_payload_v1 (weights_only; keys: model_state, model_config, step, metadata)",
+      "upstream_path": "evidence/distill-v4-large/train/checkpoint.pt",
+      "architecture": {"channels": 192, "blocks": 12, "input_planes": 16, "policy_size": 8100, "parameter_count": 9484219}
+    },
+    "distill-v4": {
+      "file": "distill-v4.pt",
+      "bytes": 15500553,
+      "sha256": "1be52664b216529ce56240043406878a93f95f57e4153ff73c4d63afd772fba4",
+      "format": "torch_payload_v1 (weights_only; keys: model_state, model_config, step, metadata)",
+      "upstream_path": "evidence/distill-v4/train/checkpoint.pt",
+      "architecture": {"channels": 128, "blocks": 8, "input_planes": 16, "policy_size": 8100, "parameter_count": 3860347}
+    }
+  }
+}
