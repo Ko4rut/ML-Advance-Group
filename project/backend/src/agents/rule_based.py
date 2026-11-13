@@ -2,17 +2,7 @@
 
 from ..environment import GameEngine, GameState, Move
 from .base import Agent, AgentDecision, SearchBudget
-
-"""from top to bottom corresponds to: king, advisor, elephant, horse, rook, cannon, pawn"""
-_PIECE_VALUES = {
-    1: 10_000,
-    2: 20,
-    3: 20,
-    4: 40,
-    5: 90,
-    6: 45,
-    7: 10,
-}
+from .position_evaluator import PIECE_VALUES, move_priority
 
 
 class RuleBasedAgent(Agent):
@@ -39,14 +29,31 @@ class RuleBasedAgent(Agent):
         child = state.moved(move)
         result = self.engine.outcome(child)
         wins_now = int(result is not None and result.winner is moving_side)
+        if wins_now:
+            return 1, 0, 0
 
-        moved_piece_value = _PIECE_VALUES[abs(state.board[move.source])]
-        opponent_can_capture_moved_piece = any(
-            reply.target == move.target
-            for reply in self.engine.legal_moves(child)
-        )
-        safety_score = -moved_piece_value if opponent_can_capture_moved_piece else 0
-
+        opponent_moves = self.engine.legal_moves(child)
+        moved_piece_value = PIECE_VALUES[abs(state.board[move.source])]
         captured_piece = abs(state.board[move.target])
-        captured_piece_value = _PIECE_VALUES[captured_piece] if captured_piece else 0
-        return wins_now, safety_score, captured_piece_value
+        captured_piece_value = PIECE_VALUES[captured_piece] if captured_piece else 0
+        exchange_score = captured_piece_value
+        opponent_winning_replies = 0
+
+        for reply in opponent_moves:
+            reply_state = child.moved(reply)
+            reply_result = self.engine.outcome(reply_state)
+            if reply_result is not None and reply_result.winner is moving_side.opponent:
+                opponent_winning_replies += 1
+
+            if reply.target != move.target:
+                continue
+
+            continuation_moves = self.engine.legal_moves(reply_state)
+            exchange_result = captured_piece_value - moved_piece_value
+            if any(move.target == reply.target for move in continuation_moves):
+                attacker_value = PIECE_VALUES[abs(child.board[reply.source])]
+                exchange_result += attacker_value
+            exchange_score = min(exchange_score, exchange_result)
+
+        position_score = move_priority(state, move)[1]
+        return -opponent_winning_replies, exchange_score, position_score
