@@ -70,6 +70,9 @@ của agent rồi một nước phản hồi được chọn bởi mô hình đ�
   nó đo được chất lượng thế cờ.
 - `h(n) = 0`: luôn admissible khi chi phí còn lại không âm. A* khi đó tương đương
   Dijkstra và tìm được đường chiếu bí ngắn nhất trong đồ thị mô hình nếu tìm hết.
+- Khi không truyền evaluator riêng, A* dùng chung `evaluate_position` với
+  Minimax/Alpha-Beta để chấm các thế cờ và chọn nước dự phòng. Có thể truyền
+  evaluator tùy chỉnh khi khởi tạo agent.
 - CLOSED dùng toàn bộ `GameState`, gồm lịch sử và bộ đếm hòa, để không gộp nhầm
   các thế cờ có quyền tiếp diễn khác nhau do luật lặp hoặc giới hạn không ăn quân.
 - Có thể truyền `SearchBudget` để giới hạn độ sâu, số node hoặc thời gian (mặc định tối đa một
