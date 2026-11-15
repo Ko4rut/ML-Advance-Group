@@ -1,0 +1,70 @@
+name: Lab05 Connect4 final integration
+
+on:
+  push:
+    branches:
+      - fix/lab05-integrate-connect4-task4-final
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab05 - game/lab05 - game
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install unit test dependencies
+        run: python -m pip install 'numpy>=1.23,<3'
+      - name: Test integrated Connect4 algorithms
+        run: |
+          python -m unittest -v \
+            test_connect4_core \
+            test_connect4_minimax \
+            test_connect4_heuristic \
+            test_connect4_montecarlo
+
+  execute-notebook:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: lab05 - game/lab05 - game
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install notebook dependencies
+        run: python -m pip install 'numpy>=1.23,<3' 'pandas>=1.5,<4' 'matplotlib>=3.6,<4' 'jupyterlab>=4,<5' 'nbconvert>=7,<9' ipykernel
+      - name: Execute complete Connect4 notebook
+        env:
+          MPLBACKEND: Agg
+        run: |
+          python -m jupyter nbconvert --to notebook --execute --inplace \
+            --ExecutePreprocessor.timeout=1200 assignment_connect4.ipynb
+          python -m jupyter nbconvert --to html assignment_connect4.ipynb
+      - name: Upload executed notebook and HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab05-connect4-final-executed
+          path: |
+            lab05 - game/lab05 - game/assignment_connect4.ipynb
+            lab05 - game/lab05 - game/assignment_connect4.html
+      - name: Commit refreshed notebook and HTML to the integration branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/fix/lab05-integrate-connect4-task4-final'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "assignment_connect4.ipynb" "assignment_connect4.html"
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(lab05): save executed Connect4 notebook and refreshed HTML [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
