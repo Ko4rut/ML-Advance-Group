@@ -1,0 +1,29 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected ~/Projects/2026-2027/ai_advanced/ML-Advance-Group/.venv, got ~/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected ~/Projects/2026-2027/ai_advanced/ML-Advance-Group/.venv, got ~/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/../../.venv
+test_all_native_indices_round_trip (test_poc.ContractTests.test_all_native_indices_round_trip) ... ok
+test_artifact_corruption_is_rejected_before_loading (test_poc.ContractTests.test_artifact_corruption_is_rejected_before_loading) ... ok
+test_bad_shape_duplicate_or_empty_legal_moves_rejected (test_poc.ContractTests.test_bad_shape_duplicate_or_empty_legal_moves_rejected) ... ok
+test_bad_value_rejected (test_poc.ContractTests.test_bad_value_rejected) ... ok
+test_black_turn_plane_does_not_rotate_the_absolute_board (test_poc.ContractTests.test_black_turn_plane_does_not_rotate_the_absolute_board) ... ok
+test_check_plane_for_both_sides (test_poc.ContractTests.test_check_plane_for_both_sides) ... ok
+test_color_rotation_matches_channel_exchange (test_poc.ContractTests.test_color_rotation_matches_channel_exchange) ... ok
+test_extreme_legal_logits_are_stable (test_poc.ContractTests.test_extreme_legal_logits_are_stable) ... ok
+test_illegal_large_logit_has_no_effect (test_poc.ContractTests.test_illegal_large_logit_has_no_effect) ... ok
+test_initial_planes_and_absolute_piece_order (test_poc.ContractTests.test_initial_planes_and_absolute_piece_order) ... ok
+test_mate_in_one_exists_for_both_colors (test_poc.ContractTests.test_mate_in_one_exists_for_both_colors) ... ok
+test_negative_probabilities_and_bad_representations_rejected (test_poc.ContractTests.test_negative_probabilities_and_bad_representations_rejected) ... ok
+test_nonfinite_policy_is_rejected (test_poc.ContractTests.test_nonfinite_policy_is_rejected) ... ok
+test_probability_input_is_normalized_over_legal_moves (test_poc.ContractTests.test_probability_input_is_normalized_over_legal_moves) ... ok
+test_side_to_move_value_is_passed_through_without_color_sign_flip (test_poc.ContractTests.test_side_to_move_value_is_passed_through_without_color_sign_flip) ... ok
+test_terminal_results_bypass_network_for_both_colors_and_draws (test_poc.ContractTests.test_terminal_results_bypass_network_for_both_colors_and_draws) ... ok
+test_unknown_action_index_rejected (test_poc.ContractTests.test_unknown_action_index_rejected) ... ok
+test_zero_logits_yield_uniform_legal_policy (test_poc.ContractTests.test_zero_logits_yield_uniform_legal_policy) ... ok
+test_zero_probability_mass_is_an_error_not_a_hidden_fallback (test_poc.ContractTests.test_zero_probability_mass_is_an_error_not_a_hidden_fallback) ... ok
+test_actual_weights_match_manifest_and_are_loaded_on_cpu_in_eval_mode (test_poc.RealCheckpointTests.test_actual_weights_match_manifest_and_are_loaded_on_cpu_in_eval_mode) ... ok
+test_all_fixtures_match_source_encoding_policy_value_and_terminal_contract (test_poc.RealCheckpointTests.test_all_fixtures_match_source_encoding_policy_value_and_terminal_contract) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 1.662s
+
+OK
+$PY -m unittest discover -s experiments/neural_mcts/phase1 -p test_poc.py -v  3.08s user 0.13s system 148% cpu 2.154 total

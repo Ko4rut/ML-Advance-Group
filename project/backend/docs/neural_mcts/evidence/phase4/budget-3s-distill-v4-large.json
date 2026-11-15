@@ -1,0 +1,75 @@
+{
+ "model": "distill-v4-large",
+ "time_limit": 3.0,
+ "moves": [
+  {
+   "move_index": 0,
+   "side": "RED",
+   "move": "b2e2",
+   "seconds": 3.024,
+   "simulations": 218,
+   "network_evaluations": 218,
+   "terminal_leaves": 0,
+   "nodes": 8120,
+   "simulations_per_second": 72.1
+  },
+  {
+   "move_index": 1,
+   "side": "BLACK",
+   "move": "b7e7",
+   "seconds": 3.014,
+   "simulations": 229,
+   "network_evaluations": 229,
+   "terminal_leaves": 0,
+   "nodes": 8082,
+   "simulations_per_second": 76.0
+  },
+  {
+   "move_index": 2,
+   "side": "RED",
+   "move": "b0c2",
+   "seconds": 3.019,
+   "simulations": 230,
+   "network_evaluations": 230,
+   "terminal_leaves": 0,
+   "nodes": 7876,
+   "simulations_per_second": 76.2
+  },
+  {
+   "move_index": 3,
+   "side": "BLACK",
+   "move": "b9c7",
+   "seconds": 3.023,
+   "simulations": 175,
+   "network_evaluations": 175,
+   "terminal_leaves": 0,
+   "nodes": 6094,
+   "simulations_per_second": 57.9
+  },
+  {
+   "move_index": 4,
+   "side": "RED",
+   "move": "a0b0",
+   "seconds": 3.022,
+   "simulations": 157,
+   "network_evaluations": 157,
+   "terminal_leaves": 0,
+   "nodes": 5606,
+   "simulations_per_second": 52.0
+  },
+  {
+   "move_index": 5,
+   "side": "BLACK",
+   "move": "h9g7",
+   "seconds": 3.018,
+   "simulations": 205,
+   "network_evaluations": 205,
+   "terminal_leaves": 0,
+   "nodes": 7783,
+   "simulations_per_second": 67.9
+  }
+ ],
+ "median_simulations": 211.5,
+ "max_seconds": 3.024,
+ "overshoot_max_seconds": 0.024
+}

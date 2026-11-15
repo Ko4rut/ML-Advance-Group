@@ -1,0 +1,168 @@
+{
+ "summary": {
+  "model": "distill-v4-large",
+  "sha256": "05927ccd874c4d97588ba7d06266fda9ba17700d436fdc03ff6844a0d61d0dff",
+  "plies": 16,
+  "neural_side": "BLACK",
+  "opponent": "classic",
+  "budget": {
+   "max_simulations": 100,
+   "seconds": null
+  },
+  "c_puct": 1.5,
+  "result": {
+   "winner": "BLACK",
+   "reason": "checkmate"
+  },
+  "all_moves_legal": true,
+  "network_forward_passes": 698,
+  "wall_seconds": 13.45,
+  "neural_move_seconds_p50": 1.376
+ },
+ "moves": [
+  {
+   "ply": 1,
+   "side": "RED",
+   "agent": "classic",
+   "move": "h2h9",
+   "simulations": 100,
+   "nodes": 101,
+   "seconds": 0.5405
+  },
+  {
+   "ply": 2,
+   "side": "BLACK",
+   "agent": "neural",
+   "move": "i9h9",
+   "simulations": 100,
+   "nodes": 3705,
+   "seconds": 1.4568
+  },
+  {
+   "ply": 3,
+   "side": "RED",
+   "agent": "classic",
+   "move": "b2h2",
+   "simulations": 100,
+   "nodes": 101,
+   "seconds": 0.4415
+  },
+  {
+   "ply": 4,
+   "side": "BLACK",
+   "agent": "neural",
+   "move": "h7e7",
+   "simulations": 100,
+   "nodes": 4064,
+   "seconds": 1.3784
+  },
+  {
+   "ply": 5,
+   "side": "RED",
+   "agent": "classic",
+   "move": "h2i2",
+   "simulations": 100,
+   "nodes": 101,
+   "seconds": 0.3924
+  },
+  {
+   "ply": 6,
+   "side": "BLACK",
+   "agent": "neural",
+   "move": "e7e3",
+   "simulations": 100,
+   "nodes": 4574,
+   "seconds": 1.3312
+  },
+  {
+   "ply": 7,
+   "side": "RED",
+   "agent": "classic",
+   "move": "b0c2",
+   "simulations": 100,
+   "nodes": 101,
+   "seconds": 0.4015
+  },
+  {
+   "ply": 8,
+   "side": "BLACK",
+   "agent": "neural",
+   "move": "e3e5",
+   "simulations": 100,
+   "nodes": 4523,
+   "seconds": 1.4298
+  },
+  {
+   "ply": 9,
+   "side": "RED",
+   "agent": "classic",
+   "move": "a0b0",
+   "simulations": 100,
+   "nodes": 101,
+   "seconds": 0.4371
+  },
+  {
+   "ply": 10,
+   "side": "BLACK",
+   "agent": "neural",
+   "move": "b7e7",
+   "simulations": 100,
+   "nodes": 4162,
+   "seconds": 1.3735
+  },
+  {
+   "ply": 11,
+   "side": "RED",
+   "agent": "classic",
+   "move": "i2i6",
+   "simulations": 100,
+   "nodes": 101,
+   "seconds": 0.4563
+  },
+  {
+   "ply": 12,
+   "side": "BLACK",
+   "agent": "neural",
+   "move": "e5i5",
+   "simulations": 100,
+   "nodes": 3716,
+   "seconds": 1.3648
+  },
+  {
+   "ply": 13,
+   "side": "RED",
+   "agent": "classic",
+   "move": "d0e1",
+   "simulations": 100,
+   "nodes": 101,
+   "seconds": 0.4429
+  },
+  {
+   "ply": 14,
+   "side": "BLACK",
+   "agent": "neural",
+   "move": "i5i0",
+   "simulations": 100,
+   "nodes": 3046,
+   "seconds": 1.5839
+  },
+  {
+   "ply": 15,
+   "side": "RED",
+   "agent": "classic",
+   "move": "b0b4",
+   "simulations": 100,
+   "nodes": 101,
+   "seconds": 0.3764
+  },
+  {
+   "ply": 16,
+   "side": "BLACK",
+   "agent": "neural",
+   "move": "i0g0",
+   "simulations": 1,
+   "nodes": 2,
+   "seconds": 0.0044
+  }
+ ]
+}

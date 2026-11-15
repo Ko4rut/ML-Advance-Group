@@ -1,0 +1,31 @@
+test_dedup_across_files (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_dedup_across_files) ... ok
+test_duplicates_are_reported_not_added_to_training (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_duplicates_are_reported_not_added_to_training) ... ok
+test_fabricated_winner_is_quarantined (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_fabricated_winner_is_quarantined) ... ok
+test_illegal_move_is_quarantined (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_illegal_move_is_quarantined) ... ok
+test_malformed_json_and_schema_are_quarantined (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_malformed_json_and_schema_are_quarantined) ... ok
+test_output_is_never_overwritten (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_output_is_never_overwritten) ... ok
+test_sample_limit_preserves_full_bronze_provenance (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_sample_limit_preserves_full_bronze_provenance)
+Sample rows must retain the SHA of the entire source file. ... ok
+test_sample_limit_rejects_invalid_counts (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_sample_limit_rejects_invalid_counts) ... ok
+test_source_snapshot_mismatch_is_quarantined (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_source_snapshot_mismatch_is_quarantined) ... ok
+test_unknown_actor_is_not_expert (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_unknown_actor_is_not_expert) ... ok
+test_valid_replay_produces_shared_schema (tests.data_pipeline.test_silver_pipeline.SilverPipelineTests.test_valid_replay_produces_shared_schema) ... ok
+test_bad_silver_fails_without_publishing_gold (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_bad_silver_fails_without_publishing_gold) ... ok
+test_existing_output_is_not_overwritten (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_existing_output_is_not_overwritten) ... ok
+test_game_split_is_stable_and_seeded (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_game_split_is_stable_and_seeded) ... ok
+test_identical_games_across_silver_runs_are_not_double_counted (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_identical_games_across_silver_runs_are_not_double_counted) ... ok
+test_recorded_terminal_reward_and_legal_masks (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_recorded_terminal_reward_and_legal_masks) ... ok
+test_truncated_keeps_next_actions_and_does_not_reward (tests.data_pipeline.test_gold_pipeline.GoldPipelineTests.test_truncated_keeps_next_actions_and_does_not_reward) ... ok
+test_finished_win_and_draw_have_no_successor_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_finished_win_and_draw_have_no_successor_potential) ... ok
+test_invalid_configuration_rejected (tests.data_pipeline.test_gold_rewards.RewardTests.test_invalid_configuration_rejected) ... ok
+test_nonterminal_shaping_is_actor_perspective (tests.data_pipeline.test_gold_rewards.RewardTests.test_nonterminal_shaping_is_actor_perspective) ... ok
+test_pawn_advancement_changes_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_pawn_advancement_changes_potential) ... ok
+test_pipeline_emits_versioned_reward_and_metadata (tests.data_pipeline.test_gold_rewards.RewardTests.test_pipeline_emits_versioned_reward_and_metadata) ... ok
+test_side_symmetry_and_bounded_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_side_symmetry_and_bounded_potential) ... ok
+test_sparse_baseline_unchanged (tests.data_pipeline.test_gold_rewards.RewardTests.test_sparse_baseline_unchanged) ... ok
+test_truncation_is_not_a_draw_and_has_successor_potential (tests.data_pipeline.test_gold_rewards.RewardTests.test_truncation_is_not_a_draw_and_has_successor_potential) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.148s
+
+OK

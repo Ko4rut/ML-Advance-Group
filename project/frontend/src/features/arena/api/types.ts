@@ -11,6 +11,7 @@ export type AgentAvailability = {
   id: string;
   name: string;
   available: boolean;
+  unavailable_reason?: string | null;
 };
 
 export type MatchSnapshot = {

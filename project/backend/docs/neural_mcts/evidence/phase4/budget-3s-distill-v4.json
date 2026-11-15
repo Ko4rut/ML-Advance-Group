@@ -1,0 +1,75 @@
+{
+ "model": "distill-v4",
+ "time_limit": 3.0,
+ "moves": [
+  {
+   "move_index": 0,
+   "side": "RED",
+   "move": "b2e2",
+   "seconds": 3.018,
+   "simulations": 356,
+   "network_evaluations": 356,
+   "terminal_leaves": 0,
+   "nodes": 14049,
+   "simulations_per_second": 118.0
+  },
+  {
+   "move_index": 1,
+   "side": "BLACK",
+   "move": "h9g7",
+   "seconds": 3.028,
+   "simulations": 291,
+   "network_evaluations": 291,
+   "terminal_leaves": 0,
+   "nodes": 10684,
+   "simulations_per_second": 96.1
+  },
+  {
+   "move_index": 2,
+   "side": "RED",
+   "move": "b0c2",
+   "seconds": 3.017,
+   "simulations": 311,
+   "network_evaluations": 311,
+   "terminal_leaves": 0,
+   "nodes": 11514,
+   "simulations_per_second": 103.1
+  },
+  {
+   "move_index": 3,
+   "side": "BLACK",
+   "move": "b7e7",
+   "seconds": 3.014,
+   "simulations": 457,
+   "network_evaluations": 457,
+   "terminal_leaves": 0,
+   "nodes": 16851,
+   "simulations_per_second": 151.6
+  },
+  {
+   "move_index": 4,
+   "side": "RED",
+   "move": "g3g4",
+   "seconds": 3.012,
+   "simulations": 492,
+   "network_evaluations": 492,
+   "terminal_leaves": 0,
+   "nodes": 17429,
+   "simulations_per_second": 163.3
+  },
+  {
+   "move_index": 5,
+   "side": "BLACK",
+   "move": "b9c7",
+   "seconds": 3.013,
+   "simulations": 412,
+   "network_evaluations": 412,
+   "terminal_leaves": 0,
+   "nodes": 14939,
+   "simulations_per_second": 136.8
+  }
+ ],
+ "median_simulations": 384.0,
+ "max_seconds": 3.028,
+ "overshoot_max_seconds": 0.028
+}

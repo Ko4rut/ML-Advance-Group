@@ -1,0 +1,47 @@
+{
+  "variant": "distill-v4",
+  "positions_sampled": 60,
+  "engine_ms_per_node_excl_network": 1.7367945166673358,
+  "forward": {
+    "threads=1,batch=1": {
+      "seconds_per_call": 0.007352132997766603,
+      "ms_per_position": 7.352132997766603,
+      "positions_per_second": 136.0149497164667
+    },
+    "threads=1,batch=8": {
+      "seconds_per_call": 0.03245687899470795,
+      "ms_per_position": 4.057109874338494,
+      "positions_per_second": 246.48087702161348
+    },
+    "threads=1,batch=32": {
+      "seconds_per_call": 0.13084590999642387,
+      "ms_per_position": 4.088934687388246,
+      "positions_per_second": 244.56247811547635
+    },
+    "threads=4,batch=1": {
+      "seconds_per_call": 0.003389211997273378,
+      "ms_per_position": 3.389211997273378,
+      "positions_per_second": 295.0538357602004
+    },
+    "threads=4,batch=8": {
+      "seconds_per_call": 0.0158248929947149,
+      "ms_per_position": 1.9781116243393626,
+      "positions_per_second": 505.5326442126206
+    },
+    "threads=4,batch=32": {
+      "seconds_per_call": 0.054937843000516295,
+      "ms_per_position": 1.7168075937661342,
+      "positions_per_second": 582.4764543394846
+    }
+  },
+  "budget_seconds": 3.0,
+  "estimated_nodes_in_budget": {
+    "threads=1,batch=1": 330,
+    "threads=1,batch=8": 517,
+    "threads=1,batch=32": 514,
+    "threads=4,batch=1": 585,
+    "threads=4,batch=8": 807,
+    "threads=4,batch=32": 868
+  },
+  "note": "estimate = 3 s / (network ms per position + engine ms per node); ignores tree overhead, batching latency and the engine cost of expanding every child"
+}

@@ -1,0 +1,174 @@
+{
+  "NeymarL/ChineseChess-AlphaZero": {
+    "branch": "distributed",
+    "commit": "7f45b0cd7470f7f8e1da7331fc1a31374d6cc10f",
+    "license": {
+      "key": "gpl-3.0",
+      "name": "GNU General Public License v3.0",
+      "spdx_id": "GPL-3.0",
+      "url": "https://api.github.com/licenses/gpl-3.0",
+      "node_id": "MDc6TGljZW5zZTk="
+    },
+    "truncated": false,
+    "artifacts": [
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9cecc1d4669ee8af2ca727a5d8cde10cd8b2d7cc",
+        "size": 35141,
+        "url": "https://api.github.com/repos/NeymarL/ChineseChess-AlphaZero/git/blobs/9cecc1d4669ee8af2ca727a5d8cde10cd8b2d7cc"
+      },
+      {
+        "path": "data/model/model_best_config.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "37a59c5b6bb64577cadfe685bddc373554fa7409",
+        "size": 39454,
+        "url": "https://api.github.com/repos/NeymarL/ChineseChess-AlphaZero/git/blobs/37a59c5b6bb64577cadfe685bddc373554fa7409"
+      },
+      {
+        "path": "data/model/model_best_weight.h5",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1d87c882be5ebb490f7fb07ba4c306601a558726",
+        "size": 30290240,
+        "url": "https://api.github.com/repos/NeymarL/ChineseChess-AlphaZero/git/blobs/1d87c882be5ebb490f7fb07ba4c306601a558726"
+      }
+    ]
+  },
+  "Ink-bai5844/ChineseChess-AI": {
+    "branch": "main",
+    "commit": "10f2563e3daeee022b2fa05a732e565415ec3f58",
+    "license": null,
+    "truncated": false,
+    "artifacts": [
+      {
+        "path": "ChineseChess-AlphaZero/LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9cecc1d4669ee8af2ca727a5d8cde10cd8b2d7cc",
+        "size": 35141,
+        "url": "https://api.github.com/repos/Ink-bai5844/ChineseChess-AI/git/blobs/9cecc1d4669ee8af2ca727a5d8cde10cd8b2d7cc"
+      }
+    ]
+  },
+  "hskl18/cc-lite": {
+    "branch": "main",
+    "commit": "7d305c0e5adbfae4e23db40997603d8dc86b078b",
+    "license": {
+      "key": "apache-2.0",
+      "name": "Apache License 2.0",
+      "spdx_id": "Apache-2.0",
+      "url": "https://api.github.com/licenses/apache-2.0",
+      "node_id": "MDc6TGljZW5zZTI="
+    },
+    "truncated": false,
+    "artifacts": [
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4ef1535edab3f9abe9b33176afe976150030f46c",
+        "size": 11351,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/4ef1535edab3f9abe9b33176afe976150030f46c"
+      },
+      {
+        "path": "evidence/debug-v1/checkpoint/selfplay.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8f55b62ee513cfcafc20a44ffcc9204964a8c10e",
+        "size": 7139225,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/8f55b62ee513cfcafc20a44ffcc9204964a8c10e"
+      },
+      {
+        "path": "evidence/distill-v1-long/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "02b7ebb1f5fc71ebd69db0882bb8a87ee6a89317",
+        "size": 15500553,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/02b7ebb1f5fc71ebd69db0882bb8a87ee6a89317"
+      },
+      {
+        "path": "evidence/distill-v1/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8393a0691689f2b174be0e59a3a28cd97a3fcc7d",
+        "size": 15500553,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/8393a0691689f2b174be0e59a3a28cd97a3fcc7d"
+      },
+      {
+        "path": "evidence/distill-v2/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8efac38d4159f016f2797bd7eb343592160788b5",
+        "size": 15500553,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/8efac38d4159f016f2797bd7eb343592160788b5"
+      },
+      {
+        "path": "evidence/distill-v3-half-data/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "283e7555cc4f9fb99ce61ce520b7e49a4118671e",
+        "size": 15500553,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/283e7555cc4f9fb99ce61ce520b7e49a4118671e"
+      },
+      {
+        "path": "evidence/distill-v3-half-epochs/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ccc400e09999fec104a98ebff7b35c31ce98500a",
+        "size": 15500553,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/ccc400e09999fec104a98ebff7b35c31ce98500a"
+      },
+      {
+        "path": "evidence/distill-v3/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d735ea02489ca6418d9a19411b1d522217a1a7d9",
+        "size": 15500553,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/d735ea02489ca6418d9a19411b1d522217a1a7d9"
+      },
+      {
+        "path": "evidence/distill-v4-half-epochs/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "87f6ba9cb856212f05a8f37a7c18fe8d7fd78d82",
+        "size": 15500553,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/87f6ba9cb856212f05a8f37a7c18fe8d7fd78d82"
+      },
+      {
+        "path": "evidence/distill-v4-large/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ded46b0fdbee04aff3f015dd7465a65fb2c48787",
+        "size": 38033337,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/ded46b0fdbee04aff3f015dd7465a65fb2c48787"
+      },
+      {
+        "path": "evidence/distill-v4/train/checkpoint.pt",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4441fc8f321b47af203cd69b623589c6ac4bf880",
+        "size": 15500553,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/4441fc8f321b47af203cd69b623589c6ac4bf880"
+      },
+      {
+        "path": "src/model/network.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e4689b9d4f325c06fb47730831c1d43177069cae",
+        "size": 2570,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/e4689b9d4f325c06fb47730831c1d43177069cae"
+      },
+      {
+        "path": "src/xiangqi/encoding.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c46c96e0eec3b4664865ebf20f51c036ee3d0ba8",
+        "size": 1937,
+        "url": "https://api.github.com/repos/hskl18/cc-lite/git/blobs/c46c96e0eec3b4664865ebf20f51c036ee3d0ba8"
+      }
+    ]
+  }
+}

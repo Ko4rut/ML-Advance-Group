@@ -1,0 +1,42 @@
+Looking in indexes: https://download.pytorch.org/whl/cpu
+Collecting torch==2.11.0+cpu (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 2))
+  Downloading torch-2.11.0%2Bcpu-cp314-cp314-manylinux_2_28_x86_64.whl.metadata (29 kB)
+Collecting setuptools==78.1.0 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 3))
+  Downloading setuptools-78.1.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting fsspec==2026.9.0 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 4))
+  Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting networkx==3.7 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 5))
+  Downloading networkx-3.7-py3-none-any.whl.metadata (6.7 kB)
+Collecting sympy==1.14.0 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 6))
+  Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting mpmath==1.3.0 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 7))
+  Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting typing_extensions==4.16.0 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 8))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting filelock==4.2.4 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 9))
+  Downloading filelock-4.2.4-py3-none-any.whl.metadata (2.0 kB)
+Collecting Jinja2==3.1.6 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 10))
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting MarkupSafe==3.0.3 (from -r project/backend/experiments/neural_mcts/phase1/requirements-cpu.txt (line 11))
+  Downloading markupsafe-3.0.3-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+Downloading torch-2.11.0%2Bcpu-cp314-cp314-manylinux_2_28_x86_64.whl (190.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 190.3/190.3 MB 32.8 MB/s  0:00:05
+Downloading setuptools-78.1.0-py3-none-any.whl (1.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 30.2 MB/s  0:00:00
+Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+Downloading networkx-3.7-py3-none-any.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 18.8 MB/s  0:00:00
+Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 33.9 MB/s  0:00:00
+Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 59.2 MB/s  0:00:00
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading filelock-4.2.4-py3-none-any.whl (162 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading markupsafe-3.0.3-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (23 kB)
+Installing collected packages: mpmath, typing_extensions, sympy, setuptools, networkx, MarkupSafe, fsspec, filelock, Jinja2, torch
+
+Successfully installed Jinja2-3.1.6 MarkupSafe-3.0.3 filelock-4.2.4 fsspec-2026.9.0 mpmath-1.3.0 networkx-3.7 setuptools-78.1.0 sympy-1.14.0 torch-2.11.0+cpu typing_extensions-4.16.0
+
+[notice] A new release of pip is available: 26.2.1 -> 26.3
+[notice] To update, run: ~/Projects/2026-2027/ai_advanced/ML-Advance-Group/.venv/bin/python -m pip install --upgrade pip

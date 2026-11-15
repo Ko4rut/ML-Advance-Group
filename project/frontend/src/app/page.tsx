@@ -40,6 +40,7 @@ export default function Home() {
               side="top"
               value={arena.top}
               available={arena.available}
+              unavailableReasons={arena.unavailableReasons}
               disabled={arena.pending}
               onChange={arena.chooseTopAgent}
             />
@@ -68,6 +69,7 @@ export default function Home() {
               side="bottom"
               value={arena.bottom}
               available={arena.available}
+              unavailableReasons={arena.unavailableReasons}
               disabled={arena.pending}
               onChange={arena.chooseBottomAgent}
             />

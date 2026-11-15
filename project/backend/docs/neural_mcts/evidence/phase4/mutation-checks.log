@@ -1,0 +1,32 @@
+# Phase 4 mutation checks (combined from 3 invocations of mutation_checks.py; see notes)
+# Part 1: mutations 0-9 (full run, then it hung on #10 -- 'time limit ignored' loops forever; a timeout was added and the run resumed)
+baseline: PASS ( / OK)
+DETECTED  uniform priors instead of network priors  [ / FAILED (failures=7)]
+DETECTED  leaf value sign flipped  [ / FAILED (failures=5)]
+DETECTED  terminal override removed (network sees finished games)  [ / FAILED (failures=5, errors=3)]
+DETECTED  only one child created per expansion  [ / FAILED (failures=28)]
+DETECTED  evaluator handed an incomplete legal list  [ / FAILED (failures=25, errors=17)]
+DETECTED  prior coverage check removed  [ / FAILED (failures=1)]
+DETECTED  prior normalization check removed  [ / FAILED (failures=1)]
+DETECTED  value range check removed  [ / FAILED (failures=4)]
+DETECTED  evaluator 'terminal' claim ignored  [ / FAILED (errors=1)]
+DETECTED  UCT accepted for neural search  [ / FAILED (failures=1)]
+# Part 2: mutations 10-18 (resumed with START=10 and a 240 s timeout). #17 'CLASSIC: UCT exploration term changed' was MISSED here: the pinned classic cases were too insensitive (40 moves, 80 simulations)
+baseline: PASS ( / OK)
+DETECTED  time limit ignored  [TIMEOUT after 240s (hang)]
+DETECTED  root win shortcut disabled  [ / FAILED (failures=3)]
+DETECTED  best child ignores the prior tie-break  [ / FAILED (failures=1)]
+DETECTED  simulation cap ignored  [TIMEOUT after 240s (hang)]
+DETECTED  agent bypasses search.best_child  [ / FAILED (failures=1)]
+DETECTED  adapter not actually called by NeuralEvaluator  [ / FAILED (failures=7)]
+DETECTED  CLASSIC: uniform prior constant changed  [ / FAILED (failures=1)]
+MISSED    CLASSIC: UCT exploration term changed  [ / OK]
+DETECTED  CLASSIC: backprop sign broken  [ / FAILED (failures=15)]
+SOME CHECK FAILED
+# Part 3: after adding two low-branching 400-simulation pinned classic cases, mutations 16-18 re-run (START=16)
+baseline: PASS ( / OK)
+DETECTED  CLASSIC: uniform prior constant changed  [ / FAILED (failures=1)]
+DETECTED  CLASSIC: UCT exploration term changed  [ / FAILED (failures=2)]
+DETECTED  CLASSIC: backprop sign broken  [ / FAILED (failures=17)]
+ALL MUTATIONS DETECTED
+# Result: 19/19 mutations detected (the 2 'TIMEOUT' detections are bugs that make the search run forever)

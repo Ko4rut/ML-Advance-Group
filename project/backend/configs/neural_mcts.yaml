@@ -1,0 +1,12 @@
+# Optional model service; weights are provisioned explicitly, never at startup.
+enabled: true
+model: distill-v4-large  # alternative: distill-v4
+# Phase 3 XIANGQI_NEURAL_* environment settings override these model settings.
+path: null             # models/neural/<model>.pt, relative to backend root
+sha256: null           # optional assertion; pinned manifest hash always verified
+device: cpu
+threads: null          # process-global torch setting; leave deployment default
+c_puct: 1.5
+time_limit: 3.0         # soft search target, plus root prework/in-flight simulation
+max_simulations: null  # optional second limit; whichever is reached first
+seed: null

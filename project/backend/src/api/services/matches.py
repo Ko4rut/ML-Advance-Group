@@ -10,6 +10,7 @@ from ...agents import (
     HeuristicAgent,
     MinimaxAgent,
     MCTSAgent,
+    NeuralMCTSAgent,
     RandomAgent,
     RuleBasedAgent,
 )
@@ -20,6 +21,8 @@ from ..models.match import (
     MoveModel, MoveRequest, ParticipantModel, StepRequest,
 )
 from .mcts import MCTSService
+from .neural_mcts import NeuralMCTSService
+from ...networks.pretrained import NeuralModelError
 from .opening_book import OpeningBookService, OpeningSession
 from .tabular_q import TabularQService
 
@@ -72,12 +75,14 @@ class MatchService:
         self,
         mcts_service: MCTSService | None = None,
         tabular_q_service: TabularQService | None = None,
+        neural_service: NeuralMCTSService | None = None,
     ) -> None:
         self._matches: dict[str, Match] = {}
         self._lock = RLock()
         self._opening_book = OpeningBookService()
         self._mcts = mcts_service if mcts_service is not None else MCTSService()
         self._tabular_q = tabular_q_service if tabular_q_service is not None else TabularQService()
+        self._neural = neural_service if neural_service is not None else NeuralMCTSService()
 
     def agents(self) -> list[AgentInfo]:
         agents: list[AgentInfo] = []
@@ -85,6 +90,11 @@ class MatchService:
             if agent.id == "tabular_q":
                 agents.append(AgentInfo(
                     id=agent.id, name=agent.name, available=self._tabular_q.available
+                ))
+            elif agent.id == "neural":
+                agents.append(AgentInfo(
+                    id=agent.id, name=agent.name, available=self._neural.available,
+                    unavailable_reason=self._neural.unavailable_reason,
                 ))
             else:
                 agents.append(agent)
@@ -100,15 +110,20 @@ class MatchService:
         if participant.type == "human":
             return None
         agent_id = participant.agent_id
-        catalog = {agent.id: agent for agent in self.agents()}
+        # Creating a classic match must not initialize the optional neural model.
+        catalog = {agent.id: agent for agent in AGENT_CATALOG}
         if agent_id not in catalog:
             raise MatchError(422, f"unknown agent: {agent_id}")
+        if agent_id == "neural":
+            try:
+                return self._neural.make_agent(env.engine)
+            except NeuralModelError as exc:
+                raise MatchError(503, str(exc)) from exc
+        if agent_id == "tabular_q":
+            if not self._tabular_q.available:
+                raise MatchError(503, self._tabular_q.unavailable_reason or "Tabular Q checkpoint unavailable")
+            return self._tabular_q.make_agent(env.engine)
         if not catalog[agent_id].available:
-            if agent_id == "tabular_q":
-                raise MatchError(
-                    503,
-                    self._tabular_q.unavailable_reason or "Tabular Q checkpoint unavailable",
-                )
             raise MatchError(503, f"agent not implemented yet: {agent_id}")
         if agent_id == "random":
             return RandomAgent()
@@ -122,8 +137,6 @@ class MatchService:
             return AlphaBetaAgent(env.engine)
         if agent_id == "mcts":
             return self._mcts.make_agent(env.engine)
-        if agent_id == "tabular_q":
-            return self._tabular_q.make_agent(env.engine)
         raise MatchError(503, f"agent not implemented yet: {agent_id}")
 
     def create(self, request: CreateMatchRequest) -> MatchSnapshot:
@@ -135,9 +148,9 @@ class MatchService:
         opening_mode = request.opening_mode
         if opening_mode is None:
             opening_mode = "none"
-            # Keep Q-learning's early decisions genuine unless book is
-            # explicitly requested. Other agent matches retain random book.
-            if request.red.agent_id != "tabular_q" and request.black.agent_id != "tabular_q":
+            # Keep checkpoint-backed agents' early decisions genuine unless
+            # book is explicitly requested. Other agent matches retain random book.
+            if not {request.red.agent_id, request.black.agent_id} & {"tabular_q", "neural"}:
                 if request.red.type == "agent" or request.black.type == "agent":
                     opening_mode = "book"
         opening = self._opening_book.start(
@@ -203,7 +216,12 @@ class MatchService:
             legal_moves = match.env.get_legal_actions()
             action = self._opening_book.next_move(match.opening, state, legal_moves)
             if action is None:
-                if isinstance(agent, MCTSAgent):
+                if isinstance(agent, NeuralMCTSAgent):
+                    try:
+                        action = self._neural.select_move(agent, state)
+                    except NeuralModelError as exc:
+                        raise MatchError(503, str(exc)) from exc
+                elif isinstance(agent, MCTSAgent):
                     action = self._mcts.select_move(agent, state)
                 else:
                     action = agent.select_action(state).move

@@ -16,6 +16,7 @@ export function useAgentCatalog() {
   const [available, setAvailable] = useState<Set<AgentId>>(initialAvailableAgents);
   const [connected, setConnected] = useState(false);
   const [catalogError, setCatalogError] = useState<string | null>(null);
+  const [unavailableReasons, setUnavailableReasons] = useState<Partial<Record<AgentId, string>>>({});
 
   useEffect(function loadCatalogEffect() {
     let cancelled = false;
@@ -28,13 +29,17 @@ export function useAgentCatalog() {
         }
 
         const nextAvailable = new Set<AgentId>(["human"]);
+        const reasons: Partial<Record<AgentId, string>> = {};
         for (const agent of catalog) {
           if (agent.available) {
             nextAvailable.add(agent.id as AgentId);
+          } else if (agent.unavailable_reason) {
+            reasons[agent.id as AgentId] = agent.unavailable_reason;
           }
         }
 
         setAvailable(nextAvailable);
+        setUnavailableReasons(reasons);
         setConnected(true);
         setCatalogError(null);
       } catch (error: unknown) {
@@ -57,6 +62,6 @@ export function useAgentCatalog() {
     };
   }, []);
 
-  return { available, connected, catalogError };
+  return { available, unavailableReasons, connected, catalogError };
 }
 

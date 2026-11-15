@@ -1,4 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Xiangqi Arena frontend
+
+Run the [FastAPI backend](../backend/README.md#backend-cho-website-và-neural-mcts) alongside
+this frontend. Neural MCTS requires CPU PyTorch installed in the **same Python environment
+that starts the backend**, plus a provisioned real checkpoint. A temporary test runtime does
+not enable another backend environment. Setup: [neural model guide](../backend/models/neural/README.md).
+
+After installing missing dependencies or weights, restart the backend and reload this page.
+Select Neural MCTS, create a match, then click **Chạy AI** if the AI moves first. Select AI
+for both sides to watch an AI-vs-AI game. Full workflow: [INTEGRATION.md](INTEGRATION.md).
 
 ## Getting Started
 

@@ -56,6 +56,8 @@ button:focus-visible { outline: 2px solid #61c9bb; outline-offset: 3px; }
 .is-active .agent-glyph { color:var(--red); }
 .selector--bottom .is-active .agent-glyph { color:var(--blue); }
 .agent-name { font-size:10px; font-weight:700; text-align:center; line-height:1.25; white-space:normal; overflow-wrap:anywhere; }
+.agent-unavailable { font-size:9px; line-height:1; }
+.neural-status { color:var(--subtle); font-size:12px; line-height:1.5; overflow-wrap:anywhere; }
 .board-section { background:var(--panel); border:1px solid var(--border); border-radius:17px; padding:14px 16px 12px; }
 .board-title { display:flex; justify-content:space-between; align-items:center; padding:0 1px 13px; gap:12px; font-weight:800; font-size:10px; letter-spacing:1.3px; }
 .board-title-icon { color:var(--red); font-size:17px; padding-right:5px; vertical-align:middle; }

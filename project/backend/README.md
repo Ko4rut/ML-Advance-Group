@@ -3,6 +3,27 @@
 Nền tảng Python cho hệ thống AI Agent Cờ Tướng theo tài liệu trong `docs/`.
 Python >= 3.10; phiên bản nền tảng không cần thư viện bên ngoài.
 
+## Backend cho website và Neural MCTS
+
+Từ repository root, dùng cùng Python environment để cài dependencies và chạy backend:
+
+```sh
+source .venv/bin/activate
+cd project/backend
+python -m pip install -e '.[api,test]'
+python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch==2.11.0'
+python scripts/fetch_neural_checkpoint.py --model distill-v4-large
+python -m uvicorn src.api.main:app --reload --port 8000
+```
+
+Lệnh tải checkpoint chỉ cần khi chưa có weights đã được xác minh. Chạy frontend bằng
+`npm run dev` từ `project/frontend`, mở <http://localhost:3000>, chọn Neural MCTS,
+nhấn **Tạo trận đấu**, rồi **Chạy AI** nếu AI đi trước. Để xem hai AI tự đấu, chọn AI
+cho cả hai phía. Nếu thiếu PyTorch, Neural MCTS sẽ bị vô hiệu hóa với thông báo rõ ràng.
+Sau khi cài runtime hoặc weights, **khởi động lại backend và tải lại trang**.
+
+Xem [hướng dẫn model](models/neural/README.md) và [API.md](API.md) để cấu hình chi tiết.
+
 ## Chạy nhanh
 
 Từ thư mục `project`, trong PowerShell:

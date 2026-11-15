@@ -1,0 +1,7 @@
+baseline failing=0
+DETECTED (474 failing) colors swapped (black planes first)
+DETECTED (443 failing) piece order wrong (rook<->cannon)
+DETECTED (473 failing) turn plane inverted
+DETECTED (471 failing) vocabulary transposed (target*90+source)
+DETECTED (939 failing) encoder transposed (target*90+source)
+DETECTED (341 failing) check plane never set

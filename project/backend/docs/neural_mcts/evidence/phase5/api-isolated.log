@@ -1,0 +1,34 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/.venv, got /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/.venv, got /home/thien408/Projects/2026-2027/ai_advanced/ML-Advance-Group/project/backend/../../.venv
+/tmp/neural-mcts-phase5/api-deps/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_black_neural_replies_to_human (tests.api.test_neural_mcts_api.NeuralApiTests.test_black_neural_replies_to_human) ... ok
+test_catalog_validates_forward_and_caches_readiness (tests.api.test_neural_mcts_api.NeuralApiTests.test_catalog_validates_forward_and_caches_readiness) ... ok
+test_concurrent_first_requests_only_load_once (tests.api.test_neural_mcts_api.NeuralApiTests.test_concurrent_first_requests_only_load_once) ... ok
+test_draw_is_terminal_without_network (tests.api.test_neural_mcts_api.NeuralApiTests.test_draw_is_terminal_without_network) ... ok
+test_explicit_book_then_neural_and_reset (tests.api.test_neural_mcts_api.NeuralApiTests.test_explicit_book_then_neural_and_reset) ... ok
+test_invalid_participant_and_unknown_agent_are_422 (tests.api.test_neural_mcts_api.NeuralApiTests.test_invalid_participant_and_unknown_agent_are_422) ... ok
+test_mate_and_terminal_authority_both_colors (tests.api.test_neural_mcts_api.NeuralApiTests.test_mate_and_terminal_authority_both_colors) ... ok
+test_neural_and_classic_both_work_in_same_match (tests.api.test_neural_mcts_api.NeuralApiTests.test_neural_and_classic_both_work_in_same_match) ... ok
+test_red_neural_move_uses_neural_budget_and_correct_turns (tests.api.test_neural_mcts_api.NeuralApiTests.test_red_neural_move_uses_neural_budget_and_correct_turns) ... ok
+test_reuse_across_moves_participants_matches_and_reset (tests.api.test_neural_mcts_api.NeuralApiTests.test_reuse_across_moves_participants_matches_and_reset) ... ok
+test_runtime_failure_is_explicit_preserves_board_and_disables_agent (tests.api.test_neural_mcts_api.NeuralApiTests.test_runtime_failure_is_explicit_preserves_board_and_disables_agent) ... ok
+test_startup_health_and_classic_creation_do_not_load_model (tests.api.test_neural_mcts_api.NeuralApiTests.test_startup_health_and_classic_creation_do_not_load_model) ... ok
+test_both_models_and_environment_precedence (tests.api.test_neural_mcts_api.NeuralFailureTests.test_both_models_and_environment_precedence) ... ok
+test_default_config_has_approved_model_and_budget (tests.api.test_neural_mcts_api.NeuralFailureTests.test_default_config_has_approved_model_and_budget) ... ok
+test_failed_readiness_forward_never_reports_available (tests.api.test_neural_mcts_api.NeuralFailureTests.test_failed_readiness_forward_never_reports_available) ... ok
+test_feature_flag_disables_without_loading (tests.api.test_neural_mcts_api.NeuralFailureTests.test_feature_flag_disables_without_loading) ... ok
+test_invalid_configuration_never_loads_weights (tests.api.test_neural_mcts_api.NeuralFailureTests.test_invalid_configuration_never_loads_weights) ... ok
+test_loader_failure_cached_for_missing_runtime_and_corrupt_weights (tests.api.test_neural_mcts_api.NeuralFailureTests.test_loader_failure_cached_for_missing_runtime_and_corrupt_weights) ... ok
+test_missing_checkpoint_real_loader_error (tests.api.test_neural_mcts_api.NeuralFailureTests.test_missing_checkpoint_real_loader_error) ... ok
+test_missing_malformed_and_non_mapping_yaml (tests.api.test_neural_mcts_api.NeuralFailureTests.test_missing_malformed_and_non_mapping_yaml) ... ok
+test_black_mcts_replies_to_human_move (tests.api.test_mcts_api.MCTSApiTests.test_black_mcts_replies_to_human_move) ... ok
+test_catalog_lists_mcts_as_available (tests.api.test_mcts_api.MCTSApiTests.test_catalog_lists_mcts_as_available) ... ok
+test_default_config_file_is_loadable (tests.api.test_mcts_api.MCTSApiTests.test_default_config_file_is_loadable) ... ok
+test_opening_book_and_reset_still_work_with_mcts (tests.api.test_mcts_api.MCTSApiTests.test_opening_book_and_reset_still_work_with_mcts) ... ok
+test_red_mcts_selects_legal_move_with_configured_budget (tests.api.test_mcts_api.MCTSApiTests.test_red_mcts_selects_legal_move_with_configured_budget) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 1.578s
+
+OK

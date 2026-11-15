@@ -92,10 +92,31 @@ class RolloutEvaluator:
 
 
 class NeuralEvaluator:
-    def __init__(self, network, observation_encoder, action_encoder) -> None:
-        self.network = network
-        self.observation_encoder = observation_encoder
-        self.action_encoder = action_encoder
+    """Policy-value evaluator backed by a pretrained-network adapter.
 
-    def evaluate(self, state: GameState):
-        raise NotImplementedError("NeuralEvaluator is not implemented yet")
+    ``evaluate_with_priors(state, legal_moves)`` is the interface ``NeuralMCTSSearch``
+    uses: it returns an object with ``priors`` (``{legal Move: p}``, sum 1), ``value``
+    (side-to-move view, in [-1, 1]) and ``is_terminal``. ``evaluate(state)`` returns
+    the value only, like ``RolloutEvaluator`` (it carries no priors, so UCT using it is
+    NOT neural-guided search). The adapter is duck-typed (``adapter.predict``), so
+    this module never imports torch or the networks package.
+
+    Single-state only. A batched variant would add ``evaluate_with_priors_batch``
+    next to this method; nothing else in the evaluator contract would change.
+    """
+
+    def __init__(self, adapter) -> None:
+        if not callable(getattr(adapter, "predict", None)):
+            raise TypeError("adapter must provide predict(state, legal_moves)")
+        self.adapter = adapter
+
+    def evaluate_with_priors(self, state: GameState, legal_moves=None):
+        return self.adapter.predict(state, legal_moves)
+
+    def evaluate(self, state: GameState) -> float:
+        return self.adapter.predict(state).value
+
+    @property
+    def inference_calls(self) -> int:
+        """Network forward passes made so far (terminal states are not counted)."""
+        return self.adapter.inference_calls
