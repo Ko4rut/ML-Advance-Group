@@ -38,11 +38,17 @@ from ..training.opening_book import get_opening
 from . import agent_registry, provenance
 from .agent_registry import BACKEND_ROOT
 
-SCHEMA_VERSION = 1
+# Schema history:
+#   1  original records
+#   2  adds ``budget_mode`` to every record (the reader still accepts 1; a missing
+#      budget_mode means "default", which is what every schema-1 run used).
+SCHEMA_VERSION = 2
+SUPPORTED_SCHEMA_VERSIONS = (1, 2)
 DEFAULT_OUTPUT_ROOT = BACKEND_ROOT / "results" / "tournaments"
 SMOKE_MAX_PLIES = 40
 SMOKE_OPENINGS = 2
 LOGGER_NAME = "tournament"
+DEFAULT_MIN_GAMES_PER_PAIR = 100
 
 # --------------------------------------------------------------------------
 # Config
@@ -60,9 +66,20 @@ class ResolvedConfig:
     full_games_per_pair: int = 0  # games/pair of the un-overridden config (pilot estimate)
 
     @property
+    def budget_mode(self) -> str:
+        return self.data.get("budget_mode", "default")
+
+    @property
     def hash_view(self) -> dict[str, Any]:
         view = copy.deepcopy(self.data)
         view["agents"] = agent_registry.hash_view(self.data["agents"])
+        # ``budget_mode`` is part of the hash, but "default" is the implicit value of every
+        # config written before the key existed: leaving it out then keeps their hashes (and
+        # so --resume of old runs) valid. equal_time always contributes mode and time_per_move.
+        if view.get("budget_mode", "default") == "default":
+            view.pop("budget_mode", None)
+        if view.get("time_per_move") is None:
+            view.pop("time_per_move", None)
         return view
 
     @property
@@ -96,14 +113,34 @@ def resolve_config(
     mode: str = "full",
     backend_root: Path = BACKEND_ROOT,
     env: Mapping[str, str] | None = None,
+    enforce_min_games: bool = True,
 ) -> ResolvedConfig:
-    """Validate ``raw`` and apply the smoke/pilot overrides."""
+    """Validate ``raw`` and apply the smoke/pilot overrides.
+
+    ``min_games_per_pair`` (default 100) is a guard for real runs: a full config
+    with fewer games per pair is rejected. smoke/pilot are exempt, and so is
+    resuming an existing run (``enforce_min_games=False``, used by
+    :func:`load_resume_config`) so that runs started under an older config stay
+    resumable. The guard is not part of the config hash.
+    """
     if mode not in {"full", "smoke", "pilot"}:
         raise ValueError(f"unknown mode {mode!r}")
     required = {"name", "master_seed", "opening_book_version", "openings", "max_plies", "agents"}
     missing = sorted(required - set(raw))
     if missing:
         raise ValueError(f"tournament config is missing: {missing}")
+    budget_mode = raw.get("budget_mode", "default")
+    if budget_mode not in agent_registry.BUDGET_MODES:
+        raise ValueError(
+            f"budget_mode must be one of {list(agent_registry.BUDGET_MODES)}, got {budget_mode!r}")
+    if "time_per_move" in raw and budget_mode != "equal_time":
+        raise ValueError("time_per_move only applies to budget_mode 'equal_time'")
+    time_per_move = None
+    if budget_mode == "equal_time":
+        time_per_move = agent_registry._equal_time_value(raw.get("time_per_move"))
+    min_games = raw.get("min_games_per_pair", DEFAULT_MIN_GAMES_PER_PAIR)
+    if type(min_games) is not int or min_games < 1:
+        raise ValueError("min_games_per_pair must be a positive integer")
     master_seed = raw["master_seed"]
     if type(master_seed) is not int:
         raise ValueError("master_seed must be an integer")
@@ -137,6 +174,15 @@ def resolve_config(
             )
         finals[key] = opening_id
 
+    # Checked after the opening validation above, so a specific problem (unknown id, same final
+    # position) is reported first. Enough games must come from enough *distinct* openings.
+    if mode == "full" and enforce_min_games and full_games_per_pair < min_games:
+        raise ValueError(
+            f"{full_games_per_pair} games per pair ({len(openings)} openings x {colors} color(s)) "
+            f"is below min_games_per_pair={min_games}. Add distinct openings (repeating one gives "
+            "identical games for deterministic agents); smoke/pilot runs are exempt, and a "
+            "deliberately smaller experiment must lower min_games_per_pair explicitly.")
+
     if mode == "smoke":
         step = max(1, len(openings) // SMOKE_OPENINGS)
         openings = openings[::step][:SMOKE_OPENINGS]
@@ -151,7 +197,8 @@ def resolve_config(
             f"max_plies ({max_plies}) must exceed the longest opening ({longest} plies)"
         )
 
-    agents, excluded = agent_registry.resolve_agents(raw["agents"], backend_root, env)
+    agents, excluded = agent_registry.resolve_agents(
+        raw["agents"], backend_root, env, budget_mode=budget_mode, time_per_move=time_per_move)
     if len(agents) < 2:
         raise ValueError(f"need at least two agents, have {sorted(agents)}; excluded={excluded}")
     data = {
@@ -161,6 +208,8 @@ def resolve_config(
         "openings": openings,
         "colors_per_opening": colors,
         "max_plies": max_plies,
+        "budget_mode": budget_mode,
+        "time_per_move": time_per_move,
         "agents": agents,
     }
     return ResolvedConfig(
@@ -347,6 +396,7 @@ def play_tournament_game(
             "book_version": data["opening_book_version"], "plies": len(opening.moves),
         },
         "seeds": {"game": spec.seed, "red": spec.seed_red, "black": spec.seed_black},
+        "budget_mode": data.get("budget_mode", "default"),
         "budgets": {side: agent_registry.budget_to_dict(budgets[side]) for side in ("red", "black")},
         "moves": moves,
         "outcome": outcome,
@@ -365,6 +415,10 @@ def play_tournament_game(
 def _worker_init() -> None:
     # Only the main process reacts to Ctrl+C; it then stops the workers.
     signal.signal(signal.SIGINT, signal.SIG_IGN)
+    # One CPU thread per worker for numeric libraries (set before torch is ever imported here;
+    # the neural adapter additionally pins torch itself with set_num_threads).
+    for variable in ("OMP_NUM_THREADS", "MKL_NUM_THREADS"):
+        os.environ.setdefault(variable, "1")
 
 
 def _play_job(spec: GameSpec, data: dict[str, Any], run_id: str, config_hash: str) -> dict[str, Any]:
@@ -460,7 +514,7 @@ def read_games_log(
             record = json.loads(piece)
         except (ValueError, UnicodeDecodeError) as exc:
             raise ValueError(f"{path.name}: corrupt record on line {number}") from exc
-        if not isinstance(record, dict) or record.get("schema_version") != SCHEMA_VERSION:
+        if not isinstance(record, dict) or record.get("schema_version") not in SUPPORTED_SCHEMA_VERSIONS:
             raise ValueError(f"{path.name}: unsupported record on line {number}")
         index = record.get("game_index")
         if type(index) is not int or index not in expected_keys:
@@ -671,9 +725,11 @@ def run_tournament(
             "config_path": config_path,
             "config_hash": chash,
             "config": config.hash_view,
+            "budget_mode": config.budget_mode,
+            "time_per_move": data.get("time_per_move"),
             "games_per_pair": config.games_per_pair,
             "total_games": total,
-            "agents": {name: agent_registry.describe(name, params)
+            "agents": {name: agent_registry.describe(name, params, config.budget_mode)
                        for name, params in data["agents"].items()},
             "excluded_agents": config.excluded,
             "openings": [
@@ -706,6 +762,13 @@ def run_tournament(
                 "clean commit. See git.diff in the run directory.", len(git_now["status"]))
         logger.info("Agents: %s | games/pair: %d | total games: %d | workers: %d",
                     ", ".join(data["agents"]), config.games_per_pair, total, n_workers)
+        if config.budget_mode == "equal_time":
+            fixed = [n for n in data["agents"] if not agent_registry.REGISTRY[n].budget_applicable]
+            logger.info("Budget mode: equal_time, %.3g s per move for %s; no budget for %s "
+                        "(they do not search).", data["time_per_move"],
+                        ", ".join(n for n in data["agents"] if n not in fixed), ", ".join(fixed) or "-")
+        else:
+            logger.info("Budget mode: default (each agent keeps its own code defaults)")
 
         entries = read_games_log(log_path, expected_keys, chash, logger)
         if retry_errors:
@@ -785,6 +848,7 @@ def run_tournament(
 
     return {
         "run_id": run_id, "run_dir": str(run_dir), "status": status,
+        "budget_mode": config.budget_mode,
         "completed": len(summaries), "total": total, "interrupted": interrupted,
         "errors": sum(1 for s in summaries.values() if s["status"] == "error"),
         "truncated": sum(1 for s in summaries.values() if s["status"] == "truncated"),
@@ -792,22 +856,63 @@ def run_tournament(
     }
 
 
-def print_pilot_estimate(run_dir: str | Path, full_games_per_pair: int, workers: int) -> None:
-    """Extrapolate total tournament time from the one-game-per-pair pilot."""
-    per_pair: list[tuple[str, str, float, int]] = []
-    for line in (Path(run_dir) / "games.jsonl").read_text(encoding="utf-8").splitlines():
+def pilot_estimate(run_dir: str | Path, full_games_per_pair: int, workers: int) -> dict[str, Any]:
+    """Extrapolate total tournament time from the one-game-per-pair pilot.
+
+    Every configured pair is in the pilot, so new agents (``minimax``,
+    ``neural_mcts``) and the active ``budget_mode`` (``equal_time`` makes every
+    searching agent think for ~T per move) are included automatically: the
+    sample is the real cost of each pairing under the real budgets. Also returns
+    the mean think time of each agent in the pilot, to see *who* dominates.
+    """
+    run_dir = Path(run_dir)
+    manifest_path = run_dir / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.is_file() else {}
+    pairs: list[dict[str, Any]] = []
+    think: dict[str, list[float]] = {}
+    errors = 0
+    for line in (run_dir / "games.jsonl").read_text(encoding="utf-8").splitlines():
         record = json.loads(line)
         if record["outcome"]["status"] == "error":
+            errors += 1
             continue
-        per_pair.append((*record["pair"], record["elapsed_seconds"], record["plies"]))
-    print("\nPilot: one game per pair (first opening, A=red)")
-    for a, b, seconds, plies in per_pair:
-        print(f"  {a:>10} vs {b:<10} {seconds:8.1f}s  {plies:3d} plies")
-    sequential = sum(seconds for _, _, seconds, _ in per_pair) * full_games_per_pair
-    print(f"\nEstimate for {len(per_pair)} pairs x {full_games_per_pair} games/pair:")
-    print(f"  sequential : {format_duration(sequential)}")
-    print(f"  {workers} worker(s): {format_duration(sequential / workers)}"
+        pairs.append({
+            "a": record["pair"][0], "b": record["pair"][1],
+            "seconds": record["elapsed_seconds"], "plies": record["plies"],
+        })
+        for move in record["moves"]:
+            if move["actor"] != "opening":
+                think.setdefault(move["actor"], []).append(move["think_seconds"])
+    sequential = sum(row["seconds"] for row in pairs) * full_games_per_pair
+    return {
+        "budget_mode": manifest.get("budget_mode", "default"),
+        "time_per_move": manifest.get("time_per_move"),
+        "pairs": pairs, "errors": errors,
+        "think_mean_s": {name: sum(values) / len(values) for name, values in think.items()},
+        "games_per_pair": full_games_per_pair, "workers": workers,
+        "sequential_seconds": sequential, "parallel_seconds": sequential / max(1, workers),
+    }
+
+
+def print_pilot_estimate(run_dir: str | Path, full_games_per_pair: int, workers: int) -> None:
+    estimate = pilot_estimate(run_dir, full_games_per_pair, workers)
+    mode = estimate["budget_mode"]
+    label = f"{mode}, {estimate['time_per_move']:g} s per move" if mode == "equal_time" else mode
+    print(f"\nPilot: one game per pair (first opening, A=red), budget_mode={label}")
+    for row in estimate["pairs"]:
+        print(f"  {row['a']:>11} vs {row['b']:<11} {row['seconds']:8.1f}s  {row['plies']:3d} plies")
+    if estimate["errors"]:
+        print(f"  WARNING: {estimate['errors']} pilot game(s) ended in an agent error and are left "
+              "out of the estimate (so it is too low); fix them first.")
+    print("\nMean think time per move in the pilot:")
+    for name, seconds in sorted(estimate["think_mean_s"].items(), key=lambda item: -item[1]):
+        print(f"  {name:>11} {seconds:8.4f} s")
+    pairs, games = len(estimate["pairs"]), estimate["games_per_pair"]
+    print(f"\nEstimate for {pairs} pairs x {games} games/pair = {pairs * games} games:")
+    print(f"  sequential : {format_duration(estimate['sequential_seconds'])}")
+    print(f"  {estimate['workers']} worker(s): {format_duration(estimate['parallel_seconds'])}"
           "  (assumes linear speed-up; one sample per pair is rough)")
+    print("  Includes the one-off neural model load of the pilot (a few seconds per worker).")
 
 
 def load_resume_config(
@@ -827,6 +932,9 @@ def load_resume_config(
     if not path.is_absolute() and not path.exists():
         path = BACKEND_ROOT / path
     raw = load_raw_config(path)
+    # The run already exists: min_games_per_pair guards *new* runs only (the config hash
+    # still has to match, so nothing about the experiment can change).
+    resolve_kwargs.setdefault("enforce_min_games", False)
     return resolve_config(raw, mode=manifest.get("mode", "full"), **resolve_kwargs), config_path
 
 

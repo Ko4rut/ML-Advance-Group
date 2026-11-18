@@ -18,6 +18,7 @@ from src.evaluation import tournament as t
 from src.training.opening_book import get_opening
 
 SIX = ("random", "rules", "alphabeta", "heuristic", "mcts", "tabular_q")
+LEGACY_CONFIG = t.BACKEND_ROOT / "configs" / "tournament.yaml"  # 25 openings x 2 = 50 games/pair
 
 
 def small_raw(**overrides):
@@ -30,6 +31,7 @@ def small_raw(**overrides):
         "max_plies": 16,
         "agents": {"random": {}, "rules": {}},
         "workers": 1,
+        "min_games_per_pair": 1,  # these unit configs are tiny on purpose
     }
     raw.update(overrides)
     return raw
@@ -108,16 +110,21 @@ class ConfigTests(unittest.TestCase):
         config = t.resolve_config(small_raw())
         self.assertEqual(config.games_per_pair, 4)
 
-    def test_shipped_config_is_valid_with_25_openings(self):
-        raw = t.load_raw_config(t.BACKEND_ROOT / "configs" / "tournament.yaml")
+    def test_legacy_config_is_kept_but_no_longer_passes_the_min_games_guard(self):
+        raw = t.load_raw_config(LEGACY_CONFIG)
         self.assertEqual(len(raw["openings"]), 25)
         with tempfile.TemporaryDirectory() as empty:
             # Point the optional checkpoint at nothing: agent is excluded, config still valid.
             raw["agents"]["tabular_q"]["checkpoint"] = str(Path(empty) / "missing.json.gz")
-            config = t.resolve_config(raw, env={})
-        self.assertEqual(config.games_per_pair, 50)
-        self.assertIn("tabular_q", config.excluded)
-        self.assertEqual(len(t.build_schedule(config.data)), 500)  # 5 agents, 10 pairs
+            with self.assertRaisesRegex(ValueError, "below min_games_per_pair=100"):
+                t.resolve_config(raw, env={})
+            # Resuming an existing run (and explicit opt-out) keeps the old config usable.
+            config = t.resolve_config(raw, env={}, enforce_min_games=False)
+            self.assertEqual(config.games_per_pair, 50)
+            self.assertIn("tabular_q", config.excluded)
+            self.assertEqual(len(t.build_schedule(config.data)), 500)  # 5 agents, 10 pairs
+            raw["min_games_per_pair"] = 50
+            self.assertEqual(t.resolve_config(raw, env={}).config_hash, config.config_hash)  # not hashed
 
     def test_same_final_position_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "same final position"):
@@ -311,7 +318,7 @@ class FakeAgentTests(unittest.TestCase):
         self.assertEqual(resolved["tabular_q"]["epsilon"], 0.0)
 
     def test_shipped_config_has_no_agent_overrides_except_wiring(self):
-        raw = t.load_raw_config(t.BACKEND_ROOT / "configs" / "tournament.yaml")
+        raw = t.load_raw_config(LEGACY_CONFIG)
         self.assertEqual(raw["agents"]["alphabeta"], {})
         self.assertEqual(raw["agents"]["heuristic"], {})
         self.assertEqual(raw["agents"]["rules"], {})

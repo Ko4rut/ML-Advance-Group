@@ -76,7 +76,7 @@ class FrozenV1Tests(unittest.TestCase):
 
 class BookV2Tests(unittest.TestCase):
     def test_registry_and_default(self):
-        self.assertEqual(set(OPENING_BOOKS), {V1, V2})
+        self.assertEqual(set(OPENING_BOOKS), {V1, V2, "xiangqi-curated-v3"})  # v3: see test_opening_book_v3
         self.assertEqual(BOOK_VERSION, V2)
         self.assertIs(OPENING_LINES, OPENING_LINES_V2)
 
