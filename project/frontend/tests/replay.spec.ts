@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { resolve } from "node:path";
 
 test("loads a JSON game and can step, seek, and autoplay offline", async function testJsonReplay({ page }) {
   await page.goto("/replay");
@@ -88,16 +89,10 @@ for (const recording of recordedNeuralGames) {
     "replays a recorded Neural MCTS vs classic MCTS game: " + recording.file,
     async function testRecordedNeuralGame({ page }) {
       await page.goto("/replay");
-      const fixturePath = [
-        process.cwd(),
-        "..",
-        "backend",
-        "docs",
-        "neural_mcts",
-        "evidence",
-        "phase4",
-        recording.file,
-      ].join("/");
+      const fixturePath = resolve(
+        process.cwd(), "..", "backend", "docs", "neural_mcts",
+        "evidence", "phase4", recording.file,
+      );
 
       await page.getByLabel("Tải file ván cờ").setInputFiles(fixturePath);
       await expect(page.getByRole("alert")).toHaveCount(0);
