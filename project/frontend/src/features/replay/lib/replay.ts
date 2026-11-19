@@ -168,13 +168,15 @@ function parseGame(value: unknown, index: number): ReplayGame {
     throw new Error("Ván " + (index + 1) + ": cần có mảng moves.");
   }
   const root = value;
-  const label = typeof root.game_id === "string" && root.game_id.trim()
-    ? root.game_id.trim()
-    : "Ván " + (index + 1);
+  let label = "Ván " + (index + 1);
+  if (typeof root.game_id === "string" && root.game_id.trim()) {
+    label = root.game_id.trim();
+  }
   const initialSide = parseSide(root.initial_side);
-  const initialBoard = root.initial_board === undefined
-    ? initialEngineBoard()
-    : parseBoard(root.initial_board, label + " initial_board");
+  let initialBoard = initialEngineBoard();
+  if (root.initial_board !== undefined) {
+    initialBoard = parseBoard(root.initial_board, label + " initial_board");
+  }
 
   const moves: ReplayMove[] = [];
   const frames: ReplayFrame[] = [{ board: initialBoard.slice(), lastMove: null }];
