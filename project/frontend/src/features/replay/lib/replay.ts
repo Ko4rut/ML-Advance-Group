@@ -305,7 +305,14 @@ export function parseReplayGames(text: string, fileName: string): ReplayGame[] {
   if (records.length > 1000) {
     throw new Error("File chứa quá 1.000 ván. Hãy chia nhỏ dữ liệu.");
   }
+  let totalMoves = 0;
   return records.map(function parseRecord(record, index) {
+    if (isObject(record) && Array.isArray(record.moves)) {
+      totalMoves += record.moves.length;
+    }
+    if (totalMoves > 30000) {
+      throw new Error("File chứa quá 30.000 nước đi. Hãy chia nhỏ dữ liệu.");
+    }
     return parseGame(record, index);
   });
 }
