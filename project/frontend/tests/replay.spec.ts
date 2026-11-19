@@ -38,7 +38,8 @@ test("loads a JSON game and can step, seek, and autoplay offline", async ({ page
 
   await page.getByRole("button", { name: /a6a5/ }).click();
   await expect(page.locator(".board-mode")).toContainText("Nước 2 / 2");
-  await page.getByRole("slider", { name: "Tua đến nước đi" }).fill("1");
+  await page.getByRole("slider", { name: "Tua đến nước đi" }).focus();
+  await page.keyboard.press("ArrowLeft");
   await expect(page.locator(".board-mode")).toContainText("Nước 1 / 2");
 });
 
