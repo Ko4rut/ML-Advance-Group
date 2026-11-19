@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("loads a JSON game and can step, seek, and autoplay offline", async ({ page }) => {
+test("loads a JSON game and can step, seek, and autoplay offline", async function testJsonReplay({ page }) {
   await page.goto("/replay");
   await expect(page.getByRole("heading", { name: "Game replay" })).toBeVisible();
   await expect(page.locator(".board-mode")).toContainText("Nước 0 / 0");
@@ -43,7 +43,7 @@ test("loads a JSON game and can step, seek, and autoplay offline", async ({ page
   await expect(page.locator(".board-mode")).toContainText("Nước 1 / 2");
 });
 
-test("supports multi-game JSONL, coordinate notation and errors", async ({ page }) => {
+test("supports multi-game JSONL, coordinate notation and errors", async function testJsonlReplay({ page }) {
   await page.goto("/replay");
 
   const games = [
