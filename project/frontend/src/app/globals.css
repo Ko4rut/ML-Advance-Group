@@ -230,3 +230,81 @@ button:focus-visible { outline: 2px solid #61c9bb; outline-offset: 3px; }
 .agent-option.is-active:disabled { opacity:1; }
 .action-button:disabled, .quiet-button:disabled { opacity:.43; cursor:not-allowed; }
 @media (prefers-reduced-motion:reduce) { .board-intersection img { transition:none; } }
+
+
+/* Local JSON game replay: uses the Arena surfaces and the existing chess board. */
+.navigation .nav-item { text-decoration:none; }
+.replay-layout { display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:24px; align-items:start; }
+.replay-main, .replay-aside { display:flex; flex-direction:column; gap:16px; min-width:0; }
+.replay-board .board-intersection:disabled { cursor:default; }
+.replay-board .board-intersection:disabled:hover { background:transparent; }
+.replay-transport-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.replay-transport-heading h2 { margin-top:6px; }
+.replay-ply-counter { font-size:20px; font-variant-numeric:tabular-nums; }
+.replay-ply-counter span { font-size:12px; color:var(--subtle); }
+.replay-range { display:block; width:100%; margin:25px 0 21px; accent-color:var(--red); cursor:pointer; }
+.replay-range:disabled { opacity:.35; cursor:not-allowed; }
+.replay-transport-bottom { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+.replay-transport-buttons { display:flex; align-items:center; gap:7px; }
+.replay-transport-buttons button {
+  min-width:40px; height:40px; border:1px solid var(--border); border-radius:10px;
+  color:var(--text); background:var(--panel-soft); cursor:pointer; font-size:12px;
+  display:inline-flex; align-items:center; justify-content:center; gap:7px;
+}
+.replay-transport-buttons button:hover:not(:disabled) { border-color:var(--subtle); }
+.replay-transport-buttons button:disabled { opacity:.35; cursor:not-allowed; }
+.replay-transport-buttons .replay-play-button {
+  min-width:99px; background:#d36f66; border-color:#d36f66; color:white;
+  font-size:12px; font-weight:700;
+}
+.replay-transport-buttons .replay-play-button:hover:not(:disabled) { background:#e17c73; }
+.replay-speed { display:flex; align-items:center; gap:9px; color:var(--subtle); font-size:11px; }
+.replay-speed select, .replay-game-selection select {
+  border:1px solid var(--border); border-radius:9px; background:var(--panel-soft);
+  color:var(--text); padding:9px; font:inherit; cursor:pointer;
+}
+.replay-speed select { min-width:72px; font-size:12px; }
+.replay-current-move { color:var(--subtle); font-size:11px; margin:18px 0 0; }
+.replay-upload-box {
+  display:flex; flex-direction:column; gap:8px; text-align:center; align-items:center;
+  justify-content:center; min-height:165px; margin-top:18px; padding:20px 13px;
+  border:1px dashed var(--muted); border-radius:12px; background:var(--panel-soft);
+  position:relative; cursor:pointer; transition:border-color .15s, background .15s;
+}
+.replay-upload-box:hover, .replay-upload-box:focus-within { border-color:var(--red); }
+.replay-upload-box input { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+.replay-upload-box input:disabled { cursor:wait; }
+.replay-upload-box strong { font-size:13px; }
+.replay-upload-box span:last-of-type { font-size:11px; color:var(--subtle); line-height:1.5; }
+.replay-upload-icon { width:44px; height:44px; display:grid; place-items:center; border:1px solid var(--border); background:var(--surface); border-radius:11px; color:var(--red); }
+.replay-file-name { color:var(--text); font-size:11px; overflow-wrap:anywhere; margin:14px 0 0; }
+.replay-helper { font-size:10px; color:var(--subtle); line-height:1.6; margin:12px 0 0; }
+.replay-error { color:#ffaaa4; background:rgba(217,75,66,.1); border:1px solid rgba(217,75,66,.3); font-size:11px; line-height:1.5; padding:10px; border-radius:9px; overflow-wrap:anywhere; }
+.replay-game-selection { display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--border); margin-top:17px; padding-top:15px; }
+.replay-game-selection label { color:var(--subtle); font-size:11px; }
+.replay-game-selection select { width:100%; font-size:11px; }
+.replay-outcome { color:var(--subtle); font-size:11px; padding:10px; border-radius:8px; background:var(--panel-soft); line-height:1.4; overflow-wrap:anywhere; }
+.replay-empty-history { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:35px 12px; color:var(--subtle); font-size:11px; line-height:1.6; }
+.replay-empty-history p { margin:0; }
+.replay-move-list { margin:16px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:5px; max-height:510px; overflow-y:auto; scrollbar-width:thin; }
+.replay-move { width:100%; border:1px solid transparent; background:transparent; color:var(--text); border-radius:9px; display:flex; align-items:center; gap:10px; text-align:left; cursor:pointer; padding:10px 9px; font-size:12px; }
+.replay-move:hover { background:var(--panel-soft); }
+.replay-move--current { border-color:var(--red); background:color-mix(in srgb,var(--red) 10%,var(--panel)); }
+.replay-move--visited:not(.replay-move--current) { opacity:.72; }
+.replay-move-number { color:var(--muted); font-size:10px; font-variant-numeric:tabular-nums; }
+.replay-move-side { display:inline-flex; border-radius:5px; padding:3px 5px; font-size:10px; }
+.replay-move-side--red { color:var(--red); background:color-mix(in srgb,var(--red) 10%,transparent); }
+.replay-move-side--black { color:var(--blue); background:color-mix(in srgb,var(--blue) 10%,transparent); }
+.replay-move-actor { margin-left:auto; color:var(--subtle); font-size:9px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width:88px; }
+@media (max-width:1100px) {
+  .replay-layout { grid-template-columns:1fr; }
+  .replay-aside { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }
+}
+@media (max-width:690px) {
+  .replay-aside { display:flex; }
+  .replay-transport-bottom { align-items:flex-start; }
+  .replay-transport-buttons { gap:5px; }
+  .replay-transport-buttons button { min-width:35px; height:38px; }
+  .replay-transport-buttons .replay-play-button { min-width:87px; }
+  .replay-move-list { max-height:340px; }
+}
