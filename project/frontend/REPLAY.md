@@ -45,6 +45,62 @@ checkmate, repetition, etc.); run a backend replay/validation pipeline
 for authoritative legal-move verification. A standalone live-match
 snapshot without historical moves cannot be replayed.
 
+## Generate a real AI-vs-AI game for replay
+
+From `project/backend` (no FastAPI server is required):
+
+```bash
+# Generate one actual Alpha-Beta (Red) vs Rule-Based (Black) match.
+# Change the output filename if you run the command a second time.
+python -m src batch --red alphabeta --black rules --games 1 \
+  --red-depth 2 --black-depth 2 --max-plies 40 \
+  --opening-mode none --output replay-demo.jsonl --quiet
+```
+
+Open the frontend's `/replay` page and upload `project/backend/replay-demo.jsonl`.
+The batch generator's output already has the proper `initial_board` and
+`moves[].action` fields; **no conversion is needed**.
+
+To replay an existing tournament match involving e.g. MCTS or Tabular Q,
+extract just one game rather than uploading the large tournament log:
+
+```bash
+python -m scripts.export_tournament_replay \
+  --input results/tournaments/20261112-091526_501370b5/games.jsonl \
+  --red alphabeta --black mcts --output replay-tournament.json
+```
+
+The export tool streams the JSONL file, chooses the first non-error match
+with those colors, transforms its flat `source`/`target` coordinates into
+`moves[].action`, and preserves the original opening and outcome.
+Alternatively use `--game-index 0` instead of agent filters to extract
+a specific game. The standard initial position is inferred if
+`initial_board` is absent. Other available agent names in the
+tournament include `random`, `rules`, `heuristic`, `mcts`,
+`alphabeta`, and `tabular_q`.
+
+```bash
+# Backend exporter tests (from project/backend):
+python -m unittest tests.test_export_tournament_replay -v
+```
+
+These files contain the **actual decisions made by both agents**, not
+generated animations or random playback positions. Training datasets,
+tournament logs and full-game API histories are separate concerns.
+
+## Existing two-model game recordings (no generation needed)
+
+These repository files contain completed, engine-validated Neural MCTS vs
+classic MCTS games and can be uploaded directly to /replay:
+
+- `../backend/docs/neural_mcts/evidence/phase4/game-large-neural-red-vs-classic.json`
+  (Neural as Red, 31 plies, Neural wins).
+- `../backend/docs/neural_mcts/evidence/phase4/game-large-neural-black-vs-classic.json`
+  (Neural as Black, 16 plies, Neural wins).
+
+Both use `moves[].move` coordinate notation and need no conversion.
+The browser tests in `tests/replay.spec.ts` exercise both files.
+
 ## Tests
 
 From `project/frontend`, with the Next.js development server running:
