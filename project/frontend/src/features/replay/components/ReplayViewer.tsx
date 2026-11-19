@@ -43,6 +43,12 @@ export function ReplayViewer() {
   let playbackLabel = "Phát";
   let playbackIcon = "play";
   let fileLabel = "Chưa chọn tệp";
+  let boardCaption = "Tải một ván cờ để bắt đầu mô phỏng. Bàn cờ hiện ở vị trí khai cuộc.";
+  let moveCaption = "Vị trí bắt đầu ván cờ";
+  let uploadLabel = "Chọn file từ thiết bị";
+  if (replay.loading) {
+    uploadLabel = "Đang đọc dữ liệu...";
+  }
 
   if (lightMode) {
     siteClass += " site--light";
@@ -68,6 +74,10 @@ export function ReplayViewer() {
     if (replay.currentPly % 2 === 1) {
       activeSide = nextSide(activeSide);
     }
+    boardCaption = "Đang xem " + replay.game.label + " · Lượt tiếp theo: " + sideLabel(activeSide);
+  }
+  if (currentMove) {
+    moveCaption = "Nước " + currentMove.ply + " · " + sideLabel(currentMove.side) + " · " + currentMove.notation;
   }
 
   function toggleTheme(): void {
@@ -146,9 +156,7 @@ export function ReplayViewer() {
               </div>
               <div className="board-caption" role="status">
                 <span className="board-caption-dot" />
-                {replay.game
-                  ? "Đang xem " + replay.game.label + " · Lượt tiếp theo: " + sideLabel(activeSide)
-                  : "Tải một ván cờ để bắt đầu mô phỏng. Bàn cờ hiện ở vị trí khai cuộc."}
+                {boardCaption}
               </div>
             </section>
 
@@ -199,11 +207,7 @@ export function ReplayViewer() {
                   </select>
                 </label>
               </div>
-              <p className="replay-current-move">
-                {currentMove
-                  ? "Nước " + currentMove.ply + " · " + sideLabel(currentMove.side) + " · " + currentMove.notation
-                  : "Vị trí bắt đầu ván cờ"}
-              </p>
+              <p className="replay-current-move">{moveCaption}</p>
             </section>
           </div>
 
@@ -215,7 +219,7 @@ export function ReplayViewer() {
               </div>
               <label className="replay-upload-box">
                 <span className="replay-upload-icon"><Icon name="upload" size={23} /></span>
-                <strong>{replay.loading ? "Đang đọc dữ liệu..." : "Chọn file từ thiết bị"}</strong>
+                <strong>{uploadLabel}</strong>
                 <span>Alpha-Beta, Silver hoặc nhật ký Neural MCTS</span>
                 <input
                   type="file"
