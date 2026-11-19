@@ -1,13 +1,28 @@
+import Link from "next/link";
 import { Icon } from "./Icon";
 
 type Props = {
-  onOpenStatistics: () => void;
+  activePage?: "arena" | "replay";
+  onOpenStatistics?: () => void;
   onToggleTheme: () => void;
 };
 
-export function ArenaSidebar({ onOpenStatistics, onToggleTheme }: Props) {
-  function scrollToAgents(): void {
-    document.getElementById("agents")?.scrollIntoView({ behavior: "smooth" });
+export function ArenaSidebar({
+  activePage = "arena",
+  onOpenStatistics,
+  onToggleTheme,
+}: Props) {
+  let arenaClass = "nav-item";
+  let replayClass = "nav-item";
+  let arenaCurrent: "page" | undefined;
+  let replayCurrent: "page" | undefined;
+
+  if (activePage === "arena") {
+    arenaClass += " nav-item--active";
+    arenaCurrent = "page";
+  } else {
+    replayClass += " nav-item--active";
+    replayCurrent = "page";
   }
 
   return (
@@ -21,15 +36,20 @@ export function ArenaSidebar({ onOpenStatistics, onToggleTheme }: Props) {
       </div>
       <div className="sidebar-caption">WORKSPACE</div>
       <nav className="navigation">
-        <button className="nav-item nav-item--active" type="button" aria-current="page">
+        <Link className={arenaClass} aria-current={arenaCurrent} href="/">
           <Icon name="grid" /> Arena
-        </button>
-        <button className="nav-item" type="button" onClick={scrollToAgents}>
+        </Link>
+        <Link className={replayClass} aria-current={replayCurrent} href="/replay">
+          <Icon name="replay" /> Replay
+        </Link>
+        <Link className="nav-item" href="/#agents">
           <Icon name="layers" /> Agents
-        </button>
-        <button className="nav-item" type="button" onClick={onOpenStatistics}>
-          <Icon name="chart" /> Statistics
-        </button>
+        </Link>
+        {onOpenStatistics && (
+          <button className="nav-item" type="button" onClick={onOpenStatistics}>
+            <Icon name="chart" /> Statistics
+          </button>
+        )}
         <button className="nav-item" type="button" onClick={onToggleTheme}>
           <Icon name="settings" /> Theme
         </button>
@@ -41,4 +61,3 @@ export function ArenaSidebar({ onOpenStatistics, onToggleTheme }: Props) {
     </aside>
   );
 }
-
