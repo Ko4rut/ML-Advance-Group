@@ -1,6 +1,7 @@
 import unittest
 
 from project.backend.src.agents import HeuristicAgent, SearchBudget
+from project.backend.src.agents.position_evaluator import evaluate_position
 from project.backend.src.environment import GameEngine, GameState, Side, legal_moves
 
 
@@ -12,6 +13,25 @@ def position(pieces, side=Side.RED):
 
 
 class HeuristicAgentTests(unittest.TestCase):
+    def test_default_evaluator_matches_shared_position_evaluator(self):
+        state = position(
+            {
+                (0, 4): -1,
+                (9, 4): 1,
+                (6, 0): 5,
+                (5, 4): 7,
+                (7, 2): 4,
+            }
+        )
+        agent = HeuristicAgent(GameEngine())
+
+        for side in (Side.RED, Side.BLACK):
+            with self.subTest(side=side):
+                self.assertEqual(
+                    agent._evaluate(state, side),
+                    evaluate_position(state, side),
+                )
+
     def test_finds_immediate_checkmate_using_astar(self):
         engine = GameEngine()
         state = position(

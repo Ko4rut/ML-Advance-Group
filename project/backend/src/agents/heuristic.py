@@ -10,16 +10,9 @@ from typing import Protocol
 
 from ..environment import GameEngine, GameResult, GameState, Move, Side
 from .base import Agent, AgentDecision, SearchBudget
+from .position_evaluator import evaluate_position
 
 
-_PIECE_VALUES = {
-    2: 20,
-    3: 20,
-    4: 40,
-    5: 90,
-    6: 45,
-    7: 10,
-}
 _WIN_SCORE = 100_000.0
 
 
@@ -202,21 +195,13 @@ class HeuristicAgent(Agent):
         return best_move
 
     def _evaluate(self, state: GameState, perspective: Side) -> float:
-        if self.evaluator is not None:
-            score = self.evaluator.evaluate(state, perspective)
-            if not isinstance(score, (int, float)) or not math.isfinite(score):
-                raise ValueError("evaluator must return a finite numeric score")
-            return float(score)
+        if self.evaluator is None:
+            return float(evaluate_position(state, perspective))
 
-        red_score = sum(
-            (1 if piece > 0 else -1) * _PIECE_VALUES.get(abs(piece), 0)
-            for piece in state.board
-            if piece
-        )
-        for side in (Side.RED, Side.BLACK):
-            if self.engine.validator.is_in_check(state, side):
-                red_score -= int(side) * 500
-        return red_score if perspective is Side.RED else -red_score
+        score = self.evaluator.evaluate(state, perspective)
+        if not isinstance(score, (int, float)) or not math.isfinite(score):
+            raise ValueError("evaluator must return a finite numeric score")
+        return float(score)
 
     def _terminal_result(
         self,
