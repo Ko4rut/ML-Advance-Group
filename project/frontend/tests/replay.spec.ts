@@ -76,3 +76,43 @@ test("supports multi-game JSONL, coordinate notation and errors", async function
   });
   await expect(page.getByRole("alert")).toContainText("90 ô");
 });
+
+
+const recordedNeuralGames = [
+  { file: "game-large-neural-red-vs-classic.json", plies: 31, winner: "RED" },
+  { file: "game-large-neural-black-vs-classic.json", plies: 16, winner: "BLACK" },
+];
+
+for (const recording of recordedNeuralGames) {
+  test(
+    "replays a recorded Neural MCTS vs classic MCTS game: " + recording.file,
+    async function testRecordedNeuralGame({ page }) {
+      await page.goto("/replay");
+      const fixturePath = [
+        process.cwd(),
+        "..",
+        "backend",
+        "docs",
+        "neural_mcts",
+        "evidence",
+        "phase4",
+        recording.file,
+      ].join("/");
+
+      await page.getByLabel("Tải file ván cờ").setInputFiles(fixturePath);
+      await expect(page.getByRole("alert")).toHaveCount(0);
+      await expect(page.locator(".board-mode")).toContainText("Nước 0 / " + recording.plies);
+      await expect(page.getByRole("list", { name: "Danh sách nước đi" }).locator("li"))
+        .toHaveCount(recording.plies);
+
+      await page.getByRole("button", { name: "Tới một nước" }).click();
+      await expect(page.locator(".board-mode")).toContainText("Nước 1 / " + recording.plies);
+      await page.getByRole("button", { name: "Đến cuối" }).click();
+      await expect(page.locator(".board-mode"))
+        .toContainText("Nước " + recording.plies + " / " + recording.plies);
+      await expect(page.locator(".replay-outcome")).toContainText(recording.winner);
+      await page.getByRole("button", { name: "Về đầu" }).click();
+      await expect(page.locator(".board-mode")).toContainText("Nước 0 / " + recording.plies);
+    },
+  );
+}
