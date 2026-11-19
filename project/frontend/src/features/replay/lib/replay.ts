@@ -150,17 +150,17 @@ function readOutcome(root: Record<string, unknown>): string | null {
     return null;
   }
 
-  let label = "";
+  const labels: string[] = [];
   if (typeof result.status === "string") {
-    label = result.status;
+    labels.push(result.status);
   }
   if (typeof result.winner === "string") {
-    label += " · " + result.winner;
+    labels.push(result.winner);
   }
   if (typeof result.reason === "string") {
-    label += " · " + result.reason;
+    labels.push(result.reason);
   }
-  return label.trim() || null;
+  return labels.join(" · ") || null;
 }
 
 function parseGame(value: unknown, index: number): ReplayGame {
@@ -178,6 +178,9 @@ function parseGame(value: unknown, index: number): ReplayGame {
     initialBoard = parseBoard(root.initial_board, label + " initial_board");
   }
 
+  if (root.moves.length > 1000) {
+    throw new Error(label + ": số nước đi vượt giới hạn 1.000.");
+  }
   const moves: ReplayMove[] = [];
   const frames: ReplayFrame[] = [{ board: initialBoard.slice(), lastMove: null }];
   const working = initialBoard.slice();
@@ -298,6 +301,9 @@ export function parseReplayGames(text: string, fileName: string): ReplayGame[] {
 
   if (records.length === 0) {
     throw new Error("Không tìm thấy ván cờ nào trong file.");
+  }
+  if (records.length > 1000) {
+    throw new Error("File chứa quá 1.000 ván. Hãy chia nhỏ dữ liệu.");
   }
   return records.map(function parseRecord(record, index) {
     return parseGame(record, index);
