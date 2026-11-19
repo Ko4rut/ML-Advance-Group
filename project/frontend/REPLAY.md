@@ -88,6 +88,19 @@ These files contain the **actual decisions made by both agents**, not
 generated animations or random playback positions. Training datasets,
 tournament logs and full-game API histories are separate concerns.
 
+## Existing two-model game recordings (no generation needed)
+
+These repository files contain completed, engine-validated Neural MCTS vs
+classic MCTS games and can be uploaded directly to /replay:
+
+- `../backend/docs/neural_mcts/evidence/phase4/game-large-neural-red-vs-classic.json`
+  (Neural as Red, 31 plies, Neural wins).
+- `../backend/docs/neural_mcts/evidence/phase4/game-large-neural-black-vs-classic.json`
+  (Neural as Black, 16 plies, Neural wins).
+
+Both use `moves[].move` coordinate notation and need no conversion.
+The browser tests in `tests/replay.spec.ts` exercise both files.
+
 ## Tests
 
 From `project/frontend`, with the Next.js development server running:
