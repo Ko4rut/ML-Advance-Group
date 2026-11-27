@@ -124,7 +124,67 @@ pruning buys under the same clock.
 Each game builds **fresh** agents inside the worker process; only read-only heavy resources (the
 Q-table, the neural adapter) are shared inside a process.
 
-## 2. Running (Windows PowerShell)
+## 2. Running
+
+### Google Colab CPU + Google Drive
+
+Open [`notebooks/xiangqi_colab_tournament.ipynb`](notebooks/xiangqi_colab_tournament.ipynb)
+in Colab and select a CPU runtime (hardware accelerator: **None**). Choose a
+`SESSION_NAME`, then run the cells in order. Leave `TABULAR_Q_DRIVE_PATH` empty
+to use `models/tabular_q/q_table.json.gz`, which is tracked in the repository;
+set it only to override this with a checkpoint on Drive. An invalid explicit
+override stops setup rather than falling back to the repository model.
+Neural weights are downloaded and verified by the
+existing provisioning script. Selected checkpoint-based agents are required;
+missing models stop setup rather than silently reducing the tournament.
+
+Set `BUDGET_MODE = 'equal_time'` (the initial selection) or `'default'` to select
+`configs/tournament_equal_time.yaml` or `configs/tournament_default.yaml`.
+For a full run the session folder is automatically `equal_time_01` or `default_01`,
+respectively. Both modes save the same log/report/ZIP artifacts on Drive. The
+name does not increment automatically: reuse it to resume, or change the `01`
+suffix for a separate experiment. `MODE = 'full'` is the run size, distinct from
+the budget mode; smoke/pilot sessions include that size in their default name.
+
+In `equal_time`, `time_per_move` is the thinking budget **per move**, not a
+deadline for the whole tournament. In `default`, each agent keeps its shipped
+defaults. Neither adds a whole-run time limit.
+`WORKERS` is the number of concurrent games. The notebook defaults to the CPU
+count reported by the runtime, limited by process affinity when available: a
+2-vCPU runtime selects 2 workers. Override it with an integer when needed; more
+workers than available CPUs makes searches compete for CPU time, and the
+reported count does not guarantee exclusive compute or linear speed-up.
+To change workers mid-experiment, Stop the running cell, wait for the child
+process to stop, then rerun the settings and run cells with the same session and
+experiment configuration. Saved games are retained; unfinished games restart.
+Worker changes are recorded in `manifest.json`'s `resume_history`. Clock-limited
+agents may choose different moves when CPU contention changes.
+Change `MODE` to `smoke`
+or `pilot` and use a separate session name for a setup check or time estimate.
+
+Each session lives in `MyDrive/XiangqiAI/tournaments/<SESSION_NAME>/`. Code and
+checkpoints stay on the runtime disk; completed games, run logs, progress,
+configuration and metadata are written to Drive. On normal completion or a
+handled Stop, the notebook generates `summary/` (CSV, PNG, `report.md`) and writes
+`<SESSION_NAME>.zip` plus its SHA-256 alongside the session folder. The ZIP copy
+is verified before replacing an existing archive. If reporting fails, it still
+archives the raw logs and records the report failure in `export.json`.
+
+Rerun setup with the same session name to fetch its saved source commit and
+resume its existing run. Keep checkpoint contents and experiment settings the
+same; changed config/model/mode requires a new session. Do not run two runtimes
+against the same session. Drive sync can lag or fail, and a reclaimed runtime
+cannot execute cleanup: only successfully persisted games survive; unfinished
+games are replayed. Reconnect to resume or use the final export-only cell. A
+partial report is not a completed balanced tournament. Custom local plot scripts
+are not automatically transferred to Colab.
+
+Check [Colab's policies](https://research.google.com/colaboratory/faq.html): free
+managed runtimes without a positive compute-unit balance restrict SSH/remote
+control and “chess training”; the FAQ does not clarify whether Xiangqi tournament
+evaluation falls under the latter. The notebook does not bypass these limits.
+
+### Windows PowerShell
 
 Pick the config; everything else is the same for both modes.
 
