@@ -9,8 +9,10 @@ version is recorded for reproducible batch checkpoint/resume.
 
 Books are immutable once published. ``xiangqi-curated-v1`` is frozen (a unit
 test pins its SHA-256) so old datasets stay interpretable; ``v2`` extends it
-with longer lines for the round-robin tournament. Never edit a published
-version in place: add a new one instead.
+with longer lines for the round-robin tournament; ``v3`` (50 balanced, distinct
+lines for 100 games per pair) is derived from v2 by a deterministic recipe, see
+docs/OPENING_BOOK_V3.md. Never edit a published version in place: add a new one
+instead. ``BOOK_VERSION`` (the default for batch generation) stays v2.
 """
 
 from __future__ import annotations
@@ -19,7 +21,7 @@ import random
 from dataclasses import dataclass
 
 from ..environment import GameEngine, GameState, Move
-from .wxf import replay_notation
+from .wxf import notate_line, replay_notation
 
 
 @dataclass(frozen=True, slots=True)
@@ -235,9 +237,88 @@ _V2_NEW_LINES: tuple[OpeningLine, ...] = (
 
 OPENING_LINES_V2: tuple[OpeningLine, ...] = OPENING_LINES_V1 + _V2_NEW_LINES
 
+# --- v3: 50 balanced, distinct openings for the 100-games-per-pair tournament ---------------
+# Frozen output of scripts/generate_opening_book_v3.py (deterministic recipe, documented in
+# docs/OPENING_BOOK_V3.md); `--check` of that script compares this data with the recipe.
+# v3 reuses 32 v2 lines unchanged (no transposition duplicates, balanced finals) and appends
+# 18 lines named "<base id>_x": the base line plus one Red and one Black quiet move.
+_V3_BASE_IDS: tuple[str, ...] = (
+    "central_cannon_screen_horses",
+    "central_cannon_counter_cannon",
+    "central_cannon_right",
+    "pawn_left",
+    "pawn_center",
+    "pawn_right",
+    "elephant_left",
+    "elephant_right",
+    "palace_cannon_left",
+    "palace_cannon_right",
+    "screen_horses_c57",
+    "screen_horses_c56",
+    "screen_horses_c59",
+    "screen_horses_pawn7",
+    "reverse_palace_p7",
+    "reverse_palace_p7b",
+    "reverse_palace_mirror",
+    "shun_cannon_straight_rook",
+    "shun_cannon_rook_race",
+    "lie_cannon_p7",
+    "lie_cannon_rook_ride",
+    "pawn_vs_bottom_cannon_central",
+    "pawn_vs_bottom_cannon_horses",
+    "pawn_vs_pawn_c3",
+    "pawn_vs_pawn_horses",
+    "elephant_vs_central_cannon",
+    "elephant_vs_screen_setup",
+    "horse_vs_central_cannon",
+    "horse_vs_cannon_left",
+    "corner_cannon_vs_central",
+    "corner_cannon_left_vs_central",
+    "cross_palace_right",
+)
+
+_V3_EXTENSIONS: tuple[tuple[str, str], ...] = (
+    ("central_cannon_screen_horses", "H2+3 R9+2"),
+    ("central_cannon_counter_cannon", "H2+3 H8+7"),
+    ("pawn_left", "H7+8 C8=5"),
+    ("pawn_center", "H2+3 H2+3"),
+    ("elephant_left", "R8=7 R2=3"),
+    ("elephant_right", "R2=3 R8=7"),
+    ("palace_cannon_left", "H2+3 R9+2"),
+    ("palace_cannon_right", "H8+7 R1+2"),
+    ("screen_horses_c57", "R9=8 R1+1"),
+    ("reverse_palace_p7", "C8+4 C6+5"),
+    ("shun_cannon_straight_rook", "R9+2 P7+1"),
+    ("lie_cannon_p7", "C8+4 R8+2"),
+    ("lie_cannon_rook_ride", "R2=6 C2+4"),
+    ("pawn_vs_bottom_cannon_central", "H7+8 C8+3"),
+    ("pawn_vs_pawn_c3", "H7+8 R9+2"),
+    ("horse_vs_central_cannon", "H7+8 C2+1"),
+    ("horse_vs_cannon_left", "H7+8 P1+1"),
+    ("cross_palace_right", "P7+1 C8+5"),
+)
+
+
+def _build_v3() -> tuple[OpeningLine, ...]:
+    by_id = {line.opening_id: line for line in OPENING_LINES_V2}
+    lines = [by_id[opening_id] for opening_id in _V3_BASE_IDS]
+    for base_id, extra in _V3_EXTENSIONS:
+        base = by_id[base_id]
+        notation = notate_line(base.moves) + tuple(extra.split())
+        lines.append(OpeningLine(
+            f"{base_id}_x", base.family, f"{base.name} + 2 nước khai triển",
+            replay_notation(notation), notation,
+            f"v3: {base_id} + {extra} (scripts/generate_opening_book_v3.py)",
+        ))
+    return tuple(lines)
+
+
+OPENING_LINES_V3: tuple[OpeningLine, ...] = _build_v3()
+
 OPENING_BOOKS: dict[str, tuple[OpeningLine, ...]] = {
     "xiangqi-curated-v1": OPENING_LINES_V1,
     "xiangqi-curated-v2": OPENING_LINES_V2,
+    "xiangqi-curated-v3": OPENING_LINES_V3,
 }
 BOOK_VERSION = "xiangqi-curated-v2"
 OPENING_LINES: tuple[OpeningLine, ...] = OPENING_BOOKS[BOOK_VERSION]

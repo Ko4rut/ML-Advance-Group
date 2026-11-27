@@ -214,6 +214,52 @@ def _pair_label(row: Mapping[str, Any]) -> str:
     return f"{row['A']} vs {row['B']}"
 
 
+# An agent is flagged when its p95 think time exceeds its time limit by more than 10%.
+BUDGET_TOLERANCE = 1.10
+
+
+def budget_mode_of(manifest: Mapping[str, Any]) -> str:
+    """``default`` for runs written before the key existed (they all were)."""
+    return manifest.get("budget_mode") or "default"
+
+
+def budget_mode_text(manifest: Mapping[str, Any]) -> str:
+    if budget_mode_of(manifest) == "equal_time":
+        return f"equal_time (cùng {_num(manifest.get('time_per_move'), 2)} giây mỗi nước cho agent có tìm kiếm)"
+    return "default (mỗi agent giữ tham số mặc định của chính nó)"
+
+
+def time_limit_of(manifest: Mapping[str, Any], name: str) -> float | None:
+    """The per-move time limit the agent was supposed to respect, if any.
+
+    ``equal_time``: ``time_per_move`` for agents that search, none for the others.
+    ``default``: the agent's own limit (SearchBudget time limit, or the heuristic's constructor
+    limit); none for depth-limited agents and for agents using ``max_simulations`` only.
+    """
+    info = (manifest.get("agents") or {}).get(name, {}) or {}
+    if budget_mode_of(manifest) == "equal_time":
+        return manifest.get("time_per_move") if info.get("budget_applicable") else None
+    budget = info.get("budget")
+    if budget is not None:
+        return budget.get("time_limit")
+    return (info.get("params") or {}).get("time_limit")
+
+
+def time_budget_rows(manifest: Mapping[str, Any], cost: list[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """One row per agent: measured think time (mean/p95/max) against its time limit."""
+    rows = []
+    for row in cost:
+        limit = time_limit_of(manifest, row["agent"])
+        p95 = row.get("think_p95_s")
+        rows.append({
+            "agent": row["agent"], "moves": row.get("moves"), "limit": limit,
+            "mean": row.get("think_mean_s"), "p95": p95, "max": row.get("think_max_s"),
+            "ratio": (p95 / limit) if limit and p95 is not None else None,
+            "over": bool(limit and p95 is not None and p95 > limit * BUDGET_TOLERANCE),
+        })
+    return rows
+
+
 # --------------------------------------------------------------------------
 # Report
 # --------------------------------------------------------------------------
@@ -266,6 +312,40 @@ def build_warnings(
         else:
             warnings.append(
                 f"**tabular_q:** {fmt_num(rate, 1)}% số nước dùng fallback `rules` (phần còn lại lấy từ bảng Q).")
+
+    mode = budget_mode_of(manifest)
+    if mode == "equal_time":
+        fixed = [n for n, info in agents_info.items() if not info.get("budget_applicable", False)]
+        if fixed:
+            warnings.append(
+                "**Ngân sách thời gian không áp dụng cho:** " + ", ".join(f"`{n}`" for n in fixed) +
+                ". Các agent này không tìm kiếm nên không dùng được `SearchBudget`; chúng vẫn thi đấu nhưng "
+                "không bị ép thời gian, và cũng không bị ngủ cho đủ giờ, nên nghĩ nhanh hơn nhiều so với "
+                "các agent tìm kiếm. Kết quả của chúng KHÔNG phải so sánh \"cùng thời gian\".")
+        warnings.append(
+            "**Chế độ `equal_time`:** thời gian là giới hạn duy nhất của alphabeta, minimax, heuristic, mcts, "
+            "neural_mcts (không còn trần độ sâu, số node hay số mô phỏng). Độ sâu/số mô phỏng đạt được "
+            "phụ thuộc tốc độ máy và số worker, nên các agent này không còn tái lập chính xác từng nước.")
+    for row in time_budget_rows(manifest, summary["cost"]):
+        if not row["over"]:
+            continue
+        soft = ""
+        if row["agent"] == "neural_mcts":
+            soft = (" `neural_mcts` dùng giới hạn thời gian \"mềm\" (kiểm tra sau mỗi mô phỏng, cộng thời gian "
+                    "chuẩn bị gốc và mô phỏng đang chạy) nên có thể vượt; đây là số đo thật, không bị che.")
+        warnings.append(
+            f"**`{row['agent']}` vượt ngân sách thời gian:** p95 = {fmt_num(row['p95'], 3)} giây > "
+            f"{fmt_num(BUDGET_TOLERANCE, 2)} × {fmt_num(row['limit'], 3)} giây "
+            f"(trung bình {fmt_num(row['mean'], 3)}, lớn nhất {_num(row['max'], 3)}).{soft} "
+            "Máy quá tải (nhiều worker hơn lõi vật lý) cũng gây ra điều này.")
+    nn = cost.get("neural_mcts")
+    if "neural_mcts" in agents_info and nn:
+        params = agents_info["neural_mcts"].get("params", {})
+        warnings.append(
+            f"**neural_mcts dùng thời gian và mạng nơ-ron:** mô hình `{params.get('model', '?')}` "
+            f"(sha256 `{str(params.get('checkpoint_sha256', '?'))[:12]}…`), {params.get('threads', '?')} luồng torch "
+            f"mỗi worker, trung bình {_num(nn['simulations_mean'], 0)} mô phỏng mỗi nước. Số mô phỏng phụ thuộc tốc độ "
+            "máy; không tái lập chính xác từng nước (muốn vậy đặt `max_simulations`).")
 
     nondeterministic = [n for n, info in agents_info.items() if not info.get("is_deterministic", True)]
     if nondeterministic:
@@ -354,6 +434,9 @@ def build_report(
     info_rows = [
         ["Run ID", f"`{run_id}`"],
         ["Chế độ", manifest.get("mode", "full")],
+        ["Chế độ ngân sách (budget_mode)", f"`{budget_mode_of(manifest)}`"
+         + (f", T = {_num(manifest.get('time_per_move'), 2)} giây mỗi nước"
+            if budget_mode_of(manifest) == "equal_time" else "")],
         ["Commit / nhánh", f"`{commit}` / `{git.get('branch') or 'không rõ'}`"],
         ["Thay đổi chưa commit", dirty],
         ["Máy", f"{system.get('platform', '?')}, {system.get('cpu_count', '?')} luồng CPU"],
@@ -390,17 +473,29 @@ def build_report(
         "Ván chưa phân thắng thua khi chạm giới hạn được ghi là **truncated** và *không phải hòa*; "
         "bảng chính tính truncated = 0.5 điểm (`T_half`), kèm cách tính loại bỏ chúng (`excl_T`).")
     add("- **Ván lỗi (error):** agent ném lỗi hoặc đi nước không hợp lệ; ván bị loại khỏi mọi phép tính điểm.")
+    add(f"- **Chế độ ngân sách:** {budget_mode_text(manifest)}.")
     add("")
+    equal_time = budget_mode_of(manifest) == "equal_time"
     agent_rows = []
     for name in agents:
         info = (manifest.get("agents") or {}).get(name, {})
-        agent_rows.append([
+        row = [
             f"`{name}`", info.get("class", ""), _budget_text(info), _params_text(info),
             "có" if info.get("is_deterministic") else "không",
-        ])
-    add(_table(["Agent", "Lớp", "Budget", "Tham số", "Tất định?"], agent_rows))
+        ]
+        if equal_time:
+            row.append("có" if info.get("budget_applicable") else "không (không tìm kiếm)")
+        agent_rows.append(row)
+    headers = ["Agent", "Lớp", "Budget", "Tham số", "Tất định?"]
+    add(_table(headers + (["Ngân sách chung áp dụng?"] if equal_time else []), agent_rows))
     add("")
-    add("Mọi agent chạy đúng cấu hình mặc định mà web API đang dùng; giải đấu chỉ đo, không tinh chỉnh agent.")
+    if equal_time:
+        add(f"Mọi agent có tìm kiếm nhận cùng `SearchBudget(time_limit={_num(manifest.get('time_per_move'), 2)})` "
+            "mỗi nước và thời gian là giới hạn duy nhất (trần độ sâu/node/mô phỏng đã bỏ). "
+            "`random`, `rules`, `tabular_q` không tìm kiếm nên không dùng ngân sách; không có agent nào bị ngủ cho đủ giờ. "
+            "Giải đấu chỉ đo, không tinh chỉnh agent.")
+    else:
+        add("Mọi agent chạy đúng cấu hình mặc định mà web API đang dùng; giải đấu chỉ đo, không tinh chỉnh agent.")
     add("")
 
     # 3 ---------------------------------------------------------------
@@ -479,15 +574,32 @@ def build_report(
     for r in summary["cost"]:
         cost_rows.append([
             f"`{r['agent']}`", r["moves"], _num(r["think_mean_s"], 4), _num(r["think_median_s"], 4),
-            _num(r["think_p95_s"], 4), _num(r["think_total_s"], 1), _num(r["nodes_mean"], 1),
-            _num(r["simulations_mean"], 1),
+            _num(r["think_p95_s"], 4), _num(r.get("think_max_s"), 4), _num(r["think_total_s"], 1),
+            _num(r["nodes_mean"], 1), _num(r["simulations_mean"], 1),
             "–" if r["fallback_rate"] is None else _pct(100 * r["fallback_rate"], 1),
         ])
-    add(_table(["Agent", "Số nước", "TB (giây)", "Trung vị (giây)", "p95 (giây)", "Tổng (giây)",
-                "Nodes TB", "Mô phỏng TB", "Tỉ lệ fallback"], cost_rows))
+    add(_table(["Agent", "Số nước", "TB (giây)", "Trung vị (giây)", "p95 (giây)", "Lớn nhất (giây)",
+                "Tổng (giây)", "Nodes TB", "Mô phỏng TB", "Tỉ lệ fallback"], cost_rows))
     add("")
     add("Chỉ tính các nước do agent tự đi (không tính nước khai cuộc). Thời gian là thời gian suy nghĩ đo trong "
         "tiến trình worker, nên phụ thuộc máy và số worker chạy song song.")
+    add("")
+    add("### Thời gian suy nghĩ thực tế so với ngân sách")
+    add("")
+    budget_rows = time_budget_rows(manifest, summary["cost"])
+    add(_table(
+        ["Agent", "Giới hạn (giây)", "Số nước", "TB (giây)", "p95 (giây)", "Lớn nhất (giây)", "p95 / giới hạn",
+         f"Đúng ngân sách? (p95 ≤ {fmt_num(BUDGET_TOLERANCE, 2)} × giới hạn)"],
+        [[
+            f"`{r['agent']}`", "–" if r["limit"] is None else _num(r["limit"], 3), r["moves"],
+            _num(r["mean"], 4), _num(r["p95"], 4), _num(r["max"], 4),
+            "–" if r["ratio"] is None else _num(r["ratio"], 2),
+            "⚠️ VƯỢT" if r["over"] else ("không áp dụng" if r["limit"] is None else "đạt"),
+        ] for r in budget_rows]))
+    add("")
+    add(f"Giới hạn là `time_per_move` trong `equal_time` (chỉ agent có tìm kiếm), hoặc giới hạn riêng của agent "
+        f"trong `default`. Agent nào có p95 > {fmt_num(BUDGET_TOLERANCE, 2)} × giới hạn bị cảnh báo ở mục 8. "
+        "Đây là thời gian đo thật trong worker, không làm tròn hay che giấu; `neural_mcts` dùng giới hạn mềm nên có thể vượt.")
     add("")
     if "cost_per_move.png" in plots:
         add("![Chi phí mỗi nước](plots/cost_per_move.png)")

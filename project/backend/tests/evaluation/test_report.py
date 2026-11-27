@@ -26,6 +26,7 @@ def tiny_raw(**overrides):
         "max_plies": 16,
         "agents": {"random": {}, "rules": {}},
         "workers": 1,
+        "min_games_per_pair": 1,  # tiny on purpose
     }
     raw.update(overrides)
     return raw

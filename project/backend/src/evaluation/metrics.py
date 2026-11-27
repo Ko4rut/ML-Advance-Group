@@ -43,7 +43,7 @@ COLOR_COLUMNS = (
 )
 COST_COLUMNS = (
     "agent", "moves", "think_mean_s", "think_median_s", "think_p95_s", "think_total_s",
-    "nodes_mean", "simulations_mean", "fallback_rate",
+    "nodes_mean", "simulations_mean", "fallback_rate", "think_max_s",
 )
 OPENING_COLUMNS = (
     "opening_id", "family", "name", "games", "red_win_pct", "draw_pct", "black_win_pct",
@@ -61,7 +61,7 @@ COLUMN_DIGITS = {
     "score": 1, "wilson_low": 2, "wilson_high": 2, "A_as_red_score": 1, "A_as_black_score": 1,
     "avg_plies": 1, "distinct_ratio": 4, "red_points": 1, "black_points": 1,
     "red_score_pct": 2, "black_score_pct": 2, "red_minus_black_pct": 2,
-    "think_mean_s": 4, "think_median_s": 4, "think_p95_s": 4, "think_total_s": 2,
+    "think_mean_s": 4, "think_median_s": 4, "think_p95_s": 4, "think_total_s": 2, "think_max_s": 4,
     "nodes_mean": 1, "simulations_mean": 1, "fallback_rate": 4,
     "red_win_pct": 2, "draw_pct": 2, "black_win_pct": 2, "truncated_pct": 2, "error_pct": 2,
 }
@@ -543,6 +543,7 @@ class MetricsCollector:
                 "think_median_s": percentile(thinks, 50) if thinks else None,
                 "think_p95_s": percentile(thinks, 95) if thinks else None,
                 "think_total_s": math.fsum(thinks) if thinks else None,
+                "think_max_s": max(thinks) if thinks else None,
                 "nodes_mean": mean(nodes) if any(nodes) else None,
                 "simulations_mean": mean(sims) if any(sims) else None,
                 "fallback_rate": 1.0 - sum(supported) / len(supported) if supported else None,

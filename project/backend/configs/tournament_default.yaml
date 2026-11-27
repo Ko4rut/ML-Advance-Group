@@ -1,0 +1,89 @@
+# Round-robin tournament, budget_mode: default (see TOURNAMENT.md).
+# 8 agents -> 28 pairs; every pair plays 50 openings x 2 colors = 100 games (2800 games).
+# This file and its sibling (tournament_equal_time.yaml) share the opening set, the agent
+# list and master_seed, so their results are directly comparable (`tournament-compare`).
+# Changing anything except `workers` changes the config hash, so an existing run
+# cannot be resumed with a different config.
+name: round_robin_v2_default
+master_seed: 20261117
+opening_book_version: xiangqi-curated-v3
+
+# 50 balanced openings with 50 distinct final positions (docs/OPENING_BOOK_V3.md).
+# Never lengthen a run by repeating an opening: deterministic agents would replay the same game.
+openings:
+  - central_cannon_screen_horses
+  - central_cannon_counter_cannon
+  - central_cannon_right
+  - pawn_left
+  - pawn_center
+  - pawn_right
+  - elephant_left
+  - elephant_right
+  - palace_cannon_left
+  - palace_cannon_right
+  - screen_horses_c57
+  - screen_horses_c56
+  - screen_horses_c59
+  - screen_horses_pawn7
+  - reverse_palace_p7
+  - reverse_palace_p7b
+  - reverse_palace_mirror
+  - shun_cannon_straight_rook
+  - shun_cannon_rook_race
+  - lie_cannon_p7
+  - lie_cannon_rook_ride
+  - pawn_vs_bottom_cannon_central
+  - pawn_vs_bottom_cannon_horses
+  - pawn_vs_pawn_c3
+  - pawn_vs_pawn_horses
+  - elephant_vs_central_cannon
+  - elephant_vs_screen_setup
+  - horse_vs_central_cannon
+  - horse_vs_cannon_left
+  - corner_cannon_vs_central
+  - corner_cannon_left_vs_central
+  - cross_palace_right
+  - central_cannon_screen_horses_x
+  - central_cannon_counter_cannon_x
+  - pawn_left_x
+  - pawn_center_x
+  - elephant_left_x
+  - elephant_right_x
+  - palace_cannon_left_x
+  - palace_cannon_right_x
+  - screen_horses_c57_x
+  - reverse_palace_p7_x
+  - shun_cannon_straight_rook_x
+  - lie_cannon_p7_x
+  - lie_cannon_rook_ride_x
+  - pawn_vs_bottom_cannon_central_x
+  - pawn_vs_pawn_c3_x
+  - horse_vs_central_cannon_x
+  - horse_vs_cannon_left_x
+  - cross_palace_right_x
+
+colors_per_opening: 2   # each opening: A plays Red once and Black once
+max_plies: 300          # counts the opening plies too; beyond it the game is "truncated"
+min_games_per_pair: 100 # guard: a full run with fewer games per pair is rejected (smoke/pilot exempt)
+
+budget_mode: default    # every agent runs with the defaults of its own code (what the web API serves)
+
+# Agents run with the defaults of their own code unless a value is given here:
+#   alphabeta / minimax -> constructor default depth (2), no time limit
+#   heuristic           -> HeuristicAgent constructor defaults (depth/nodes/1 s time limit)
+#   mcts                -> configs/mcts.yaml (incl. time_limit); max_simulations: N makes it replayable
+#   neural_mcts         -> configs/neural_mcts.yaml (c_puct, soft time_limit 3 s); max_simulations: N makes it replayable
+#   tabular_q           -> greedy (epsilon 0) with the rule-based fallback, as the API serves it
+agents:
+  random:      {seed_mode: per_game}
+  rules:       {}
+  alphabeta:   {}
+  minimax:     {}
+  heuristic:   {}
+  mcts:        {config: configs/mcts.yaml}
+  # One torch thread per worker. required: false drops the agent with a loud warning when torch
+  # or the checkpoint is missing; set required: true for the real run so that can never happen silently.
+  neural_mcts: {config: configs/neural_mcts.yaml, threads: 1, required: false}
+  tabular_q:   {checkpoint_env: XIANGQI_TABULAR_Q_CHECKPOINT, required: false}
+
+workers: 5              # not part of the config hash; keep it <= physical cores (see TOURNAMENT.md)

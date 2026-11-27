@@ -137,11 +137,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     tournament_parser = commands.add_parser(
         "tournament",
-        help="round-robin tournament between agents (25 openings x 2 colors per pair)",
+        help="round-robin tournament between agents (>= 100 games per pair; "
+             "budget_mode default or equal_time, set in the config)",
     )
     tournament_parser.add_argument(
         "--config", default=None,
-        help="tournament YAML (default configs/tournament.yaml; with --resume: the run's own)",
+        help="tournament YAML (default configs/tournament_default.yaml; configs/tournament_equal_time.yaml "
+             "is the equal-time-budget experiment; configs/tournament.yaml is the legacy 50-games-per-pair "
+             "config, kept for resuming old runs; with --resume: the run's own)",
     )
     mode = tournament_parser.add_mutually_exclusive_group()
     mode.add_argument("--smoke", action="store_true",
@@ -164,7 +167,23 @@ def build_parser() -> argparse.ArgumentParser:
     )
     report_parser.add_argument("run_dir", help="run directory containing manifest.json and games.jsonl")
     report_parser.add_argument("--no-plots", action="store_true", help="skip PNG charts")
+    compare_parser = commands.add_parser(
+        "tournament-compare",
+        help="compare Elo and rank of every agent between two tournament runs (e.g. default vs equal_time)",
+    )
+    compare_parser.add_argument("run_a", help="first run directory (A)")
+    compare_parser.add_argument("run_b", help="second run directory (B)")
     return parser
+
+
+def run_tournament_compare_command(args: argparse.Namespace) -> int:
+    from .evaluation import compare
+
+    try:
+        print(compare.format_comparison(compare.compare_runs(args.run_a, args.run_b)))
+    except ValueError as exc:
+        raise SystemExit(f"error: {exc}") from None
+    return 0
 
 
 def run_tournament_report_command(args: argparse.Namespace) -> int:
@@ -203,7 +222,7 @@ def run_tournament_command(args: argparse.Namespace, argv: Sequence[str] | None)
         else:
             if args.allow_code_change or args.retry_errors:
                 raise SystemExit("--allow-code-change and --retry-errors require --resume")
-            config_path = args.config or "configs/tournament.yaml"
+            config_path = args.config or "configs/tournament_default.yaml"
             path = Path(config_path)
             if not path.is_absolute() and not path.exists():
                 path = t.BACKEND_ROOT / path
@@ -267,6 +286,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return run_tournament_command(args, argv)
     if args.command == "tournament-report":
         return run_tournament_report_command(args)
+    if args.command == "tournament-compare":
+        return run_tournament_compare_command(args)
 
     if args.max_plies < 1:
         raise SystemExit("--max-plies must be at least 1")
