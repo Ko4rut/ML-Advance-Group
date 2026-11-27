@@ -50,6 +50,6 @@ skills-lock.json
 project/backend/results/tournaments/
 
 # Pretrained neural checkpoints are provisioned locally (see project/backend/models/neural/README.md); never commit weights.
-project/backend/models/neural/*
-!project/backend/models/neural/manifest.json
-!project/backend/models/neural/README.md
+# project/backend/models/neural/*
+# !project/backend/models/neural/manifest.json
+# !project/backend/models/neural/README.md
